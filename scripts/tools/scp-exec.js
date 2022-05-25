@@ -5,8 +5,7 @@ export async function main(ns) {
 	let hostnames = await getPersonalServers(ns);
 	const hackableHosts = await getRootedHosts(ns, [], 5);
 	let threads = 0;
-	let filename = "/helpers/hack.js";
-	const additionalFiles = ns.ls("home").filter((file) => file.startsWith("/helpers") || file.startsWith("/node"));
+	let filename = "/helpers/hack-weaken-grow.js";
 	let args = hackableHosts;
 
 	ns.print(`[scp-exec] Found ${hostnames.length} personal servers: ${hostnames}`);
@@ -47,27 +46,48 @@ export async function main(ns) {
 
 	for (let i = 0; i < hostnames.length; i++) {
 		const hostname = hostnames[i];
-		let fnArgs = args.slice();
+        let fnArgs = args.slice();
 
-		if (filename === "/helpers/hack.js" && ns.args.length < 4) {
-			fnArgs = fnArgs.filter((hn, j) => j % hostnames.length === i % hostnames.length);
-		}
-
-		if (threads === 0) {
-			threads = Math.floor(ns.getServerMaxRam(hostname) / ns.getScriptRam(filename));
-		}
+        if (ns.args.contains("targets") && ns.args.length < 4) {
+            fnArgs = fnArgs.filter((hn, j) => j % hostnames.length === i % hostnames.length);
+        }
 
 		// Kill existing scripts
 		ns.print(`[scp-exec] Killing existing scripts on ${hostname}`);
 	 	await ns.killall(hostname);
 
 		// Copy and execute
-		ns.print(`[scp-exec] Copying helper scripts and ${filename} to ${hostname}`);
-		await ns.scp([filename, ... additionalFiles], hostname);
-		
-		ns.print(`[scp-exec] Executing ${filename} on ${hostname} with threads: ${threads}, args: ${fnArgs}`);
-		await ns.exec(filename, hostname, threads, ... fnArgs);
+		await scp(ns, hostname, filename);		
+		await exec(ns, hostname, filename, threads, fnArgs);
 		
 		await ns.sleep(1000);
 	}
+}
+
+/** 
+ * @param {NS} ns
+ * @param {string} hostname
+ * @param {string} filename
+ */
+export async function scp(ns, hostname, filename) {
+    const additionalFiles = ns.ls("home").filter((file) => file.startsWith("/helpers") || file.startsWith("/node"));
+
+    ns.print(`[scp-exec] Copying helper scripts and ${filename} to ${hostname}`);
+    await ns.scp([filename, ... additionalFiles], hostname);
+}
+
+/** 
+ * @param {NS} ns
+ * @param {string} hostname
+ * @param {string} filename
+ * @param {number} threads
+ * @param {string[]} args
+ */
+export async function exec(ns, hostname, filename, threads, args) {
+    if (threads === 0) {
+        threads = Math.floor(ns.getServerMaxRam(hostname) / ns.getScriptRam(filename));
+    }
+
+    ns.print(`[scp-exec] Executing ${filename} on ${hostname} with threads: ${threads}, args: ${args}`);
+    await ns.exec(filename, hostname, threads, ... args);
 }

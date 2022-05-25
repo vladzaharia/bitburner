@@ -11,7 +11,7 @@ export async function main(ns) {
 	while (true) {
 		const j = Math.floor(Math.random() * hostnames.length);
 		const hostname = hostnames[j];
-		await hack(ns, hostname);
+		await weaken(ns, hostname);
 	}
 }
 
@@ -19,7 +19,7 @@ export async function main(ns) {
  * @param {NS} ns
  * @param {string} hostname 
  */
-export async function hack(ns, hostname) {
-    ns.print(`[hack] Executing hack on ${hostname}`);
-    await ns.hack(hostname);
+export async function weaken(ns, hostname) {
+    ns.print(`[weaken] Executing weaken on ${hostname}`);
+    await ns.weaken(hostname);
 }
