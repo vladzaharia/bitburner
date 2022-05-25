@@ -106,7 +106,7 @@ export async function getCrackableHosts(ns, hostnames, depth) {
  * @param {string[]} hostnames
  * @param {number} depth
  */
-export async function getRootedHosts(ns, hostnames, depth) {
+ export async function getHackableHosts(ns, hostnames, depth) {
 	let finalHostnames = hostnames;
 	const rootedHosts = [];
 
@@ -120,7 +120,35 @@ export async function getRootedHosts(ns, hostnames, depth) {
 		const hostIsRooted = await ns.hasRootAccess(finalHostnames[i]);
 		const hostCanHaveMoney = await ns.getServerMaxMoney(finalHostnames[i]);
 
-		if (hostIsRooted && hostCanHaveMoney) {
+		if (hostIsRooted && (hostCanHaveMoney > 0)) {
+			rootedHosts.push(finalHostnames[i]);
+		}
+	}
+
+	ns.print(`[discover] Rooted hosts: ${rootedHosts}`);
+
+	return rootedHosts;
+}
+
+/** 
+ * @param {NS} ns
+ * @param {string[]} hostnames
+ * @param {number} depth
+ */
+export async function getRootedHosts(ns, hostnames, depth) {
+	let finalHostnames = hostnames;
+	const rootedHosts = [];
+
+	ns.disableLog("ALL");
+	
+	if (!hostnames || hostnames.length === 0) {
+		finalHostnames = await getHosts(ns, depth || 2);
+	}
+
+	for (let i = 0; i < finalHostnames.length; i++) {
+		const hostIsRooted = await ns.hasRootAccess(finalHostnames[i]);
+
+		if (hostIsRooted) {
 			rootedHosts.push(finalHostnames[i]);
 		}
 	}

@@ -21,7 +21,6 @@ export async function main(ns) {
 			hostnames = await getWorkerServers(ns);
 			ns.print(`[scp-exec] Filtered to worker servers: ${hostnames}`);
 		} else {
-			await getPersonalServers(ns);
 			hostnames = hostnames.filter((hn) => hn.indexOf(hostnameArg) !== -1);
 			ns.print(`[scp-exec] Filtered based on ${hostnameArg}: ${hostnames}`);
 		}
