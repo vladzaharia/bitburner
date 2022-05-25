@@ -118,8 +118,9 @@ export async function getRootedHosts(ns, hostnames, depth) {
 
 	for (let i = 0; i < finalHostnames.length; i++) {
 		const hostIsRooted = await ns.hasRootAccess(finalHostnames[i]);
+		const hostCanHaveMoney = await ns.getServerMaxMoney(finalHostnames[i]);
 
-		if (hostIsRooted) {
+		if (hostIsRooted && hostCanHaveMoney) {
 			rootedHosts.push(finalHostnames[i]);
 		}
 	}

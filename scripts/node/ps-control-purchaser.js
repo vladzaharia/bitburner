@@ -5,24 +5,31 @@ const WORKERS_PER_POOL = 6;
 
 /** @param {NS} ns */
 export async function main(ns) {
+    // Determine worker RAM
+    const availMoney = Math.floor(ns.getServerMoneyAvailable("home"));
+
+    if (availMoney > 500000000 && RAM < 64) {
+        RAM = 256;
+        await sellWorkerServers(ns, purchasedServers);
+    } else if (availMoney > 125000000 && RAM < 64) {
+        RAM = 128;
+        await sellWorkerServers(ns, purchasedServers);
+    } else if (availMoney > 50000000 && RAM < 64) {
+        RAM = 64;
+        await sellWorkerServers(ns, purchasedServers);
+    } else if (availMoney > 10000000 && RAM < 32) {
+        RAM = 32;
+        await sellWorkerServers(ns, purchasedServers);
+    } else if (availMoney > 1000000 && RAM < 16) {
+        RAM = 16;
+        await sellWorkerServers(ns, purchasedServers);
+    } 
+    
     let purchasedServers = ns.getPurchasedServers();
     let i = purchasedServers.length; // Total purchased servers
     let j = 0; // Worker pool
     let k = 0; // Server in pool
     let max = ns.getPurchasedServerLimit();
-
-    // Determine worker RAM
-    const availMoney = Math.floor(ns.getServerMoneyAvailable("home"));
-    
-    if (availMoney > 125000000 && RAM < 64) {
-        RAM = 128;
-    } else if (availMoney > 50000000 && RAM < 64) {
-        RAM = 64;
-    } else if (availMoney > 10000000 && RAM < 32) {
-        RAM = 32;
-    } else if (availMoney > 1000000 && RAM < 16) {
-        RAM = 16;
-    } 
 
     ns.print(`[ps-control-purchaser] Purchased servers ${i}/${max}: ${purchasedServers}`)
 
@@ -76,4 +83,26 @@ async function purchaseServer(ns, ram, type, name) {
         ns.print(`[ps-control-purchaser] Need more money: ${availMoney}/${neededMoney}`);
         return false;
     }
+}
+
+/**
+ * @param {NS} ns
+ * @param {string[]} allServers
+ */
+async function sellWorkerServers(ns, allServers) {
+    const purchasedWorkers = allServers.filter((hn) => hn.startsWith("pserv") || hn.startsWith("ps-worker"));
+
+	for (let i = 0; i < purchasedWorkers.length; i++) {
+		await sellServer(ns, purchasedWorkers[i]);
+	}
+
+}
+
+/**
+ * @param {NS} ns
+ * @param {string} hostname
+ */
+async function sellServer(ns, hostname) {
+    await ns.killall(hostname);
+    await ns.deleteServer(hostname);
 }
