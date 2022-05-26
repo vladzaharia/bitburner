@@ -5,10 +5,14 @@
         "email": "hey@vlad.gg"
     },
     "scripts": {
+      "postinstall": "node ./update_defs.js",
       "build": "npm run clean && tsc -p tsconfig.json",
       "clean": "rm -rf out/*"
     },
     "dependencies": {
       "typescript": "^4.7.2"
+    },
+    "devDependencies": {
+      "replace-in-file": "^6.3.3"
     }
   }
