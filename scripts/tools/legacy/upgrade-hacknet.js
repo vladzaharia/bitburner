@@ -5,7 +5,9 @@ const MONEY_PER_CORE = 427.464;
 // Amount of money dedicated to upgrades
 const MONEY_MULTIPLIER = 0.25;
 
-/** @param { import("../../lib/NetscriptDefinition").NS } ns */
+/** 
+ * @param {NS} ns
+ */
 export async function main(ns) {
 	const hacknet = ns.hacknet;
 

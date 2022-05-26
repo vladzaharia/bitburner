@@ -10,7 +10,9 @@ const SCRIPTS = {
 const HOSTS_PER_POOL = 8;
 const MIN_SERVER_MONEY_PCT = 0.5;
 
-/** @param { import("../../lib/NetscriptDefinition").NS } ns */
+/** 
+ * @param {NS} ns
+ */
 export async function main(ns) {
     ns.disableLog("ALL");
 
@@ -36,7 +38,7 @@ export async function main(ns) {
 }
 
 /**
- * @param { import("../../lib/NetscriptDefinition").NS } ns
+ * @param {NS} ns
  * @returns {string[][]}
  */
 async function getPools(ns) {
@@ -50,7 +52,7 @@ async function getPools(ns) {
 }
 
 /**
- * @param { import("../../lib/NetscriptDefinition").NS } ns
+ * @param {NS} ns
  * @param {string[]} hostnames 
  * @returns {string[][]}
  */
@@ -75,7 +77,7 @@ async function getPools(ns) {
 }
 
 /**
- *  @param { import("../../lib/NetscriptDefinition").NS } ns
+ *  @param {NS} ns
  * @param {string[]} hostnames 
  * @returns {string[][]}
  */
@@ -105,7 +107,7 @@ function splitWorkers(ns, hostnames) {
 }
 
 /**
- *  @param { import("../../lib/NetscriptDefinition").NS } ns
+ *  @param {NS} ns
  * @param {string[]} hostnames 
  * @param {string[]} args 
  */
@@ -156,7 +158,7 @@ async function executeOnPool(ns, hostnames, args) {
 }
 
 /**
- *  @param { import("../../lib/NetscriptDefinition").NS } ns
+ *  @param {NS} ns
  * @param {string} filename 
  * @param {string[]} args 
  */
