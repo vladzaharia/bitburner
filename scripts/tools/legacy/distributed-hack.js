@@ -7,7 +7,9 @@ const SCRIPTS = {
     "/helpers/grow.js": 25
 }
 
-/** @param { import("../../lib/NetscriptDefinition").NS } ns */
+/** 
+ * @param {NS} ns
+ */
 export async function main(ns) {
 	let hostnames = await getPersonalServers(ns);
     let pools = [];

@@ -2,7 +2,9 @@ import { getHackableHosts } from "/helpers/discover-hosts.js";
 import { crackHost } from "/helpers/crack.js";
 import { hackWeakenGrow } from "/helpers/basic.js";
 
-/** @param { import("../../lib/NetscriptDefinition").NS } ns */
+/** 
+ * @param {NS} ns
+ */
 export async function main(ns) {
 	const hackableHosts = await getHackableHosts(ns);
 

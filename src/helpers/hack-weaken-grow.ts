@@ -1,3 +1,5 @@
+import { NS } from "Netscript";
+
 import { grow } from "/helpers/grow.js";
 import { hack } from "/helpers/hack.js";
 import { weaken } from "/helpers/weaken.js";
@@ -9,12 +11,12 @@ const MONEY_PCT_THRESHOLD = 0.5;
 /** 
  * @param {NS} ns
  */
-export async function main(ns) {
+export async function main(ns: NS) {
 	if (ns.args.length === 0) {
 		throw "Function must be called with 1+ hostnames";
 	}
 
-	const hostnames = ns.args;
+	const hostnames = ns.args as string[];
 
 	while (true) {
 		const j = Math.floor(Math.random() * hostnames.length);
@@ -30,7 +32,7 @@ export async function main(ns) {
  * @param {NS} ns
  * @param {string} hostname 
  */
-export async function hackWeakenGrow(ns, hostname) {
+export async function hackWeakenGrow(ns: NS, hostname: string) {
 	// Get security level info
 	const secLevel = ns.getServerSecurityLevel(hostname);
 	const secMin = ns.getServerMinSecurityLevel(hostname);
@@ -48,7 +50,7 @@ export async function hackWeakenGrow(ns, hostname) {
 			return await grow(ns, hostname);
 		}
 
-		return await hack(ns, hostname).then(async (amtMoney) => {
+		return await hack(ns, hostname).then(async (amtMoney: number) => {
 			if ((amtMoney === 0) && (secLevel > secThresh)) {
 				return await weaken(ns, hostname);
 			} else if ((amtMoney > 0) && (moneyAvail < moneyThresh)) {

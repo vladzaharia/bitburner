@@ -1,5 +1,5 @@
 /** 
- * @param { import("../../lib/NetscriptDefinition").NS } ns
+ * @param {NS} ns
  */
 export async function main(ns) {
 	if (ns.args.length === 0) {
@@ -16,7 +16,7 @@ export async function main(ns) {
 }
 
 /** 
- * @param { import("../../lib/NetscriptDefinition").NS } ns
+ * @param {NS} ns
  * @param {string} hostname 
  */
 export async function hack(ns, hostname) {

@@ -6,7 +6,9 @@ const WORKERS_PER_POOL = 8;
 // Amount of money dedicated to servers
 const MONEY_MULTIPLIER = 0.50;
 
-/** @param { import("../../lib/NetscriptDefinition").NS } ns */
+/** 
+ * @param {NS} ns
+ */
 export async function main(ns) {
     ns.disableLog("ALL");
 
@@ -90,7 +92,7 @@ export async function main(ns) {
 }
 
 /**
- * @param { import("../../lib/NetscriptDefinition").NS } ns
+ * @param {NS} ns
  * @param {number} ram
  * @param {string[]} purchasedServers
  */
@@ -105,7 +107,7 @@ async function checkForUpgrade(ns, availMoney, ram, purchasedServers) {
 }
 
 /**
- * @param { import("../../lib/NetscriptDefinition").NS } ns
+ * @param {NS} ns
  * @param {number} ram
  * @param {string} type
  * @param {string} name
@@ -128,7 +130,7 @@ async function purchaseServer(ns, ram, type, name) {
 }
 
 /**
- * @param { import("../../lib/NetscriptDefinition").NS } ns
+ * @param {NS} ns
  * @param {string[]} allServers
  */
 async function sellWorkerServers(ns, allServers) {
@@ -148,7 +150,7 @@ async function sellWorkerServers(ns, allServers) {
 }
 
 /**
- * @param { import("../../lib/NetscriptDefinition").NS } ns
+ * @param {NS} ns
  * @param {string} hostname
  */
 async function sellServer(ns, hostname) {

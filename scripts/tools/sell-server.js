@@ -1,4 +1,6 @@
-/** @param { import("../../lib/NetscriptDefinition").NS } ns */
+/** 
+ * @param {NS} ns
+ */
 export async function main(ns) {
     if (ns.args.length === 0) {
         throw "Function must be called with servers to sell!"

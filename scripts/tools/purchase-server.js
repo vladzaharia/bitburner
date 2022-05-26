@@ -1,4 +1,6 @@
-/** @param { import("../../lib/NetscriptDefinition").NS } ns */
+/** 
+ * @param {NS} ns
+ */
 export async function main(ns) {
     if (ns.args < 2) {
         throw "Function must be called with RAM and 1+ hostnames!";

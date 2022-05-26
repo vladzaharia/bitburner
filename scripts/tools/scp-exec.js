@@ -2,7 +2,9 @@ import { getControlServers, getRootedHosts, getPersonalServers, getWorkerServers
 import { exec } from "/helpers/exec.js";
 import { scp } from "/helpers/scp.js";
 
-/** @param { import("../../lib/NetscriptDefinition").NS } ns */
+/** 
+ * @param {NS} ns
+ */
 export async function main(ns) {
 	let hostnames = await getPersonalServers(ns);
 	const hackableHosts = await getRootedHosts(ns);
