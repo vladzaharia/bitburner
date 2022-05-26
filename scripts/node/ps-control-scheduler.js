@@ -13,35 +13,23 @@ const HOSTS_PER_POOL = 6;
 export async function main(ns) {
     ns.disableLog("ALL");
 
-    let firstRun = true;
     let pools = await getPools(ns);
 
     while (true) {
         ns.clearLog();
 
-        if (firstRun) {
+        if (!ns.fileExists("/flags/SKIP_SCHEDULER.js", "home")) {
             for (let i = 0; i < pools.length; i++) {
                 ns.print(`[ps-control-scheduler] Executing on pool ${i} with servers: ${pools[i]}`);
                 await executeOnPool(ns, pools[i]);
             }
 
-            firstRun = true;
+            ns.print(`[ps-control-scheduler] Finished scheduling nodes, sleeping for 1hr`);
+            await ns.sleep(60 * 60 * 1000);
         } else {
-            const newPools = await getPools(ns);
-            const newNodes = getNewNodes(pools, newPools);
-
-            ns.clearLog();
-
-            if (newNodes.length > 0) {
-                ns.print(`[ps-control-scheduler] Executing on new nodes: ${newNodes}`);
-                await executeOnPool(ns, newNodes);
-            } else {
-                ns.print(`[ps-control-scheduler] No new nodes found`);
-            }
+            ns.print("[ps-control-scheduler] Found file /flags/SKIP_SCHEDULER.js, sleeping for 1min");
+            await ns.sleep(60 * 1000);
         }
-
-        ns.print(`[ps-control-scheduler] Finished scheduling nodes`);
-        await ns.sleep(60 * 60 * 1000);
     }
 }
 
@@ -57,18 +45,6 @@ async function getPools(ns) {
     ns.print(`[ps-control-scheduler] Rooted nodes: ${rootedNodes}`);
     
     return [... splitWorkers(ns, workers), ... splitHostnames(ns, rootedNodes)];
-}
-
-/**
- * @param {string[][]} oldPools
- * @param {string[][]} newPools
- * @returns {string[]}
- */
-function getNewNodes(oldPools, newPools) {
-    const oldNodes = oldPools.flat();
-    const newNodes = newPools.flat();
-
-    return newNodes.filter((hn) => oldNodes.indexOf(hn) === -1);
 }
 
 /**
