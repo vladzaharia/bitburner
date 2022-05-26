@@ -3,6 +3,8 @@ import { getCrackableHosts, getRootedHosts } from "/helpers/discover.js";
 
 /** @param { import("../../lib/NetscriptDefinition").NS } ns */
 export async function main(ns) {
+    ns.disableLog("ALL");
+
     while (true) {
         const crackableHosts = await getCrackableHosts(ns);
     
@@ -13,6 +15,7 @@ export async function main(ns) {
     
         await getRootedHosts(ns, crackableHosts);
 
+        ns.print("[ps-control-cracker] Finished cracking nodes");
         await ns.sleep(15 * 60 * 1000);
     }
 }

@@ -1,4 +1,6 @@
 import { getControlServers, getRootedHosts, getPersonalServers, getWorkerServers } from "/helpers/discover.js";
+import { exec } from "/helpers/exec.js";
+import { scp } from "/helpers/scp.js";
 
 /** @param { import("../../lib/NetscriptDefinition").NS } ns */
 export async function main(ns) {
@@ -62,32 +64,4 @@ export async function main(ns) {
 		
 		await ns.sleep(1000);
 	}
-}
-
-/** 
- * @param { import("../../lib/NetscriptDefinition").NS } ns
- * @param {string} hostname
- * @param {string} filename
- */
-export async function scp(ns, hostname, filename) {
-    const additionalFiles = ns.ls("home").filter((file) => file.startsWith("/helpers") || file.startsWith("/node"));
-
-    ns.print(`[scp-exec] Copying helper scripts and ${filename} to ${hostname}`);
-    await ns.scp([filename, ... additionalFiles], hostname);
-}
-
-/** 
- * @param { import("../../lib/NetscriptDefinition").NS } ns
- * @param {string} hostname
- * @param {string} filename
- * @param {number} threads
- * @param {string[]} args
- */
-export async function exec(ns, hostname, filename, threads, args) {
-    if (threads === 0) {
-        threads = Math.floor(ns.getServerMaxRam(hostname) / ns.getScriptRam(filename));
-    }
-
-    ns.print(`[scp-exec] Executing ${filename} on ${hostname} with threads: ${threads}, args: ${args}`);
-    await ns.exec(filename, hostname, threads, ... args);
 }
