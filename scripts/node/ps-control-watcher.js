@@ -34,10 +34,10 @@ export async function main(ns) {
                 ns.print(`[ps-control-watcher] Server ${hostname}, ${ram}GB`);
             }
             
-            ns.print("[ps-control-watcher] Finished listing servers, sleeping for 5min");
+            ns.print(`[ps-control-watcher] Finished listing servers, sleeping for 5min at ${new Date().toTimeString()}`);
             await ns.sleep(5 * 60 * 1000);
         } else {
-            ns.print("[ps-control-watcher] Found file /flags/SKIP_WATCHER.js, sleeping for 1min");
+            ns.print(`[ps-control-watcher] Found file /flags/SKIP_WATCHER.js, sleeping for 1min at ${new Date().toTimeString()}`);
             await ns.sleep(60 * 1000);
         }
     }
