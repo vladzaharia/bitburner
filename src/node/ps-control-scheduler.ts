@@ -1,3 +1,4 @@
+import { NS } from "Netscript";
 import { getHackableHosts, getRootedHosts, getWorkerServers } from "/helpers/discover.js";
 import { exec } from "/helpers/exec.js";
 import { scp } from "/helpers/scp.js";
@@ -13,7 +14,7 @@ const MIN_SERVER_MONEY_PCT = 0.5;
 /** 
  * @param {NS} ns
  */
-export async function main(ns) {
+export async function main(ns: NS) {
     ns.disableLog("ALL");
 
     while (true) {
@@ -41,7 +42,7 @@ export async function main(ns) {
  * @param {NS} ns
  * @returns {string[][]}
  */
-async function getPools(ns) {
+async function getPools(ns: NS) {
     const workers = await getWorkerServers(ns);
     ns.print(`[ps-control-scheduler] Workers: ${workers}`);
 
@@ -56,9 +57,9 @@ async function getPools(ns) {
  * @param {string[]} hostnames 
  * @returns {string[][]}
  */
- function splitHostnames(ns, hostnames) {
-    let finalHostnames = [];
-    let currentPoolHostnames = [];
+ function splitHostnames(ns: NS, hostnames: string[]): string[][] {
+    let finalHostnames: string[][] = [];
+    let currentPoolHostnames: string[] = [];
 
     for (let i = 0; i < hostnames.length; i++) {
         if (i === HOSTS_PER_POOL) {
@@ -81,19 +82,19 @@ async function getPools(ns) {
  * @param {string[]} hostnames 
  * @returns {string[][]}
  */
-function splitWorkers(ns, hostnames) {
-    let finalHostnames = [];
+function splitWorkers(ns: NS, hostnames: string[]): string[][] {
+    let finalHostnames: string[][] = [];
     let currentPool = 0;
-    let currentPoolHostnames = [];
+    let currentPoolHostnames: string[] = [];
     const regex = /^ps-worker(\d)-(\d)$/;
 
     hostnames.forEach(hn => {
         const match = hn.match(regex);
 
-        if (match[1] > currentPool) {
+        if (match && (parseInt(match[1], 10) > currentPool)) {
             ns.print(`[ps-control-scheduler] New pool found ${match[1]}`);
             finalHostnames = [... finalHostnames, currentPoolHostnames];
-            currentPool = match[1];
+            currentPool = parseInt(match[1], 10);
             currentPoolHostnames = [];
         }
 
@@ -111,7 +112,7 @@ function splitWorkers(ns, hostnames) {
  * @param {string[]} hostnames 
  * @param {string[]} args 
  */
-async function executeOnPool(ns, hostnames, args) {
+async function executeOnPool(ns: NS, hostnames: string[], args: string[]) {
     let finalScripts = { ... SCRIPTS };
     const scriptKeys = Object.keys(finalScripts);
 
@@ -162,7 +163,7 @@ async function executeOnPool(ns, hostnames, args) {
  * @param {string} filename 
  * @param {string[]} args 
  */
-function getFilteredArgs(ns, filename, args) {
+function getFilteredArgs(ns: NS, filename: string, args: string[]) {
     let fnArgs = args.slice();
 
     if (filename === "/helpers/grow.js") {
