@@ -1,6 +1,6 @@
-const MONEY_PER_LEVEL = 29.248;
-const MONEY_PER_RAM = 0;
-const MONEY_PER_CORE = 427.464;
+const MONEY_PER_LEVEL = 2.15;
+const MONEY_PER_RAM = 5.72;
+const MONEY_PER_CORE = 27.24;
 
 // Amount of money dedicated to upgrades
 const MONEY_MULTIPLIER = 0.05;
@@ -29,18 +29,22 @@ export async function main(ns) {
 		const coreAdv = Math.floor(levelCost / MONEY_PER_CORE);
 		ns.print(`[ps-control-hacknet] Core cost ${coreCost}, cost/benefit ${coreAdv}`);
 
-		if (levelAdv > ramAdv && levelAdv > coreAdv && levelCost < moneyAvail) {
-			ns.print(`[ps-control-hacknet] Upgrading level`);
-			upgradeOnAll(hacknet, hacknet.upgradeLevel);
-		} else if (ramAdv > levelAdv && ramAdv > coreAdv && ramCost < moneyAvail) {
-			ns.print(`[ps-control-hacknet] Upgrading RAM`);
-			upgradeOnAll(hacknet, hacknet.upgradeRam);
-		} else if (coreAdv > levelAdv && coreAdv > ramAdv && coreCost < moneyAvail) {
+		if (coreCost > moneyAvail || levelAdv > coreAdv || ramAdv > coreAdv) {
+			if (ramCost > moneyAvail || levelAdv > ramAdv) {
+				if (levelCost < moneyAvail) {
+					ns.print(`[ps-control-hacknet] Upgrading level`);
+					upgradeOnAll(hacknet, hacknet.upgradeLevel);
+				} else {
+					ns.print(`[ps-control-hacknet] Skipping upgrades`);
+					await ns.sleep(5 * 60 * 1000);		
+				}
+			} else {
+				ns.print(`[ps-control-hacknet] Upgrading RAM`);
+				upgradeOnAll(hacknet, hacknet.upgradeRam);
+			}
+		} else {
 			ns.print(`[ps-control-hacknet] Upgrading cores`);
 			upgradeOnAll(hacknet, hacknet.upgradeCore);
-		} else {
-			ns.print(`[ps-control-hacknet] Skipping upgrades`);
-            await ns.sleep(15 * 60 * 1000);
 		}
 
 		await ns.sleep(1000);

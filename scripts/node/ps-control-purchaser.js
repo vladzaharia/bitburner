@@ -33,11 +33,11 @@ export async function main(ns) {
             RAM = 64;
             ns.print(`[ps-control-purchaser] Setting RAM to ${RAM} and selling servers`);
             await sellWorkerServers(ns, purchasedServers);
-        } else if (availMoney > 10000000 && RAM < 32) {
+        } else if (availMoney > 25000000 && RAM < 32) {
             RAM = 32;
             ns.print(`[ps-control-purchaser] Setting RAM to ${RAM} and selling servers`);
             await sellWorkerServers(ns, purchasedServers);
-        } else if (availMoney > 1000000 && RAM < 16) {
+        } else if (availMoney > 10000000 && RAM < 16) {
             RAM = 16;
             ns.print(`[ps-control-purchaser] Setting RAM to ${RAM} and selling servers`);
             await sellWorkerServers(ns, purchasedServers);
@@ -48,7 +48,19 @@ export async function main(ns) {
         let k = 0; // Server in pool
         let max = ns.getPurchasedServerLimit();
 
-        ns.print(`[ps-control-purchaser] Purchased servers ${i}/${max}`)
+        ns.print(`[ps-control-purchaser] Purchased servers ${i}/${max}: ${purchasedServers}`)
+
+        // Determine j, k
+        if (i > 0) {
+            const regex = /^ps-worker(\d)-(\d)$/;
+            const latestServer = purchasedServers[purchasedServers.length - 1];
+            ns.print(`[ps-control-purchaser] Checking latest server ${latestServer}`)
+
+            const match = latestServer.match(regex);
+            
+            j = parseInt(match[1], 10);
+            k = parseInt(match[2], 10) + 1;
+        }
 
         while (i < max) {
             // // Ensure Control servers are purchased
@@ -63,6 +75,12 @@ export async function main(ns) {
             //     }
             // }
 
+            // Check if last node in pool
+            if (k >= WORKERS_PER_POOL) {
+                k = 0;
+                j++;
+            }
+
             // Purchase a worker node
             const purchased = await purchaseServer(ns, RAM, `worker${j}`, k);
 
@@ -71,15 +89,9 @@ export async function main(ns) {
                 i = purchasedServers.length;
                 k++;
 
-                // Check if last node in pool
-                if (k === WORKERS_PER_POOL) {
-                    k = 0;
-                    j++;
-                }
-
                 await ns.sleep(1000);
             } else {
-                await ns.sleep(15 * 60 * 1000);
+                await ns.sleep(5 * 60 * 1000);
             }
         }
 
@@ -95,12 +107,14 @@ export async function main(ns) {
  * @param {string} name
  */
 async function purchaseServer(ns, ram, type, name) {
-    const availMoney = Math.floor(ns.getServerMoneyAvailable("home"));
+    const availMoney = Math.floor(ns.getServerMoneyAvailable("home") * MONEY_MULTIPLIER);
     const neededMoney = ns.getPurchasedServerCost(ram);
     
     // Check if we have enough money to purchase a server
     if (availMoney > neededMoney) {
+        // Determine server name
         const fullName = `ps-${type}-${name}`;
+
         ns.print(`[ps-control-purchaser] Purchasing server: ${fullName}, ${ram}GB for $${neededMoney}`);
         return ns.purchaseServer(fullName, ram);
     } else {

@@ -32,7 +32,7 @@ export async function main(ns) {
                 ns.print(`[ps-control-scheduler] Executing on new nodes: ${newNodes}`);
                 await executeOnPool(ns, newNodes);
             } else {
-                ns.print("No new nodes found");
+                ns.print(`[ps-control-scheduler] No new nodes found`);
             }
         }
 
@@ -47,7 +47,11 @@ export async function main(ns) {
  */
 async function getPools(ns) {
     const workers = await getWorkerServers(ns);
+    ns.print(`[ps-control-scheduler] Workers: ${workers}`);
+
     const rootedNodes = await getRootedHosts(ns);
+    ns.print(`[ps-control-scheduler] Rooted nodes: ${rootedNodes}`);
+    
     return [... splitWorkers(ns, workers), ... splitHostnames(ns, rootedNodes)];
 }
 
@@ -73,13 +77,17 @@ function getNewNodes(oldPools, newPools) {
     let currentPoolHostnames = [];
 
     for (let i = 0; i < hostnames.length; i++) {
-        if (i % HOSTS_PER_POOL === 0) {
+        if (i === HOSTS_PER_POOL) {
+            ns.print(`[ps-control-scheduler] New pool created`);
             finalHostnames = [... finalHostnames, currentPoolHostnames];
             currentPoolHostnames = [];
         }
 
+        ns.print(`[ps-control-scheduler] Added ${hostnames[i]} to pool ${currentPoolHostnames}`);
         currentPoolHostnames.push(hostnames[i])
     }
+
+    finalHostnames = [... finalHostnames, currentPoolHostnames];
 
     return finalHostnames;
 }
@@ -132,7 +140,7 @@ async function executeOnPool(ns, hostnames) {
                 const scriptWeightPct = finalScripts[filename] / Object.values(finalScripts).reduce((n, t) => n + t, 0);
                 const threads = Math.floor((ramAvail / ns.getScriptRam(filename)) * scriptWeightPct);
                 let fnArgs = args.slice();
-                fnArgs = fnArgs.filter((hn, k) => k % hostnames.length === i % hostnames.length && hn !== hostname);
+                fnArgs = fnArgs.filter((hn, k) => k % hostnames.length === i % hostnames.length);
 
                 ns.print(`[ps-control-scheduler] Executing ${filename} on ${hostname} with ${scriptWeightPct * 100}% threads`);
                 await scp(ns, hostname, filename);

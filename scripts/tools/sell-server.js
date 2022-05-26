@@ -1,13 +1,10 @@
 /** @param { import("../../lib/NetscriptDefinition").NS } ns */
 export async function main(ns) {
-    let purchasedServers = [];
-
-    if (ns.args.length > 0) {
-        purchasedServers = ns.args;
-    } else {
-        purchasedServers = await ns.getPurchasedServers();
-        purchasedServers = purchasedServers.filter((hn) => hn.startsWith("pserv") || hn.startsWith("ps-worker"));    
+    if (ns.args.length === 0) {
+        throw "Function must be called with servers to sell!"
     }
+    
+    const purchasedServers = ns.args;
 
 	for (let i = 0; i < purchasedServers.length; i++) {
 		await ns.killall(purchasedServers[i]);
