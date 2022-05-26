@@ -51,17 +51,17 @@ export async function main(ns) {
         ns.print(`[ps-control-purchaser] Purchased servers ${i}/${max}`)
 
         while (i < max) {
-            // Ensure Control servers are purchased
-            for (let j = 0; j < CONTROL_SERVERS.length; j++) {
-                if (purchasedServers.indexOf("ps-control-"+CONTROL_SERVERS[j]) === -1) {
-                    let ram = 8;
-                    if (CONTROL_SERVERS[j] === "purchaser") {
-                        ram = 16
-                    }
+            // // Ensure Control servers are purchased
+            // for (let j = 0; j < CONTROL_SERVERS.length; j++) {
+            //     if (purchasedServers.indexOf("ps-control-"+CONTROL_SERVERS[j]) === -1) {
+            //         let ram = 8;
+            //         if (CONTROL_SERVERS[j] === "purchaser") {
+            //             ram = 16
+            //         }
 
-                    await purchaseServer(ns, ram, "control", CONTROL_SERVERS[j]);
-                }
-            }
+            //         await purchaseServer(ns, ram, "control", CONTROL_SERVERS[j]);
+            //     }
+            // }
 
             // Purchase a worker node
             const purchased = await purchaseServer(ns, RAM, `worker${j}`, k);
