@@ -1,9 +1,9 @@
-const MONEY_PER_LEVEL = 2.15;
-const MONEY_PER_RAM = 5.72;
-const MONEY_PER_CORE = 27.24;
+const MONEY_PER_LEVEL = 3.603;
+const MONEY_PER_RAM = 399.309;
+const MONEY_PER_CORE = 90.671;
 
 // Amount of money dedicated to upgrades
-const MONEY_MULTIPLIER = 0.05;
+const MONEY_MULTIPLIER = 0.1;
 
 /** @param { import("../../lib/NetscriptDefinition").NS } ns */
 export async function main(ns) {
@@ -12,6 +12,8 @@ export async function main(ns) {
 	const hacknet = ns.hacknet;
 
 	while (true) {
+		ns.clearLog();
+
 		const numNodes = hacknet.numNodes();
 
 		const moneyAvail = Math.floor(ns.getServerMoneyAvailable("home") * MONEY_MULTIPLIER);
@@ -26,11 +28,11 @@ export async function main(ns) {
 		ns.print(`[ps-control-hacknet] RAM cost ${ramCost}, cost/benefit ${ramAdv}`);
 
 		const coreCost = Math.ceil(hacknet.getCoreUpgradeCost(0, 1) * numNodes);
-		const coreAdv = Math.floor(levelCost / MONEY_PER_CORE);
+		const coreAdv = Math.floor(coreCost / MONEY_PER_CORE);
 		ns.print(`[ps-control-hacknet] Core cost ${coreCost}, cost/benefit ${coreAdv}`);
 
-		if (coreCost > moneyAvail || levelAdv > coreAdv || ramAdv > coreAdv) {
-			if (ramCost > moneyAvail || levelAdv > ramAdv) {
+		if (shouldSkip(ns, moneyAvail, coreCost, levelAdv, coreAdv) || shouldSkip(ns, moneyAvail, coreCost, ramAdv, coreAdv)) {
+			if (shouldSkip(ns, moneyAvail, ramCost, levelAdv, ramAdv)) {
 				if (levelCost < moneyAvail) {
 					ns.print(`[ps-control-hacknet] Upgrading level`);
 					upgradeOnAll(hacknet, hacknet.upgradeLevel);
@@ -49,6 +51,24 @@ export async function main(ns) {
 
 		await ns.sleep(1000);
 	}
+}
+
+/**
+ * @param {number} moneyAvail
+ * @param {number} cost1 
+ * @param {number} cost2 
+ * @param {number} benefit1 
+ * @param {number} benefit2 
+ */
+function shouldSkip(ns, moneyAvail, cost2, benefit1, benefit2) {
+	const costSkip = cost2 > moneyAvail;
+	const benefitSkip = benefit1 < benefit2
+	const costOverride = (benefit2 * 2 < benefit1) && (cost2 < moneyAvail * 3);
+
+	if (costOverride) {
+		return !costOverride;
+	}
+	return (costSkip || benefitSkip);
 }
 
 /** @param {Hacknet} hacknet */
