@@ -3,7 +3,7 @@
  */
 export async function main(ns) {
 	if (ns.args.length === 0) {
-		throw "Function must be called with 1+ hostnames"
+		throw "Function must be called with 1+ hostnames";
 	}
 
 	const hostnames = ns.args;
