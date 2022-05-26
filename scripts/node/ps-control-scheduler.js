@@ -1,55 +1,71 @@
-import { getControlServers, getRootedHosts, getPersonalServers, getWorkerServers } from "/helpers/discover.js";
+import { getRootedHosts, getWorkerServers } from "/helpers/discover.js";
 import { exec, scp } from "/tools/scp-exec.js";
 
 const SCRIPTS = {
     "/helpers/hack.js": 50,
     "/helpers/weaken.js": 25,
     "/helpers/grow.js": 25
-}
+};
+const HOSTS_PER_POOL = 6;
 
 /** @param { import("../../lib/NetscriptDefinition").NS } ns */
 export async function main(ns) {
-	let hostnames = await getPersonalServers(ns);
-    let pools = [];
+    const firstRun = true;
+    let pools = await getPools(ns);
 
-	// Filter based on arg[0] if provided
-	if (ns.args.length > 0) {
-		const hostnameArg = ns.args[0];
+    while (true) {
+        if (firstRun) {
+            for (let i = 0; i < pools.length; i++) {
+                ns.print(`[ps-control-scheduler] Executing on pool ${i} with servers: ${pools[i]}`);
+                await executeOnPool(ns, pools[i]);
+            }
+        } else {
+            const newPools = await getPools(ns);
+            const newNodes = getNewNodes(pools, newPools);
 
-	    if (hostnameArg === "worker") {
-			hostnames = await getWorkerServers(ns);
-            pools = splitWorkers(ns, hostnames);
-            ns.print(`[distributed-hack] Using worker servers: ${hostnames}`);
-		} else if (hostnameArg === "rooted") {
-			hostnames = await getRootedHosts(ns);
-			ns.print(`[distributed-hack] Using rooted servers: ${hostnames}`);
-		} else {
-			hostnames = hostnames.filter((hn) => hn.indexOf(hostnameArg) !== -1);
-			ns.print(`[distributed-hack] Filtered based on ${hostnameArg}: ${hostnames}`);
-		}
-	}
-
-    if (pools.length === 0) {
-        pools = splitHostnames(ns, hostnames);
-    }
-
-    for (let i = 0; i < pools.length; i++) {
-        ns.print(`[distributed-hack] Executing on pool ${i} with servers: ${pools[i]}`);
-        await executeOnPool(ns, pools[i]);
+            if (newNodes.length > 0) {
+                ns.print(`[ps-control-scheduler] Executing on new nodes: ${newNodes}`);
+                await executeOnPool(ns, newNodes);
+            } else {
+                ns.print("No new nodes found");
+            }
+        }
     }
 }
 
 /**
- * @param {string[]} hostnames 
+ * @param { import("../../lib/NetscriptDefinition").NS } ns
+ * @returns {string[][]}
+ */
+async function getPools(ns) {
+    const workers = await getWorkerServers(ns);
+    const rootedNodes = await getRootedHosts(ns);
+    return [... splitWorkers(ns, workers), ... splitHostnames(ns, rootedNodes)];
+}
+
+/**
+ * @param {string[][]} oldPools
+ * @param {string[][]} newPools
  * @returns {string[]}
+ */
+function getNewNodes(oldPools, newPools) {
+    const oldNodes = oldPools.flat();
+    const newNodes = newPools.flat();
+
+    return newNodes.filter((hn) => oldNodes.indexOf(hn) === -1);
+}
+
+/**
+ * @param { import("../../lib/NetscriptDefinition").NS } ns
+ * @param {string[]} hostnames 
+ * @returns {string[][]}
  */
  function splitHostnames(ns, hostnames) {
     let finalHostnames = [];
     let currentPoolHostnames = [];
 
-    const hostsPerPool = 6;
     for (let i = 0; i < hostnames.length; i++) {
-        if (i % 6 === 0) {
+        if (i % HOSTS_PER_POOL === 0) {
             finalHostnames = [... finalHostnames, currentPoolHostnames];
             currentPoolHostnames = [];
         }
@@ -61,8 +77,9 @@ export async function main(ns) {
 }
 
 /**
+ *  @param { import("../../lib/NetscriptDefinition").NS } ns
  * @param {string[]} hostnames 
- * @returns {string[]}
+ * @returns {string[][]}
  */
 function splitWorkers(ns, hostnames) {
     let finalHostnames = [];
@@ -74,13 +91,13 @@ function splitWorkers(ns, hostnames) {
         const match = hn.match(regex);
 
         if (match[1] > currentPool) {
-            ns.print(`[distributed-hack] New pool found ${match[1]}`);
+            ns.print(`[ps-control-scheduler] New pool found ${match[1]}`);
             finalHostnames = [... finalHostnames, currentPoolHostnames];
             currentPool = match[1];
             currentPoolHostnames = [];
         }
 
-        ns.print(`[distributed-hack] Added ${hn} to pool ${currentPool}`);
+        ns.print(`[ps-control-scheduler] Added ${hn} to pool ${currentPool}`);
         currentPoolHostnames.push(hn);
     });
 
@@ -94,19 +111,12 @@ async function executeOnPool(ns, hostnames) {
     let finalScripts = { ... SCRIPTS };
     const scriptKeys = Object.keys(finalScripts);
 
-    // Change hack/weaken/grow percents
-    if (ns.args.length > 1) {
-        for (let i = 1; i < ns.args.length && i < (finalScripts.length - 1); i++) {
-            finalScripts[scriptKeys[i-1]] = ns.args[i];
-        }
-    }
-
     for (let i = 0; i < hostnames.length; i++) {
 		const hostname = hostnames[i];
         const ramAvail = ns.getServerMaxRam(hostname);
 
         if (ramAvail > 0) {
-            ns.print(`[distributed-hack] Killing existing scripts on ${hostname}`);
+            ns.print(`[ps-control-scheduler] Killing existing scripts on ${hostname}`);
             await ns.killall(hostname);
 
             for (let j = 0; j < scriptKeys.length; j++) {
@@ -116,7 +126,7 @@ async function executeOnPool(ns, hostnames) {
                 let fnArgs = args.slice();
                 fnArgs = fnArgs.filter((hn, k) => k % hostnames.length === i % hostnames.length);
 
-                ns.print(`[distributed-hack] Executing ${filename} on ${hostname} with ${scriptWeightPct * 100}% threads`);
+                ns.print(`[ps-control-scheduler] Executing ${filename} on ${hostname} with ${scriptWeightPct * 100}% threads`);
                 await scp(ns, hostname, filename);
                 await exec(ns, hostname, filename, threads, fnArgs);
 

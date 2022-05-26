@@ -1,4 +1,4 @@
-/** @param {NS} ns */
+/** @param { import("../../lib/NetscriptDefinition").NS } ns */
 export async function main(ns) {
     // RAM amount, configurable as arg[0]
     let ram = 64;

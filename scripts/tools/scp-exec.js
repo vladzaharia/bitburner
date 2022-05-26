@@ -1,9 +1,9 @@
 import { getControlServers, getRootedHosts, getPersonalServers, getWorkerServers } from "/helpers/discover.js";
 
-/** @param {NS} ns */
+/** @param { import("../../lib/NetscriptDefinition").NS } ns */
 export async function main(ns) {
 	let hostnames = await getPersonalServers(ns);
-	const hackableHosts = await getRootedHosts(ns, [], 5);
+	const hackableHosts = await getRootedHosts(ns);
 	let threads = 0;
 	let filename = "/helpers/hack-weaken-grow.js";
 	let args = hackableHosts;
@@ -28,6 +28,7 @@ export async function main(ns) {
 		// Execute alternative script
 		if (ns.args.length > 1) {
 			filename = ns.args[1];
+            args = [];
 			ns.print(`[scp-exec] Executing alternative script: ${filename}`);
 
 			// Change number of threads
@@ -47,7 +48,7 @@ export async function main(ns) {
 		const hostname = hostnames[i];
         let fnArgs = args.slice();
 
-        if (ns.args.contains("targets") && ns.args.length < 4) {
+        if (ns.args.indexOf("targets") !== -1 && ns.args.length < 4) {
             fnArgs = fnArgs.filter((hn, j) => j % hostnames.length === i % hostnames.length);
         }
 
@@ -64,7 +65,7 @@ export async function main(ns) {
 }
 
 /** 
- * @param {NS} ns
+ * @param { import("../../lib/NetscriptDefinition").NS } ns
  * @param {string} hostname
  * @param {string} filename
  */
@@ -76,7 +77,7 @@ export async function scp(ns, hostname, filename) {
 }
 
 /** 
- * @param {NS} ns
+ * @param { import("../../lib/NetscriptDefinition").NS } ns
  * @param {string} hostname
  * @param {string} filename
  * @param {number} threads

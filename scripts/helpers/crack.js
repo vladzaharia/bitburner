@@ -1,6 +1,6 @@
 const ALL_OPENERS = ["BruteSSH.exe", "FTPCrack.exe", "relaySMTP.exe", "HTTPWorm.exe", "SQLInject.exe"];
 
-/** @param {NS} ns */
+/** @param { import("../../lib/NetscriptDefinition").NS } ns */
 export async function main(ns) {
 	if (ns.args.length === 0) {
 		throw "Function must be called with 1+ hostnames"
@@ -18,7 +18,7 @@ export async function main(ns) {
 }
 
 /** 
- * @param {NS} ns 
+ * @param { import("../../lib/NetscriptDefinition").NS } ns 
  * @param {string} hostname
  */
 export async function crackHost(ns, hostname) {
@@ -38,13 +38,13 @@ export async function crackHost(ns, hostname) {
 	}
 }
 
-/** @param {NS} ns */
+/** @param { import("../../lib/NetscriptDefinition").NS } ns */
 export async function getPortOpeners(ns) {
 	const availableOpeners = [];
 
 	for (let i = 0; i < ALL_OPENERS.length; i++) {
 		const opener = ALL_OPENERS[i];
-		const canUse = await ns.fileExists(opener);
+		const canUse = await ns.fileExists(opener, "home");
 		if (canUse) {
 			availableOpeners.push(opener);
 		}
@@ -54,7 +54,7 @@ export async function getPortOpeners(ns) {
 }
 
 /** 
- * @param {NS} ns 
+ * @param { import("../../lib/NetscriptDefinition").NS } ns 
  * @param {string} hostname
  */
 async function useAllOpeners(ns, hostname) {
@@ -66,7 +66,7 @@ async function useAllOpeners(ns, hostname) {
 }
 
 /** 
- * @param {NS} ns 
+ * @param { import("../../lib/NetscriptDefinition").NS } ns 
  * @param {string} hostname
  */
 async function useOpener(ns, hostname, opener) {
