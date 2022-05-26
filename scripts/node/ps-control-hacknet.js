@@ -17,27 +17,27 @@ export async function main(ns) {
 
 		const levelCost = Math.ceil(hacknet.getLevelUpgradeCost(0, 1) * numNodes);
 		const levelAdv = Math.floor(levelCost / MONEY_PER_LEVEL);
-		ns.print(`[upgrade-hacknet] Level cost ${levelCost}, cost/benefit ${levelAdv}`);
+		ns.print(`[ps-control-hacknet] Level cost ${levelCost}, cost/benefit ${levelAdv}`);
 
 		const ramCost = Math.ceil(hacknet.getRamUpgradeCost(0, 1) * numNodes);
 		const ramAdv = (ramCost === Infinity) ? 0 : Math.floor(ramCost / MONEY_PER_RAM);
-		ns.print(`[upgrade-hacknet] RAM cost ${ramCost}, cost/benefit ${ramAdv}`);
+		ns.print(`[ps-control-hacknet] RAM cost ${ramCost}, cost/benefit ${ramAdv}`);
 
 		const coreCost = Math.ceil(hacknet.getCoreUpgradeCost(0, 1) * numNodes);
 		const coreAdv = Math.floor(levelCost / MONEY_PER_CORE);
-		ns.print(`[upgrade-hacknet] Core cost ${coreCost}, cost/benefit ${coreAdv}`);
+		ns.print(`[ps-control-hacknet] Core cost ${coreCost}, cost/benefit ${coreAdv}`);
 
 		if (levelAdv > ramAdv && levelAdv > coreAdv && levelCost < moneyAvail) {
-			ns.print(`[upgrade-hacknet] Upgrading level`);
+			ns.print(`[ps-control-hacknet] Upgrading level`);
 			upgradeOnAll(hacknet, hacknet.upgradeLevel);
 		} else if (ramAdv > levelAdv && ramAdv > coreAdv && ramCost < moneyAvail) {
-			ns.print(`[upgrade-hacknet] Upgrading RAM`);
+			ns.print(`[ps-control-hacknet] Upgrading RAM`);
 			upgradeOnAll(hacknet, hacknet.upgradeRam);
 		} else if (coreAdv > levelAdv && coreAdv > ramAdv && coreCost < moneyAvail) {
-			ns.print(`[upgrade-hacknet] Upgrading cores`);
+			ns.print(`[ps-control-hacknet] Upgrading cores`);
 			upgradeOnAll(hacknet, hacknet.upgradeCore);
 		} else {
-			ns.print(`[upgrade-hacknet] Skipping upgrades`);
+			ns.print(`[ps-control-hacknet] Skipping upgrades`);
             await ns.sleep(60 * 1000);
 		}
 

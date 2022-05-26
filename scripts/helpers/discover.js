@@ -4,7 +4,7 @@ const DEPTH = 2;
 
 let foundHosts = [];
 
-/** @param {NS} ns */
+/** @param { import("../../lib/NetscriptDefinition").NS } ns */
 export async function main(ns) {
 	let depth = DEPTH;
 
@@ -18,7 +18,7 @@ export async function main(ns) {
 }
 
 /** 
- * @param {NS} ns 
+ * @param { import("../../lib/NetscriptDefinition").NS } ns 
  */
 export async function getHosts(ns, depth) {
 	ns.disableLog("ALL");
@@ -34,7 +34,7 @@ export async function getHosts(ns, depth) {
 }
 
 /** 
- * @param {NS} ns 
+ * @param { import("../../lib/NetscriptDefinition").NS } ns 
  */
 export async function getPersonalServers(ns) {
 	ns.disableLog("ALL");
@@ -48,7 +48,7 @@ export async function getPersonalServers(ns) {
 }
 
 /** 
- * @param {NS} ns 
+ * @param { import("../../lib/NetscriptDefinition").NS } ns 
  */
 export async function getControlServers(ns) {
 	let hostnames = await getPersonalServers(ns);
@@ -60,7 +60,7 @@ export async function getControlServers(ns) {
 }
 
 /** 
- * @param {NS} ns 
+ * @param { import("../../lib/NetscriptDefinition").NS } ns 
  */
 export async function getWorkerServers(ns) {
 	let hostnames = await getPersonalServers(ns);
@@ -72,7 +72,7 @@ export async function getWorkerServers(ns) {
 }
 
 /** 
- * @param {NS} ns
+ * @param { import("../../lib/NetscriptDefinition").NS } ns
  * @param {string[]} hostnames
  * @param {number} depth
  */
@@ -83,7 +83,7 @@ export async function getCrackableHosts(ns, hostnames, depth) {
 	ns.disableLog("ALL");
 	
 	if (!hostnames || hostnames.length === 0) {
-		finalHostnames = await getHosts(ns, depth || 2);
+		finalHostnames = await getHosts(ns, depth || 10);
 	}
 
 	ns.print(`[discover] Checking crackability on hosts: ${crackableHosts}`);
@@ -102,7 +102,7 @@ export async function getCrackableHosts(ns, hostnames, depth) {
 }
 
 /** 
- * @param {NS} ns
+ * @param { import("../../lib/NetscriptDefinition").NS } ns
  * @param {string[]} hostnames
  * @param {number} depth
  */
@@ -113,7 +113,7 @@ export async function getCrackableHosts(ns, hostnames, depth) {
 	ns.disableLog("ALL");
 	
 	if (!hostnames || hostnames.length === 0) {
-		finalHostnames = await getHosts(ns, depth || 2);
+		finalHostnames = await getHosts(ns, depth || 10);
 	}
 
 	for (let i = 0; i < finalHostnames.length; i++) {
@@ -131,7 +131,7 @@ export async function getCrackableHosts(ns, hostnames, depth) {
 }
 
 /** 
- * @param {NS} ns
+ * @param { import("../../lib/NetscriptDefinition").NS } ns
  * @param {string[]} hostnames
  * @param {number} depth
  */
@@ -142,7 +142,7 @@ export async function getRootedHosts(ns, hostnames, depth) {
 	ns.disableLog("ALL");
 	
 	if (!hostnames || hostnames.length === 0) {
-		finalHostnames = await getHosts(ns, depth || 2);
+		finalHostnames = await getHosts(ns, depth || 10);
 	}
 
 	for (let i = 0; i < finalHostnames.length; i++) {
@@ -159,7 +159,7 @@ export async function getRootedHosts(ns, hostnames, depth) {
 }
 
 /** 
- * @param {NS} ns
+ * @param { import("../../lib/NetscriptDefinition").NS } ns
  * @param {string} hostname 
  * @param {number} maxDepth
  * @param {number} curDepth
@@ -188,7 +188,7 @@ async function scanHost(ns, hostname, maxDepth, curDepth) {
 }
 
 /** 
- * @param {NS} ns
+ * @param { import("../../lib/NetscriptDefinition").NS } ns
  * @param {string} hostname 
  */
 async function canCrack(ns, hostname) {
@@ -202,7 +202,7 @@ async function canCrack(ns, hostname) {
 	return level >= levelRequired && numPorts >= numPortsRequired;
 }
 
-/** @param {NS} ns */
+/** @param { import("../../lib/NetscriptDefinition").NS } ns */
 async function getNumPorts(ns) {
 	const availableOpeners = await getPortOpeners(ns);
 	return availableOpeners.length;

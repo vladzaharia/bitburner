@@ -1,14 +1,14 @@
 import { crackHost } from "/helpers/crack.js";
 import { getCrackableHosts, getRootedHosts } from "/helpers/discover.js";
 
-/** @param {NS} ns */
+/** @param { import("../../lib/NetscriptDefinition").NS } ns */
 export async function main(ns) {
-	const crackableHosts = await getCrackableHosts(ns, [], 10);
+	const crackableHosts = await getCrackableHosts(ns);
 
 	for (let i = 0; i < crackableHosts.length; i++) {
 		const hostname = crackableHosts[i];
 		await crackHost(ns, hostname);
 	}
 
-	await getRootedHosts(ns, crackableHosts, 10);
+	await getRootedHosts(ns, crackableHosts);
 }

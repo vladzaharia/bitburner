@@ -1,6 +1,6 @@
 import { hackWeakenGrow } from "/helpers/hack.js";
 
-/** @param {NS} ns */
+/** @param { import("../../lib/NetscriptDefinition").NS } ns */
 export async function main(ns) {
 	ns.disableLog("ALL");
 	ns.enableLog("hack");
