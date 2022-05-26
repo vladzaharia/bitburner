@@ -1,6 +1,9 @@
 const MONEY_PER_LEVEL = 29.248;
 const MONEY_PER_RAM = 0;
-const MONEY_PER_CORE = 413.965;
+const MONEY_PER_CORE = 427.464;
+
+// Amount of money dedicated to upgrades
+const MONEY_MULTIPLIER = 0.25;
 
 /** @param {NS} ns */
 export async function main(ns) {
@@ -10,18 +13,18 @@ export async function main(ns) {
 		const baseNode = hacknet.getNodeStats(0);
 		const numNodes = hacknet.numNodes();
 
-		const moneyAvail = ns.getServerMoneyAvailable("home");
+		const moneyAvail = ns.getServerMoneyAvailable("home") * MONEY_MULTIPLIER;
 
-		const levelCost = hacknet.getLevelUpgradeCost(0, 1) * numNodes;
-		const levelAdv = levelCost / MONEY_PER_LEVEL;
+		const levelCost = Math.ceil(hacknet.getLevelUpgradeCost(0, 1) * numNodes);
+		const levelAdv = Math.floor(levelCost / MONEY_PER_LEVEL);
 		ns.print(`[upgrade-hacknet] Level cost ${levelCost}, cost/benefit ${levelAdv}`);
 
-		const ramCost = hacknet.getRamUpgradeCost(0, 1) * numNodes;
-		const ramAdv = (ramCost === Infinity) ? 0 : (ramCost / MONEY_PER_LEVEL);
+		const ramCost = Math.ceil(hacknet.getRamUpgradeCost(0, 1) * numNodes);
+		const ramAdv = (ramCost === Infinity) ? 0 : Math.floor(ramCost / MONEY_PER_RAM);
 		ns.print(`[upgrade-hacknet] RAM cost ${ramCost}, cost/benefit ${ramAdv}`);
 
-		const coreCost = hacknet.getCoreUpgradeCost(0, 1) * numNodes;
-		const coreAdv = levelCost / MONEY_PER_CORE;
+		const coreCost = Math.ceil(hacknet.getCoreUpgradeCost(0, 1) * numNodes);
+		const coreAdv = Math.floor(levelCost / MONEY_PER_CORE);
 		ns.print(`[upgrade-hacknet] Core cost ${coreCost}, cost/benefit ${coreAdv}`);
 
 		if (levelAdv > ramAdv && levelAdv > coreAdv && levelCost < moneyAvail) {
@@ -35,6 +38,7 @@ export async function main(ns) {
 			upgradeOnAll(hacknet, hacknet.upgradeCore);
 		} else {
 			ns.print(`[upgrade-hacknet] Skipping upgrades`);
+            await ns.sleep(60 * 1000);
 		}
 
 		await ns.sleep(1000);
