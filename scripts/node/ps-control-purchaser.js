@@ -11,6 +11,8 @@ export async function main(ns) {
     ns.disableLog("ALL");
 
     while (true) {
+        ns.clearLog();
+
         let purchasedServers = ns.getPurchasedServers();
 
         // Determine worker RAM

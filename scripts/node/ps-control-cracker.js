@@ -7,6 +7,8 @@ export async function main(ns) {
 
     while (true) {
         const crackableHosts = await getCrackableHosts(ns);
+
+        ns.clearLog();
     
         for (let i = 0; i < crackableHosts.length; i++) {
             const hostname = crackableHosts[i];

@@ -3,9 +3,9 @@ import { exec } from "/helpers/exec.js";
 import { scp } from "/helpers/scp.js";
 
 const SCRIPTS = {
-    "/helpers/hack.js": 25,
+    "/helpers/hack.js": 50,
     "/helpers/weaken.js": 25,
-    "/helpers/grow.js": 50
+    "/helpers/grow.js": 25
 };
 const HOSTS_PER_POOL = 6;
 
@@ -17,6 +17,8 @@ export async function main(ns) {
     let pools = await getPools(ns);
 
     while (true) {
+        ns.clearLog();
+
         if (firstRun) {
             for (let i = 0; i < pools.length; i++) {
                 ns.print(`[ps-control-scheduler] Executing on pool ${i} with servers: ${pools[i]}`);
@@ -27,6 +29,8 @@ export async function main(ns) {
         } else {
             const newPools = await getPools(ns);
             const newNodes = getNewNodes(pools, newPools);
+
+            ns.clearLog();
 
             if (newNodes.length > 0) {
                 ns.print(`[ps-control-scheduler] Executing on new nodes: ${newNodes}`);
