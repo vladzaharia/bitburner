@@ -20,17 +20,30 @@ export async function main(ns) {
 			const moneyAvail = Math.floor(ns.getServerMoneyAvailable("home") * MONEY_MULTIPLIER);
 			ns.print(`[ps-control-hacknet] Available money ${moneyAvail}`);
 
+			const newNodeCost = Math.ceil(hacknet.getPurchaseNodeCost());
+			ns.print(`[ps-control-hacknet] New node cost ${newNodeCost}`);
+
 			const levelCost = Math.ceil(hacknet.getLevelUpgradeCost(0, 1) * numNodes);
-			const levelAdv = Math.floor(levelCost / MONEY_PER_LEVEL);
+			const levelAdv = (levelCost === Infinity) ? Infinity : Math.floor(levelCost / MONEY_PER_LEVEL);
 			ns.print(`[ps-control-hacknet] Level cost ${levelCost}, cost/benefit ${levelAdv}`);
 
 			const ramCost = Math.ceil(hacknet.getRamUpgradeCost(0, 1) * numNodes);
-			const ramAdv = (ramCost === Infinity) ? 0 : Math.floor(ramCost / MONEY_PER_RAM);
+			const ramAdv = (ramCost === Infinity) ? Infinity : Math.floor(ramCost / MONEY_PER_RAM);
 			ns.print(`[ps-control-hacknet] RAM cost ${ramCost}, cost/benefit ${ramAdv}`);
 
 			const coreCost = Math.ceil(hacknet.getCoreUpgradeCost(0, 1) * numNodes);
 			const coreAdv = Math.floor(coreCost / MONEY_PER_CORE);
 			ns.print(`[ps-control-hacknet] Core cost ${coreCost}, cost/benefit ${coreAdv}`);
+
+			const baseNode = hacknet.getNodeStats(0);
+			for (let i = 0; i < numNodes; i++) {
+				const node = hacknet.getNodeStats(i);
+
+				if (node.production < baseNode.production) {
+					upgradeToBaseline(ns, hacknet, i);
+					await ns.sleep(1000);
+				}
+			}
 
 			if (shouldSkip(ns, moneyAvail, coreCost, levelAdv, coreAdv) || shouldSkip(ns, moneyAvail, coreCost, ramAdv, coreAdv)) {
 				if (shouldSkip(ns, moneyAvail, ramCost, levelAdv, ramAdv)) {
@@ -38,22 +51,24 @@ export async function main(ns) {
 						ns.print(`[ps-control-hacknet] Upgrading level`);
 						upgradeOnAll(hacknet, hacknet.upgradeLevel);
 					} else {
-						ns.print(`[ps-control-hacknet] Skipping upgrades, sleeping for 5min`);
+						ns.print(`[ps-control-hacknet] Skipping upgrades, sleeping for 5min at ${new Date().toTimeString()}`);
 						await ns.sleep(5 * 60 * 1000);		
 					}
 				} else {
 					ns.print(`[ps-control-hacknet] Upgrading RAM`);
 					upgradeOnAll(hacknet, hacknet.upgradeRam);
 				}
+			} else if (newNodeCost < moneyAvail && hacknet.numNodes < hacknet.maxNumNodes) {
+				ns.print(`[ps-control-hacknet] Buying new node`);
+				hacknet.purchaseNode();
 			} else {
 				ns.print(`[ps-control-hacknet] Upgrading cores`);
 				upgradeOnAll(hacknet, hacknet.upgradeCore);
 			}
 
 			await ns.sleep(1000);
-
 		} else {
-			ns.print("[ps-control-hacknet] Found file /flags/SKIP_HACKNET.js, sleeping for 1min");
+			ns.print(`[ps-control-hacknet] Found file /flags/SKIP_HACKNET.js, sleeping for 1min at ${new Date().toTimeString()}`);
 			await ns.sleep(60 * 1000);
 		}
 	}
@@ -84,8 +99,32 @@ function upgradeOnAll(hacknet, fn) {
 	for (let i = 0; i < numNodes; i++) {
 		fn(i, 1);
 	}
-
 }
+
+/** 
+ * @param  { import("../../lib/NetscriptDefinition").Hacknet } hacknet 
+ * @param {number} index
+ */
+function upgradeToBaseline(ns, hacknet, index) {
+	ns.print(`[ps-control-hacknet] Upgrading ${index} to baseline stats`);
+
+	const baseNode = hacknet.getNodeStats(0);
+	const node = hacknet.getNodeStats(index);
+
+	if (node.level < baseNode.level) {
+		ns.print(`[ps-control-hacknet] Upgrading level ${node.level} -> ${baseNode.level}`);
+		hacknet.upgradeLevel(index, baseNode.level - node.level);
+	}
+	if (node.ram < baseNode.ram) {
+		ns.print(`[ps-control-hacknet] Upgrading RAM ${node.ram} -> ${baseNode.ram}`);
+		hacknet.upgradeRam(index, baseNode.ram - node.ram);
+	}
+	if (node.cores < baseNode.cores) {
+		ns.print(`[ps-control-hacknet] Upgrading cores ${node.cores} -> ${baseNode.cores}`);
+		hacknet.upgradeCore(index, baseNode.cores - node.cores);
+	}
+}
+
 
 // /** 
 //  * @param {Hacknet} hacknet 

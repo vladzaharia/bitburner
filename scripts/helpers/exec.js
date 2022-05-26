@@ -19,6 +19,6 @@ export async function main(ns) {
         threads = Math.floor(ns.getServerMaxRam(hostname) / ns.getScriptRam(filename));
     }
 
-    ns.print(`[scp-exec] Executing ${filename} on ${hostname} with threads: ${threads}, args: ${args}`);
+    ns.print(`[exec] Executing ${filename} on ${hostname} with threads: ${threads}, args: ${args}`);
     await ns.exec(filename, hostname, threads, ... args);
 }

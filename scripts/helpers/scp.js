@@ -15,6 +15,6 @@ export async function main(ns) {
  export async function scp(ns, hostname, filename) {
     const additionalFiles = ns.ls("home").filter((file) => file.startsWith("/helpers") || file.startsWith("/node"));
 
-    ns.print(`[scp-exec] Copying helper scripts and ${filename} to ${hostname}`);
+    ns.print(`[scp] Copying helper scripts and ${filename} to ${hostname}`);
     await ns.scp([filename, ... additionalFiles], hostname);
 }
