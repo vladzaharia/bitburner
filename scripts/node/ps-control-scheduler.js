@@ -1,4 +1,4 @@
-import { getRootedHosts, getWorkerServers } from "/helpers/discover.js";
+import { getHackableHosts, getRootedHosts, getWorkerServers } from "/helpers/discover.js";
 import { exec } from "/helpers/exec.js";
 import { scp } from "/helpers/scp.js";
 
@@ -115,7 +115,7 @@ function splitWorkers(ns, hostnames) {
 }
 
 async function executeOnPool(ns, hostnames) {
-	const args = await getRootedHosts(ns);
+	const args = await getHackableHosts(ns);
     let finalScripts = { ... SCRIPTS };
     const scriptKeys = Object.keys(finalScripts);
 
@@ -132,7 +132,7 @@ async function executeOnPool(ns, hostnames) {
                 const scriptWeightPct = finalScripts[filename] / Object.values(finalScripts).reduce((n, t) => n + t, 0);
                 const threads = Math.floor((ramAvail / ns.getScriptRam(filename)) * scriptWeightPct);
                 let fnArgs = args.slice();
-                fnArgs = fnArgs.filter((hn, k) => k % hostnames.length === i % hostnames.length);
+                fnArgs = fnArgs.filter((hn, k) => k % hostnames.length === i % hostnames.length && hn !== hostname);
 
                 ns.print(`[ps-control-scheduler] Executing ${filename} on ${hostname} with ${scriptWeightPct * 100}% threads`);
                 await scp(ns, hostname, filename);
