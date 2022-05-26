@@ -1,7 +1,7 @@
-const PRICE_PER_GB = 55000;
+const PRICE_PER_GB = 55000 * 25;
 const CONTROL_SERVERS = ["purchaser",  "hacknet", "cracker", "scheduler"];
 let RAM = 8;
-const WORKERS_PER_POOL = 6;
+const WORKERS_PER_POOL = 8;
 
 // Amount of money dedicated to servers
 const MONEY_MULTIPLIER = 0.50;
@@ -20,31 +20,13 @@ export async function main(ns) {
             const availMoney = Math.floor(ns.getServerMoneyAvailable("home") * MONEY_MULTIPLIER);
             ns.print(`[ps-control-purchaser] Available money ${availMoney}`);
 
-            if (availMoney > 1000000000 && RAM < 64) {
-                RAM = 512;
-                ns.print(`[ps-control-purchaser] Setting RAM to ${RAM} and selling servers`);
-                await sellWorkerServers(ns, purchasedServers);
-            } else if (availMoney > 500000000 && RAM < 64) {
-                RAM = 256;
-                ns.print(`[ps-control-purchaser] Setting RAM to ${RAM} and selling servers`);
-                await sellWorkerServers(ns, purchasedServers);
-            } else if (availMoney > 125000000 && RAM < 64) {
-                RAM = 128;
-                ns.print(`[ps-control-purchaser] Setting RAM to ${RAM} and selling servers`);
-                await sellWorkerServers(ns, purchasedServers);
-            } else if (availMoney > 50000000 && RAM < 64) {
-                RAM = 64;
-                ns.print(`[ps-control-purchaser] Setting RAM to ${RAM} and selling servers`);
-                await sellWorkerServers(ns, purchasedServers);
-            } else if (availMoney > 25000000 && RAM < 32) {
-                RAM = 32;
-                ns.print(`[ps-control-purchaser] Setting RAM to ${RAM} and selling servers`);
-                await sellWorkerServers(ns, purchasedServers);
-            } else if (availMoney > 10000000 && RAM < 16) {
-                RAM = 16;
-                ns.print(`[ps-control-purchaser] Setting RAM to ${RAM} and selling servers`);
-                await sellWorkerServers(ns, purchasedServers);
-            } 
+            // Check for upgrades from 16 - 512GB
+            await checkForUpgrade(ns, availMoney, 512, purchasedServers);
+            await checkForUpgrade(ns, availMoney, 256, purchasedServers);
+            await checkForUpgrade(ns, availMoney, 128, purchasedServers);
+            await checkForUpgrade(ns, availMoney, 64, purchasedServers);
+            await checkForUpgrade(ns, availMoney, 32, purchasedServers);
+            await checkForUpgrade(ns, availMoney, 16, purchasedServers);
             
             let i = purchasedServers.length; // Total purchased servers
             let j = 0; // Worker pool
@@ -98,13 +80,28 @@ export async function main(ns) {
                 }
             }
 
-            ns.print(`[ps-control-purchaser] At max personal servers (${max}), sleeping for 1hr`);
-            await ns.sleep(60 * 60 * 1000);
+            ns.print(`[ps-control-purchaser] At max personal servers (${max}), sleeping for 30min at ${new Date().toTimeString()}`);
+            await ns.sleep(30 * 60 * 1000);
         } else {
-            ns.print("[ps-control-watcher] Found file /flags/SKIP_PURCHASER.js, sleeping for 1min");
+            ns.print(`[ps-control-watcher] Found file /flags/SKIP_PURCHASER.js, sleeping for 1min at ${new Date().toTimeString()}`);
             await ns.sleep(60 * 1000);
         }
     }
+}
+
+/**
+ * @param { import("../../lib/NetscriptDefinition").NS } ns
+ * @param {number} ram
+ * @param {string[]} purchasedServers
+ */
+async function checkForUpgrade(ns, availMoney, ram, purchasedServers) {
+    ns.print(`[ps-control-purchaser] Checking for ${ram}GB upgrade, ${PRICE_PER_GB * ram} < ${availMoney} && ${RAM} < ${ram}`);
+
+    if ((PRICE_PER_GB * ram) < availMoney && RAM < ram) {
+        RAM = ram;
+        ns.print(`[ps-control-purchaser] Setting RAM to ${ram} and selling servers`);
+        await sellWorkerServers(ns, purchasedServers);
+    } 
 }
 
 /**
@@ -135,6 +132,10 @@ async function purchaseServer(ns, ram, type, name) {
  * @param {string[]} allServers
  */
 async function sellWorkerServers(ns, allServers) {
+    if (!allServers || allServers.length === 0) {
+        return;
+    }
+
     const purchasedWorkers = allServers.filter((hn) => hn.startsWith("pserv") || hn.startsWith("ps-worker"));
 
     if (ns.getServerMaxRam(purchasedWorkers[0]) < RAM) {
