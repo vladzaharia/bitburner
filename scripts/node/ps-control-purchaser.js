@@ -116,7 +116,7 @@ async function purchaseServer(ns, ram, type, name) {
 async function sellWorkerServers(ns, allServers) {
     const purchasedWorkers = allServers.filter((hn) => hn.startsWith("pserv") || hn.startsWith("ps-worker"));
 
-    if (ns.getServerMaxRam(purchasedWorkers[0]) !== RAM) {
+    if (ns.getServerMaxRam(purchasedWorkers[0]) < RAM) {
         for (let i = 0; i < purchasedWorkers.length; i++) {
             await sellServer(ns, purchasedWorkers[i]);
         }
