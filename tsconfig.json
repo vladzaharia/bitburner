@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+        "target": "ES2021",
+        "module": "ES2020",
+        "rootDir": "src/",
+        "baseUrl": "src/",
+        "paths": {
+            "/lib/*": [
+                "lib/*"
+            ]
+        },
+        "outDir": "out/",
+        "moduleResolution": "node",
+        "strictNullChecks": true,
+        "strictPropertyInitialization": true
+    }
+}

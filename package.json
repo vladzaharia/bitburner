@@ -1,0 +1,14 @@
+{
+    "name": "bitburner-scripts",
+    "author": {
+        "name": "Vlad Zaharia",
+        "email": "hey@vlad.gg"
+    },
+    "scripts": {
+      "build": "npm run clean && tsc -p tsconfig.json",
+      "clean": "rm -rf out/*"
+    },
+    "dependencies": {
+      "typescript": "^4.7.2"
+    }
+  }

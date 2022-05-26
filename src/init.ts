@@ -1,5 +1,7 @@
-/** @param { import("../src/lib/NetscriptDefinition").NS } ns */
-export async function main(ns) {
+import { NS } from "Netscript";
+
+/** @param { NS } ns */
+export async function main(ns: NS) {
     ns.disableLog("ALL");
 
     const files = ns.ls("home").filter((file) => file.startsWith("/node"));
