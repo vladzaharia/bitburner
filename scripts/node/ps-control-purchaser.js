@@ -13,92 +13,97 @@ export async function main(ns) {
     while (true) {
         ns.clearLog();
 
-        let purchasedServers = ns.getPurchasedServers();
+        if (!ns.fileExists("/flags/SKIP_PURCHASER.js", "home")) {
+            let purchasedServers = ns.getPurchasedServers();
 
-        // Determine worker RAM
-        const availMoney = Math.floor(ns.getServerMoneyAvailable("home") * MONEY_MULTIPLIER);
-        ns.print(`[ps-control-purchaser] Available money ${availMoney}`);
+            // Determine worker RAM
+            const availMoney = Math.floor(ns.getServerMoneyAvailable("home") * MONEY_MULTIPLIER);
+            ns.print(`[ps-control-purchaser] Available money ${availMoney}`);
 
-        if (availMoney > 1000000000 && RAM < 64) {
-            RAM = 512;
-            ns.print(`[ps-control-purchaser] Setting RAM to ${RAM} and selling servers`);
-            await sellWorkerServers(ns, purchasedServers);
-        } else if (availMoney > 500000000 && RAM < 64) {
-            RAM = 256;
-            ns.print(`[ps-control-purchaser] Setting RAM to ${RAM} and selling servers`);
-            await sellWorkerServers(ns, purchasedServers);
-        } else if (availMoney > 125000000 && RAM < 64) {
-            RAM = 128;
-            ns.print(`[ps-control-purchaser] Setting RAM to ${RAM} and selling servers`);
-            await sellWorkerServers(ns, purchasedServers);
-        } else if (availMoney > 50000000 && RAM < 64) {
-            RAM = 64;
-            ns.print(`[ps-control-purchaser] Setting RAM to ${RAM} and selling servers`);
-            await sellWorkerServers(ns, purchasedServers);
-        } else if (availMoney > 25000000 && RAM < 32) {
-            RAM = 32;
-            ns.print(`[ps-control-purchaser] Setting RAM to ${RAM} and selling servers`);
-            await sellWorkerServers(ns, purchasedServers);
-        } else if (availMoney > 10000000 && RAM < 16) {
-            RAM = 16;
-            ns.print(`[ps-control-purchaser] Setting RAM to ${RAM} and selling servers`);
-            await sellWorkerServers(ns, purchasedServers);
-        } 
-        
-        let i = purchasedServers.length; // Total purchased servers
-        let j = 0; // Worker pool
-        let k = 0; // Server in pool
-        let max = ns.getPurchasedServerLimit();
-
-        ns.print(`[ps-control-purchaser] Purchased servers ${i}/${max}: ${purchasedServers}`)
-
-        // Determine j, k
-        if (i > 0) {
-            const regex = /^ps-worker(\d)-(\d)$/;
-            const latestServer = purchasedServers[purchasedServers.length - 1];
-            ns.print(`[ps-control-purchaser] Checking latest server ${latestServer}`)
-
-            const match = latestServer.match(regex);
+            if (availMoney > 1000000000 && RAM < 64) {
+                RAM = 512;
+                ns.print(`[ps-control-purchaser] Setting RAM to ${RAM} and selling servers`);
+                await sellWorkerServers(ns, purchasedServers);
+            } else if (availMoney > 500000000 && RAM < 64) {
+                RAM = 256;
+                ns.print(`[ps-control-purchaser] Setting RAM to ${RAM} and selling servers`);
+                await sellWorkerServers(ns, purchasedServers);
+            } else if (availMoney > 125000000 && RAM < 64) {
+                RAM = 128;
+                ns.print(`[ps-control-purchaser] Setting RAM to ${RAM} and selling servers`);
+                await sellWorkerServers(ns, purchasedServers);
+            } else if (availMoney > 50000000 && RAM < 64) {
+                RAM = 64;
+                ns.print(`[ps-control-purchaser] Setting RAM to ${RAM} and selling servers`);
+                await sellWorkerServers(ns, purchasedServers);
+            } else if (availMoney > 25000000 && RAM < 32) {
+                RAM = 32;
+                ns.print(`[ps-control-purchaser] Setting RAM to ${RAM} and selling servers`);
+                await sellWorkerServers(ns, purchasedServers);
+            } else if (availMoney > 10000000 && RAM < 16) {
+                RAM = 16;
+                ns.print(`[ps-control-purchaser] Setting RAM to ${RAM} and selling servers`);
+                await sellWorkerServers(ns, purchasedServers);
+            } 
             
-            j = parseInt(match[1], 10);
-            k = parseInt(match[2], 10) + 1;
-        }
+            let i = purchasedServers.length; // Total purchased servers
+            let j = 0; // Worker pool
+            let k = 0; // Server in pool
+            let max = ns.getPurchasedServerLimit();
 
-        while (i < max) {
-            // // Ensure Control servers are purchased
-            // for (let j = 0; j < CONTROL_SERVERS.length; j++) {
-            //     if (purchasedServers.indexOf("ps-control-"+CONTROL_SERVERS[j]) === -1) {
-            //         let ram = 8;
-            //         if (CONTROL_SERVERS[j] === "purchaser") {
-            //             ram = 16
-            //         }
+            ns.print(`[ps-control-purchaser] Purchased servers ${i}/${max}: ${purchasedServers}`)
 
-            //         await purchaseServer(ns, ram, "control", CONTROL_SERVERS[j]);
-            //     }
-            // }
+            // Determine j, k
+            if (i > 0) {
+                const regex = /^ps-worker(\d)-(\d)$/;
+                const latestServer = purchasedServers[purchasedServers.length - 1];
+                ns.print(`[ps-control-purchaser] Checking latest server ${latestServer}`)
 
-            // Check if last node in pool
-            if (k >= WORKERS_PER_POOL) {
-                k = 0;
-                j++;
+                const match = latestServer.match(regex);
+                
+                j = parseInt(match[1], 10);
+                k = parseInt(match[2], 10) + 1;
             }
 
-            // Purchase a worker node
-            const purchased = await purchaseServer(ns, RAM, `worker${j}`, k);
+            while (i < max) {
+                // // Ensure Control servers are purchased
+                // for (let j = 0; j < CONTROL_SERVERS.length; j++) {
+                //     if (purchasedServers.indexOf("ps-control-"+CONTROL_SERVERS[j]) === -1) {
+                //         let ram = 8;
+                //         if (CONTROL_SERVERS[j] === "purchaser") {
+                //             ram = 16
+                //         }
 
-            if (purchased) {
-                purchasedServers = ns.getPurchasedServers();
-                i = purchasedServers.length;
-                k++;
+                //         await purchaseServer(ns, ram, "control", CONTROL_SERVERS[j]);
+                //     }
+                // }
 
-                await ns.sleep(1000);
-            } else {
-                await ns.sleep(5 * 60 * 1000);
+                // Check if last node in pool
+                if (k >= WORKERS_PER_POOL) {
+                    k = 0;
+                    j++;
+                }
+
+                // Purchase a worker node
+                const purchased = await purchaseServer(ns, RAM, `worker${j}`, k);
+
+                if (purchased) {
+                    purchasedServers = ns.getPurchasedServers();
+                    i = purchasedServers.length;
+                    k++;
+
+                    await ns.sleep(1000);
+                } else {
+                    await ns.sleep(5 * 60 * 1000);
+                }
             }
-        }
 
-        ns.print(`[ps-control-purchaser] At max personal servers (${max})`);
-        await ns.sleep(60 * 60 * 1000);
+            ns.print(`[ps-control-purchaser] At max personal servers (${max}), sleeping for 1hr`);
+            await ns.sleep(60 * 60 * 1000);
+        } else {
+            ns.print("[ps-control-watcher] Found file /flags/SKIP_PURCHASER.js, sleeping for 1min");
+            await ns.sleep(60 * 1000);
+        }
     }
 }
 

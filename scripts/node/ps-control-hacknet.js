@@ -14,42 +14,48 @@ export async function main(ns) {
 	while (true) {
 		ns.clearLog();
 
-		const numNodes = hacknet.numNodes();
+        if (!ns.fileExists("/flags/SKIP_HACKNET.js", "home")) {
+			const numNodes = hacknet.numNodes();
 
-		const moneyAvail = Math.floor(ns.getServerMoneyAvailable("home") * MONEY_MULTIPLIER);
-        ns.print(`[ps-control-hacknet] Available money ${moneyAvail}`);
+			const moneyAvail = Math.floor(ns.getServerMoneyAvailable("home") * MONEY_MULTIPLIER);
+			ns.print(`[ps-control-hacknet] Available money ${moneyAvail}`);
 
-		const levelCost = Math.ceil(hacknet.getLevelUpgradeCost(0, 1) * numNodes);
-		const levelAdv = Math.floor(levelCost / MONEY_PER_LEVEL);
-		ns.print(`[ps-control-hacknet] Level cost ${levelCost}, cost/benefit ${levelAdv}`);
+			const levelCost = Math.ceil(hacknet.getLevelUpgradeCost(0, 1) * numNodes);
+			const levelAdv = Math.floor(levelCost / MONEY_PER_LEVEL);
+			ns.print(`[ps-control-hacknet] Level cost ${levelCost}, cost/benefit ${levelAdv}`);
 
-		const ramCost = Math.ceil(hacknet.getRamUpgradeCost(0, 1) * numNodes);
-		const ramAdv = (ramCost === Infinity) ? 0 : Math.floor(ramCost / MONEY_PER_RAM);
-		ns.print(`[ps-control-hacknet] RAM cost ${ramCost}, cost/benefit ${ramAdv}`);
+			const ramCost = Math.ceil(hacknet.getRamUpgradeCost(0, 1) * numNodes);
+			const ramAdv = (ramCost === Infinity) ? 0 : Math.floor(ramCost / MONEY_PER_RAM);
+			ns.print(`[ps-control-hacknet] RAM cost ${ramCost}, cost/benefit ${ramAdv}`);
 
-		const coreCost = Math.ceil(hacknet.getCoreUpgradeCost(0, 1) * numNodes);
-		const coreAdv = Math.floor(coreCost / MONEY_PER_CORE);
-		ns.print(`[ps-control-hacknet] Core cost ${coreCost}, cost/benefit ${coreAdv}`);
+			const coreCost = Math.ceil(hacknet.getCoreUpgradeCost(0, 1) * numNodes);
+			const coreAdv = Math.floor(coreCost / MONEY_PER_CORE);
+			ns.print(`[ps-control-hacknet] Core cost ${coreCost}, cost/benefit ${coreAdv}`);
 
-		if (shouldSkip(ns, moneyAvail, coreCost, levelAdv, coreAdv) || shouldSkip(ns, moneyAvail, coreCost, ramAdv, coreAdv)) {
-			if (shouldSkip(ns, moneyAvail, ramCost, levelAdv, ramAdv)) {
-				if (levelCost < moneyAvail) {
-					ns.print(`[ps-control-hacknet] Upgrading level`);
-					upgradeOnAll(hacknet, hacknet.upgradeLevel);
+			if (shouldSkip(ns, moneyAvail, coreCost, levelAdv, coreAdv) || shouldSkip(ns, moneyAvail, coreCost, ramAdv, coreAdv)) {
+				if (shouldSkip(ns, moneyAvail, ramCost, levelAdv, ramAdv)) {
+					if (levelCost < moneyAvail) {
+						ns.print(`[ps-control-hacknet] Upgrading level`);
+						upgradeOnAll(hacknet, hacknet.upgradeLevel);
+					} else {
+						ns.print(`[ps-control-hacknet] Skipping upgrades, sleeping for 5min`);
+						await ns.sleep(5 * 60 * 1000);		
+					}
 				} else {
-					ns.print(`[ps-control-hacknet] Skipping upgrades`);
-					await ns.sleep(5 * 60 * 1000);		
+					ns.print(`[ps-control-hacknet] Upgrading RAM`);
+					upgradeOnAll(hacknet, hacknet.upgradeRam);
 				}
 			} else {
-				ns.print(`[ps-control-hacknet] Upgrading RAM`);
-				upgradeOnAll(hacknet, hacknet.upgradeRam);
+				ns.print(`[ps-control-hacknet] Upgrading cores`);
+				upgradeOnAll(hacknet, hacknet.upgradeCore);
 			}
-		} else {
-			ns.print(`[ps-control-hacknet] Upgrading cores`);
-			upgradeOnAll(hacknet, hacknet.upgradeCore);
-		}
 
-		await ns.sleep(1000);
+			await ns.sleep(1000);
+
+		} else {
+			ns.print("[ps-control-hacknet] Found file /flags/SKIP_HACKNET.js, sleeping for 1min");
+			await ns.sleep(60 * 1000);
+		}
 	}
 }
 

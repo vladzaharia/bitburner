@@ -6,18 +6,26 @@ export async function main(ns) {
     ns.disableLog("ALL");
 
     while (true) {
-        const crackableHosts = await getCrackableHosts(ns);
-
         ns.clearLog();
-    
-        for (let i = 0; i < crackableHosts.length; i++) {
-            const hostname = crackableHosts[i];
-            await crackHost(ns, hostname);
-        }
-    
-        await getRootedHosts(ns, crackableHosts);
 
-        ns.print("[ps-control-cracker] Finished cracking nodes");
-        await ns.sleep(15 * 60 * 1000);
+        if (!ns.fileExists("/flags/SKIP_CRACKER.js", "home")) {
+            const crackableHosts = await getCrackableHosts(ns);
+
+            ns.clearLog();
+        
+            for (let i = 0; i < crackableHosts.length; i++) {
+                const hostname = crackableHosts[i];
+                await crackHost(ns, hostname);
+            }
+        
+            await getRootedHosts(ns, crackableHosts);
+
+            ns.print("[ps-control-cracker] Finished cracking nodes, sleeping for 15min");
+            await ns.sleep(15 * 60 * 1000);
+        } else {
+            ns.print("[ps-control-cracker] Found file /flags/SKIP_CRACKER.js, sleeping for 1min");
+            await ns.sleep(60 * 1000);
+        }
+        
     }
 }
