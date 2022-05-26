@@ -1,16 +1,19 @@
 import { getRootedHosts, getWorkerServers } from "/helpers/discover.js";
-import { exec, scp } from "/tools/scp-exec.js";
+import { exec } from "/helpers/exec.js";
+import { scp } from "/helpers/scp.js";
 
 const SCRIPTS = {
-    "/helpers/hack.js": 50,
+    "/helpers/hack.js": 25,
     "/helpers/weaken.js": 25,
-    "/helpers/grow.js": 25
+    "/helpers/grow.js": 50
 };
 const HOSTS_PER_POOL = 6;
 
 /** @param { import("../../lib/NetscriptDefinition").NS } ns */
 export async function main(ns) {
-    const firstRun = true;
+    ns.disableLog("ALL");
+
+    let firstRun = true;
     let pools = await getPools(ns);
 
     while (true) {
@@ -19,6 +22,8 @@ export async function main(ns) {
                 ns.print(`[ps-control-scheduler] Executing on pool ${i} with servers: ${pools[i]}`);
                 await executeOnPool(ns, pools[i]);
             }
+
+            firstRun = true;
         } else {
             const newPools = await getPools(ns);
             const newNodes = getNewNodes(pools, newPools);
@@ -30,6 +35,9 @@ export async function main(ns) {
                 ns.print("No new nodes found");
             }
         }
+
+        ns.print(`[ps-control-scheduler] Finished scheduling nodes`);
+        await ns.sleep(60 * 60 * 1000);
     }
 }
 

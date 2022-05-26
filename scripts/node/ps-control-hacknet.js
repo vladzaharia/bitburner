@@ -3,17 +3,19 @@ const MONEY_PER_RAM = 0;
 const MONEY_PER_CORE = 427.464;
 
 // Amount of money dedicated to upgrades
-const MONEY_MULTIPLIER = 0.25;
+const MONEY_MULTIPLIER = 0.05;
 
 /** @param { import("../../lib/NetscriptDefinition").NS } ns */
 export async function main(ns) {
+    ns.disableLog("ALL");
+
 	const hacknet = ns.hacknet;
 
 	while (true) {
-		const baseNode = hacknet.getNodeStats(0);
 		const numNodes = hacknet.numNodes();
 
-		const moneyAvail = ns.getServerMoneyAvailable("home") * MONEY_MULTIPLIER;
+		const moneyAvail = Math.floor(ns.getServerMoneyAvailable("home") * MONEY_MULTIPLIER);
+        ns.print(`[ps-control-hacknet] Available money ${moneyAvail}`);
 
 		const levelCost = Math.ceil(hacknet.getLevelUpgradeCost(0, 1) * numNodes);
 		const levelAdv = Math.floor(levelCost / MONEY_PER_LEVEL);
@@ -38,7 +40,7 @@ export async function main(ns) {
 			upgradeOnAll(hacknet, hacknet.upgradeCore);
 		} else {
 			ns.print(`[ps-control-hacknet] Skipping upgrades`);
-            await ns.sleep(60 * 1000);
+            await ns.sleep(15 * 60 * 1000);
 		}
 
 		await ns.sleep(1000);

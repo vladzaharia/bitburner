@@ -8,11 +8,14 @@ const MONEY_MULTIPLIER = 0.50;
 
 /** @param { import("../../lib/NetscriptDefinition").NS } ns */
 export async function main(ns) {
+    ns.disableLog("ALL");
+
     while (true) {
         let purchasedServers = ns.getPurchasedServers();
 
         // Determine worker RAM
         const availMoney = Math.floor(ns.getServerMoneyAvailable("home") * MONEY_MULTIPLIER);
+        ns.print(`[ps-control-purchaser] Available money ${availMoney}`);
 
         if (availMoney > 1000000000 && RAM < 64) {
             RAM = 512;
@@ -45,7 +48,7 @@ export async function main(ns) {
         let k = 0; // Server in pool
         let max = ns.getPurchasedServerLimit();
 
-        ns.print(`[ps-control-purchaser] Purchased servers ${i}/${max}: ${purchasedServers}`)
+        ns.print(`[ps-control-purchaser] Purchased servers ${i}/${max}`)
 
         while (i < max) {
             // Ensure Control servers are purchased
@@ -76,11 +79,11 @@ export async function main(ns) {
 
                 await ns.sleep(1000);
             } else {
-                await ns.sleep(60 * 1000);
+                await ns.sleep(15 * 60 * 1000);
             }
         }
 
-        ns.print(`[ps-control-purchaser] At max personal servers (${max}): ${purchasedServers}`);
+        ns.print(`[ps-control-purchaser] At max personal servers (${max})`);
         await ns.sleep(60 * 60 * 1000);
     }
 }
@@ -113,7 +116,7 @@ async function purchaseServer(ns, ram, type, name) {
 async function sellWorkerServers(ns, allServers) {
     const purchasedWorkers = allServers.filter((hn) => hn.startsWith("pserv") || hn.startsWith("ps-worker"));
 
-    if (ns.getServerMaxRam(purchasedWorkers[i]) !== RAM) {
+    if (ns.getServerMaxRam(purchasedWorkers[0]) !== RAM) {
         for (let i = 0; i < purchasedWorkers.length; i++) {
             await sellServer(ns, purchasedWorkers[i]);
         }
