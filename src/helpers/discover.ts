@@ -80,12 +80,12 @@ export async function getWorkerServers(ns: NS): Promise<string[]> {
  * @param {string[]} hostnames
  * @param {number} depth
  */
-export async function getCrackableHosts(ns: NS, hostnames: string[], depth: number): Promise<string[]> {
-	let finalHostnames = hostnames;
+export async function getCrackableHosts(ns: NS, hostnames?: string[], depth?: number): Promise<string[]> {
+	let finalHostnames: string[] = hostnames as string[];
 	const crackableHosts: string[] = [];
 
 	ns.disableLog("ALL");
-	
+
 	if (!hostnames || hostnames.length === 0) {
 		finalHostnames = await getHosts(ns, depth || 10);
 	}
@@ -110,12 +110,12 @@ export async function getCrackableHosts(ns: NS, hostnames: string[], depth: numb
  * @param {string[]} hostnames
  * @param {number} depth
  */
- export async function getHackableHosts(ns: NS, hostnames: string[], depth: number): Promise<string[]> {
-	let finalHostnames = hostnames;
+export async function getHackableHosts(ns: NS, hostnames?: string[], depth?: number): Promise<string[]> {
+	let finalHostnames = hostnames as string[];
 	const rootedHosts: string[] = [];
 
 	ns.disableLog("ALL");
-	
+
 	if (!hostnames || hostnames.length === 0) {
 		finalHostnames = await getHosts(ns, depth || 10);
 	}
@@ -139,12 +139,12 @@ export async function getCrackableHosts(ns: NS, hostnames: string[], depth: numb
  * @param {string[]} hostnames
  * @param {number} depth
  */
-export async function getRootedHosts(ns: NS, hostnames: string[], depth: number): Promise<string[]> {
-	let finalHostnames = hostnames;
+export async function getRootedHosts(ns: NS, hostnames?: string[], depth?: number): Promise<string[]> {
+	let finalHostnames = hostnames as string[];
 	const rootedHosts: string[] = [];
 
 	ns.disableLog("ALL");
-	
+
 	if (!hostnames || hostnames.length === 0) {
 		finalHostnames = await getHosts(ns, depth || 10);
 	}
@@ -170,7 +170,7 @@ export async function getRootedHosts(ns: NS, hostnames: string[], depth: number)
  */
 async function scanHost(ns: NS, hostname: string, maxDepth: number, curDepth: number): Promise<string[]> {
 	ns.print(`[discover] Scanning ${hostname}, depth ${curDepth}/${maxDepth}`);
-	
+
 	let hostnames = await ns.scan(hostname);
 	foundHosts.push(hostname);
 

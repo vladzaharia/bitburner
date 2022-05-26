@@ -1,5 +1,4 @@
 import { NS } from "Netscript";
-
 import { grow } from "/helpers/grow.js";
 import { hack } from "/helpers/hack.js";
 import { weaken } from "/helpers/weaken.js";

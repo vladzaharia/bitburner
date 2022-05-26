@@ -2,5 +2,6 @@
     "bitburner.authToken": "XWqnxrsudEtg3I5h8QGwYZHQqJlqnaz8UaFxJVcy8fwkRgNz4E63pDbhuarFTC4f",
     "bitburner.fileWatcher.enable": true,
     "bitburner.scriptRoot": "./scripts",
-    "bitburner.showPushSuccessNotification": true
+    "bitburner.showPushSuccessNotification": true,
+    "typescript.tsdk": "node_modules/typescript/lib"
 }
