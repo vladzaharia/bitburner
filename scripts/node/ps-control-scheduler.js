@@ -3,31 +3,33 @@ import { exec } from "/helpers/exec.js";
 import { scp } from "/helpers/scp.js";
 
 const SCRIPTS = {
-    "/helpers/hack.js": 50,
+    "/helpers/hack.js": 25,
     "/helpers/weaken.js": 25,
-    "/helpers/grow.js": 25
+    "/helpers/grow.js": 50
 };
-const HOSTS_PER_POOL = 6;
+const HOSTS_PER_POOL = 8;
+const MIN_SERVER_MONEY_PCT = 0.5;
 
 /** @param { import("../../lib/NetscriptDefinition").NS } ns */
 export async function main(ns) {
     ns.disableLog("ALL");
 
-    let pools = await getPools(ns);
-
     while (true) {
+        const pools = await getPools(ns);
+        const args = await getHackableHosts(ns);
+
         ns.clearLog();
 
         if (!ns.fileExists("/flags/SKIP_SCHEDULER.js", "home")) {
             for (let i = 0; i < pools.length; i++) {
                 ns.print(`[ps-control-scheduler] Executing on pool ${i} with servers: ${pools[i]}`);
-                await executeOnPool(ns, pools[i]);
+                await executeOnPool(ns, pools[i], args);
             }
 
-            ns.print(`[ps-control-scheduler] Finished scheduling nodes, sleeping for 1hr`);
+            ns.print(`[ps-control-scheduler] Finished scheduling nodes, sleeping for 1hr at ${new Date().toTimeString()}`);
             await ns.sleep(60 * 60 * 1000);
         } else {
-            ns.print("[ps-control-scheduler] Found file /flags/SKIP_SCHEDULER.js, sleeping for 1min");
+            ns.print(`[ps-control-scheduler] Found file /flags/SKIP_SCHEDULER.js, sleeping for 1min at ${new Date().toTimeString()}`);
             await ns.sleep(60 * 1000);
         }
     }
@@ -102,8 +104,12 @@ function splitWorkers(ns, hostnames) {
     return finalHostnames;
 }
 
-async function executeOnPool(ns, hostnames) {
-	const args = await getHackableHosts(ns);
+/**
+ *  @param { import("../../lib/NetscriptDefinition").NS } ns
+ * @param {string[]} hostnames 
+ * @param {string[]} args 
+ */
+async function executeOnPool(ns, hostnames, args) {
     let finalScripts = { ... SCRIPTS };
     const scriptKeys = Object.keys(finalScripts);
 
@@ -115,16 +121,31 @@ async function executeOnPool(ns, hostnames) {
             ns.print(`[ps-control-scheduler] Killing existing scripts on ${hostname}`);
             await ns.killall(hostname);
 
+            let fnArgs = args.slice();
+            fnArgs = fnArgs.filter((hn, k) => k % hostnames.length === i % hostnames.length);
+
+            const hasLowMoney = fnArgs.some((hn) => (ns.getServerMoneyAvailable(hn) / ns.getServerMaxMoney(hn)) < MIN_SERVER_MONEY_PCT);
+            if (hasLowMoney) {
+                finalScripts["/helpers/grow.js"] = 100;
+                finalScripts["/helpers/hack.js"] = 0;
+            }
+
             for (let j = 0; j < scriptKeys.length; j++) {
                 const filename = scriptKeys[j];
                 const scriptWeightPct = finalScripts[filename] / Object.values(finalScripts).reduce((n, t) => n + t, 0);
                 const threads = Math.floor((ramAvail / ns.getScriptRam(filename)) * scriptWeightPct);
-                let fnArgs = args.slice();
-                fnArgs = fnArgs.filter((hn, k) => k % hostnames.length === i % hostnames.length);
+            
+                fnArgs = getFilteredArgs(ns, filename, fnArgs);
 
-                ns.print(`[ps-control-scheduler] Executing ${filename} on ${hostname} with ${scriptWeightPct * 100}% threads`);
-                await scp(ns, hostname, filename);
-                await exec(ns, hostname, filename, threads, fnArgs);
+                if (fnArgs.length === 0) {
+                    fnArgs = getFilteredArgs(ns, filename, args);
+                }
+
+                if (threads > 0) {
+                    ns.print(`[ps-control-scheduler] Executing ${filename} on ${hostname} with ${scriptWeightPct * 100}% threads`);
+                    await scp(ns, hostname, filename);
+                    await exec(ns, hostname, filename, threads, fnArgs);    
+                }
 
                 await ns.sleep(100);
             }
@@ -132,4 +153,21 @@ async function executeOnPool(ns, hostnames) {
             await ns.sleep(500);
         }
 	}
+}
+
+/**
+ *  @param { import("../../lib/NetscriptDefinition").NS } ns
+ * @param {string} filename 
+ * @param {string[]} args 
+ */
+function getFilteredArgs(ns, filename, args) {
+    let fnArgs = args.slice();
+
+    if (filename === "/helpers/grow.js") {
+        fnArgs = fnArgs.filter((hn) => ns.getServerMoneyAvailable(hn) < ns.getServerMaxMoney(hn));
+    } else if (filename === "/helpers/weaken.js") {
+        fnArgs = fnArgs.filter((hn) => ns.getServerSecurityLevel(hn) > ns.getServerMinSecurityLevel(hn));
+    }
+
+    return fnArgs;
 }
