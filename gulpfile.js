@@ -5,7 +5,7 @@ var ts = require('gulp-typescript');
 
 // ### Base tasks
 gulp.task('clean', function () {
-    return gulp.src('out', {read: false}).pipe(clean());
+    return gulp.src('out', {read: false, allowEmpty: true}).pipe(clean());
 });
 
 gulp.task('compile', function () {
