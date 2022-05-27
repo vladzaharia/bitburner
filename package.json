@@ -1,0 +1,21 @@
+{
+	"name": "bitburner-scripts",
+	"author": {
+		"name": "Vlad Zaharia",
+		"email": "hey@vlad.gg"
+	},
+	"dependencies": {
+		"typescript": "^4.7.2"
+	},
+	"devDependencies": {
+		"bitburner-sync": "^1.5.2",
+		"replace-in-file": "^6.3.3"
+	},
+	"scripts": {
+		"postinstall": "node ./scripts/update_defs.js && node ./scripts/retrieve_config.js",
+		"build": "npm run clean && tsc -p tsconfig.json",
+		"clean": "rm -rf out/*",
+		"sync": "bitburner-sync",
+		"sync:watch": "bitburner-sync --watch"
+	}
+}

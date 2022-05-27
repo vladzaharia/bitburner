@@ -1,15 +1,18 @@
+import { NS } from "Netscript";
 import { getPortOpeners } from "/helpers/crack.js";
 
 const DEPTH = 2;
 
-let foundHosts = [];
+let foundHosts: string[] = [];
 
-/** @param { import("../../lib/NetscriptDefinition").NS } ns */
-export async function main(ns) {
-	let depth = DEPTH;
+/** 
+ * @param {NS} ns
+ */
+export async function main(ns: NS) {
+	let depth: number = DEPTH;
 
 	if (ns.args.length === 1) {
-		depth = ns.args[0];
+		depth = ns.args[0] as number;
 	}
 
 	const allHosts = await getHosts(ns, depth);
@@ -18,9 +21,10 @@ export async function main(ns) {
 }
 
 /** 
- * @param { import("../../lib/NetscriptDefinition").NS } ns 
+ * @param {NS} ns 
+ * @param {number} depth
  */
-export async function getHosts(ns, depth) {
+export async function getHosts(ns: NS, depth: number): Promise<string[]> {
 	ns.disableLog("ALL");
 
 	foundHosts = [];
@@ -34,9 +38,9 @@ export async function getHosts(ns, depth) {
 }
 
 /** 
- * @param { import("../../lib/NetscriptDefinition").NS } ns 
+ * @param {NS} ns 
  */
-export async function getPersonalServers(ns) {
+export async function getPersonalServers(ns: NS): Promise<string[]> {
 	ns.disableLog("ALL");
 
 	let hostnames = await ns.scan("home");
@@ -48,9 +52,9 @@ export async function getPersonalServers(ns) {
 }
 
 /** 
- * @param { import("../../lib/NetscriptDefinition").NS } ns 
+ * @param {NS} ns 
  */
-export async function getControlServers(ns) {
+export async function getControlServers(ns: NS): Promise<string[]> {
 	let hostnames = await getPersonalServers(ns);
 	hostnames = hostnames.filter(hn => hn.startsWith("ps-control"));
 
@@ -60,9 +64,9 @@ export async function getControlServers(ns) {
 }
 
 /** 
- * @param { import("../../lib/NetscriptDefinition").NS } ns 
+ * @param {NS} ns 
  */
-export async function getWorkerServers(ns) {
+export async function getWorkerServers(ns: NS): Promise<string[]> {
 	let hostnames = await getPersonalServers(ns);
 	hostnames = hostnames.filter(hn => !hn.startsWith("ps-control"));
 
@@ -72,16 +76,16 @@ export async function getWorkerServers(ns) {
 }
 
 /** 
- * @param { import("../../lib/NetscriptDefinition").NS } ns
+ * @param {NS} ns
  * @param {string[]} hostnames
  * @param {number} depth
  */
-export async function getCrackableHosts(ns, hostnames, depth) {
-	let finalHostnames = hostnames;
-	const crackableHosts = [];
+export async function getCrackableHosts(ns: NS, hostnames?: string[], depth?: number): Promise<string[]> {
+	let finalHostnames: string[] = hostnames as string[];
+	const crackableHosts: string[] = [];
 
 	ns.disableLog("ALL");
-	
+
 	if (!hostnames || hostnames.length === 0) {
 		finalHostnames = await getHosts(ns, depth || 10);
 	}
@@ -102,16 +106,16 @@ export async function getCrackableHosts(ns, hostnames, depth) {
 }
 
 /** 
- * @param { import("../../lib/NetscriptDefinition").NS } ns
+ * @param {NS} ns
  * @param {string[]} hostnames
  * @param {number} depth
  */
- export async function getHackableHosts(ns, hostnames, depth) {
-	let finalHostnames = hostnames;
-	const rootedHosts = [];
+export async function getHackableHosts(ns: NS, hostnames?: string[], depth?: number): Promise<string[]> {
+	let finalHostnames = hostnames as string[];
+	const rootedHosts: string[] = [];
 
 	ns.disableLog("ALL");
-	
+
 	if (!hostnames || hostnames.length === 0) {
 		finalHostnames = await getHosts(ns, depth || 10);
 	}
@@ -131,16 +135,16 @@ export async function getCrackableHosts(ns, hostnames, depth) {
 }
 
 /** 
- * @param { import("../../lib/NetscriptDefinition").NS } ns
+ * @param {NS} ns
  * @param {string[]} hostnames
  * @param {number} depth
  */
-export async function getRootedHosts(ns, hostnames, depth) {
-	let finalHostnames = hostnames;
-	const rootedHosts = [];
+export async function getRootedHosts(ns: NS, hostnames?: string[], depth?: number): Promise<string[]> {
+	let finalHostnames = hostnames as string[];
+	const rootedHosts: string[] = [];
 
 	ns.disableLog("ALL");
-	
+
 	if (!hostnames || hostnames.length === 0) {
 		finalHostnames = await getHosts(ns, depth || 10);
 	}
@@ -159,14 +163,14 @@ export async function getRootedHosts(ns, hostnames, depth) {
 }
 
 /** 
- * @param { import("../../lib/NetscriptDefinition").NS } ns
+ * @param {NS} ns
  * @param {string} hostname 
  * @param {number} maxDepth
  * @param {number} curDepth
  */
-async function scanHost(ns, hostname, maxDepth, curDepth) {
+async function scanHost(ns: NS, hostname: string, maxDepth: number, curDepth: number): Promise<string[]> {
 	ns.print(`[discover] Scanning ${hostname}, depth ${curDepth}/${maxDepth}`);
-	
+
 	let hostnames = await ns.scan(hostname);
 	foundHosts.push(hostname);
 
@@ -188,10 +192,10 @@ async function scanHost(ns, hostname, maxDepth, curDepth) {
 }
 
 /** 
- * @param { import("../../lib/NetscriptDefinition").NS } ns
+ * @param {NS} ns
  * @param {string} hostname 
  */
-async function canCrack(ns, hostname) {
+async function canCrack(ns: NS, hostname: string): Promise<boolean> {
 	const level = ns.getHackingLevel();
 	const levelRequired = ns.getServerRequiredHackingLevel(hostname);
 	const numPorts = await getNumPorts(ns);
@@ -202,8 +206,10 @@ async function canCrack(ns, hostname) {
 	return level >= levelRequired && numPorts >= numPortsRequired;
 }
 
-/** @param { import("../../lib/NetscriptDefinition").NS } ns */
-async function getNumPorts(ns) {
+/** 
+ * @param {NS} ns
+ */
+async function getNumPorts(ns: NS): Promise<number> {
 	const availableOpeners = await getPortOpeners(ns);
 	return availableOpeners.length;
 }

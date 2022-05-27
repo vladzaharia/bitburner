@@ -1,7 +1,10 @@
+import { NS } from "Netscript";
 import { getHackableHosts, getPersonalServers } from "/helpers/discover.js";
 
-/** @param { import("../../lib/NetscriptDefinition").NS } ns */
-export async function main(ns) {
+/** 
+ * @param {NS} ns
+ */
+export async function main(ns: NS) {
     ns.disableLog("ALL");
 
     while (true) {

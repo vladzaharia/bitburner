@@ -1,3 +1,5 @@
+import { NS } from "Netscript";
+
 const PRICE_PER_GB = 55000 * 25;
 const CONTROL_SERVERS = ["purchaser",  "hacknet", "cracker", "scheduler"];
 let RAM = 8;
@@ -6,8 +8,10 @@ const WORKERS_PER_POOL = 8;
 // Amount of money dedicated to servers
 const MONEY_MULTIPLIER = 0.50;
 
-/** @param { import("../../lib/NetscriptDefinition").NS } ns */
-export async function main(ns) {
+/** 
+ * @param {NS} ns
+ */
+export async function main(ns: NS) {
     ns.disableLog("ALL");
 
     while (true) {
@@ -42,9 +46,11 @@ export async function main(ns) {
                 ns.print(`[ps-control-purchaser] Checking latest server ${latestServer}`)
 
                 const match = latestServer.match(regex);
-                
-                j = parseInt(match[1], 10);
-                k = parseInt(match[2], 10) + 1;
+
+                if (match) {
+                    j = parseInt(match[1], 10);
+                    k = parseInt(match[2], 10) + 1;
+                }
             }
 
             while (i < max) {
@@ -67,7 +73,7 @@ export async function main(ns) {
                 }
 
                 // Purchase a worker node
-                const purchased = await purchaseServer(ns, RAM, `worker${j}`, k);
+                const purchased = await purchaseServer(ns, RAM, `worker${j}`, k.toString());
 
                 if (purchased) {
                     purchasedServers = ns.getPurchasedServers();
@@ -90,11 +96,12 @@ export async function main(ns) {
 }
 
 /**
- * @param { import("../../lib/NetscriptDefinition").NS } ns
+ * @param {NS} ns
+ * @param {number} availMoney
  * @param {number} ram
  * @param {string[]} purchasedServers
  */
-async function checkForUpgrade(ns, availMoney, ram, purchasedServers) {
+async function checkForUpgrade(ns: NS, availMoney: number, ram: number, purchasedServers: string[]) {
     ns.print(`[ps-control-purchaser] Checking for ${ram}GB upgrade, ${PRICE_PER_GB * ram} < ${availMoney} && ${RAM} < ${ram}`);
 
     if ((PRICE_PER_GB * ram) < availMoney && RAM < ram) {
@@ -105,12 +112,12 @@ async function checkForUpgrade(ns, availMoney, ram, purchasedServers) {
 }
 
 /**
- * @param { import("../../lib/NetscriptDefinition").NS } ns
+ * @param {NS} ns
  * @param {number} ram
  * @param {string} type
  * @param {string} name
  */
-async function purchaseServer(ns, ram, type, name) {
+async function purchaseServer(ns: NS, ram: number, type: string, name: string) {
     const availMoney = Math.floor(ns.getServerMoneyAvailable("home") * MONEY_MULTIPLIER);
     const neededMoney = ns.getPurchasedServerCost(ram);
     
@@ -128,10 +135,10 @@ async function purchaseServer(ns, ram, type, name) {
 }
 
 /**
- * @param { import("../../lib/NetscriptDefinition").NS } ns
+ * @param {NS} ns
  * @param {string[]} allServers
  */
-async function sellWorkerServers(ns, allServers) {
+async function sellWorkerServers(ns: NS, allServers: string[]) {
     if (!allServers || allServers.length === 0) {
         return;
     }
@@ -148,10 +155,10 @@ async function sellWorkerServers(ns, allServers) {
 }
 
 /**
- * @param { import("../../lib/NetscriptDefinition").NS } ns
+ * @param {NS} ns
  * @param {string} hostname
  */
-async function sellServer(ns, hostname) {
+async function sellServer(ns: NS, hostname: string) {
     await ns.killall(hostname);
     await ns.deleteServer(hostname);
 }

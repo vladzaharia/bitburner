@@ -1,11 +1,15 @@
-/** @param { import("../../lib/NetscriptDefinition").NS } ns */
-export async function main(ns) {
-    if (ns.args < 2) {
+import { NS } from "Netscript";
+
+/** 
+ * @param {NS} ns
+ */
+export async function main(ns: NS) {
+    if (ns.args.length < 2) {
         throw "Function must be called with RAM and 1+ hostnames!";
     }
 
-    const ram = ns.args[0];
-    const hostnames = ns.args.split(1);
+    const ram = ns.args[0] as number;
+    const hostnames = ns.args.splice(1) as string[];
 
     for (let i = 0; i < hostnames.length; i++) {
         const hostname = hostnames[i];

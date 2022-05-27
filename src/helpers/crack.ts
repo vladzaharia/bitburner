@@ -1,12 +1,14 @@
+import { NS } from "Netscript";
+
 const ALL_OPENERS = ["BruteSSH.exe", "FTPCrack.exe", "relaySMTP.exe", "HTTPWorm.exe", "SQLInject.exe"];
 
-/** @param { import("../../lib/NetscriptDefinition").NS } ns */
-export async function main(ns) {
+/** @param { NS } ns */
+export async function main(ns: NS) {
 	if (ns.args.length === 0) {
 		throw "Function must be called with 1+ hostnames";
 	}
 
-	const hostnames = ns.args;
+	const hostnames: string[] = ns.args as string[];
 
 	for (let i = 0; i < hostnames.length; i++) {
 		const hostname = hostnames[i];
@@ -18,10 +20,10 @@ export async function main(ns) {
 }
 
 /** 
- * @param { import("../../lib/NetscriptDefinition").NS } ns 
+ * @param {NS} ns 
  * @param {string} hostname
  */
-export async function crackHost(ns, hostname) {
+export async function crackHost(ns: NS, hostname: string) {
 	// Nuke host first
 	if (!ns.hasRootAccess(hostname)) {
 		if (ns.getServerNumPortsRequired(hostname) > 0) {
@@ -38,13 +40,15 @@ export async function crackHost(ns, hostname) {
 	}
 }
 
-/** @param { import("../../lib/NetscriptDefinition").NS } ns */
-export async function getPortOpeners(ns) {
-	const availableOpeners = [];
+/** 
+ * @param {NS} ns
+ */
+export function getPortOpeners(ns: NS): string[] {
+	const availableOpeners: string[] = [];
 
 	for (let i = 0; i < ALL_OPENERS.length; i++) {
 		const opener = ALL_OPENERS[i];
-		const canUse = await ns.fileExists(opener, "home");
+		const canUse = ns.fileExists(opener, "home");
 		if (canUse) {
 			availableOpeners.push(opener);
 		}
@@ -54,22 +58,23 @@ export async function getPortOpeners(ns) {
 }
 
 /** 
- * @param { import("../../lib/NetscriptDefinition").NS } ns 
+ * @param {NS} ns 
  * @param {string} hostname
  */
-async function useAllOpeners(ns, hostname) {
+async function useAllOpeners(ns: NS, hostname: string) {
 	// Run available openers
-	const availableOpeners = await getPortOpeners(ns);
+	const availableOpeners = getPortOpeners(ns);
 	for (let i = 0; i < availableOpeners.length; i++) {
 		await useOpener(ns, hostname, availableOpeners[i]);
 	}
 }
 
 /** 
- * @param { import("../../lib/NetscriptDefinition").NS } ns 
+ * @param {NS} ns 
  * @param {string} hostname
+ * @param {string} opener
  */
-async function useOpener(ns, hostname, opener) {
+async function useOpener(ns: NS, hostname: string, opener: string) {
 	await ns.print(`[crack] Using ${opener} on ${hostname}`)
 
 	switch (opener) {

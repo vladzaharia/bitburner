@@ -1,3 +1,5 @@
+import { Hacknet, NS } from "Netscript";
+
 const MONEY_PER_LEVEL = 3.603;
 const MONEY_PER_RAM = 399.309;
 const MONEY_PER_CORE = 90.671;
@@ -5,8 +7,10 @@ const MONEY_PER_CORE = 90.671;
 // Amount of money dedicated to upgrades
 const MONEY_MULTIPLIER = 0.1;
 
-/** @param { import("../../lib/NetscriptDefinition").NS } ns */
-export async function main(ns) {
+/** 
+ * @param {NS} ns
+ */
+export async function main(ns: NS) {
     ns.disableLog("ALL");
 
 	const hacknet = ns.hacknet;
@@ -40,7 +44,7 @@ export async function main(ns) {
 				const node = hacknet.getNodeStats(i);
 
 				if (node.production < baseNode.production) {
-					upgradeToBaseline(ns, hacknet, i);
+					upgradeToBaseline(ns, i);
 					await ns.sleep(1000);
 				}
 			}
@@ -81,7 +85,7 @@ export async function main(ns) {
  * @param {number} benefit1 
  * @param {number} benefit2 
  */
-function shouldSkip(ns, moneyAvail, cost2, benefit1, benefit2) {
+function shouldSkip(ns: NS, moneyAvail: number, cost2: number, benefit1: number, benefit2: number) {
 	const costSkip = cost2 > moneyAvail;
 	const benefitSkip = benefit1 < benefit2
 	const costOverride = (benefit2 * 2 < benefit1) && (cost2 < moneyAvail * 3);
@@ -92,8 +96,11 @@ function shouldSkip(ns, moneyAvail, cost2, benefit1, benefit2) {
 	return (costSkip || benefitSkip);
 }
 
-/** @param {Hacknet} hacknet */
-function upgradeOnAll(hacknet, fn) {
+/** 
+ * @param {Hacknet} hacknet 
+ * @param {function} fn
+ */
+function upgradeOnAll(hacknet: Hacknet, fn: (i: number, n: number) => boolean) {
 	const numNodes = hacknet.numNodes();
 
 	for (let i = 0; i < numNodes; i++) {
@@ -102,12 +109,13 @@ function upgradeOnAll(hacknet, fn) {
 }
 
 /** 
- * @param  { import("../../lib/NetscriptDefinition").Hacknet } hacknet 
+ * @param {NS} ns
  * @param {number} index
  */
-function upgradeToBaseline(ns, hacknet, index) {
+function upgradeToBaseline(ns: NS, index: number) {
 	ns.print(`[ps-control-hacknet] Upgrading ${index} to baseline stats`);
 
+	const hacknet = ns.hacknet;
 	const baseNode = hacknet.getNodeStats(0);
 	const node = hacknet.getNodeStats(index);
 
