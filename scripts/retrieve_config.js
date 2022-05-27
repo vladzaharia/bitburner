@@ -9,16 +9,19 @@ if (!process.env.DOPPLER_TOKEN) {
     const file = fs.createWriteStream(__dirname + "/../bitburner-sync.json");
     const url = `https://${process.env.DOPPLER_TOKEN}@api.doppler.com/v3/configs/config/secrets/download?project=bitburner&config=dev&format=json&name_transformer=camel&include_dynamic_secrets=false`;
 
+    let config = "";
+
     console.log(`Downloading bitburner config from Doppler`);
     const request = https.get(url, (response) => {
         response.on("error", (err) => {
             console.error(err);
         })
     
-        response.pipe(file);
-    
+        response.on("data", (data) => config += data);
+  
         response.on("end", () => {
             console.log("Download completed");
+            file.write(JSON.stringify(JSON.parse(config), null, 4));
             file.close();
         });
     });    
