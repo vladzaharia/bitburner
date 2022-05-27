@@ -3,3 +3,5 @@ out
 src/lib/Netscript.d.ts
 !src/lib/Netscript.d.ts.tt
 bitburner-sync.json
+.vscode/settings.json
+!.vscode/settings.json.tt
