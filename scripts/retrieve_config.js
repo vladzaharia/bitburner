@@ -21,7 +21,9 @@ if (!process.env.DOPPLER_TOKEN) {
   
         response.on("end", () => {
             console.log("Download completed");
-            file.write(JSON.stringify(JSON.parse(config), null, 4));
+            const parsedConfig = JSON.parse(config);
+            // TODO add auth token to settings.json.tt
+            file.write(JSON.stringify(parsedConfig, null, 4));
             file.close();
         });
     });    
