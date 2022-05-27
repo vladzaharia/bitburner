@@ -113,10 +113,10 @@ function splitWorkers(ns: NS, hostnames: string[]): string[][] {
  * @param {string[]} args 
  */
 async function executeOnPool(ns: NS, hostnames: string[], args: string[]) {
-    let finalScripts = { ... SCRIPTS };
-    const scriptKeys = Object.keys(finalScripts);
-
     for (let i = 0; i < hostnames.length; i++) {
+        let finalScripts = { ... SCRIPTS };
+        const scriptKeys = Object.keys(finalScripts);
+    
 		const hostname = hostnames[i];
         const ramAvail = ns.getServerMaxRam(hostname);
 
@@ -127,8 +127,17 @@ async function executeOnPool(ns: NS, hostnames: string[], args: string[]) {
             let fnArgs = args.slice();
             fnArgs = fnArgs.filter((hn, k) => k % hostnames.length === i % hostnames.length);
 
-            const hasLowMoney = fnArgs.some((hn) => (ns.getServerMoneyAvailable(hn) / ns.getServerMaxMoney(hn)) < MIN_SERVER_MONEY_PCT);
+            const hasLowMoney = fnArgs.some((hn) => {
+                const moneyAvail = ns.getServerMoneyAvailable(hn);
+                const maxMoney = ns.getServerMaxMoney(hn);
+                const moneyPct = moneyAvail / maxMoney;
+                
+                ns.print(`${hostname} Money ${moneyAvail} / ${maxMoney} = ${moneyPct} < ${MIN_SERVER_MONEY_PCT}`);
+
+                return moneyPct < MIN_SERVER_MONEY_PCT;
+            });
             if (hasLowMoney) {
+                ns.print(`Low money detected on pool`);
                 finalScripts["/helpers/grow.js"] = 100;
                 finalScripts["/helpers/hack.js"] = 0;
             }

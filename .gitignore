@@ -5,3 +5,4 @@ src/lib/Netscript.d.ts
 bitburner-sync.json
 .vscode/settings.json
 !.vscode/settings.json.tt
+.env

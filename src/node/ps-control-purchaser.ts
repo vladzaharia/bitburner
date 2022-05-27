@@ -24,14 +24,16 @@ export async function main(ns: NS) {
             const availMoney = Math.floor(ns.getServerMoneyAvailable("home") * MONEY_MULTIPLIER);
             ns.print(`[ps-control-purchaser] Available money ${availMoney}`);
 
-            // Check for upgrades from 16 - 512GB
+            // Check for upgrades from 16GB - 1TB
+            await checkForUpgrade(ns, availMoney, 1024, purchasedServers);
             await checkForUpgrade(ns, availMoney, 512, purchasedServers);
             await checkForUpgrade(ns, availMoney, 256, purchasedServers);
             await checkForUpgrade(ns, availMoney, 128, purchasedServers);
             await checkForUpgrade(ns, availMoney, 64, purchasedServers);
             await checkForUpgrade(ns, availMoney, 32, purchasedServers);
             await checkForUpgrade(ns, availMoney, 16, purchasedServers);
-            
+
+            purchasedServers = ns.getPurchasedServers();
             let i = purchasedServers.length; // Total purchased servers
             let j = 0; // Worker pool
             let k = 0; // Server in pool

@@ -191,6 +191,44 @@ async function scanHost(ns: NS, hostname: string, maxDepth: number, curDepth: nu
 	return hostnames;
 }
 
+/**
+ * @param {NS} ns 
+ * @param {string} hostname 
+ */
+export async function getRoute(ns: NS, hostname: string) {
+	ns.print(`[discover] Looking for ${hostname}`);
+
+	const alreadyScanned: string[] = [];
+	const innerLoop = async (target: string, hostnames: string[]) => {
+		await ns.sleep(1000);
+		alreadyScanned.push(target);
+
+		if (hostname === target) {
+			ns.print(`[discover] Found ${target} via ${hostnames}`);
+			return [... hostnames, target];
+		}
+
+		let scannableNames: string[] = await ns.scan(target);
+		const scanTargets: string[] = scannableNames.filter((hn: string) => !hn.startsWith("ps-") && !alreadyScanned.includes(hn));
+
+		ns.print(`[discover] Scan targets ${scanTargets} already scanned ${alreadyScanned}`);
+		if (scanTargets.length > 0) {
+			for (let i = 0; i < scanTargets.length; i++) {
+				const result = await innerLoop(scanTargets[i], [... hostnames, target]);
+				if (result) {
+					ns.print(`[discover] Passing found path ${result} back up`);
+					return result;
+				}
+			}
+			return false;
+		} else {
+			return false;
+		}
+	}
+
+	return await innerLoop("home", []);
+}
+
 /** 
  * @param {NS} ns
  * @param {string} hostname 
