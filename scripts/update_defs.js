@@ -1,13 +1,13 @@
 //Load the library and specify options
 const replace = require('replace-in-file');
-const http = require('https');
+const https = require('https');
 const fs = require('fs');
 
 let def = "";
 const url = "https://raw.githubusercontent.com/danielyxie/bitburner/dev/src/ScriptEditor/NetscriptDefinitions.d.ts";
 
 console.log(`Downloading definition file from ${url}`);
-const request = http.get(url, (response) => {
+const request = https.get(url, (response) => {
     response.on("error", (err) => {
         console.error(err);
     })
@@ -19,9 +19,13 @@ const request = http.get(url, (response) => {
     response.on("end", () => {
         console.log("Download completed, creating file from Netscript.d.ts.tt");
 
-        fs.copyFile("./src/lib/Netscript.d.ts.tt", "./src/lib/Netscript.d.ts", () => {
+        fs.copyFile(__dirname + "/../src/lib/Netscript.d.ts.tt", __dirname + "/../src/lib/Netscript.d.ts", (err) => {
+            if (err) {
+                console.error(err);
+            }
+
             const options = {
-                files: "./src/lib/Netscript.d.ts",
+                files: __dirname + "/../src/lib/Netscript.d.ts",
                 from: "[[DEFS]]",
                 to: def
             };
