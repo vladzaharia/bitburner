@@ -1,0 +1,6 @@
+{
+    "authToken": "[[AUTHTOKEN]]",
+    "serverUrl": "127.0.0.1",
+    "scriptRoot": "./out",
+    "allowDelete": "false"
+}

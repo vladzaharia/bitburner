@@ -12,8 +12,12 @@
 		"replace-in-file": "^6.3.3"
 	},
 	"scripts": {
-		"postinstall": "node ./scripts/update_defs.js && node ./scripts/retrieve_config.js",
-		"build": "npm run clean && tsc -p tsconfig.json",
+		"postinstall": "npm run postinstall:defs && npm run postinstall:config",
+		"postinstall:defs": "node ./scripts/update_defs.js",
+		"postinstall:config": "node ./scripts/retrieve_config.js",
+		"build": "npm run clean && gulp compile",
+		"build:watch": "gulp watch",
+		"build:sync-watch": "gulp watch-sync",
 		"clean": "rm -rf out/*",
 		"sync": "bitburner-sync",
 		"sync:watch": "bitburner-sync --watch"

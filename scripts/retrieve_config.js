@@ -3,10 +3,12 @@ const replace = require('replace-in-file');
 const https = require('https');
 const fs = require('fs');
 
+const BITBURNER_CONFIG_FILE = "../bitburner-sync.json";
+const VSCODE_CONFIG_FILE = "../.vscode/settings.json";
+
 if (!process.env.DOPPLER_TOKEN) {
     console.error("No Doppler token found!");
 } else {
-    const file = fs.createWriteStream(__dirname + "/../bitburner-sync.json");
     const url = `https://${process.env.DOPPLER_TOKEN}@api.doppler.com/v3/configs/config/secrets/download?project=bitburner&config=dev&format=json&name_transformer=camel&include_dynamic_secrets=false`;
 
     let config = "";
@@ -23,13 +25,13 @@ if (!process.env.DOPPLER_TOKEN) {
             console.log("Download completed");
             const parsedConfig = JSON.parse(config);
 
-            fs.copyFile(__dirname + "/../.vscode/settings.json.tt", __dirname + "/../.vscode/settings.json", (err) => {
+            fs.copyFile(__dirname + VSCODE_CONFIG_FILE + ".tt", __dirname + VSCODE_CONFIG_FILE, (err) => {
                 if (err) {
                     console.error(err);
                 }
 
                 const options = {
-                    files: __dirname + "/../.vscode/settings.json",
+                    files: __dirname + VSCODE_CONFIG_FILE,
                     from: "[[AUTHTOKEN]]",
                     to: parsedConfig.authToken
                 };
@@ -37,6 +39,29 @@ if (!process.env.DOPPLER_TOKEN) {
                 try {
                     replace(options).then((response) => {
                         console.log('Replacement results:', response);
+
+                        fs.copyFile(__dirname + BITBURNER_CONFIG_FILE + ".tt", __dirname + BITBURNER_CONFIG_FILE, (err) => {
+                            if (err) {
+                                console.error(err);
+                            }
+            
+                            const options = {
+                                files: __dirname + BITBURNER_CONFIG_FILE,
+                                from: "[[AUTHTOKEN]]",
+                                to: parsedConfig.authToken
+                            };
+            
+                            try {
+                                replace(options).then((response) => {
+                                    console.log('Replacement results:', response);
+                                }, () => {
+                                    console.error('Error occurred:', error);
+                                });
+                            }
+                            catch (error) {
+                                console.error('Error occurred:', error);
+                            }
+                        });
                     }, () => {
                         console.error('Error occurred:', error);
                     });
@@ -45,10 +70,6 @@ if (!process.env.DOPPLER_TOKEN) {
                     console.error('Error occurred:', error);
                 }
             });
-
-            // TODO add auth token to settings.json.tt
-            file.write(JSON.stringify(parsedConfig, null, 4));
-            file.close();
         });
     });
 }
