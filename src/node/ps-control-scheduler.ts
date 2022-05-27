@@ -3,11 +3,15 @@ import { getHackableHosts, getRootedHosts, getWorkerServers } from "/helpers/dis
 import { exec } from "/helpers/exec.js";
 import { scp } from "/helpers/scp.js";
 
-const SCRIPTS = {
-    "/helpers/hack.js": 25,
-    "/helpers/weaken.js": 25,
-    "/helpers/grow.js": 50
-};
+const HACK_SCRIPT = "/helpers/hack.js";
+const WEAKEN_SCRIPT = "/helpers/weaken.js";
+const GROW_SCRIPT = "/helpers/grow.js";
+
+const SCRIPTS: { [key: string]: number } = {};
+SCRIPTS[HACK_SCRIPT] = 25;
+SCRIPTS[WEAKEN_SCRIPT] = 25;
+SCRIPTS[GROW_SCRIPT] = 50;
+
 const HOSTS_PER_POOL = 8;
 const MIN_SERVER_MONEY_PCT = 0.5;
 
@@ -28,6 +32,9 @@ export async function main(ns: NS) {
                 ns.print(`[ps-control-scheduler] Executing on pool ${i} with servers: ${pools[i]}`);
                 await executeOnPool(ns, pools[i], args);
             }
+
+            ns.print(`[ps-control-scheduler] Executing on home`);
+            await executeOnPool(ns, ["home"], args);
 
             ns.print(`[ps-control-scheduler] Finished scheduling nodes, sleeping for 1hr at ${new Date().toTimeString()}`);
             await ns.sleep(60 * 60 * 1000);
@@ -118,28 +125,31 @@ async function executeOnPool(ns: NS, hostnames: string[], args: string[]) {
         const scriptKeys = Object.keys(finalScripts);
     
 		const hostname = hostnames[i];
-        const ramAvail = ns.getServerMaxRam(hostname);
+        let ramAvail = ns.getServerMaxRam(hostname);
 
         if (ramAvail > 0) {
             ns.print(`[ps-control-scheduler] Killing existing scripts on ${hostname}`);
-            await ns.killall(hostname);
-
             let fnArgs = args.slice();
-            fnArgs = fnArgs.filter((hn, k) => k % hostnames.length === i % hostnames.length);
 
-            const hasLowMoney = fnArgs.some((hn) => {
-                const moneyAvail = ns.getServerMoneyAvailable(hn);
-                const maxMoney = ns.getServerMaxMoney(hn);
-                const moneyPct = moneyAvail / maxMoney;
-                
-                ns.print(`${hostname} Money ${moneyAvail} / ${maxMoney} = ${moneyPct} < ${MIN_SERVER_MONEY_PCT}`);
+            if (hostname === "home") {
+                ramAvail = ramAvail - 24;
+            } else {
+                const hasLowMoney = fnArgs.some((hn) => {
+                    const moneyAvail = ns.getServerMoneyAvailable(hn);
+                    const maxMoney = ns.getServerMaxMoney(hn);
+                    const moneyPct = moneyAvail / maxMoney;
+                    
+                    ns.print(`${hostname} Money ${moneyAvail} / ${maxMoney} = ${moneyPct} < ${MIN_SERVER_MONEY_PCT}`);
+    
+                    return moneyPct < MIN_SERVER_MONEY_PCT;
+                });
+                if (hasLowMoney) {
+                    ns.print(`Low money detected on pool`);
+                    finalScripts[GROW_SCRIPT] = 100;
+                    finalScripts[HACK_SCRIPT] = 0;
+                }
 
-                return moneyPct < MIN_SERVER_MONEY_PCT;
-            });
-            if (hasLowMoney) {
-                ns.print(`Low money detected on pool`);
-                finalScripts["/helpers/grow.js"] = 100;
-                finalScripts["/helpers/hack.js"] = 0;
+                fnArgs = fnArgs.filter((hn, k) => k % hostnames.length === i % hostnames.length);
             }
 
             for (let j = 0; j < scriptKeys.length; j++) {
@@ -147,14 +157,20 @@ async function executeOnPool(ns: NS, hostnames: string[], args: string[]) {
                 const scriptWeightPct = finalScripts[filename] / Object.values(finalScripts).reduce((n, t) => n + t, 0);
                 const threads = Math.floor((ramAvail / ns.getScriptRam(filename)) * scriptWeightPct);
             
-                fnArgs = getFilteredArgs(ns, filename, fnArgs);
+                if (hostname !== "home") {
+                    fnArgs = getFilteredArgs(ns, filename, fnArgs);
 
-                if (fnArgs.length === 0) {
-                    fnArgs = getFilteredArgs(ns, filename, args);
+                    if (fnArgs.length === 0) {
+                        fnArgs = getFilteredArgs(ns, filename, args);
+                    }
                 }
 
                 if (threads > 0) {
                     ns.print(`[ps-control-scheduler] Executing ${filename} on ${hostname} with ${scriptWeightPct * 100}% threads`);
+
+                    const runningProc = ns.ps(hostname).filter((proc) => proc.filename === filename);
+                    runningProc.forEach((proc) => ns.kill(proc.filename, hostname, ... proc.args));
+
                     await scp(ns, hostname, filename);
                     await exec(ns, hostname, filename, threads, fnArgs);    
                 }
@@ -175,9 +191,9 @@ async function executeOnPool(ns: NS, hostnames: string[], args: string[]) {
 function getFilteredArgs(ns: NS, filename: string, args: string[]) {
     let fnArgs = args.slice();
 
-    if (filename === "/helpers/grow.js") {
+    if (filename === GROW_SCRIPT) {
         fnArgs = fnArgs.filter((hn) => ns.getServerMoneyAvailable(hn) < ns.getServerMaxMoney(hn));
-    } else if (filename === "/helpers/weaken.js") {
+    } else if (filename === WEAKEN_SCRIPT) {
         fnArgs = fnArgs.filter((hn) => ns.getServerSecurityLevel(hn) > ns.getServerMinSecurityLevel(hn));
     }
 

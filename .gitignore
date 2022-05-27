@@ -7,3 +7,4 @@ bitburner-sync.json
 .vscode/settings.json
 !.vscode/settings.json.tt
 .env
+.DS_Store

@@ -58,8 +58,9 @@ export async function main(ns: NS) {
         }
 
 		// Kill existing scripts
-		ns.print(`[scp-exec] Killing existing scripts on ${hostname}`);
-	 	await ns.killall(hostname);
+		ns.print(`[scp-exec] Killing existing script instance(s) on ${hostname}`);
+		const runningProc = ns.ps(hostname).filter((proc) => proc.filename === filename);
+		runningProc.forEach((proc) => ns.kill(proc.filename, hostname, ... proc.args));
 
 		// Copy and execute
 		await scp(ns, hostname, filename);		

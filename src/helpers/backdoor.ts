@@ -37,7 +37,7 @@ export async function backdoorHost(ns: NS, route: string[]) {
             // Backdoor host
             //(ns as any).installBackdoor();
             
-            ns.sleep(10000);
+            await ns.sleep(10 * 1000);
         } else {
         }
     } else {
