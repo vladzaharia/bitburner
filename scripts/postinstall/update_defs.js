@@ -3,7 +3,7 @@ const replace = require('replace-in-file');
 const https = require('https');
 const fs = require('fs');
 
-const NETSCRIPT_DEFS_FILE = __dirname + "/../src/lib/Netscript.d.ts";
+const NETSCRIPT_DEFS_FILE = __dirname + "/../../src/lib/Netscript.d.ts";
 
 let def = "";
 const url = "https://raw.githubusercontent.com/danielyxie/bitburner/dev/src/ScriptEditor/NetscriptDefinitions.d.ts";

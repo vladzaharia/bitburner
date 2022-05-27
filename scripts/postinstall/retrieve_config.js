@@ -3,8 +3,8 @@ const replace = require('replace-in-file');
 const https = require('https');
 const fs = require('fs');
 
-const BITBURNER_CONFIG_FILE = __dirname + "/../bitburner-sync.json";
-const VSCODE_CONFIG_FILE = __dirname + "/../.vscode/settings.json";
+const BITBURNER_CONFIG_FILE = __dirname + "/../../bitburner-sync.json";
+const VSCODE_CONFIG_FILE = __dirname + "/../../.vscode/settings.json";
 
 if (!process.env.DOPPLER_TOKEN) {
     console.error("No Doppler token found!");

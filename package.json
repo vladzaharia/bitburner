@@ -9,16 +9,20 @@
 	},
 	"devDependencies": {
 		"bitburner-sync": "^1.5.2",
+		"gulp": "^4.0.2",
+		"gulp-clean": "^0.4.0",
+		"gulp-run": "^1.7.1",
+		"gulp-typescript": "^6.0.0-alpha.1",
 		"replace-in-file": "^6.3.3"
 	},
 	"scripts": {
-		"postinstall": "npm run postinstall:defs && npm run postinstall:config",
-		"postinstall:defs": "node ./scripts/update_defs.js",
-		"postinstall:config": "node ./scripts/retrieve_config.js",
-		"build": "npm run clean && gulp compile",
+		"postinstall": "gulp postinstall",
+		"postinstall:defs": "gulp postinstall:defs",
+		"postinstall:config": "gulp postinstall:config",
+		"build": "gulp",
 		"build:watch": "gulp watch",
 		"build:sync-watch": "gulp watch-sync",
-		"clean": "rm -rf out/*",
+		"clean": "gulp clean",
 		"sync": "bitburner-sync",
 		"sync:watch": "bitburner-sync --watch"
 	}
