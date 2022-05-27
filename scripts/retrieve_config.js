@@ -3,8 +3,8 @@ const replace = require('replace-in-file');
 const https = require('https');
 const fs = require('fs');
 
-const BITBURNER_CONFIG_FILE = "../bitburner-sync.json";
-const VSCODE_CONFIG_FILE = "../.vscode/settings.json";
+const BITBURNER_CONFIG_FILE = __dirname + "/../bitburner-sync.json";
+const VSCODE_CONFIG_FILE = __dirname + "/../.vscode/settings.json";
 
 if (!process.env.DOPPLER_TOKEN) {
     console.error("No Doppler token found!");
@@ -25,13 +25,13 @@ if (!process.env.DOPPLER_TOKEN) {
             console.log("Download completed");
             const parsedConfig = JSON.parse(config);
 
-            fs.copyFile(__dirname + VSCODE_CONFIG_FILE + ".tt", __dirname + VSCODE_CONFIG_FILE, (err) => {
+            fs.copyFile(VSCODE_CONFIG_FILE + ".tt", VSCODE_CONFIG_FILE, (err) => {
                 if (err) {
                     console.error(err);
                 }
 
                 const options = {
-                    files: __dirname + VSCODE_CONFIG_FILE,
+                    files: VSCODE_CONFIG_FILE,
                     from: "[[AUTHTOKEN]]",
                     to: parsedConfig.authToken
                 };
@@ -40,13 +40,13 @@ if (!process.env.DOPPLER_TOKEN) {
                     replace(options).then((response) => {
                         console.log('Replacement results:', response);
 
-                        fs.copyFile(__dirname + BITBURNER_CONFIG_FILE + ".tt", __dirname + BITBURNER_CONFIG_FILE, (err) => {
+                        fs.copyFile(BITBURNER_CONFIG_FILE + ".tt", BITBURNER_CONFIG_FILE, (err) => {
                             if (err) {
                                 console.error(err);
                             }
             
                             const options = {
-                                files: __dirname + BITBURNER_CONFIG_FILE,
+                                files: BITBURNER_CONFIG_FILE,
                                 from: "[[AUTHTOKEN]]",
                                 to: parsedConfig.authToken
                             };

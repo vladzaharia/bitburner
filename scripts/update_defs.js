@@ -3,6 +3,8 @@ const replace = require('replace-in-file');
 const https = require('https');
 const fs = require('fs');
 
+const NETSCRIPT_DEFS_FILE = __dirname + "/../src/lib/Netscript.d.ts";
+
 let def = "";
 const url = "https://raw.githubusercontent.com/danielyxie/bitburner/dev/src/ScriptEditor/NetscriptDefinitions.d.ts";
 
@@ -19,13 +21,13 @@ const request = https.get(url, (response) => {
     response.on("end", () => {
         console.log("Download completed, creating file from Netscript.d.ts.tt");
 
-        fs.copyFile(__dirname + "/../src/lib/Netscript.d.ts.tt", __dirname + "/../src/lib/Netscript.d.ts", (err) => {
+        fs.copyFile(NETSCRIPT_DEFS_FILE + ".tt", NETSCRIPT_DEFS_FILE, (err) => {
             if (err) {
                 console.error(err);
             }
 
             const options = {
-                files: __dirname + "/../src/lib/Netscript.d.ts",
+                files: NETSCRIPT_DEFS_FILE,
                 from: "[[DEFS]]",
                 to: def
             };
