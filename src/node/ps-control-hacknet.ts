@@ -8,6 +8,16 @@ const MONEY_PER_CORE = 198.278;
 const MONEY_MULTIPLIER = 0.1;
 
 /** 
+ * Automatically maintain Hacknet nodes.
+ * 
+ * Each cycle will:
+ *  - Upgrade any nodes to "baseline" (first node).
+ *  - Compare cost/benefit of each upgrade.
+ *  - Purchase best available upgrade across all nodes or purchase a new node.
+ * 
+ * @example
+ * run /node/ps-control-hacknet.js
+ * 
  * @param {NS} ns - The Netscript object.
  */
 export async function main(ns: NS) {
@@ -49,7 +59,10 @@ export async function main(ns: NS) {
 				}
 			}
 
-			if (shouldSkip(ns, moneyAvail, coreCost, levelAdv, coreAdv) || shouldSkip(ns, moneyAvail, coreCost, ramAdv, coreAdv)) {
+			if (newNodeCost < moneyAvail && hacknet.numNodes < hacknet.maxNumNodes) {
+				ns.print(`[ps-control-hacknet] Buying new node`);
+				hacknet.purchaseNode();
+			} else if (shouldSkip(ns, moneyAvail, coreCost, levelAdv, coreAdv) || shouldSkip(ns, moneyAvail, coreCost, ramAdv, coreAdv)) {
 				if (shouldSkip(ns, moneyAvail, ramCost, levelAdv, ramAdv)) {
 					if (levelCost < moneyAvail) {
 						ns.print(`[ps-control-hacknet] Upgrading level`);
@@ -62,9 +75,6 @@ export async function main(ns: NS) {
 					ns.print(`[ps-control-hacknet] Upgrading RAM`);
 					upgradeOnAll(hacknet, hacknet.upgradeRam);
 				}
-			} else if (newNodeCost < moneyAvail && hacknet.numNodes < hacknet.maxNumNodes) {
-				ns.print(`[ps-control-hacknet] Buying new node`);
-				hacknet.purchaseNode();
 			} else {
 				ns.print(`[ps-control-hacknet] Upgrading cores`);
 				upgradeOnAll(hacknet, hacknet.upgradeCore);
@@ -79,13 +89,18 @@ export async function main(ns: NS) {
 }
 
 /**
- * @param {number} moneyAvail
- * @param {number} cost1 
- * @param {number} cost2 
- * @param {number} benefit1 
- * @param {number} benefit2 
+ * Check if we should skip buying an upgrade.
+ * 
+ * Will return true if we don't have enough money, or the cost/benefit is low.
+ * Returns false if the upgrade is highly advantageous to buy.
+ * 
+ * @param {number} moneyAvail - The player's available money.
+ * @param {number} cost2 - The cost of upgrade2.
+ * @param {number} benefit1 - The cost/benefit of upgrade1.
+ * @param {number} benefit2 - The cost/benefit of upgrade2.
+ * @returns {boolean} Whether upgrade2 should be bought over upgrade1.
  */
-function shouldSkip(ns: NS, moneyAvail: number, cost2: number, benefit1: number, benefit2: number) {
+function shouldSkip(ns: NS, moneyAvail: number, cost2: number, benefit1: number, benefit2: number): boolean {
 	const costSkip = cost2 > moneyAvail;
 	const benefitSkip = benefit1 < benefit2
 	const costOverride = (benefit2 * 100 < benefit1) || (benefit2 * 2 < benefit1) && (cost2 < moneyAvail * 3);
@@ -97,8 +112,10 @@ function shouldSkip(ns: NS, moneyAvail: number, cost2: number, benefit1: number,
 }
 
 /** 
- * @param {Hacknet} hacknet 
- * @param {function} fn
+ * Run upgrade `fn` on all nodes.
+ * 
+ * @param {Hacknet} hacknet - The Hacknet object.
+ * @param {function} fn - The `upgradeX` funcrion to run.
  */
 function upgradeOnAll(hacknet: Hacknet, fn: (i: number, n: number) => boolean) {
 	const numNodes = hacknet.numNodes();
@@ -109,8 +126,10 @@ function upgradeOnAll(hacknet: Hacknet, fn: (i: number, n: number) => boolean) {
 }
 
 /** 
+ * Upgrade node to "baseline" (first node).
+ * 
  * @param {NS} ns - The Netscript object.
- * @param {number} index
+ * @param {number} index - The hacknet node to upgrade.
  */
 function upgradeToBaseline(ns: NS, index: number) {
 	ns.print(`[ps-control-hacknet] Upgrading ${index} to baseline stats`);

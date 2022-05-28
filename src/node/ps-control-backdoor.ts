@@ -3,6 +3,11 @@ import { backdoorHost } from "/helpers/backdoor.js";
 import { getRootedHosts, getRoute } from "/helpers/discover.js";
 
 /** 
+ * Automatically backdoor all available hosts.
+ * 
+ * @example
+ * run /node/ps-control-backdoor.js
+ * 
  * @param {NS} ns - The Netscript object.
  */
 export async function main(ns: NS) {
@@ -12,13 +17,13 @@ export async function main(ns: NS) {
         ns.clearLog();
 
         if (!ns.fileExists("/flags/SKIP_CRACKER.js", "home")) {
-            const rootedHosts = await getRootedHosts(ns);
+            const rootedHosts = getRootedHosts(ns);
 
             ns.clearLog();
         
             for (let i = 0; i < rootedHosts.length; i++) {
                 const hostname = rootedHosts[i];
-                await backdoorHost(ns, await getRoute(ns, hostname));
+                await backdoorHost(ns, getRoute(ns, hostname));
 
                 await ns.sleep(10 * 1000);
             }

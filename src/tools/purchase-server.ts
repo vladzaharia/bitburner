@@ -1,6 +1,14 @@
 import { NS } from "Netscript";
 
 /** 
+ * Purchase new servers from the Terminal.
+ * 
+ * @example <caption>Purchase a single server with given RAM.</caption>
+ * run /tools/purchase-server.js [ram] [host0]
+ * 
+ * @example <caption>Purchase multiple servers, each with given RAM.</caption>
+ * run /tools/purchase-server.js [ram] [host0] ... [hostn]
+ *
  * @param {NS} ns - The Netscript object.
  */
 export async function main(ns: NS) {

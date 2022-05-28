@@ -9,6 +9,16 @@ const WORKERS_PER_POOL = 8;
 const MONEY_MULTIPLIER = 0.50;
 
 /** 
+ * Automatically maintain personal servers.
+ * 
+ * Each cycle will:
+ *  - Check for RAM upgrade based on available money.
+ *  - If RAM needs upgrading, sell all purchased servers.
+ *  - Fill available servers up to capacity in pools.
+ * 
+ * @example
+ * run /node/ps-control-purchaser.js
+ * 
  * @param {NS} ns - The Netscript object.
  */
 export async function main(ns: NS) {
@@ -75,7 +85,7 @@ export async function main(ns: NS) {
                 }
 
                 // Purchase a worker node
-                const purchased = await purchaseServer(ns, RAM, `worker${j}`, k.toString());
+                const purchased = purchaseServer(ns, RAM, `worker${j}`, k.toString());
 
                 if (purchased) {
                     purchasedServers = ns.getPurchasedServers();
@@ -98,28 +108,34 @@ export async function main(ns: NS) {
 }
 
 /**
+ * Check RAM level based on available money, and sell servers if needed.
+ * @async
+ * 
  * @param {NS} ns - The Netscript object.
- * @param {number} availMoney
- * @param {number} ram
- * @param {string[]} purchasedServers
+ * @param {number} availMoney - The player's available money.
+ * @param {number} ram - The amount of RAM to check for.
+ * @param {string[]} purchasedServers - The current list of purchased servers.
  */
-async function checkForUpgrade(ns: NS, availMoney: number, ram: number, purchasedServers: string[]) {
+function checkForUpgrade(ns: NS, availMoney: number, ram: number, purchasedServers: string[]) {
     ns.print(`[ps-control-purchaser] Checking for ${ram}GB upgrade, ${PRICE_PER_GB * ram} < ${availMoney} && ${RAM} < ${ram}`);
 
     if ((PRICE_PER_GB * ram) < availMoney && RAM < ram) {
         RAM = ram;
         ns.print(`[ps-control-purchaser] Setting RAM to ${ram} and selling servers`);
-        await sellWorkerServers(ns, purchasedServers);
+        sellWorkerServers(ns, purchasedServers);
     } 
 }
 
 /**
+ * Purchase a new server, with hostname `ps-[type]-[name]`.
+ * 
  * @param {NS} ns - The Netscript object.
- * @param {number} ram
- * @param {string} type
- * @param {string} name
+ * @param {number} ram - Amount of RAM in new server.
+ * @param {string} type - The type of server, either "control" or "worker[pool]".
+ * @param {string} name - The name of the server.
+ * @returns {boolean} Whether the server was purchased.
  */
-async function purchaseServer(ns: NS, ram: number, type: string, name: string) {
+function purchaseServer(ns: NS, ram: number, type: string, name: string): boolean {
     const availMoney = Math.floor(ns.getServerMoneyAvailable("home") * MONEY_MULTIPLIER);
     const neededMoney = ns.getPurchasedServerCost(ram);
     
@@ -129,7 +145,8 @@ async function purchaseServer(ns: NS, ram: number, type: string, name: string) {
         const fullName = `ps-${type}-${name}`;
 
         ns.print(`[ps-control-purchaser] Purchasing server: ${fullName}, ${ram}GB for $${neededMoney}`);
-        return ns.purchaseServer(fullName, ram);
+        ns.purchaseServer(fullName, ram);
+        return true;
     } else {
         ns.print(`[ps-control-purchaser] Need more money: ${availMoney}/${neededMoney}`);
         return false;
@@ -137,10 +154,12 @@ async function purchaseServer(ns: NS, ram: number, type: string, name: string) {
 }
 
 /**
+ * Sells all worker servers, with hostnames starting with "pserv" or "ps-worker".
+ * 
  * @param {NS} ns - The Netscript object.
- * @param {string[]} allServers
+ * @param {string[]} allServers - The list of all personal servers.
  */
-async function sellWorkerServers(ns: NS, allServers: string[]) {
+function sellWorkerServers(ns: NS, allServers: string[]) {
     if (!allServers || allServers.length === 0) {
         return;
     }
@@ -149,7 +168,7 @@ async function sellWorkerServers(ns: NS, allServers: string[]) {
 
     if (ns.getServerMaxRam(purchasedWorkers[0]) < RAM) {
         for (let i = 0; i < purchasedWorkers.length; i++) {
-            await sellServer(ns, purchasedWorkers[i]);
+            sellServer(ns, purchasedWorkers[i]);
         }
     } else {
         ns.print(`Servers already satisfy ${RAM}GB RAM requirement`);
@@ -157,10 +176,12 @@ async function sellWorkerServers(ns: NS, allServers: string[]) {
 }
 
 /**
+ * Sell a single server.
+ * 
  * @param {NS} ns - The Netscript object.
- * @param {string} hostname
+ * @param {string} hostname - The hostname of the server to sell.
  */
-async function sellServer(ns: NS, hostname: string) {
-    await ns.killall(hostname);
-    await ns.deleteServer(hostname);
+function sellServer(ns: NS, hostname: string) {
+    ns.killall(hostname);
+    ns.deleteServer(hostname);
 }

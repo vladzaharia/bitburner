@@ -19,7 +19,22 @@ SCRIPTS[GROW_SCRIPT] = 50;
 const HOSTS_PER_POOL = 8;
 const MIN_SERVER_MONEY_PCT = 0.5;
 
-/**
+/** 
+ * Automatically execute a parallelized HWG cycle on all availbe hosts.
+ * 
+ * On each pool, will:
+ *  - Split hackable hosts by workers in pool
+ *  - Check if any host is low on money
+ *  - Execute 80W/20G (if money needed) or 25H/25W/50G scripts on hosts in pool
+ * 
+ * Pools:
+ *  - Personal worker pools, ps-worker[0..n]
+ *  - Rooted server pools, with `HOSTS_PER_POOL`
+ *  - ["home"]
+ * 
+ * @example
+ * run /node/ps-control-scheduler.js
+ * 
  * @param {NS} ns - The Netscript object.
  */
 export async function main(ns: NS) {
@@ -56,23 +71,27 @@ export async function main(ns: NS) {
 }
 
 /**
+ * Get all pools available.
+ * 
  * @param {NS} ns - The Netscript object.
- * @returns {string[][]}
+ * @returns {string[][]} All pools - worker, rooted and home.
  */
-async function getPools(ns: NS) {
-  const workers = await getWorkerServers(ns);
+function getPools(ns: NS): string[][] {
+  const workers = getWorkerServers(ns);
   ns.print(`[ps-control-scheduler] Workers: ${workers}`);
 
-  const rootedNodes = await getRootedHosts(ns);
+  const rootedNodes = getRootedHosts(ns);
   ns.print(`[ps-control-scheduler] Rooted nodes: ${rootedNodes}`);
 
   return [...splitWorkers(ns, workers), ...splitHostnames(ns, rootedNodes)];
 }
 
 /**
+ * Split hostnames into pools.
+ * 
  * @param {NS} ns - The Netscript object.
- * @param {string[]} hostnames
- * @returns {string[][]}
+ * @param {string[]} hostnames - Hostnames to split into pools.
+ * @returns {string[][]} The pools of `hostnames` split into pools based on `HOSTS_PER_POOL.
  */
 function splitHostnames(ns: NS, hostnames: string[]): string[][] {
   let finalHostnames: string[][] = [];
@@ -97,9 +116,11 @@ function splitHostnames(ns: NS, hostnames: string[]): string[][] {
 }
 
 /**
+ * Split workers into pools.
+ * 
  * @param {NS} ns - The Netscript object.
- * @param {string[]} hostnames
- * @returns {string[][]}
+ * @param {string[]} hostnames - The workers to split into pools, based on `ps-worker[n]`.
+ * @returns {string[][]} The pools of workers with the same `n`.
  */
 function splitWorkers(ns: NS, hostnames: string[]): string[][] {
   let finalHostnames: string[][] = [];
@@ -127,9 +148,11 @@ function splitWorkers(ns: NS, hostnames: string[]): string[][] {
 }
 
 /**
+ * Execute HWG scripts on all hosts in pool.
+ * 
  * @param {NS} ns - The Netscript object.
- * @param {string[]} hostnames
- * @param {string[]} args
+ * @param {string[]} hostnames - The hostnames to run the HWG script on.
+ * @param {string[]} args - Args to run the scripts with.
  */
 async function executeOnPool(ns: NS, hostnames: string[], args: string[]) {
   for (let i = 0; i < hostnames.length; i++) {
@@ -202,7 +225,7 @@ async function executeOnPool(ns: NS, hostnames: string[], args: string[]) {
           );
 
           await scp(ns, hostname, [filename]);
-          await exec(ns, hostname, filename, threads, fnArgs);
+          exec(ns, hostname, filename, threads, fnArgs);
         }
 
         await ns.sleep(100);
@@ -214,11 +237,14 @@ async function executeOnPool(ns: NS, hostnames: string[], args: string[]) {
 }
 
 /**
+ * Exclude servers which wouldn't benefit from a weaken/grow operation.
+ * 
  * @param {NS} ns - The Netscript object.
- * @param {string} filename
- * @param {string[]} args
+ * @param {string} filename - Which script to check against.
+ * @param {string[]} args - Existing list of arguments.
+ * @returns {string[]} List of arguments without unnecessary hostnames.
  */
-function getFilteredArgs(ns: NS, filename: string, args: string[]) {
+function getFilteredArgs(ns: NS, filename: string, args: string[]): string[] {
   let fnArgs = args.slice();
 
   if (filename === GROW_SCRIPT) {

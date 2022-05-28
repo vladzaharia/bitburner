@@ -25,7 +25,7 @@ export async function main(ns: NS) {
 
 		ns.print(`[crack] Executing crack on ${hostname}`)
 
-		await crackHost(ns, hostname);
+		crackHost(ns, hostname);
 	}
 }
 
@@ -35,15 +35,15 @@ export async function main(ns: NS) {
  * @param {NS} ns - The Netscript object.
  * @param {string} hostname - Hostname to crack
  */
-export async function crackHost(ns: NS, hostname: string) {
+export function crackHost(ns: NS, hostname: string) {
 	// Nuke host first
 	if (!ns.hasRootAccess(hostname)) {
 		if (ns.getServerNumPortsRequired(hostname) > 0) {
-			await useAllOpeners(ns, hostname);
+			useAllOpeners(ns, hostname);
 		}
 
-		await ns.print(`[crack] Nuking ${hostname}`)
-		await ns.nuke(hostname);
+		ns.print(`[crack] Nuking ${hostname}`)
+		ns.nuke(hostname);
 	} else {
 		ns.print(`[crack] ${hostname} already cracked!`)
 	}
@@ -75,11 +75,11 @@ export function getPortOpeners(ns: NS): string[] {
  * @param {NS} ns - The Netscript object. 
  * @param {string} hostname - The hostname to crack.
  */
-async function useAllOpeners(ns: NS, hostname: string) {
+function useAllOpeners(ns: NS, hostname: string) {
 	// Run available openers
 	const availableOpeners = getPortOpeners(ns);
 	for (let i = 0; i < availableOpeners.length; i++) {
-		await useOpener(ns, hostname, availableOpeners[i]);
+		useOpener(ns, hostname, availableOpeners[i]);
 	}
 }
 
@@ -90,8 +90,8 @@ async function useAllOpeners(ns: NS, hostname: string) {
  * @param {string} hostname - The hostname to crack.
  * @param {string} opener - The opener to use.
  */
-async function useOpener(ns: NS, hostname: string, opener: string) {
-	await ns.print(`[crack] Using ${opener} on ${hostname}`)
+function useOpener(ns: NS, hostname: string, opener: string) {
+	ns.print(`[crack] Using ${opener} on ${hostname}`)
 
 	switch (opener) {
 		case "BruteSSH.exe":

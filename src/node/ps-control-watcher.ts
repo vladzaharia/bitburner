@@ -2,6 +2,11 @@ import { NS } from "Netscript";
 import { getHackableHosts, getPersonalServers } from "/helpers/discover.js";
 
 /** 
+ * Automatically report on hackable and personal servers.
+ * 
+ * @example
+ * run /node/ps-control-watcher.js
+ * 
  * @param {NS} ns - The Netscript object.
  */
 export async function main(ns: NS) {
@@ -11,8 +16,8 @@ export async function main(ns: NS) {
         ns.clearLog();
 
         if (!ns.fileExists("/flags/SKIP_WATCHER.js", "home")) {
-            const hackableHosts = await getHackableHosts(ns);
-            const personalServers = await getPersonalServers(ns);
+            const hackableHosts = getHackableHosts(ns);
+            const personalServers = getPersonalServers(ns);
 
             ns.clearLog();
         

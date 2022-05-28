@@ -1,14 +1,28 @@
 import { NS } from "Netscript";
-import { getControlServers, getRootedHosts, getPersonalServers, getWorkerServers } from "/helpers/discover.js";
+import { getControlServers, getRootedHosts, getPersonalServers, getWorkerServers, getHosts } from "/helpers/discover.js";
 import { exec } from "/helpers/exec.js";
 import { scp } from "/helpers/scp.js";
 
 /** 
+ * Copy and execute a given file on a given host.
+ * 
+ * @example <caption>Copy and execute /helpers/hack-weaken-grow.js on all personal and rooted servers.</caption>
+ * run /tools/scp-exec.js
+ * 
+ * @example <caption>Copy and execute script on given host.</caption>
+ * run /tools/scp-exec.js [host] [path-to-script]
+ * 
+ * @example <caption>Copy and execute script on worker servers.</caption>
+ * run /tools/scp-exec.js worker [path-to-script]
+ * 
+ * @example <caption>Copy and execute script on host with given threads and args.</caption>
+ * run /tools/scp-exec.js [host] [path-to-script] [threads] [arg0] ... [argn]
+ * 
  * @param {NS} ns - The Netscript object.
  */
 export async function main(ns: NS) {
-	let hostnames = await getPersonalServers(ns);
-	const hackableHosts = await getRootedHosts(ns);
+	const hackableHosts = getRootedHosts(ns);
+	let hostnames = [... getPersonalServers(ns), ... hackableHosts];
 	let threads = 0;
 	let filename = "/helpers/hack-weaken-grow.js";
 	let args = hackableHosts;
@@ -25,8 +39,11 @@ export async function main(ns: NS) {
 		} else if (hostnameArg === "worker") {
 			hostnames = await getWorkerServers(ns);
 			ns.print(`[scp-exec] Filtered to worker servers: ${hostnames}`);
+		} else if (hostnameArg === "rooted") {
+			hostnames = await getRootedHosts(ns);
+			ns.print(`[scp-exec] Filtered to worker servers: ${hostnames}`);
 		} else {
-			hostnames = hostnames.filter((hn) => hn.indexOf(hostnameArg) !== -1);
+			hostnames = getHosts(ns, 10).filter((hn) => hn.indexOf(hostnameArg) !== -1);
 			ns.print(`[scp-exec] Filtered based on ${hostnameArg}: ${hostnames}`);
 		}
 
