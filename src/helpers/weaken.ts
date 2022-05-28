@@ -1,7 +1,15 @@
 import { NS } from "Netscript";
 
 /** 
- * @param {NS} ns
+ * Weaken host(s) from Terminal.
+ * 
+ * @example <caption>Weaken single passed in host.</caption>
+ * run /helpers/weaken.js [host0]
+ * 
+ * @example <caption>Weaken multiple passed in hosts.</caption>
+ * run /helpers/weaken.js [host0] ... [hostn]
+ *
+ * @param {NS} ns - The Netscript object.
  */
 export async function main(ns: NS) {
 	if (ns.args.length === 0) {
@@ -18,10 +26,14 @@ export async function main(ns: NS) {
 }
 
 /** 
- * @param {NS} ns
- * @param {string} hostname 
+ * Weaken host at `hostname`.
+ * @async
+ * 
+ * @param {NS} ns - The Netscript object.
+ * @param {string} hostname - Host to weaken.
+ * @returns {Promise<number>} The amount by which the server's security level was decreased.
  */
-export async function weaken(ns: NS, hostname: string) {
+export async function weaken(ns: NS, hostname: string): Promise<number> {
     ns.print(`[weaken] Executing weaken on ${hostname}`);
-    await ns.weaken(hostname);
+    return await ns.weaken(hostname);
 }

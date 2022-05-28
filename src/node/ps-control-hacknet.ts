@@ -8,7 +8,7 @@ const MONEY_PER_CORE = 198.278;
 const MONEY_MULTIPLIER = 0.1;
 
 /** 
- * @param {NS} ns
+ * @param {NS} ns - The Netscript object.
  */
 export async function main(ns: NS) {
     ns.disableLog("ALL");
@@ -109,7 +109,7 @@ function upgradeOnAll(hacknet: Hacknet, fn: (i: number, n: number) => boolean) {
 }
 
 /** 
- * @param {NS} ns
+ * @param {NS} ns - The Netscript object.
  * @param {number} index
  */
 function upgradeToBaseline(ns: NS, index: number) {

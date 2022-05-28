@@ -1,7 +1,15 @@
 import { NS } from "Netscript";
 
 /** 
- * @param {NS} ns
+ * Grow host(s) from Terminal.
+ * 
+ * @example <caption>Grow single passed in host.</caption>
+ * run /helpers/grow.js [host0]
+ * 
+ * @example <caption>Grow multiple passed in hosts.</caption>
+ * run /helpers/grow.js [host0] ... [hostn]
+ * 
+ * @param {NS} ns - The Netscript object.
  */
 export async function main(ns: NS) {
 	if (ns.args.length === 0) {
@@ -18,10 +26,14 @@ export async function main(ns: NS) {
 }
 
 /** 
- * @param {NS} ns
- * @param {string} hostname 
+ * Grow host on `hostname`.
+ * @async
+ * 
+ * @param {NS} ns - The Netscript object.
+ * @param {string} hostname - The host to grow.
+ * @returns {Promise<number>} - The amount by which the server's money grew. 
  */
-export async function grow(ns: NS, hostname: string) {
+export async function grow(ns: NS, hostname: string): Promise<number> {
     ns.print(`[grow] Executing grow on ${hostname}`);
     return await ns.grow(hostname);
 }

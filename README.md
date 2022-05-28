@@ -7,6 +7,14 @@ Scripts used in my Bitburner deployment.
 Various helper scripts to execute common commands, can be run or imported.
 
 - `crack.js`: Cracks given server(s)
+  - ```bash
+    run /helpers/crack.js [host0] [host2]
+    ```
+  - ```ts
+    import { crackHost } from "/helpers/crack.js";
+    crackHost()
+    ```
+
 - `discover.js`: Discover personal, crackable, hackable, rooted servers
 - `exec.js`: Executes a script on a hostname
 - `grow.js`: Grow 1+ servers

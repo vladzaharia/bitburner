@@ -2,7 +2,7 @@ import { NS } from "Netscript";
 import { getHackableHosts, getPersonalServers } from "/helpers/discover.js";
 
 /** 
- * @param {NS} ns
+ * @param {NS} ns - The Netscript object.
  */
 export async function main(ns: NS) {
     ns.disableLog("ALL");

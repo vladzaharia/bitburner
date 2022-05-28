@@ -1,24 +1,36 @@
 import { NS } from "Netscript";
 
 /** 
- * @param {NS} ns
+ * Copy `filename`, along with helper files, to `hostname`.
+ * 
+ * @example <caption>Copy `filename` to `host`.</caption>
+ * run /helpers/scp.js [host] [filename]
+ * 
+ * @example <caption>Copy multiple files to `host`.</caption>
+ * run /helpers/hack.js [host] [file0] ... [filen]
+ * 
+ * @param {NS} ns - The Netscript object.
  */
 export async function main(ns: NS) {
 	if (ns.args.length < 2) {
 		throw "Function must be called with hostname and filename";
 	}
 
-    await scp(ns, ns.args[0] as string, ns.args[1] as string);
+    await scp(ns, ns.args[0] as string, ns.args.slice(1) as string[]);
 }
 
 /** 
- * @param {NS} ns
- * @param {string} hostname
- * @param {string} filename
+ * Copy `filenames`, along with helper scripts in `/helpers` to `hostname`.
+ * @async
+ * 
+ * @param {NS} ns - The Netscript object.
+ * @param {string} hostname - The host to copy files to.
+ * @param {string[]} filenames - The files to copy, in addition to all files in `/helpers`.
+ * @returns {Promise<boolean>} Whether the files were copied over successfully.
  */
- export async function scp(ns: NS, hostname: string, filename: string) {
-    const additionalFiles = ns.ls("home").filter((file) => file.startsWith("/helpers") || file.startsWith("/node"));
+ export async function scp(ns: NS, hostname: string, filenames: string[]): Promise<boolean> {
+    const additionalFiles = ns.ls("home").filter((file) => file.startsWith("/helpers"));
 
-    ns.print(`[scp] Copying helper scripts and ${filename} to ${hostname}`);
-    await ns.scp([filename, ... additionalFiles], hostname);
+    ns.print(`[scp] Copying helper scripts and ${filenames} to ${hostname}`);
+    return await ns.scp([... filenames, ... additionalFiles], hostname);
 }

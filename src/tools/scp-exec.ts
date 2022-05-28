@@ -4,7 +4,7 @@ import { exec } from "/helpers/exec.js";
 import { scp } from "/helpers/scp.js";
 
 /** 
- * @param {NS} ns
+ * @param {NS} ns - The Netscript object.
  */
 export async function main(ns: NS) {
 	let hostnames = await getPersonalServers(ns);
@@ -63,7 +63,7 @@ export async function main(ns: NS) {
 		runningProc.forEach((proc) => ns.kill(proc.filename, hostname, ... proc.args));
 
 		// Copy and execute
-		await scp(ns, hostname, filename);		
+		await scp(ns, hostname, [filename]);		
 		await exec(ns, hostname, filename, threads, fnArgs);
 		
 		await ns.sleep(1000);

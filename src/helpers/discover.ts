@@ -1,15 +1,20 @@
 import { NS } from "Netscript";
 import { getPortOpeners } from "/helpers/crack.js";
 
-const DEPTH = 2;
-
 let foundHosts: string[] = [];
 
 /** 
- * @param {NS} ns
+ * Get all available and crackable hosts via Terminal, to a default depth of 5.
+ * 
+ * @example <caption>Discover hosts to depth of 5.</caption>
+ * run /helpers/discover.js
+ * @example <caption>Discover hosts to passed in depth.</caption>
+ * run /helpers/discover.js [depth]
+ * 
+ * @param {NS} ns - The Netscript object.
  */
 export async function main(ns: NS) {
-	let depth: number = DEPTH;
+	let depth: number = 5;
 
 	if (ns.args.length === 1) {
 		depth = ns.args[0] as number;
@@ -21,8 +26,12 @@ export async function main(ns: NS) {
 }
 
 /** 
- * @param {NS} ns 
- * @param {number} depth
+ * Get available hosts to a specified `depth`.
+ * @async
+ * 
+ * @param {NS} ns - The Netscript object. 
+ * @param {number} depth - The depth to search to.
+ * @returns {Promise<string[]>} All hosts available from "home" to `depth`.
  */
 export async function getHosts(ns: NS, depth: number): Promise<string[]> {
 	ns.disableLog("ALL");
@@ -38,7 +47,11 @@ export async function getHosts(ns: NS, depth: number): Promise<string[]> {
 }
 
 /** 
- * @param {NS} ns 
+ * Get a list of all personal servers.
+ * @async
+ * 
+ * @param {NS} ns - The Netscript object. 
+ * @returns {Promise<string[]>} All personal servers available from "home".
  */
 export async function getPersonalServers(ns: NS): Promise<string[]> {
 	ns.disableLog("ALL");
@@ -52,7 +65,12 @@ export async function getPersonalServers(ns: NS): Promise<string[]> {
 }
 
 /** 
- * @param {NS} ns 
+ * Get list of all personal Control servers.
+ * @async
+ * @deprecated Control servers have been superceded by scripts running on "home"
+ * 
+ * @param {NS} ns - The Netscript object. 
+ * @returns {Promise<string[]>} All Control servers available from "home".
  */
 export async function getControlServers(ns: NS): Promise<string[]> {
 	let hostnames = await getPersonalServers(ns);
@@ -64,7 +82,11 @@ export async function getControlServers(ns: NS): Promise<string[]> {
 }
 
 /** 
- * @param {NS} ns 
+ * Get list of all personal Worker servers.
+ * @async
+ * 
+ * @param {NS} ns - The Netscript object. 
+ * @returns {Promise<string[]>} All Worker servers available from "home".
  */
 export async function getWorkerServers(ns: NS): Promise<string[]> {
 	let hostnames = await getPersonalServers(ns);
@@ -76,9 +98,14 @@ export async function getWorkerServers(ns: NS): Promise<string[]> {
 }
 
 /** 
- * @param {NS} ns
- * @param {string[]} hostnames
- * @param {number} depth
+ * Get list of crackable hosts from "home".
+ * @async
+ * @see "crackable" - Can crack using current hacking level and port openers.
+ * 
+ * @param {NS} ns - The Netscript object.
+ * @param {string[]} hostnames - Optional list of hostnames to check crackability, uses all available servers to `depth`.
+ * @param {number} depth - Optional depth to search to, defaults to 10.
+ * @returns {Promise<string[]>} All crackable hosts available from "home".
  */
 export async function getCrackableHosts(ns: NS, hostnames?: string[], depth?: number): Promise<string[]> {
 	let finalHostnames: string[] = hostnames as string[];
@@ -106,38 +133,14 @@ export async function getCrackableHosts(ns: NS, hostnames?: string[], depth?: nu
 }
 
 /** 
- * @param {NS} ns
- * @param {string[]} hostnames
- * @param {number} depth
- */
-export async function getHackableHosts(ns: NS, hostnames?: string[], depth?: number): Promise<string[]> {
-	let finalHostnames = hostnames as string[];
-	const rootedHosts: string[] = [];
+ * Get list of rooted hosts from "home".
+ * @async
+ * @see "rooted" - Was successfully cracked via `/helpers/crack.js`.
 
-	ns.disableLog("ALL");
-
-	if (!hostnames || hostnames.length === 0) {
-		finalHostnames = await getHosts(ns, depth || 10);
-	}
-
-	for (let i = 0; i < finalHostnames.length; i++) {
-		const hostIsRooted = await ns.hasRootAccess(finalHostnames[i]);
-		const hostCanHaveMoney = await ns.getServerMaxMoney(finalHostnames[i]);
-
-		if (hostIsRooted && (hostCanHaveMoney > 0)) {
-			rootedHosts.push(finalHostnames[i]);
-		}
-	}
-
-	ns.print(`[discover] Rooted hosts: ${rootedHosts}`);
-
-	return rootedHosts;
-}
-
-/** 
- * @param {NS} ns
- * @param {string[]} hostnames
- * @param {number} depth
+ * @param {NS} ns - The Netscript object.
+ * @param {string[]} hostnames - Optional list of hostnames to check crackability, uses all available servers to `depth`.
+ * @param {number} depth - Optional depth to search to, defaults to 10.
+ * @returns {Promise<string[]>} All rooted hosts available from "home".
  */
 export async function getRootedHosts(ns: NS, hostnames?: string[], depth?: number): Promise<string[]> {
 	let finalHostnames = hostnames as string[];
@@ -163,10 +166,49 @@ export async function getRootedHosts(ns: NS, hostnames?: string[], depth?: numbe
 }
 
 /** 
- * @param {NS} ns
- * @param {string} hostname 
- * @param {number} maxDepth
- * @param {number} curDepth
+ * Get list of hackable hosts from "home".
+ * @async
+ * @see "hackable" - Is rooted and has max money > 0.
+ * 
+ * @param {NS} ns - The Netscript object.
+ * @param {string[]} hostnames - Optional list of hostnames to check crackability, uses all available servers to `depth`.
+ * @param {number} depth - Optional depth to search to, defaults to 10.
+ * @returns {Promise<string[]>} All hackable hosts available from "home".
+ */
+ export async function getHackableHosts(ns: NS, hostnames?: string[], depth?: number): Promise<string[]> {
+	let finalHostnames = hostnames as string[];
+	const rootedHosts: string[] = [];
+
+	ns.disableLog("ALL");
+
+	if (!hostnames || hostnames.length === 0) {
+		finalHostnames = await getHosts(ns, depth || 10);
+	}
+
+	for (let i = 0; i < finalHostnames.length; i++) {
+		const hostIsRooted = await ns.hasRootAccess(finalHostnames[i]);
+		const hostCanHaveMoney = await ns.getServerMaxMoney(finalHostnames[i]);
+
+		if (hostIsRooted && (hostCanHaveMoney > 0)) {
+			rootedHosts.push(finalHostnames[i]);
+		}
+	}
+
+	ns.print(`[discover] Hackable hosts: ${rootedHosts}`);
+
+	return rootedHosts;
+}
+
+
+/** 
+ * Scan a host recursively, up to `maxDepth`.
+ * @async
+ * 
+ * @param {NS} ns - The Netscript object.
+ * @param {string} hostname - The hostname to scan.
+ * @param {number} maxDepth - The maximum depth to scan to.
+ * @param {number} curDepth - The current scan depth, increments each level down.
+ * @returns {Promise<string[]>} All found hosts, down to `maxDepth`.
  */
 async function scanHost(ns: NS, hostname: string, maxDepth: number, curDepth: number): Promise<string[]> {
 	ns.print(`[discover] Scanning ${hostname}, depth ${curDepth}/${maxDepth}`);
@@ -192,10 +234,14 @@ async function scanHost(ns: NS, hostname: string, maxDepth: number, curDepth: nu
 }
 
 /**
- * @param {NS} ns 
- * @param {string} hostname 
+ * Get route from "home" to `hostname`.
+ * @async
+ * 
+ * @param {NS} ns - The Netscript object. 
+ * @param {string} hostname - The hostname to try and get a path to.
+ * @returns {Promise<string[] | false>} Either the path to the host from home, or false if no path is found.
  */
-export async function getRoute(ns: NS, hostname: string) {
+export async function getRoute(ns: NS, hostname: string): Promise<string[] | false> {
 	ns.print(`[discover] Looking for ${hostname}`);
 
 	const alreadyScanned: string[] = [];
@@ -229,8 +275,12 @@ export async function getRoute(ns: NS, hostname: string) {
 }
 
 /** 
- * @param {NS} ns
- * @param {string} hostname 
+ * Check if `hostname` can be cracked by current hacking level and port openers.
+ * @async
+ * 
+ * @param {NS} ns - The Netscript object.
+ * @param {string} hostname - The hostname to check.
+ * @returns {Promise<boolean>} Whether `hostname` can be cracked.
  */
 async function canCrack(ns: NS, hostname: string): Promise<boolean> {
 	const level = ns.getHackingLevel();
@@ -244,7 +294,11 @@ async function canCrack(ns: NS, hostname: string): Promise<boolean> {
 }
 
 /** 
- * @param {NS} ns
+ * Get number of available port openers.
+ * @async
+ * 
+ * @param {NS} ns - The Netscript object.
+ * @returns {Promise<number>} Number of available port openers.
  */
 async function getNumPorts(ns: NS): Promise<number> {
 	const availableOpeners = await getPortOpeners(ns);

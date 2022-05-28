@@ -20,7 +20,7 @@ const HOSTS_PER_POOL = 8;
 const MIN_SERVER_MONEY_PCT = 0.5;
 
 /**
- * @param {NS} ns
+ * @param {NS} ns - The Netscript object.
  */
 export async function main(ns: NS) {
   ns.disableLog("ALL");
@@ -56,7 +56,7 @@ export async function main(ns: NS) {
 }
 
 /**
- * @param {NS} ns
+ * @param {NS} ns - The Netscript object.
  * @returns {string[][]}
  */
 async function getPools(ns: NS) {
@@ -70,7 +70,7 @@ async function getPools(ns: NS) {
 }
 
 /**
- * @param {NS} ns
+ * @param {NS} ns - The Netscript object.
  * @param {string[]} hostnames
  * @returns {string[][]}
  */
@@ -97,7 +97,7 @@ function splitHostnames(ns: NS, hostnames: string[]): string[][] {
 }
 
 /**
- * @param {NS} ns
+ * @param {NS} ns - The Netscript object.
  * @param {string[]} hostnames
  * @returns {string[][]}
  */
@@ -127,7 +127,7 @@ function splitWorkers(ns: NS, hostnames: string[]): string[][] {
 }
 
 /**
- * @param {NS} ns
+ * @param {NS} ns - The Netscript object.
  * @param {string[]} hostnames
  * @param {string[]} args
  */
@@ -201,7 +201,7 @@ async function executeOnPool(ns: NS, hostnames: string[], args: string[]) {
             ns.kill(proc.filename, hostname, ...proc.args)
           );
 
-          await scp(ns, hostname, filename);
+          await scp(ns, hostname, [filename]);
           await exec(ns, hostname, filename, threads, fnArgs);
         }
 
@@ -214,7 +214,7 @@ async function executeOnPool(ns: NS, hostnames: string[], args: string[]) {
 }
 
 /**
- * @param {NS} ns
+ * @param {NS} ns - The Netscript object.
  * @param {string} filename
  * @param {string[]} args
  */

@@ -2,7 +2,17 @@ import { NS } from "Netscript";
 
 const ALL_OPENERS = ["BruteSSH.exe", "FTPCrack.exe", "relaySMTP.exe", "HTTPWorm.exe", "SQLInject.exe"];
 
-/** @param { NS } ns */
+/**
+ * Crack host(s) from Terminal.
+ * 
+ * @example <caption>Crack single passed in host.</caption>
+ * run /helpers/crack.js [host0]
+ * 
+ * @example <caption>Crack multiple passed in hosts.</caption>
+ * run /helpers/crack.js [host0] ... [hostn]
+ *
+ * @param {NS} ns - The Netscript object.
+ */
 export async function main(ns: NS) {
 	if (ns.args.length === 0) {
 		throw "Function must be called with 1+ hostnames";
@@ -20,8 +30,10 @@ export async function main(ns: NS) {
 }
 
 /** 
- * @param {NS} ns 
- * @param {string} hostname
+ * Crack given host using available port openers and nuke.
+ * 
+ * @param {NS} ns - The Netscript object.
+ * @param {string} hostname - Hostname to crack
  */
 export async function crackHost(ns: NS, hostname: string) {
 	// Nuke host first
@@ -32,16 +44,16 @@ export async function crackHost(ns: NS, hostname: string) {
 
 		await ns.print(`[crack] Nuking ${hostname}`)
 		await ns.nuke(hostname);
-
-		// Backdoor host
-		// ns.installBackdoor();
 	} else {
 		ns.print(`[crack] ${hostname} already cracked!`)
 	}
 }
 
 /** 
- * @param {NS} ns
+ * Get available port openers.
+ * 
+ * @param {NS} ns - The Netscript object.
+ * @returns {string[]} Port openers available.
  */
 export function getPortOpeners(ns: NS): string[] {
 	const availableOpeners: string[] = [];
@@ -58,8 +70,10 @@ export function getPortOpeners(ns: NS): string[] {
 }
 
 /** 
- * @param {NS} ns 
- * @param {string} hostname
+ * Use all available openers on `hostname`.
+ * 
+ * @param {NS} ns - The Netscript object. 
+ * @param {string} hostname - The hostname to crack.
  */
 async function useAllOpeners(ns: NS, hostname: string) {
 	// Run available openers
@@ -70,9 +84,11 @@ async function useAllOpeners(ns: NS, hostname: string) {
 }
 
 /** 
- * @param {NS} ns 
- * @param {string} hostname
- * @param {string} opener
+ * Crack a port on `hostname` using `opener`
+ * 
+ * @param {NS} ns - The Netscript object. 
+ * @param {string} hostname - The hostname to crack.
+ * @param {string} opener - The opener to use.
  */
 async function useOpener(ns: NS, hostname: string, opener: string) {
 	await ns.print(`[crack] Using ${opener} on ${hostname}`)

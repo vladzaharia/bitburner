@@ -1,7 +1,7 @@
 import { NS } from "Netscript";
 
 /** 
- * @param {NS} ns
+ * @param {NS} ns - The Netscript object.
  */
 export async function main(ns: NS) {
     if (ns.args.length < 2) {

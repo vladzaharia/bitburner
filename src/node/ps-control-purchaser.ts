@@ -9,7 +9,7 @@ const WORKERS_PER_POOL = 8;
 const MONEY_MULTIPLIER = 0.50;
 
 /** 
- * @param {NS} ns
+ * @param {NS} ns - The Netscript object.
  */
 export async function main(ns: NS) {
     ns.disableLog("ALL");
@@ -98,7 +98,7 @@ export async function main(ns: NS) {
 }
 
 /**
- * @param {NS} ns
+ * @param {NS} ns - The Netscript object.
  * @param {number} availMoney
  * @param {number} ram
  * @param {string[]} purchasedServers
@@ -114,7 +114,7 @@ async function checkForUpgrade(ns: NS, availMoney: number, ram: number, purchase
 }
 
 /**
- * @param {NS} ns
+ * @param {NS} ns - The Netscript object.
  * @param {number} ram
  * @param {string} type
  * @param {string} name
@@ -137,7 +137,7 @@ async function purchaseServer(ns: NS, ram: number, type: string, name: string) {
 }
 
 /**
- * @param {NS} ns
+ * @param {NS} ns - The Netscript object.
  * @param {string[]} allServers
  */
 async function sellWorkerServers(ns: NS, allServers: string[]) {
@@ -157,7 +157,7 @@ async function sellWorkerServers(ns: NS, allServers: string[]) {
 }
 
 /**
- * @param {NS} ns
+ * @param {NS} ns - The Netscript object.
  * @param {string} hostname
  */
 async function sellServer(ns: NS, hostname: string) {
