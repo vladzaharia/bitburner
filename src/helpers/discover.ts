@@ -200,7 +200,6 @@ export async function getRoute(ns: NS, hostname: string) {
 
 	const alreadyScanned: string[] = [];
 	const innerLoop = async (target: string, hostnames: string[]) => {
-		await ns.sleep(1000);
 		alreadyScanned.push(target);
 
 		if (hostname === target) {

@@ -1,8 +1,8 @@
 import { Hacknet, NS } from "Netscript";
 
-const MONEY_PER_LEVEL = 3.603;
-const MONEY_PER_RAM = 399.309;
-const MONEY_PER_CORE = 90.671;
+const MONEY_PER_LEVEL = 8.668;
+const MONEY_PER_RAM = 31830;
+const MONEY_PER_CORE = 198.278;
 
 // Amount of money dedicated to upgrades
 const MONEY_MULTIPLIER = 0.1;
@@ -88,7 +88,7 @@ export async function main(ns: NS) {
 function shouldSkip(ns: NS, moneyAvail: number, cost2: number, benefit1: number, benefit2: number) {
 	const costSkip = cost2 > moneyAvail;
 	const benefitSkip = benefit1 < benefit2
-	const costOverride = (benefit2 * 2 < benefit1) && (cost2 < moneyAvail * 3);
+	const costOverride = (benefit2 * 100 < benefit1) || (benefit2 * 2 < benefit1) && (cost2 < moneyAvail * 3);
 
 	if (costOverride) {
 		return !costOverride;
@@ -125,7 +125,7 @@ function upgradeToBaseline(ns: NS, index: number) {
 	}
 	if (node.ram < baseNode.ram) {
 		ns.print(`[ps-control-hacknet] Upgrading RAM ${node.ram} -> ${baseNode.ram}`);
-		hacknet.upgradeRam(index, baseNode.ram - node.ram);
+		hacknet.upgradeRam(index, Math.log2(baseNode.ram) - Math.log2(node.ram));
 	}
 	if (node.cores < baseNode.cores) {
 		ns.print(`[ps-control-hacknet] Upgrading cores ${node.cores} -> ${baseNode.cores}`);
