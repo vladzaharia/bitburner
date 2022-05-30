@@ -39,6 +39,7 @@ export async function backdoorHost(ns: NS, route: string[] | false) {
 
     if (route) {
         //(ns as any).connect("home");
+        ns.print(route.map((hn) => `${hn} [${ns.hasRootAccess(hn)}]`))
 
         if (true) {
             // Connect to target via route

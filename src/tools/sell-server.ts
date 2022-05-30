@@ -15,11 +15,11 @@ export async function main(ns: NS) {
     if (ns.args.length === 0) {
         throw "Function must be called with servers to sell!"
     }
-    
+
     const purchasedServers = ns.args as string[];
 
-	for (let i = 0; i < purchasedServers.length; i++) {
-		ns.killall(purchasedServers[i]);
-		ns.deleteServer(purchasedServers[i]);
-	}
+    for (let i = 0; i < purchasedServers.length; i++) {
+        ns.killall(purchasedServers[i]);
+        ns.deleteServer(purchasedServers[i]);
+    }
 }
