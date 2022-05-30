@@ -1,5 +1,6 @@
 var gulp = require('gulp');
 var clean = require('gulp-clean');
+var filelist = require('gulp-filelist');
 var run = require('gulp-run');
 var ts = require('gulp-typescript');
 
@@ -17,6 +18,10 @@ gulp.task('compile', function () {
 
     // Output to ./out
     return result.js.pipe(gulp.dest('out'));
+});
+
+gulp.task('generate-manifest', function () {
+    return gulp.src("out/**/*.js").pipe(filelist('manifest.json', { relative: true })).pipe(gulp.dest("out/res"));
 });
 
 gulp.task('sync', function () {
@@ -45,4 +50,4 @@ gulp.task('watch:sync', function () {
 });
 
 // ### Misc tasks
-gulp.task('default', gulp.series('clean', 'compile'));
+gulp.task('default', gulp.series('clean', 'compile', 'generate-manifest'));

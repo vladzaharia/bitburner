@@ -202,7 +202,7 @@ async function executeOnPool(ns: NS, hostnames: string[], args: string[]) {
           Object.values(finalScripts).reduce((n, t) => n + t, 0);
 
         const threads = Math.floor(
-          ((ramAvail / ns.getScriptRam(filename)) / getTotalFilteredArgs(ns, fnArgs))
+          ((ramAvail / ns.getScriptRam(filename)) / getTotalFilteredArgs(ns, fnArgs)) - 1
         );
 
         if (threads > 0) {

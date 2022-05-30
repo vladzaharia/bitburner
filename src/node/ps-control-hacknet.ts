@@ -5,7 +5,7 @@ const MONEY_PER_RAM = 31830;
 const MONEY_PER_CORE = 198.278;
 
 // Amount of money dedicated to upgrades
-const MONEY_MULTIPLIER = 0.1;
+const MONEY_MULTIPLIER = 0.05;
 
 /** 
  * Automatically maintain Hacknet nodes.

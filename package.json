@@ -11,8 +11,10 @@
 		"bitburner-sync": "^1.5.2",
 		"gulp": "^4.0.2",
 		"gulp-clean": "^0.4.0",
+		"gulp-filelist": "^2.0.5",
 		"gulp-run": "^1.7.1",
 		"gulp-typescript": "^6.0.0-alpha.1",
+		"http-server": "^14.1.0",
 		"replace-in-file": "^6.3.3"
 	},
 	"scripts": {
@@ -20,9 +22,11 @@
 		"postinstall:defs": "gulp postinstall:defs",
 		"postinstall:config": "gulp postinstall:config",
 		"build": "gulp",
+		"build:manifest": "gulp generate-manifest",
 		"build:watch": "gulp watch",
 		"build:sync-watch": "gulp watch-sync",
 		"clean": "gulp clean",
+		"serve": "npm run build && http-server ./out",
 		"sync": "bitburner-sync",
 		"sync:watch": "bitburner-sync --watch"
 	}
