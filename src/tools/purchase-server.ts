@@ -23,7 +23,7 @@ export async function main(ns: NS) {
         const hostname = hostnames[i];
         const availMoney = Math.floor(ns.getServerMoneyAvailable("home"));
         const neededMoney = ns.getPurchasedServerCost(ram);
-    
+
         // Check if we have enough money to purchase a server
         if (availMoney > neededMoney) {
             ns.purchaseServer(hostname, ram);
@@ -31,5 +31,4 @@ export async function main(ns: NS) {
             ns.print(`[purchase-server] Need more money: ${availMoney}/${neededMoney}`);
         }
     }
-
 }

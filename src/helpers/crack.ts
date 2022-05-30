@@ -14,19 +14,19 @@ const ALL_OPENERS = ["BruteSSH.exe", "FTPCrack.exe", "relaySMTP.exe", "HTTPWorm.
  * @param {NS} ns - The Netscript object.
  */
 export async function main(ns: NS) {
-	if (ns.args.length === 0) {
-		throw "Function must be called with 1+ hostnames";
-	}
+    if (ns.args.length === 0) {
+        throw "Function must be called with 1+ hostnames";
+    }
 
-	const hostnames: string[] = ns.args as string[];
+    const hostnames: string[] = ns.args as string[];
 
-	for (let i = 0; i < hostnames.length; i++) {
-		const hostname = hostnames[i];
+    for (let i = 0; i < hostnames.length; i++) {
+        const hostname = hostnames[i];
 
-		ns.print(`[crack] Executing crack on ${hostname}`)
+        ns.print(`[crack] Executing crack on ${hostname}`)
 
-		crackHost(ns, hostname);
-	}
+        crackHost(ns, hostname);
+    }
 }
 
 /** 
@@ -36,17 +36,17 @@ export async function main(ns: NS) {
  * @param {string} hostname - Hostname to crack
  */
 export function crackHost(ns: NS, hostname: string) {
-	// Nuke host first
-	if (!ns.hasRootAccess(hostname)) {
-		if (ns.getServerNumPortsRequired(hostname) > 0) {
-			useAllOpeners(ns, hostname);
-		}
+    // Nuke host first
+    if (!ns.hasRootAccess(hostname)) {
+        if (ns.getServerNumPortsRequired(hostname) > 0) {
+            useAllOpeners(ns, hostname);
+        }
 
-		ns.print(`[crack] Nuking ${hostname}`)
-		ns.nuke(hostname);
-	} else {
-		ns.print(`[crack] ${hostname} already cracked!`)
-	}
+        ns.print(`[crack] Nuking ${hostname}`)
+        ns.nuke(hostname);
+    } else {
+        ns.print(`[crack] ${hostname} already cracked!`)
+    }
 }
 
 /** 
@@ -56,17 +56,17 @@ export function crackHost(ns: NS, hostname: string) {
  * @returns {string[]} Port openers available.
  */
 export function getPortOpeners(ns: NS): string[] {
-	const availableOpeners: string[] = [];
+    const availableOpeners: string[] = [];
 
-	for (let i = 0; i < ALL_OPENERS.length; i++) {
-		const opener = ALL_OPENERS[i];
-		const canUse = ns.fileExists(opener, "home");
-		if (canUse) {
-			availableOpeners.push(opener);
-		}
-	}
+    for (let i = 0; i < ALL_OPENERS.length; i++) {
+        const opener = ALL_OPENERS[i];
+        const canUse = ns.fileExists(opener, "home");
+        if (canUse) {
+            availableOpeners.push(opener);
+        }
+    }
 
-	return availableOpeners;
+    return availableOpeners;
 }
 
 /** 
@@ -76,11 +76,11 @@ export function getPortOpeners(ns: NS): string[] {
  * @param {string} hostname - The hostname to crack.
  */
 function useAllOpeners(ns: NS, hostname: string) {
-	// Run available openers
-	const availableOpeners = getPortOpeners(ns);
-	for (let i = 0; i < availableOpeners.length; i++) {
-		useOpener(ns, hostname, availableOpeners[i]);
-	}
+    // Run available openers
+    const availableOpeners = getPortOpeners(ns);
+    for (let i = 0; i < availableOpeners.length; i++) {
+        useOpener(ns, hostname, availableOpeners[i]);
+    }
 }
 
 /** 
@@ -91,25 +91,25 @@ function useAllOpeners(ns: NS, hostname: string) {
  * @param {string} opener - The opener to use.
  */
 function useOpener(ns: NS, hostname: string, opener: string) {
-	ns.print(`[crack] Using ${opener} on ${hostname}`)
+    ns.print(`[crack] Using ${opener} on ${hostname}`)
 
-	switch (opener) {
-		case "BruteSSH.exe":
-			ns.brutessh(hostname);
-			return true;
-		case "FTPCrack.exe":
-			ns.ftpcrack(hostname);
-			return true;
-		case "relaySMTP.exe":
-			ns.relaysmtp(hostname);
-			return true;
-		case "HTTPWorm.exe":
-			ns.httpworm(hostname);
-			return true;
-		case "SQLInject.exe":
-			ns.sqlinject(hostname);
-			return true;
-		default:
-			throw "Unknown opener!";
-	}
+    switch (opener) {
+        case "BruteSSH.exe":
+            ns.brutessh(hostname);
+            return true;
+        case "FTPCrack.exe":
+            ns.ftpcrack(hostname);
+            return true;
+        case "relaySMTP.exe":
+            ns.relaysmtp(hostname);
+            return true;
+        case "HTTPWorm.exe":
+            ns.httpworm(hostname);
+            return true;
+        case "SQLInject.exe":
+            ns.sqlinject(hostname);
+            return true;
+        default:
+            throw "Unknown opener!";
+    }
 }

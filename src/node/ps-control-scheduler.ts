@@ -1,8 +1,8 @@
 import { NS } from "Netscript";
 import {
-  getHackableHosts,
-  getRootedHosts,
-  getWorkerServers,
+    getHackableHosts,
+    getRootedHosts,
+    getWorkerServers,
 } from "/helpers/discover.js";
 import { exec } from "/helpers/exec.js";
 import { scp } from "/helpers/scp.js";
@@ -40,36 +40,36 @@ const MIN_SEC_LEVEL = 2;
  * @param {NS} ns - The Netscript object.
  */
 export async function main(ns: NS) {
-  ns.disableLog("ALL");
+    ns.disableLog("ALL");
 
-  while (true) {
-    const pools = getPools(ns);
-    const args = getHackableHosts(ns);
+    while (true) {
+        const pools = getPools(ns);
+        const args = getHackableHosts(ns);
 
-    ns.clearLog();
+        ns.clearLog();
 
-    if (!ns.fileExists("/flags/SKIP_SCHEDULER.js", "home")) {
-      for (let i = 0; i < pools.length; i++) {
-        ns.print(
-          `[ps-control-scheduler] Executing on pool ${i} with servers: ${pools[i]}`
-        );
-        await executeOnPool(ns, pools[i], args);
-      }
+        if (!ns.fileExists("/flags/SKIP_SCHEDULER.js", "home")) {
+            for (let i = 0; i < pools.length; i++) {
+                ns.print(
+                    `[ps-control-scheduler] Executing on pool ${i} with servers: ${pools[i]}`
+                );
+                await executeOnPool(ns, pools[i], args);
+            }
 
-      ns.print(`[ps-control-scheduler] Executing on home`);
-      await executeOnPool(ns, ["home"], args);
+            ns.print(`[ps-control-scheduler] Executing on home`);
+            await executeOnPool(ns, ["home"], args);
 
-      ns.print(
-        `[ps-control-scheduler] Finished scheduling nodes, sleeping for 1hr at ${new Date().toTimeString()}`
-      );
-      await ns.sleep(60 * 60 * 1000);
-    } else {
-      ns.print(
-        `[ps-control-scheduler] Found file /flags/SKIP_SCHEDULER.js, sleeping for 1min at ${new Date().toTimeString()}`
-      );
-      await ns.sleep(60 * 1000);
+            ns.print(
+                `[ps-control-scheduler] Finished scheduling nodes, sleeping for 1hr at ${new Date().toTimeString()}`
+            );
+            await ns.sleep(60 * 60 * 1000);
+        } else {
+            ns.print(
+                `[ps-control-scheduler] Found file /flags/SKIP_SCHEDULER.js, sleeping for 1min at ${new Date().toTimeString()}`
+            );
+            await ns.sleep(60 * 1000);
+        }
     }
-  }
 }
 
 /**
@@ -79,13 +79,13 @@ export async function main(ns: NS) {
  * @returns {string[][]} All pools - worker, rooted and home.
  */
 function getPools(ns: NS): string[][] {
-  const workers = getWorkerServers(ns);
-  ns.print(`[ps-control-scheduler] Workers: ${workers}`);
+    const workers = getWorkerServers(ns);
+    ns.print(`[ps-control-scheduler] Workers: ${workers}`);
 
-  const rootedNodes = getRootedHosts(ns);
-  ns.print(`[ps-control-scheduler] Rooted nodes: ${rootedNodes}`);
+    const rootedNodes = getRootedHosts(ns);
+    ns.print(`[ps-control-scheduler] Rooted nodes: ${rootedNodes}`);
 
-  return [...splitWorkers(ns, workers), ...splitHostnames(ns, rootedNodes)];
+    return [...splitWorkers(ns, workers), ...splitHostnames(ns, rootedNodes)];
 }
 
 /**
@@ -96,25 +96,25 @@ function getPools(ns: NS): string[][] {
  * @returns {string[][]} The pools of `hostnames` split into pools based on `HOSTS_PER_POOL.
  */
 function splitHostnames(ns: NS, hostnames: string[]): string[][] {
-  let finalHostnames: string[][] = [];
-  let currentPoolHostnames: string[] = [];
+    let finalHostnames: string[][] = [];
+    let currentPoolHostnames: string[] = [];
 
-  for (let i = 0; i < hostnames.length; i++) {
-    if (i === HOSTS_PER_POOL) {
-      ns.print(`[ps-control-scheduler] New pool created`);
-      finalHostnames = [...finalHostnames, currentPoolHostnames];
-      currentPoolHostnames = [];
+    for (let i = 0; i < hostnames.length; i++) {
+        if (i === HOSTS_PER_POOL) {
+            ns.print(`[ps-control-scheduler] New pool created`);
+            finalHostnames = [...finalHostnames, currentPoolHostnames];
+            currentPoolHostnames = [];
+        }
+
+        ns.print(
+            `[ps-control-scheduler] Added ${hostnames[i]} to pool ${currentPoolHostnames}`
+        );
+        currentPoolHostnames.push(hostnames[i]);
     }
 
-    ns.print(
-      `[ps-control-scheduler] Added ${hostnames[i]} to pool ${currentPoolHostnames}`
-    );
-    currentPoolHostnames.push(hostnames[i]);
-  }
+    finalHostnames = [...finalHostnames, currentPoolHostnames];
 
-  finalHostnames = [...finalHostnames, currentPoolHostnames];
-
-  return finalHostnames;
+    return finalHostnames;
 }
 
 /**
@@ -125,28 +125,28 @@ function splitHostnames(ns: NS, hostnames: string[]): string[][] {
  * @returns {string[][]} The pools of workers with the same `n`.
  */
 function splitWorkers(ns: NS, hostnames: string[]): string[][] {
-  let finalHostnames: string[][] = [];
-  let currentPool = 0;
-  let currentPoolHostnames: string[] = [];
-  const regex = /^ps-worker(\d)-(\d)$/;
+    let finalHostnames: string[][] = [];
+    let currentPool = 0;
+    let currentPoolHostnames: string[] = [];
+    const regex = /^ps-worker(\d)-(\d)$/;
 
-  hostnames.forEach((hn) => {
-    const match = hn.match(regex);
+    hostnames.forEach((hn) => {
+        const match = hn.match(regex);
 
-    if (match && parseInt(match[1], 10) > currentPool) {
-      ns.print(`[ps-control-scheduler] New pool found ${match[1]}`);
-      finalHostnames = [...finalHostnames, currentPoolHostnames];
-      currentPool = parseInt(match[1], 10);
-      currentPoolHostnames = [];
-    }
+        if (match && parseInt(match[1], 10) > currentPool) {
+            ns.print(`[ps-control-scheduler] New pool found ${match[1]}`);
+            finalHostnames = [...finalHostnames, currentPoolHostnames];
+            currentPool = parseInt(match[1], 10);
+            currentPoolHostnames = [];
+        }
 
-    ns.print(`[ps-control-scheduler] Added ${hn} to pool ${currentPool}`);
-    currentPoolHostnames.push(hn);
-  });
+        ns.print(`[ps-control-scheduler] Added ${hn} to pool ${currentPool}`);
+        currentPoolHostnames.push(hn);
+    });
 
-  finalHostnames = [...finalHostnames, currentPoolHostnames];
+    finalHostnames = [...finalHostnames, currentPoolHostnames];
 
-  return finalHostnames;
+    return finalHostnames;
 }
 
 /**
@@ -157,74 +157,73 @@ function splitWorkers(ns: NS, hostnames: string[]): string[][] {
  * @param {string[]} args - Args to run the scripts with.
  */
 async function executeOnPool(ns: NS, hostnames: string[], args: string[]) {
-  // Sort hostnames by RAM, descending order
-  hostnames = hostnames.sort(
-    (hn1, hn2) => ns.getServerMaxRam(hn2) - ns.getServerMaxRam(hn1)
-  );
+    // Sort hostnames by RAM, descending order
+    hostnames = hostnames.sort(
+        (hn1, hn2) => ns.getServerMaxRam(hn2) - ns.getServerMaxRam(hn1)
+    );
 
-  // Sort args by money available, descending order
-  args = args.sort(
-    (hn1, hn2) =>
-      ns.getServerMoneyAvailable(hn2) - ns.getServerMoneyAvailable(hn1)
-  );
+    // Sort args by money available, descending order
+    args = args.sort(
+        (hn1, hn2) =>
+            ns.getServerMoneyAvailable(hn2) - ns.getServerMoneyAvailable(hn1)
+    );
 
-  // For each host in pool, grab args, check if need to h/w/g and execute
-  for (let i = 0; i < hostnames.length; i++) {
-	const hostname = hostnames[i];
+    // For each host in pool, grab args, check if need to h/w/g and execute
+    for (let i = 0; i < hostnames.length; i++) {
+        const hostname = hostnames[i];
 
-    let finalScripts = { ... SCRIPTS };
-    const scriptKeys = Object.keys(finalScripts);
+        let finalScripts = { ...SCRIPTS };
+        const scriptKeys = Object.keys(finalScripts);
 
-	let ramAvail = ns.getServerMaxRam(hostname);
+        let ramAvail = ns.getServerMaxRam(hostname);
 
-    // Reserve space on home for node scripts
-    if (hostname === "home") {
-      ramAvail = ramAvail - 32;
-    }
+        // Reserve space on home for node scripts
+        if (hostname === "home") {
+            ramAvail = ramAvail - 32;
+        }
 
-	ns.print(
-		`[ps-control-scheduler] Final Weights ${Object.values(finalScripts)}, RAM ${ramAvail}`
-	  );
-
-    // Basic check that RAM is available
-    if (ramAvail > 0) {
-      for (let j = 0; j < scriptKeys.length; j++) {
-		const filename = scriptKeys[j];
-
-		let fnArgs = getFilteredArgs(ns, filename, args);
-		
-		fnArgs = fnArgs.filter(
-			(hn, k) => k % hostnames.length === i % hostnames.length
-		  );
-
-        const scriptWeightPct =
-          finalScripts[filename] /
-          Object.values(finalScripts).reduce((n, t) => n + t, 0);
-
-        const threads = Math.floor(
-          ((ramAvail / ns.getScriptRam(filename)) / getTotalFilteredArgs(ns, fnArgs)) - 1
+        ns.print(
+            `[ps-control-scheduler] Final Weights ${Object.values(finalScripts)}, RAM ${ramAvail}`
         );
 
-        if (threads > 0) {
-          ns.print(
-            `[ps-control-scheduler] Executing ${filename} on ${hostname} with ${
-              scriptWeightPct * 100
-            }% threads`
-          );
+        // Basic check that RAM is available
+        if (ramAvail > 0) {
+            for (let j = 0; j < scriptKeys.length; j++) {
+                const filename = scriptKeys[j];
 
-          killRunningScript(ns, hostname, filename);
+                let fnArgs = getFilteredArgs(ns, filename, args);
 
-          await scp(ns, hostname, [filename]);
+                fnArgs = fnArgs.filter(
+                    (hn, k) => k % hostnames.length === i % hostnames.length
+                );
 
-		  for(let k = 0; k < fnArgs.length; k++) {
-			exec(ns, hostname, filename, threads, [fnArgs[k]]);
-		  }
+                const scriptWeightPct =
+                    finalScripts[filename] /
+                    Object.values(finalScripts).reduce((n, t) => n + t, 0);
+
+                const threads = Math.floor(
+                    ((ramAvail / ns.getScriptRam(filename)) / getTotalFilteredArgs(ns, fnArgs)) - 1
+                );
+
+                if (threads > 0) {
+                    ns.print(
+                        `[ps-control-scheduler] Executing ${filename} on ${hostname} with ${scriptWeightPct * 100
+                        }% threads`
+                    );
+
+                    killRunningScript(ns, hostname, filename);
+
+                    await scp(ns, hostname, [filename]);
+
+                    for (let k = 0; k < fnArgs.length; k++) {
+                        exec(ns, hostname, filename, threads, [fnArgs[k]]);
+                    }
+                }
+                await ns.sleep(100);
+            }
+            await ns.sleep(500);
         }
-        await ns.sleep(100);
-      }
-      await ns.sleep(500);
     }
-  }
 }
 
 /**
@@ -235,17 +234,17 @@ async function executeOnPool(ns: NS, hostnames: string[], args: string[]) {
  * @param {string} filename - Which script to kill.
  */
 function killRunningScript(ns: NS, hostname: string, filename: string) {
-  ns.print(
-    `[ps-control-scheduler] Killing existing instance of ${filename} on ${hostname}`
-  );
+    ns.print(
+        `[ps-control-scheduler] Killing existing instance of ${filename} on ${hostname}`
+    );
 
-  // Get running instance(s)
-  const runningProc = ns
-    .ps(hostname)
-    .filter((proc) => proc.filename === filename);
+    // Get running instance(s)
+    const runningProc = ns
+        .ps(hostname)
+        .filter((proc) => proc.filename === filename);
 
-  // Kill instance(s)
-  runningProc.forEach((proc) => ns.kill(proc.filename, hostname, ...proc.args));
+    // Kill instance(s)
+    runningProc.forEach((proc) => ns.kill(proc.filename, hostname, ...proc.args));
 }
 
 /**
@@ -257,7 +256,7 @@ function killRunningScript(ns: NS, hostname: string, filename: string) {
  * @returns {string[]} List of arguments without unnecessary hostnames.
  */
 function getFilteredArgs(ns: NS, filename: string, args: string[]): string[] {
-  return args.slice().filter((hn) => shouldExecute(ns, hn, filename));
+    return args.slice().filter((hn) => shouldExecute(ns, hn, filename));
 }
 
 /**
@@ -267,16 +266,16 @@ function getFilteredArgs(ns: NS, filename: string, args: string[]): string[] {
  * @param {string[]} args - Args to run the scripts with.
  * @returns {number} Total number of filtered args across scripts.
  */
- function getTotalFilteredArgs(ns: NS, args: string[]): number {
-	let result = 0;
+function getTotalFilteredArgs(ns: NS, args: string[]): number {
+    let result = 0;
 
     const scriptKeys = Object.keys(SCRIPTS);
 
-	for (let j = 0; j < scriptKeys.length; j++) {
-		result += getFilteredArgs(ns, scriptKeys[j], args).length;
-	}
-  
-	return result;
+    for (let j = 0; j < scriptKeys.length; j++) {
+        result += getFilteredArgs(ns, scriptKeys[j], args).length;
+    }
+
+    return result;
 }
 
 /**
@@ -288,15 +287,15 @@ function getFilteredArgs(ns: NS, filename: string, args: string[]): string[] {
  * @returns {boolean} Whether the script should be executed.
  */
 function shouldExecute(ns: NS, hostname: string, filename: string): boolean {
-  if (filename === GROW_SCRIPT) {
-    return shouldGrow(ns, hostname);
-  } else if (filename === WEAKEN_SCRIPT) {
-    return shouldWeaken(ns, hostname);
-  } else if (filename === HACK_SCRIPT) {
-    return shouldHack(ns, hostname);
-  }
+    if (filename === GROW_SCRIPT) {
+        return shouldGrow(ns, hostname);
+    } else if (filename === WEAKEN_SCRIPT) {
+        return shouldWeaken(ns, hostname);
+    } else if (filename === HACK_SCRIPT) {
+        return shouldHack(ns, hostname);
+    }
 
-  return true;
+    return true;
 }
 
 /**
@@ -307,11 +306,11 @@ function shouldExecute(ns: NS, hostname: string, filename: string): boolean {
  * @returns {boolean} Whether `hostname` should be hacked.
  */
 function shouldHack(ns: NS, hostname: string): boolean {
-  const avail = ns.getServerMoneyAvailable(hostname);
-  const max = ns.getServerMaxMoney(hostname);
+    const avail = ns.getServerMoneyAvailable(hostname);
+    const max = ns.getServerMaxMoney(hostname);
 
-  // Only hack if above threshold.
-  return max > 0 && avail > max * MIN_SERVER_MONEY_PCT;
+    // Only hack if above threshold.
+    return max > 0 && avail > max * MIN_SERVER_MONEY_PCT;
 }
 
 /**
@@ -322,11 +321,11 @@ function shouldHack(ns: NS, hostname: string): boolean {
  * @returns {boolean} Whether `hostname` should be grown.
  */
 function shouldGrow(ns: NS, hostname: string): boolean {
-  const avail = ns.getServerMoneyAvailable(hostname);
-  const max = ns.getServerMaxMoney(hostname);
+    const avail = ns.getServerMoneyAvailable(hostname);
+    const max = ns.getServerMaxMoney(hostname);
 
-  // Always grow if possible
-  return max > 0 && avail < max;
+    // Always grow if possible
+    return max > 0 && avail < max;
 }
 
 /**
@@ -337,9 +336,9 @@ function shouldGrow(ns: NS, hostname: string): boolean {
  * @returns {boolean} Whether `hostname` should be weakened.
  */
 function shouldWeaken(ns: NS, hostname: string): boolean {
-  const avail = ns.getServerSecurityLevel(hostname);
-  const min = ns.getServerMinSecurityLevel(hostname);
+    const avail = ns.getServerSecurityLevel(hostname);
+    const min = ns.getServerMinSecurityLevel(hostname);
 
-  // Weaken if above threshold
-  return avail > min + MIN_SEC_LEVEL;
+    // Weaken if above threshold
+    return avail > min + MIN_SEC_LEVEL;
 }

@@ -20,12 +20,12 @@ export async function main(ns: NS) {
             const crackableHosts = getCrackableHosts(ns);
 
             ns.clearLog();
-        
+
             for (let i = 0; i < crackableHosts.length; i++) {
                 const hostname = crackableHosts[i];
                 crackHost(ns, hostname);
             }
-        
+
             getRootedHosts(ns, crackableHosts);
 
             ns.print(`[ps-control-cracker] Finished cracking nodes, sleeping for 15min at ${new Date().toTimeString()}`);
@@ -34,6 +34,6 @@ export async function main(ns: NS) {
             ns.print(`[ps-control-cracker] Found file /flags/SKIP_CRACKER.js, sleeping for 1min at ${new Date().toTimeString()}`);
             await ns.sleep(60 * 1000);
         }
-        
+
     }
 }

@@ -20,20 +20,20 @@ const MONEY_PCT_THRESHOLD = 0.5;
  * @param {NS} ns - The Netscript object.
  */
 export async function main(ns: NS) {
-	if (ns.args.length === 0) {
-		throw "Function must be called with 1+ hostnames";
-	}
+    if (ns.args.length === 0) {
+        throw "Function must be called with 1+ hostnames";
+    }
 
-	const hostnames = ns.args as string[];
+    const hostnames = ns.args as string[];
 
-	while (true) {
-		const j = Math.floor(Math.random() * hostnames.length);
-		const hostname = hostnames[j];
+    while (true) {
+        const j = Math.floor(Math.random() * hostnames.length);
+        const hostname = hostnames[j];
 
-		ns.print(`[hack] Executing hack on ${hostname}`)
+        ns.print(`[hack] Executing hack on ${hostname}`)
 
-		await hackWeakenGrow(ns, hostname);
-	}
+        await hackWeakenGrow(ns, hostname);
+    }
 }
 
 /** 
@@ -46,33 +46,33 @@ export async function main(ns: NS) {
  * @returns {Promise<number>} The amount of money hacked, minus any growth action taken.
  */
 export async function hackWeakenGrow(ns: NS, hostname: string): Promise<number> {
-	// Get security level info
-	const secLevel = ns.getServerSecurityLevel(hostname);
-	const secMin = ns.getServerMinSecurityLevel(hostname);
-	const secThresh = secMin + SEC_LEVEL_THRESHOLD;
+    // Get security level info
+    const secLevel = ns.getServerSecurityLevel(hostname);
+    const secMin = ns.getServerMinSecurityLevel(hostname);
+    const secThresh = secMin + SEC_LEVEL_THRESHOLD;
 
-	// Get money info
-	const moneyAvail = Math.round(ns.getServerMoneyAvailable(hostname));
-	const moneyMax = ns.getServerMaxMoney(hostname);
-	const moneyThresh = Math.round(moneyMax * MONEY_PCT_THRESHOLD);
+    // Get money info
+    const moneyAvail = Math.round(ns.getServerMoneyAvailable(hostname));
+    const moneyMax = ns.getServerMaxMoney(hostname);
+    const moneyThresh = Math.round(moneyMax * MONEY_PCT_THRESHOLD);
 
-	// Run basic hacking w/ auto-grow/weaken
-	if (moneyMax > 0) {
-		ns.print(`[hack] Executing hack/weaken/grow on ${hostname}, Level ${secLevel}/${secThresh}, Money ${moneyAvail}/${moneyThresh}`);
-		if ((moneyAvail < 100000) || (moneyAvail < moneyThresh)) {
-			return (await grow(ns, hostname)) * -1;
-		}
+    // Run basic hacking w/ auto-grow/weaken
+    if (moneyMax > 0) {
+        ns.print(`[hack] Executing hack/weaken/grow on ${hostname}, Level ${secLevel}/${secThresh}, Money ${moneyAvail}/${moneyThresh}`);
+        if ((moneyAvail < 100000) || (moneyAvail < moneyThresh)) {
+            return (await grow(ns, hostname)) * -1;
+        }
 
-		return await hack(ns, hostname).then(async (amtMoney: number) => {
-			if ((amtMoney === 0) && (secLevel > secThresh)) {
-				await weaken(ns, hostname);
-			} else if ((amtMoney > 0) && (moneyAvail < moneyThresh)) {
-				return amtMoney - await grow(ns, hostname);
-			}
+        return await hack(ns, hostname).then(async (amtMoney: number) => {
+            if ((amtMoney === 0) && (secLevel > secThresh)) {
+                await weaken(ns, hostname);
+            } else if ((amtMoney > 0) && (moneyAvail < moneyThresh)) {
+                return amtMoney - await grow(ns, hostname);
+            }
 
-			return amtMoney;
-		});
-	} else {
-		return -1;
-	}
+            return amtMoney;
+        });
+    } else {
+        return -1;
+    }
 }

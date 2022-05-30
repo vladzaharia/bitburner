@@ -13,19 +13,19 @@ import { getRoute } from "/helpers/discover.js";
  * @param {NS} ns - The Netscript object.
  */
 export async function main(ns: NS) {
-	if (ns.args.length === 0) {
-		throw "Function must be called with 1+ hostnames";
-	}
+    if (ns.args.length === 0) {
+        throw "Function must be called with 1+ hostnames";
+    }
 
-	const hostnames: string[] = ns.args as string[];
+    const hostnames: string[] = ns.args as string[];
 
-	for (let i = 0; i < hostnames.length; i++) {
-		const hostname = hostnames[i];
+    for (let i = 0; i < hostnames.length; i++) {
+        const hostname = hostnames[i];
 
-		ns.print(`[backdoor] Executing crack on ${hostname}`)
+        ns.print(`[backdoor] Executing crack on ${hostname}`)
 
-		await backdoorHost(ns, getRoute(ns, hostname));
-	}
+        await backdoorHost(ns, getRoute(ns, hostname));
+    }
 }
 
 /** 
@@ -40,7 +40,7 @@ export async function backdoorHost(ns: NS, route: string[] | false) {
     if (route) {
         //(ns as any).connect("home");
 
-        if (true) {            
+        if (true) {
             // Connect to target via route
             // for (let i = 0; i < route.length; i++) {
             //     (ns as any).connect(route);
@@ -48,7 +48,7 @@ export async function backdoorHost(ns: NS, route: string[] | false) {
 
             // Backdoor host
             //(ns as any).installBackdoor();
-            
+
             await ns.sleep(10 * 1000);
         } else {
         }

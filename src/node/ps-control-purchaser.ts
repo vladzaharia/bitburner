@@ -1,7 +1,7 @@
 import { NS } from "Netscript";
 
 const PRICE_PER_GB = 55000 * 25;
-const CONTROL_SERVERS = ["purchaser",  "hacknet", "cracker", "scheduler"];
+const CONTROL_SERVERS = ["purchaser", "hacknet", "cracker", "scheduler"];
 let RAM = 8;
 const WORKERS_PER_POOL = 8;
 
@@ -111,7 +111,7 @@ function checkForUpgrade(ns: NS, availMoney: number, ram: number, purchasedServe
         RAM = ram;
         ns.print(`[ps-control-purchaser] Setting RAM to ${ram} and selling servers`);
         sellWorkerServers(ns, purchasedServers);
-    } 
+    }
 }
 
 /**
@@ -126,7 +126,7 @@ function checkForUpgrade(ns: NS, availMoney: number, ram: number, purchasedServe
 function purchaseServer(ns: NS, ram: number, type: string, name: string): boolean {
     const availMoney = Math.floor(ns.getServerMoneyAvailable("home") * MONEY_MULTIPLIER);
     const neededMoney = ns.getPurchasedServerCost(ram);
-    
+
     // Check if we have enough money to purchase a server
     if (availMoney > neededMoney) {
         // Determine server name
