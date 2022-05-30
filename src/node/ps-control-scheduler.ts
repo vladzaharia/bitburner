@@ -17,24 +17,26 @@ SCRIPTS[WEAKEN_SCRIPT] = 25;
 SCRIPTS[GROW_SCRIPT] = 50;
 
 const HOSTS_PER_POOL = 8;
-const MIN_SERVER_MONEY_PCT = 0.5;
 
-/** 
+const MIN_SERVER_MONEY_PCT = 0.5;
+const MIN_SEC_LEVEL = 2;
+
+/**
  * Automatically execute a parallelized HWG cycle on all availbe hosts.
- * 
+ *
  * On each pool, will:
  *  - Split hackable hosts by workers in pool
  *  - Check if any host is low on money
  *  - Execute 80W/20G (if money needed) or 25H/25W/50G scripts on hosts in pool
- * 
+ *
  * Pools:
  *  - Personal worker pools, ps-worker[0..n]
  *  - Rooted server pools, with `HOSTS_PER_POOL`
  *  - ["home"]
- * 
+ *
  * @example
  * run /node/ps-control-scheduler.js
- * 
+ *
  * @param {NS} ns - The Netscript object.
  */
 export async function main(ns: NS) {
@@ -72,7 +74,7 @@ export async function main(ns: NS) {
 
 /**
  * Get all pools available.
- * 
+ *
  * @param {NS} ns - The Netscript object.
  * @returns {string[][]} All pools - worker, rooted and home.
  */
@@ -88,7 +90,7 @@ function getPools(ns: NS): string[][] {
 
 /**
  * Split hostnames into pools.
- * 
+ *
  * @param {NS} ns - The Netscript object.
  * @param {string[]} hostnames - Hostnames to split into pools.
  * @returns {string[][]} The pools of `hostnames` split into pools based on `HOSTS_PER_POOL.
@@ -117,7 +119,7 @@ function splitHostnames(ns: NS, hostnames: string[]): string[][] {
 
 /**
  * Split workers into pools.
- * 
+ *
  * @param {NS} ns - The Netscript object.
  * @param {string[]} hostnames - The workers to split into pools, based on `ps-worker[n]`.
  * @returns {string[][]} The pools of workers with the same `n`.
@@ -149,66 +151,59 @@ function splitWorkers(ns: NS, hostnames: string[]): string[][] {
 
 /**
  * Execute HWG scripts on all hosts in pool.
- * 
+ *
  * @param {NS} ns - The Netscript object.
  * @param {string[]} hostnames - The hostnames to run the HWG script on.
  * @param {string[]} args - Args to run the scripts with.
  */
 async function executeOnPool(ns: NS, hostnames: string[], args: string[]) {
+  // Sort hostnames by RAM, descending order
+  hostnames = hostnames.sort(
+    (hn1, hn2) => ns.getServerMaxRam(hn2) - ns.getServerMaxRam(hn1)
+  );
+
+  // Sort args by money available, descending order
+  args = args.sort(
+    (hn1, hn2) =>
+      ns.getServerMoneyAvailable(hn2) - ns.getServerMoneyAvailable(hn1)
+  );
+
+  // For each host in pool, grab args, check if need to h/w/g and execute
   for (let i = 0; i < hostnames.length; i++) {
-    let finalScripts = { ...SCRIPTS };
+	const hostname = hostnames[i];
+
+    let finalScripts = { ... SCRIPTS };
     const scriptKeys = Object.keys(finalScripts);
 
-    const hostname = hostnames[i];
-    let ramAvail = ns.getServerMaxRam(hostname);
+	let ramAvail = ns.getServerMaxRam(hostname);
 
+    // Reserve space on home for node scripts
+    if (hostname === "home") {
+      ramAvail = ramAvail - 32;
+    }
+
+	ns.print(
+		`[ps-control-scheduler] Final Weights ${Object.values(finalScripts)}, RAM ${ramAvail}`
+	  );
+
+    // Basic check that RAM is available
     if (ramAvail > 0) {
-      ns.print(
-        `[ps-control-scheduler] Killing existing scripts on ${hostname}`
-      );
-      let fnArgs = args.slice();
-
-      if (hostname === "home") {
-        ramAvail = ramAvail - 24;
-      } else {
-        fnArgs = fnArgs.filter(
-          (hn, k) => k % hostnames.length === i % hostnames.length
-        );
-
-        const hasLowMoney = fnArgs.some((hn) => {
-          const moneyAvail = ns.getServerMoneyAvailable(hn);
-          const maxMoney = ns.getServerMaxMoney(hn);
-          const moneyPct = moneyAvail / maxMoney;
-
-          ns.print(
-            `${hostname} Money ${moneyAvail} / ${maxMoney} = ${moneyPct} < ${MIN_SERVER_MONEY_PCT}`
-          );
-
-          return moneyPct < MIN_SERVER_MONEY_PCT;
-        });
-        if (hasLowMoney) {
-          ns.print(`Low money detected on pool`);
-          finalScripts[GROW_SCRIPT] = 100;
-          finalScripts[HACK_SCRIPT] = 0;
-        }
-      }
-
       for (let j = 0; j < scriptKeys.length; j++) {
-        const filename = scriptKeys[j];
+		const filename = scriptKeys[j];
+
+		let fnArgs = getFilteredArgs(ns, filename, args);
+		
+		fnArgs = fnArgs.filter(
+			(hn, k) => k % hostnames.length === i % hostnames.length
+		  );
+
         const scriptWeightPct =
           finalScripts[filename] /
           Object.values(finalScripts).reduce((n, t) => n + t, 0);
+
         const threads = Math.floor(
-          (ramAvail / ns.getScriptRam(filename)) * scriptWeightPct
+          ((ramAvail / ns.getScriptRam(filename)) / getTotalFilteredArgs(ns, fnArgs))
         );
-
-        if (hostname !== "home") {
-          fnArgs = getFilteredArgs(ns, filename, fnArgs);
-
-          if (fnArgs.length === 0) {
-            fnArgs = getFilteredArgs(ns, filename, args);
-          }
-        }
 
         if (threads > 0) {
           ns.print(
@@ -217,45 +212,134 @@ async function executeOnPool(ns: NS, hostnames: string[], args: string[]) {
             }% threads`
           );
 
-          const runningProc = ns
-            .ps(hostname)
-            .filter((proc) => proc.filename === filename);
-          runningProc.forEach((proc) =>
-            ns.kill(proc.filename, hostname, ...proc.args)
-          );
+          killRunningScript(ns, hostname, filename);
 
           await scp(ns, hostname, [filename]);
-          exec(ns, hostname, filename, threads, fnArgs);
-        }
 
+		  for(let k = 0; k < fnArgs.length; k++) {
+			exec(ns, hostname, filename, threads, [fnArgs[k]]);
+		  }
+        }
         await ns.sleep(100);
       }
-
       await ns.sleep(500);
     }
   }
 }
 
 /**
+ * Kills all running instances of script, regardless of threads and args.
+ *
+ * @param {NS} ns - The Netscript object.
+ * @param {string} hostname - The hostname to kill script on.
+ * @param {string} filename - Which script to kill.
+ */
+function killRunningScript(ns: NS, hostname: string, filename: string) {
+  ns.print(
+    `[ps-control-scheduler] Killing existing instance of ${filename} on ${hostname}`
+  );
+
+  // Get running instance(s)
+  const runningProc = ns
+    .ps(hostname)
+    .filter((proc) => proc.filename === filename);
+
+  // Kill instance(s)
+  runningProc.forEach((proc) => ns.kill(proc.filename, hostname, ...proc.args));
+}
+
+/**
  * Exclude servers which wouldn't benefit from a weaken/grow operation.
- * 
+ *
  * @param {NS} ns - The Netscript object.
  * @param {string} filename - Which script to check against.
  * @param {string[]} args - Existing list of arguments.
  * @returns {string[]} List of arguments without unnecessary hostnames.
  */
 function getFilteredArgs(ns: NS, filename: string, args: string[]): string[] {
-  let fnArgs = args.slice();
+  return args.slice().filter((hn) => shouldExecute(ns, hn, filename));
+}
 
+/**
+ * Get total filtered args.
+ *
+ * @param {NS} ns - The Netscript object.
+ * @param {string[]} args - Args to run the scripts with.
+ * @returns {number} Total number of filtered args across scripts.
+ */
+ function getTotalFilteredArgs(ns: NS, args: string[]): number {
+	let result = 0;
+
+    const scriptKeys = Object.keys(SCRIPTS);
+
+	for (let j = 0; j < scriptKeys.length; j++) {
+		result += getFilteredArgs(ns, scriptKeys[j], args).length;
+	}
+  
+	return result;
+}
+
+/**
+ * Checks whether `hostname` should execute `filename`.
+ *
+ * @param {NS} ns - The Netscript object.
+ * @param {string} hostname - The hostname to check for.
+ * @param {string} filename - Which script to check against.
+ * @returns {boolean} Whether the script should be executed.
+ */
+function shouldExecute(ns: NS, hostname: string, filename: string): boolean {
   if (filename === GROW_SCRIPT) {
-    fnArgs = fnArgs.filter(
-      (hn) => ns.getServerMoneyAvailable(hn) < ns.getServerMaxMoney(hn)
-    );
+    return shouldGrow(ns, hostname);
   } else if (filename === WEAKEN_SCRIPT) {
-    fnArgs = fnArgs.filter(
-      (hn) => ns.getServerSecurityLevel(hn) > ns.getServerMinSecurityLevel(hn)
-    );
+    return shouldWeaken(ns, hostname);
+  } else if (filename === HACK_SCRIPT) {
+    return shouldHack(ns, hostname);
   }
 
-  return fnArgs;
+  return true;
+}
+
+/**
+ * Check whether `hostname` should be hacked.
+ *
+ * @param {NS} ns - The Netscript object.
+ * @param {string} hostname - The hostname to check.
+ * @returns {boolean} Whether `hostname` should be hacked.
+ */
+function shouldHack(ns: NS, hostname: string): boolean {
+  const avail = ns.getServerMoneyAvailable(hostname);
+  const max = ns.getServerMaxMoney(hostname);
+
+  // Only hack if above threshold.
+  return max > 0 && avail > max * MIN_SERVER_MONEY_PCT;
+}
+
+/**
+ * Check whether `hostname` should be grown.
+ *
+ * @param {NS} ns - The Netscript object.
+ * @param {string} hostname - The hostname to check.
+ * @returns {boolean} Whether `hostname` should be grown.
+ */
+function shouldGrow(ns: NS, hostname: string): boolean {
+  const avail = ns.getServerMoneyAvailable(hostname);
+  const max = ns.getServerMaxMoney(hostname);
+
+  // Always grow if possible
+  return max > 0 && avail < max;
+}
+
+/**
+ * Check whether `hostname` should be weakened.
+ *
+ * @param {NS} ns - The Netscript object.
+ * @param {string} hostname - The hostname to check.
+ * @returns {boolean} Whether `hostname` should be weakened.
+ */
+function shouldWeaken(ns: NS, hostname: string): boolean {
+  const avail = ns.getServerSecurityLevel(hostname);
+  const min = ns.getServerMinSecurityLevel(hostname);
+
+  // Weaken if above threshold
+  return avail > min + MIN_SEC_LEVEL;
 }
