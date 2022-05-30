@@ -34,13 +34,13 @@ export async function main(ns: NS) {
 		const hostnameArg = ns.args[0] as string;
 
 		if (hostnameArg === "control") {
-			hostnames = await getControlServers(ns);
+			hostnames = getControlServers(ns);
 			ns.print(`[scp-exec] Filtered to control servers: ${hostnames}`);
 		} else if (hostnameArg === "worker") {
-			hostnames = await getWorkerServers(ns);
+			hostnames = getWorkerServers(ns);
 			ns.print(`[scp-exec] Filtered to worker servers: ${hostnames}`);
 		} else if (hostnameArg === "rooted") {
-			hostnames = await getRootedHosts(ns);
+			hostnames = getRootedHosts(ns);
 			ns.print(`[scp-exec] Filtered to worker servers: ${hostnames}`);
 		} else {
 			hostnames = getHosts(ns, 10).filter((hn) => hn.indexOf(hostnameArg) !== -1);
@@ -81,7 +81,7 @@ export async function main(ns: NS) {
 
 		// Copy and execute
 		await scp(ns, hostname, [filename]);		
-		await exec(ns, hostname, filename, threads, fnArgs);
+		exec(ns, hostname, filename, threads, fnArgs);
 		
 		await ns.sleep(1000);
 	}

@@ -20,8 +20,8 @@ export async function main(ns: NS) {
 		depth = ns.args[0] as number;
 	}
 
-	const allHosts = await getHosts(ns, depth);
-	await getCrackableHosts(ns, allHosts, depth);
+	const allHosts = getHosts(ns, depth);
+	getCrackableHosts(ns, allHosts, depth);
 	return allHosts;
 }
 

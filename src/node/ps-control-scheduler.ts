@@ -43,8 +43,8 @@ export async function main(ns: NS) {
   ns.disableLog("ALL");
 
   while (true) {
-    const pools = await getPools(ns);
-    const args = await getHackableHosts(ns);
+    const pools = getPools(ns);
+    const args = getHackableHosts(ns);
 
     ns.clearLog();
 

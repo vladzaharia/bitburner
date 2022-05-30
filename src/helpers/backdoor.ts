@@ -24,7 +24,7 @@ export async function main(ns: NS) {
 
 		ns.print(`[backdoor] Executing crack on ${hostname}`)
 
-		await backdoorHost(ns, await getRoute(ns, hostname));
+		await backdoorHost(ns, getRoute(ns, hostname));
 	}
 }
 

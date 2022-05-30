@@ -19,7 +19,7 @@ export async function main(ns: NS) {
     const purchasedServers = ns.args as string[];
 
 	for (let i = 0; i < purchasedServers.length; i++) {
-		await ns.killall(purchasedServers[i]);
-		await ns.deleteServer(purchasedServers[i]);
+		ns.killall(purchasedServers[i]);
+		ns.deleteServer(purchasedServers[i]);
 	}
 }

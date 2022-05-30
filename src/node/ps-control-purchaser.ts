@@ -35,13 +35,13 @@ export async function main(ns: NS) {
             ns.print(`[ps-control-purchaser] Available money ${availMoney}`);
 
             // Check for upgrades from 16GB - 1TB
-            await checkForUpgrade(ns, availMoney, 1024, purchasedServers);
-            await checkForUpgrade(ns, availMoney, 512, purchasedServers);
-            await checkForUpgrade(ns, availMoney, 256, purchasedServers);
-            await checkForUpgrade(ns, availMoney, 128, purchasedServers);
-            await checkForUpgrade(ns, availMoney, 64, purchasedServers);
-            await checkForUpgrade(ns, availMoney, 32, purchasedServers);
-            await checkForUpgrade(ns, availMoney, 16, purchasedServers);
+            checkForUpgrade(ns, availMoney, 1024, purchasedServers);
+            checkForUpgrade(ns, availMoney, 512, purchasedServers);
+            checkForUpgrade(ns, availMoney, 256, purchasedServers);
+            checkForUpgrade(ns, availMoney, 128, purchasedServers);
+            checkForUpgrade(ns, availMoney, 64, purchasedServers);
+            checkForUpgrade(ns, availMoney, 32, purchasedServers);
+            checkForUpgrade(ns, availMoney, 16, purchasedServers);
 
             purchasedServers = ns.getPurchasedServers();
             let i = purchasedServers.length; // Total purchased servers
@@ -66,18 +66,6 @@ export async function main(ns: NS) {
             }
 
             while (i < max) {
-                // // Ensure Control servers are purchased
-                // for (let j = 0; j < CONTROL_SERVERS.length; j++) {
-                //     if (purchasedServers.indexOf("ps-control-"+CONTROL_SERVERS[j]) === -1) {
-                //         let ram = 8;
-                //         if (CONTROL_SERVERS[j] === "purchaser") {
-                //             ram = 16
-                //         }
-
-                //         await purchaseServer(ns, ram, "control", CONTROL_SERVERS[j]);
-                //     }
-                // }
-
                 // Check if last node in pool
                 if (k >= WORKERS_PER_POOL) {
                     k = 0;
