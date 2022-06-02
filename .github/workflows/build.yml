@@ -17,7 +17,7 @@ jobs:
       - name: Checkout wiki repo
         uses: actions/checkout@v3
         with:
-          repository: https://github.com/vladzaharia/bitburner.wiki.git
+          repository: ${{github.repository}}.wiki
           token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
           path: out/docs
 
