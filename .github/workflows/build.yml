@@ -17,7 +17,7 @@ jobs:
       - name: Checkout wiki repo
         uses: actions/checkout@v3
         with:
-          repository: ${{github.repository}}.wiki
+          repository: https://github.com/vladzaharia/bitburner.wiki.git
           token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
           path: out/docs
 
@@ -47,6 +47,6 @@ jobs:
         uses: ad-m/github-push-action@master
         with:
           directory: out/docs
-          repository: ${{github.repository}}.wiki
-          force: true
+          repository: https://github.com/vladzaharia/bitburner.wiki.git
           github_token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+          force: true
