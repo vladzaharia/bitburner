@@ -3,3 +3,4 @@
 
 npm run build
 git add docs/*
+npx lint-staged

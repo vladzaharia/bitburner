@@ -12,7 +12,7 @@ Extensive per-script documentation is found in the [Wiki](https://github.com/vla
 
 - [Doppler](https://www.doppler.com) token as `env.DOPPLER_TOKEN` to pull Bitburner auth token
 - nodejs / npm
-- gulp *(optional)*
+- gulp _(optional)_
 
 ### Setting up
 
