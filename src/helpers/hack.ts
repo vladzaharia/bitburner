@@ -22,19 +22,21 @@ export async function main(ns: NS) {
     while (true) {
         const j = Math.floor(Math.random() * hostnames.length);
         const hostname = hostnames[j];
-        await hack(ns, hostname);
+        await Hack.hack(ns, hostname);
     }
 }
 
-/** 
- * Hack host at `hostname`.
- * @async
- * 
- * @param {NS} ns - The Netscript object.
- * @param {string} hostname - Host to hack.
- * @returns {Promise<number>} The amount of money that was hacked.
- */
-export async function hack(ns: NS, hostname: string): Promise<number> {
-    ns.print(`[hack] Executing hack on ${hostname}`);
-    return await ns.hack(hostname);
+export module Hack {
+    /** 
+     * Hack host at `hostname`.
+     * @async
+     * 
+     * @param {NS} ns - The Netscript object.
+     * @param {string} hostname - Host to hack.
+     * @returns {Promise<number>} The amount of money that was hacked.
+     */
+    export async function hack(ns: NS, hostname: string): Promise<number> {
+        ns.print(`[hack] Executing hack on ${hostname}`);
+        return await ns.hack(hostname);
+    }
 }

@@ -1,11 +1,7 @@
 import { NS } from "Netscript";
-import {
-    getHackableHosts,
-    getRootedHosts,
-    getWorkerServers,
-} from "/helpers/discover.js";
-import { exec } from "/helpers/exec.js";
-import { scp } from "/helpers/scp.js";
+import { Discover } from "/helpers/discover.js";
+import { Exec } from "/helpers/exec.js";
+import { SCP } from "/helpers/scp.js";
 
 const HACK_SCRIPT = "/helpers/hack.js";
 const WEAKEN_SCRIPT = "/helpers/weaken.js";
@@ -44,7 +40,7 @@ export async function main(ns: NS) {
 
     while (true) {
         const pools = getPools(ns);
-        const args = getHackableHosts(ns);
+        const args = Discover.getHackableHosts(ns);
 
         ns.clearLog();
 
@@ -79,10 +75,10 @@ export async function main(ns: NS) {
  * @returns {string[][]} All pools - worker, rooted and home.
  */
 function getPools(ns: NS): string[][] {
-    const workers = getWorkerServers(ns);
+    const workers = Discover.getWorkerServers(ns);
     ns.print(`[ps-control-scheduler] Workers: ${workers}`);
 
-    const rootedNodes = getRootedHosts(ns);
+    const rootedNodes = Discover.getRootedHosts(ns);
     ns.print(`[ps-control-scheduler] Rooted nodes: ${rootedNodes}`);
 
     return [...splitWorkers(ns, workers), ...splitHostnames(ns, rootedNodes)];
@@ -218,10 +214,10 @@ async function executeOnPool(ns: NS, hostnames: string[], args: string[]) {
 
                     killRunningScript(ns, hostname, filename);
 
-                    await scp(ns, hostname, [filename]);
+                    await SCP.scp(ns, hostname, [filename]);
 
                     for (let k = 0; k < fnArgs.length; k++) {
-                        exec(ns, hostname, filename, threads, [fnArgs[k]]);
+                        Exec.exec(ns, hostname, filename, threads, [fnArgs[k]]);
                     }
                 }
                 await ns.sleep(100);

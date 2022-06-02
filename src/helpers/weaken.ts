@@ -21,19 +21,21 @@ export async function main(ns: NS) {
     while (true) {
         const j = Math.floor(Math.random() * hostnames.length);
         const hostname = hostnames[j];
-        await weaken(ns, hostname);
+        await Weaken.weaken(ns, hostname);
     }
 }
 
-/** 
- * Weaken host at `hostname`.
- * @async
- * 
- * @param {NS} ns - The Netscript object.
- * @param {string} hostname - Host to weaken.
- * @returns {Promise<number>} The amount by which the server's security level was decreased.
- */
-export async function weaken(ns: NS, hostname: string): Promise<number> {
-    ns.print(`[weaken] Executing weaken on ${hostname}`);
-    return await ns.weaken(hostname);
+export module Weaken {
+    /** 
+     * Weaken host at `hostname`.
+     * @async
+     * 
+     * @param {NS} ns - The Netscript object.
+     * @param {string} hostname - Host to weaken.
+     * @returns {Promise<number>} The amount by which the server's security level was decreased.
+     */
+    export async function weaken(ns: NS, hostname: string): Promise<number> {
+        ns.print(`[weaken] Executing weaken on ${hostname}`);
+        return await ns.weaken(hostname);
+    }
 }

@@ -1,7 +1,7 @@
 import { NS } from "Netscript";
-import { grow } from "/helpers/grow.js";
-import { hack } from "/helpers/hack.js";
-import { weaken } from "/helpers/weaken.js";
+import { Grow } from "/helpers/grow.js";
+import { Hack } from "/helpers/hack.js";
+import { Weaken } from "/helpers/weaken.js";
 
 // Min security level to interact with server
 const SEC_LEVEL_THRESHOLD = 7;
@@ -60,14 +60,14 @@ export async function hackWeakenGrow(ns: NS, hostname: string): Promise<number> 
     if (moneyMax > 0) {
         ns.print(`[hack] Executing hack/weaken/grow on ${hostname}, Level ${secLevel}/${secThresh}, Money ${moneyAvail}/${moneyThresh}`);
         if ((moneyAvail < 100000) || (moneyAvail < moneyThresh)) {
-            return (await grow(ns, hostname)) * -1;
+            return (await Grow.grow(ns, hostname)) * -1;
         }
 
-        return await hack(ns, hostname).then(async (amtMoney: number) => {
+        return await Hack.hack(ns, hostname).then(async (amtMoney: number) => {
             if ((amtMoney === 0) && (secLevel > secThresh)) {
-                await weaken(ns, hostname);
+                await Weaken.weaken(ns, hostname);
             } else if ((amtMoney > 0) && (moneyAvail < moneyThresh)) {
-                return amtMoney - await grow(ns, hostname);
+                return amtMoney - await Grow.grow(ns, hostname);
             }
 
             return amtMoney;

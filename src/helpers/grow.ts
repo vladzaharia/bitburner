@@ -21,19 +21,21 @@ export async function main(ns: NS) {
     while (true) {
         const j = Math.floor(Math.random() * hostnames.length);
         const hostname = hostnames[j];
-        await grow(ns, hostname);
+        await Grow.grow(ns, hostname);
     }
 }
 
-/** 
- * Grow host on `hostname`.
- * @async
- * 
- * @param {NS} ns - The Netscript object.
- * @param {string} hostname - The host to grow.
- * @returns {Promise<number>} - The amount by which the server's money grew. 
- */
-export async function grow(ns: NS, hostname: string): Promise<number> {
-    ns.print(`[grow] Executing grow on ${hostname}`);
-    return await ns.grow(hostname);
+export module Grow {
+    /** 
+     * Grow host on `hostname`.
+     * @async
+     * 
+     * @param {NS} ns - The Netscript object.
+     * @param {string} hostname - The host to grow.
+     * @returns {Promise<number>} - The amount by which the server's money grew. 
+     */
+    export async function grow(ns: NS, hostname: string): Promise<number> {
+        ns.print(`[grow] Executing grow on ${hostname}`);
+        return await ns.grow(hostname);
+    }
 }
