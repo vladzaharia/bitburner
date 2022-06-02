@@ -88,10 +88,7 @@ gulp.task("watch:sync", function () {
 });
 
 // ### Misc tasks
-gulp.task(
-  "default",
-  gulp.series("clean", "compile", "generate-docs", "generate-manifest")
-);
+gulp.task("default", gulp.series("clean", "compile", "generate-manifest"));
 
 gulp.task(
   "ci",

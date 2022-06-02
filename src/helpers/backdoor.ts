@@ -3,6 +3,7 @@ import { getRoute } from "/helpers/discover.js";
 
 /**
  * Backdoor a host using the Terminal.
+ * @alpha Does not currently backdoor, only prints out route.
  * @category Executable
  *
  * @example <caption>Backdoor single passed in host.</caption>
