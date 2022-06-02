@@ -35,3 +35,9 @@ jobs:
           GH_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
           GH_MAIL: hey@vlad.gg
           GH_NAME: ${{ github.repository_owner }}
+
+      - name: Push GH Pages Changes
+        uses: JamesIves/github-pages-deploy-action@v4.3.3
+        with:
+          branch: gh-pages
+          folder: out/docs-html
