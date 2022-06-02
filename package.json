@@ -13,15 +13,21 @@
 		"gulp-clean": "^0.4.0",
 		"gulp-filelist": "^2.0.5",
 		"gulp-run": "^1.7.1",
+		"gulp-typedoc": "^3.0.2",
 		"gulp-typescript": "^6.0.0-alpha.1",
 		"http-server": "^14.1.0",
-		"replace-in-file": "^6.3.3"
+		"replace-in-file": "^6.3.3",
+		"typedoc": "^0.22.17",
+		"typedoc-github-wiki-theme": "^1.0.1",
+		"typedoc-plugin-markdown": "^3.12.1"
 	},
 	"scripts": {
 		"postinstall": "gulp postinstall",
 		"postinstall:defs": "gulp postinstall:defs",
 		"postinstall:config": "gulp postinstall:config",
 		"build": "gulp",
+		"build:compile": "gulp compile",
+		"build:docs": "gulp generate-docs",
 		"build:manifest": "gulp generate-manifest",
 		"build:watch": "gulp watch",
 		"build:sync-watch": "gulp watch-sync",

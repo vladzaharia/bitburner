@@ -3,6 +3,7 @@ var clean = require('gulp-clean');
 var filelist = require('gulp-filelist');
 var run = require('gulp-run');
 var ts = require('gulp-typescript');
+var typedoc = require('gulp-typedoc');
 
 // ### Base tasks
 gulp.task('clean', function () {
@@ -18,6 +19,20 @@ gulp.task('compile', function () {
 
     // Output to ./out
     return result.js.pipe(gulp.dest('out'));
+});
+
+gulp.task('generate-docs', function () {
+    return gulp.src("src/**/*.ts").pipe(typedoc({
+        out: "./out/docs/",
+        json: "./out/docs.json",
+
+        name: "Bitburner",
+        categorizeByGroup: true,
+        exclude: "./src/lib/**",
+        plugin: ["typedoc-github-wiki-theme", "typedoc-plugin-markdown"],
+        theme: "github-wiki",
+        version: true,
+    }));
 });
 
 gulp.task('generate-manifest', function () {
@@ -50,4 +65,4 @@ gulp.task('watch:sync', function () {
 });
 
 // ### Misc tasks
-gulp.task('default', gulp.series('clean', 'compile', 'generate-manifest'));
+gulp.task('default', gulp.series('clean', 'compile', 'generate-docs', 'generate-manifest'));
