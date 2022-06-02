@@ -16,6 +16,7 @@
 		"gulp-typedoc": "^3.0.2",
 		"gulp-typescript": "^6.0.0-alpha.1",
 		"http-server": "^14.1.0",
+		"husky": "^8.0.0",
 		"replace-in-file": "^6.3.3",
 		"typedoc": "^0.22.17",
 		"typedoc-github-wiki-theme": "^1.0.1",
@@ -34,6 +35,7 @@
 		"clean": "gulp clean",
 		"serve": "npm run build && http-server ./out",
 		"sync": "bitburner-sync",
-		"sync:watch": "bitburner-sync --watch"
+		"sync:watch": "bitburner-sync --watch",
+		"prepare": "husky install"
 	}
 }
