@@ -1,6 +1,6 @@
 import { NS } from "Netscript";
-import { Crack } from "/helpers/crack.js";
-import { Discover } from "/helpers/discover.js";
+import { crackHost } from "/helpers/crack.js";
+import { getCrackableHosts, getRootedHosts } from "/helpers/discover.js";
 
 /** 
  * Automatically crack all available hosts.
@@ -17,16 +17,16 @@ export async function main(ns: NS) {
         ns.clearLog();
 
         if (!ns.fileExists("/flags/SKIP_CRACKER.js", "home")) {
-            const crackableHosts = Discover.getCrackableHosts(ns);
+            const crackableHosts = getCrackableHosts(ns);
 
             ns.clearLog();
 
             for (let i = 0; i < crackableHosts.length; i++) {
                 const hostname = crackableHosts[i];
-                Crack.crack(ns, hostname);
+                crackHost(ns, hostname);
             }
 
-            Discover.getRootedHosts(ns, crackableHosts);
+            getRootedHosts(ns, crackableHosts);
 
             ns.print(`[ps-control-cracker] Finished cracking nodes, sleeping for 15min at ${new Date().toTimeString()}`);
             await ns.sleep(15 * 60 * 1000);

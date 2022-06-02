@@ -1,7 +1,7 @@
 import { NS } from "Netscript";
-import { Discover } from "/helpers/discover.js";
-import { Exec } from "/helpers/exec.js";
-import { SCP } from "/helpers/scp.js";
+import { getControlServers, getRootedHosts, getPersonalServers, getWorkerServers, getHosts } from "/helpers/discover.js";
+import { exec } from "/helpers/exec.js";
+import { scp } from "/helpers/scp.js";
 
 /** 
  * Copy and execute a given file on a given host.
@@ -21,8 +21,8 @@ import { SCP } from "/helpers/scp.js";
  * @param {NS} ns - The Netscript object.
  */
 export async function main(ns: NS) {
-    const hackableHosts = Discover.getRootedHosts(ns);
-    let hostnames = [...Discover.getPersonalServers(ns), ...hackableHosts];
+    const hackableHosts = getRootedHosts(ns);
+    let hostnames = [...getPersonalServers(ns), ...hackableHosts];
     let threads = 0;
     let filename = "/helpers/hack-weaken-grow.js";
     let args = hackableHosts;
@@ -34,16 +34,16 @@ export async function main(ns: NS) {
         const hostnameArg = ns.args[0] as string;
 
         if (hostnameArg === "control") {
-            hostnames = Discover.getControlServers(ns);
+            hostnames = getControlServers(ns);
             ns.print(`[scp-exec] Filtered to control servers: ${hostnames}`);
         } else if (hostnameArg === "worker") {
-            hostnames = Discover.getWorkerServers(ns);
+            hostnames = getWorkerServers(ns);
             ns.print(`[scp-exec] Filtered to worker servers: ${hostnames}`);
         } else if (hostnameArg === "rooted") {
-            hostnames = Discover.getRootedHosts(ns);
+            hostnames = getRootedHosts(ns);
             ns.print(`[scp-exec] Filtered to worker servers: ${hostnames}`);
         } else {
-            hostnames = Discover.getHosts(ns, 10).filter((hn) => hn.indexOf(hostnameArg) !== -1);
+            hostnames = getHosts(ns, 10).filter((hn) => hn.indexOf(hostnameArg) !== -1);
             ns.print(`[scp-exec] Filtered based on ${hostnameArg}: ${hostnames}`);
         }
 
@@ -80,8 +80,8 @@ export async function main(ns: NS) {
         runningProc.forEach((proc) => ns.kill(proc.filename, hostname, ...proc.args));
 
         // Copy and execute
-        await SCP.scp(ns, hostname, [filename]);
-        Exec.exec(ns, hostname, filename, threads, fnArgs);
+        await scp(ns, hostname, [filename]);
+        exec(ns, hostname, filename, threads, fnArgs);
 
         await ns.sleep(1000);
     }

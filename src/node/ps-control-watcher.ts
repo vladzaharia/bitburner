@@ -1,5 +1,5 @@
 import { NS } from "Netscript";
-import { Discover } from "/helpers/discover.js";
+import { getHackableHosts, getPersonalServers } from "/helpers/discover.js";
 
 /** 
  * Automatically report on hackable and personal servers.
@@ -16,8 +16,8 @@ export async function main(ns: NS) {
         ns.clearLog();
 
         if (!ns.fileExists("/flags/SKIP_WATCHER.js", "home")) {
-            const hackableHosts = Discover.getHackableHosts(ns);
-            const personalServers = Discover.getPersonalServers(ns);
+            const hackableHosts = getHackableHosts(ns);
+            const personalServers = getPersonalServers(ns);
 
             ns.clearLog();
 

@@ -1,5 +1,5 @@
 import { NS } from "Netscript";
-import { Discover } from "/helpers/discover.js";
+import { getRoute } from "/helpers/discover.js";
 
 /** 
  * Backdoor a host using the Terminal.
@@ -24,39 +24,36 @@ export async function main(ns: NS) {
 
         ns.print(`[backdoor] Executing crack on ${hostname}`)
 
-        await Backdoor.backdoor(ns, Discover.getRoute(ns, hostname));
+        await backdoorHost(ns, getRoute(ns, hostname));
     }
 }
 
-export module Backdoor {
-    /** 
-     * Connect to a host chain using `route` and backdoor the last server.
-     * 
-     * @param {NS} ns - The Netscript object. 
-     * @param {string[]} route - Route to use to backdoor, including target.
-     */
-    export async function backdoor(ns: NS, route: string[] | false) {
-        ns.print(`[backdoor] Connecting ${route}`);
+/** 
+ * Connect to a host chain using `route` and backdoor the last server.
+ * 
+ * @param {NS} ns - The Netscript object. 
+ * @param {string[]} route - Route to use to backdoor, including target.
+ */
+export async function backdoorHost(ns: NS, route: string[] | false) {
+    ns.print(`[backdoor] Connecting ${route}`);
 
-        if (route) {
-            //(ns as any).connect("home");
-            ns.print(route.map((hn) => `${hn} [${ns.hasRootAccess(hn)}]`))
+    if (route) {
+        //(ns as any).connect("home");
+        ns.print(route.map((hn) => `${hn} [${ns.hasRootAccess(hn)}]`))
 
-            if (true) {
-                // Connect to target via route
-                // for (let i = 0; i < route.length; i++) {
-                //     (ns as any).connect(route);
-                // }
+        if (true) {
+            // Connect to target via route
+            // for (let i = 0; i < route.length; i++) {
+            //     (ns as any).connect(route);
+            // }
 
-                // Backdoor host
-                //(ns as any).installBackdoor();
+            // Backdoor host
+            //(ns as any).installBackdoor();
 
-                await ns.sleep(10 * 1000);
-            } else {
-            }
+            await ns.sleep(10 * 1000);
         } else {
-            ns.print(`[backdoor] No route to host!`)
         }
+    } else {
+        ns.print(`[backdoor] No route to host!`)
     }
 }
-
