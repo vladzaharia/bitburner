@@ -127,6 +127,8 @@ gulp.task(
   gulp.series("clean", "compile", "generate-manifest", "lint")
 );
 
+gulp.task("pre-commit", gulp.series("clean", "compile", "generate-manifest"));
+
 gulp.task(
   "ci",
   gulp.series("clean", "compile", "generate-docs", "generate-manifest", "lint")

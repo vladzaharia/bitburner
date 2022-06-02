@@ -32,6 +32,7 @@
     "typedoc-plugin-markdown": "^3.12.1"
   },
   "scripts": {
+    "pre-commit": "gulp pre-commit",
     "prepare": "husky install",
     "postinstall": "gulp postinstall",
     "postinstall:defs": "gulp postinstall:defs",
