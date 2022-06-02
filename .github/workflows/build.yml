@@ -14,13 +14,6 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Checkout wiki repo
-        uses: actions/checkout@v3
-        with:
-          repository: ${{github.repository}}.wiki
-          token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
-          path: out/docs
-
       - name: Use Node.js 16.x
         uses: actions/setup-node@v3
         with:
@@ -35,13 +28,6 @@ jobs:
         run: |
           gulp ci
           gulp prettier
-
-      - name: Commit wiki changes
-        run: |
-          cd out/docs
-          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
-          git commit -m "Wiki update" -a
 
       - name: Push changes to wiki repo
         uses: cpina/github-action-push-to-another-repository@main
