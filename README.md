@@ -36,7 +36,3 @@ This token can be manually synced by running `npm run postinstall:config`.
 The [Netscript definitions](src/lib/Netscript.d.ts) is automatically created as a `npm install` postrun task.
 
 This file can be updated by running `npm run postinstall:defs`.
-
-## Wiki Updates
-
-Documentation can be updated using `npm run git:subtree-push`.
