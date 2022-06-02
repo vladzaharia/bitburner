@@ -4,7 +4,9 @@ Scripts used in my Bitburner deployment.
 
 ## Documentation
 
-Extensive per-script documentation is found in the [Wiki](https://github.com/vladzaharia/bitburner/wiki), generated from TSDoc via [typedoc](https://typedoc.org) and [typedoc-plugin-markdown](https://github.com/tgreyuk/typedoc-plugin-markdown/tree/master/packages/typedoc-plugin-markdown) / [typedoc-github-wiki-theme](https://github.com/tgreyuk/typedoc-plugin-markdown/tree/master/packages/typedoc-github-wiki-theme).
+Extensive per-script documentation is found in the [Wiki](https://github.com/vladzaharia/bitburner/wiki) and the [Website](https://vladzaharia.github.io/bitburner/).
+
+Documentation is generated from TSDoc via [typedoc](https://typedoc.org) and [typedoc-plugin-markdown](https://github.com/tgreyuk/typedoc-plugin-markdown/tree/master/packages/typedoc-plugin-markdown) / [typedoc-github-wiki-theme](https://github.com/tgreyuk/typedoc-plugin-markdown/tree/master/packages/typedoc-github-wiki-theme).
 
 ## Getting Started
 
