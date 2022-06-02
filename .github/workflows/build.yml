@@ -20,7 +20,8 @@ jobs:
 
     - name: Build
       run: |
-        npm install
+        npm install --ignore-scripts
+        npm run postinstall:defs
         gulp
         
     - name: Subtree push
