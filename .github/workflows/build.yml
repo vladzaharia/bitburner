@@ -28,14 +28,10 @@ jobs:
         run: |
           gulp ci
 
-      - name: Push changes to wiki repo
-        uses: cpina/github-action-push-to-another-repository@main
+      - name: Push Wiki Changes
+        uses: Andrew-Chen-Wang/github-wiki-action@v3
         env:
-          API_TOKEN_GITHUB: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
-        with:
-          source-directory: out/docs
-          destination-github-username: vladzaharia
-          destination-repository-name: bitburner.wiki
-          user-email: service@vlad.gg
-          user-name: Service Account
-          target-branch: master
+          WIKI_DIR: out/docs
+          GH_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+          GH_MAIL: service@vlad.gg
+          GH_NAME: Service Account
