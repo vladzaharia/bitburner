@@ -1,5 +1,7 @@
 {
-    "recommendations": [
-        "bitburner.bitburner-vscode-integration"
-    ]
+  "recommendations": [
+    "bitburner.bitburner-vscode-integration",
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode"
+  ]
 }

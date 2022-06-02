@@ -24,17 +24,17 @@ import { NS } from "Netscript";
  * @param {NS} ns - The Netscript object.
  */
 export async function main(ns: NS) {
-    if (ns.args.length < 2) {
-        throw "Function must be called with hostname and filename, threads and args optional";
-    }
+  if (ns.args.length < 2) {
+    throw "Function must be called with hostname and filename, threads and args optional";
+  }
 
-    exec(
-        ns,
-        ns.args[0] as string,
-        ns.args[1] as string,
-        ns.args[2] as number,
-        ns.args.splice(3) as string[]
-    );
+  exec(
+    ns,
+    ns.args[0] as string,
+    ns.args[1] as string,
+    ns.args[2] as number,
+    ns.args.splice(3) as string[]
+  );
 }
 
 /**
@@ -52,20 +52,20 @@ export async function main(ns: NS) {
  * @returns {boolean} Whether the script was successfully run.
  */
 export function exec(
-    ns: NS,
-    hostname: string,
-    filename: string,
-    threads: number = 1,
-    args: string[] = []
+  ns: NS,
+  hostname: string,
+  filename: string,
+  threads = 1,
+  args: string[] = []
 ): boolean {
-    if (threads === 0) {
-        threads = Math.floor(
-            ns.getServerMaxRam(hostname) / ns.getScriptRam(filename)
-        );
-    }
-
-    ns.print(
-        `[exec] Executing ${filename} on ${hostname} with threads: ${threads}, args: ${args}`
+  if (threads === 0) {
+    threads = Math.floor(
+      ns.getServerMaxRam(hostname) / ns.getScriptRam(filename)
     );
-    return ns.exec(filename, hostname, threads, ...args) > 0;
+  }
+
+  ns.print(
+    `[exec] Executing ${filename} on ${hostname} with threads: ${threads}, args: ${args}`
+  );
+  return ns.exec(filename, hostname, threads, ...args) > 0;
 }

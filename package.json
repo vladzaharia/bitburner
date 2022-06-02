@@ -8,9 +8,14 @@
     "typescript": "^4.7.2"
   },
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.27.0",
+    "@typescript-eslint/parser": "^5.27.0",
     "bitburner-sync": "^1.5.2",
+    "eslint": "^8.16.0",
+    "eslint-config-prettier": "^8.5.0",
     "gulp": "^4.0.2",
     "gulp-clean": "^0.4.0",
+    "gulp-eslint": "^6.0.0",
     "gulp-filelist": "^2.0.5",
     "gulp-prettier": "^4.0.0",
     "gulp-run": "^1.7.1",
@@ -38,6 +43,8 @@
     "build:watch": "gulp watch",
     "build:sync-watch": "gulp watch-sync",
     "clean": "gulp clean",
+    "lint": "gulp lint",
+    "lint:eslint": "gulp eslint",
     "lint:prettier": "gulp prettier",
     "serve": "npm run build && http-server ./out",
     "sync": "bitburner-sync",

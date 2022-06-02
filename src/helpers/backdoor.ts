@@ -60,6 +60,7 @@ export async function backdoor(ns: NS, route: string[] | false) {
 
       await ns.sleep(10 * 1000);
     } else {
+      //nop
     }
   } else {
     ns.print(`[backdoor] No route to host!`);
