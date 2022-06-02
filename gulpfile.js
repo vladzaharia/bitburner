@@ -23,7 +23,7 @@ gulp.task('compile', function () {
 
 gulp.task('generate-docs', function () {
     return gulp.src("src/**/*.ts").pipe(typedoc({
-        out: "./out/docs/",
+        out: "./docs/",
         json: "./out/docs.json",
 
         name: "Bitburner",
