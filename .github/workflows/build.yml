@@ -37,7 +37,7 @@ jobs:
       - name: Publish to Github Action
         uses: s0/git-publish-subdir-action@develop
         env:
-          REPO: https://github.com/vladzaharia/bitburner.wiki.git
+          REPO: ${{github.repository}}.wiki
           GITHUB_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
           BRANCH: master
           FOLDER: out/docs
