@@ -29,6 +29,12 @@ jobs:
         run: |
           gulp ci
 
+      - name: Ls out
+        run: |
+          ls out
+          ls out/docs
+          ls out/docs-html
+
       - name: Push Wiki Changes
         uses: Andrew-Chen-Wang/github-wiki-action@v3
         env:
