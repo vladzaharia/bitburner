@@ -1,4 +1,4 @@
-name: NodeJS with Gulp
+name: Build with Gulp
 
 on:
   push:
@@ -18,12 +18,16 @@ jobs:
       with:
         node-version: 16.x
 
-    - name: Build
+    - name: Install
       run: |
         npm install --ignore-scripts
         npm run postinstall:defs
+        
+    - name: Build
+      run: |
         gulp
         
-    - name: Subtree push
-      run: |
-        npm run git:subtree-push
+    - name: Publish to GitHub Wiki
+      uses: SwiftDocOrg/github-wiki-publish-action@1.0.0
+      with:
+        path: /docs
