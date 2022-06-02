@@ -38,4 +38,5 @@ jobs:
           destination-github-username: vladzaharia
           destination-repository-name: bitburner.wiki
           user-email: service@vlad.gg
+          user-name: Service Account
           target-branch: master
