@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-git subtree push --prefix=docs/ wiki-https master
+npm run git:subtree-push
