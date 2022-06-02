@@ -2,6 +2,7 @@ import { NS } from "Netscript";
 
 /**
  * Grow host(s) from Terminal.
+ * @category Executable
  *
  * @example <caption>Grow single passed in host.</caption>
  * ```shell
@@ -31,6 +32,7 @@ export async function main(ns: NS) {
 
 /**
  * Grow host on `hostname`.
+ * @category Importable
  * @async
  *
  * @param {NS} ns - The Netscript object.

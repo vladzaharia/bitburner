@@ -6,7 +6,7 @@
 
 - [main](../wiki/tools.scp-exec#main)
 
-## Functions
+## Executable
 
 ### main
 
@@ -46,4 +46,4 @@ run /tools/scp-exec.js [host] [path-to-script] [threads] [arg0] ... [argn]
 
 #### Defined in
 
-[tools/scp-exec.ts:37](https://github.com/vladzaharia/bitburner/blob/main/src/tools/scp-exec.ts#L37)
+[tools/scp-exec.ts:38](https://github.com/vladzaharia/bitburner/blob/main/src/tools/scp-exec.ts#L38)

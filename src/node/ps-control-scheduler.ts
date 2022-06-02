@@ -34,6 +34,8 @@ const MIN_SEC_LEVEL = 2;
  *  - Rooted server pools, with `HOSTS_PER_POOL`
  *  - ["home"]
  *
+ * @category Executable
+ *
  * @example
  * ```shell
  * run /node/ps-control-scheduler.js

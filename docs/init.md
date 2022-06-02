@@ -6,11 +6,13 @@
 
 - [main](../wiki/init#main)
 
-## Functions
+## Executable
 
 ### main
 
 ▸ **main**(`ns`): `Promise`<`void`\>
+
+Execute all node/* scripts on "home"
 
 #### Parameters
 
@@ -24,4 +26,4 @@
 
 #### Defined in
 
-[init.ts:6](https://github.com/vladzaharia/bitburner/blob/main/src/init.ts#L6)
+[init.ts:9](https://github.com/vladzaharia/bitburner/blob/main/src/init.ts#L9)

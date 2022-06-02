@@ -6,7 +6,7 @@
 
 - [main](../wiki/node.ps-control-cracker#main)
 
-## Functions
+## Executable
 
 ### main
 
@@ -31,4 +31,4 @@ run /node/ps-control-cracker.js
 
 #### Defined in
 
-[node/ps-control-cracker.ts:15](https://github.com/vladzaharia/bitburner/blob/main/src/node/ps-control-cracker.ts#L15)
+[node/ps-control-cracker.ts:16](https://github.com/vladzaharia/bitburner/blob/main/src/node/ps-control-cracker.ts#L16)

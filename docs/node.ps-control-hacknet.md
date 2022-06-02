@@ -6,7 +6,7 @@
 
 - [main](../wiki/node.ps-control-hacknet#main)
 
-## Functions
+## Executable
 
 ### main
 
@@ -36,4 +36,4 @@ run /node/ps-control-hacknet.js
 
 #### Defined in
 
-[node/ps-control-hacknet.ts:25](https://github.com/vladzaharia/bitburner/blob/main/src/node/ps-control-hacknet.ts#L25)
+[node/ps-control-hacknet.ts:27](https://github.com/vladzaharia/bitburner/blob/main/src/node/ps-control-hacknet.ts#L27)

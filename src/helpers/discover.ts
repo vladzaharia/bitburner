@@ -5,6 +5,7 @@ let foundHosts: string[] = [];
 
 /**
  * Get all available and crackable hosts via Terminal, to a default depth of 5.
+ * @category Executable
  *
  * @example <caption>Discover hosts to depth of 5.</caption>
  * ```shell
@@ -32,6 +33,7 @@ export async function main(ns: NS) {
 
 /**
  * Get available hosts to a specified `depth`.
+ * @category Importable
  * @async
  *
  * @param {NS} ns - The Netscript object.
@@ -53,6 +55,7 @@ export function getHosts(ns: NS, depth: number): string[] {
 
 /**
  * Get a list of all personal servers.
+ * @category Importable
  * @async
  *
  * @param {NS} ns - The Netscript object.
@@ -73,6 +76,7 @@ export function getPersonalServers(ns: NS): string[] {
 
 /**
  * Get list of all personal Control servers.
+ * @category Importable
  * @async
  * @deprecated Control servers have been superceded by scripts running on "home"
  *
@@ -90,6 +94,7 @@ export function getControlServers(ns: NS): string[] {
 
 /**
  * Get list of all personal Worker servers.
+ * @category Importable
  * @async
  *
  * @param {NS} ns - The Netscript object.
@@ -106,6 +111,7 @@ export function getWorkerServers(ns: NS): string[] {
 
 /**
  * Get list of crackable hosts from "home".
+ * @category Importable
  * @async
  * @see "crackable" - Can crack using current hacking level and port openers.
  *
@@ -145,6 +151,7 @@ export function getCrackableHosts(
 
 /** 
  * Get list of rooted hosts from "home".
+ * @category Importable
  * @async
  * @see "rooted" - Was successfully cracked via `/helpers/crack.js`.
 
@@ -182,6 +189,7 @@ export function getRootedHosts(
 
 /**
  * Get list of hackable hosts from "home".
+ * @category Importable
  * @async
  * @see "hackable" - Is rooted and has max money > 0.
  *
@@ -216,6 +224,56 @@ export function getHackableHosts(
     ns.print(`[discover] Hackable hosts: ${rootedHosts}`);
 
     return rootedHosts;
+}
+
+/**
+ * Get route from "home" to `hostname`.
+ * @category Importable
+ * @async
+ *
+ * @param {NS} ns - The Netscript object.
+ * @param {string} hostname - The hostname to try and get a path to.
+ * @returns {string[] | false} Either the path to the host from home, or false if no path is found.
+ */
+export function getRoute(ns: NS, hostname: string): string[] | false {
+    ns.print(`[discover] Looking for ${hostname}`);
+
+    const alreadyScanned: string[] = [];
+    const innerLoop = (target: string, hostnames: string[]) => {
+        alreadyScanned.push(target);
+
+        if (hostname === target) {
+            ns.print(`[discover] Found ${target} via ${hostnames}`);
+            return [...hostnames, target];
+        }
+
+        let scannableNames: string[] = ns.scan(target);
+        const scanTargets: string[] = scannableNames.filter(
+            (hn: string) =>
+                !hn.startsWith("ps-") && !alreadyScanned.includes(hn)
+        );
+
+        ns.print(
+            `[discover] Scan targets ${scanTargets} already scanned ${alreadyScanned}`
+        );
+        if (scanTargets.length > 0) {
+            for (let i = 0; i < scanTargets.length; i++) {
+                const result = innerLoop(scanTargets[i], [
+                    ...hostnames,
+                    target,
+                ]);
+                if (result) {
+                    ns.print(`[discover] Passing found path ${result} back up`);
+                    return result;
+                }
+            }
+            return false;
+        } else {
+            return false;
+        }
+    };
+
+    return innerLoop("home", []);
 }
 
 /**
@@ -266,55 +324,6 @@ function scanHost(
     }
 
     return hostnames;
-}
-
-/**
- * Get route from "home" to `hostname`.
- * @async
- *
- * @param {NS} ns - The Netscript object.
- * @param {string} hostname - The hostname to try and get a path to.
- * @returns {string[] | false} Either the path to the host from home, or false if no path is found.
- */
-export function getRoute(ns: NS, hostname: string): string[] | false {
-    ns.print(`[discover] Looking for ${hostname}`);
-
-    const alreadyScanned: string[] = [];
-    const innerLoop = (target: string, hostnames: string[]) => {
-        alreadyScanned.push(target);
-
-        if (hostname === target) {
-            ns.print(`[discover] Found ${target} via ${hostnames}`);
-            return [...hostnames, target];
-        }
-
-        let scannableNames: string[] = ns.scan(target);
-        const scanTargets: string[] = scannableNames.filter(
-            (hn: string) =>
-                !hn.startsWith("ps-") && !alreadyScanned.includes(hn)
-        );
-
-        ns.print(
-            `[discover] Scan targets ${scanTargets} already scanned ${alreadyScanned}`
-        );
-        if (scanTargets.length > 0) {
-            for (let i = 0; i < scanTargets.length; i++) {
-                const result = innerLoop(scanTargets[i], [
-                    ...hostnames,
-                    target,
-                ]);
-                if (result) {
-                    ns.print(`[discover] Passing found path ${result} back up`);
-                    return result;
-                }
-            }
-            return false;
-        } else {
-            return false;
-        }
-    };
-
-    return innerLoop("home", []);
 }
 
 /**

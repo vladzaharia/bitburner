@@ -6,7 +6,7 @@
 
 - [main](../wiki/tools.purchase-server#main)
 
-## Functions
+## Executable
 
 ### main
 
@@ -36,4 +36,4 @@ run /tools/purchase-server.js [ram] [host0] ... [hostn]
 
 #### Defined in
 
-[tools/purchase-server.ts:18](https://github.com/vladzaharia/bitburner/blob/main/src/tools/purchase-server.ts#L18)
+[tools/purchase-server.ts:19](https://github.com/vladzaharia/bitburner/blob/main/src/tools/purchase-server.ts#L19)

@@ -6,7 +6,7 @@
 
 - [main](../wiki/node.ps-control-purchaser#main)
 
-## Functions
+## Executable
 
 ### main
 
@@ -36,4 +36,4 @@ run /node/ps-control-purchaser.js
 
 #### Defined in
 
-[node/ps-control-purchaser.ts:26](https://github.com/vladzaharia/bitburner/blob/main/src/node/ps-control-purchaser.ts#L26)
+[node/ps-control-purchaser.ts:28](https://github.com/vladzaharia/bitburner/blob/main/src/node/ps-control-purchaser.ts#L28)

@@ -7,30 +7,7 @@
 - [backdoor](../wiki/helpers.backdoor#backdoor)
 - [main](../wiki/helpers.backdoor#main)
 
-## Functions
-
-### backdoor
-
-▸ **backdoor**(`ns`, `route`): `Promise`<`void`\>
-
-Connect to a host chain using `route` and backdoor the last server.
-
-#### Parameters
-
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `ns` | `NS` | The Netscript object. |
-| `route` | ``false`` \| `string`[] | Route to use to backdoor, including target. |
-
-#### Returns
-
-`Promise`<`void`\>
-
-#### Defined in
-
-[helpers/backdoor.ts:41](https://github.com/vladzaharia/bitburner/blob/main/src/helpers/backdoor.ts#L41)
-
-___
+## Executable
 
 ### main
 
@@ -60,4 +37,27 @@ run /helpers/backdor.js [host0] ... [hostn]
 
 #### Defined in
 
-[helpers/backdoor.ts:19](https://github.com/vladzaharia/bitburner/blob/main/src/helpers/backdoor.ts#L19)
+[helpers/backdoor.ts:20](https://github.com/vladzaharia/bitburner/blob/main/src/helpers/backdoor.ts#L20)
+
+## Importable
+
+### backdoor
+
+▸ **backdoor**(`ns`, `route`): `Promise`<`void`\>
+
+Connect to a host chain using `route` and backdoor the last server.
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `ns` | `NS` | The Netscript object. |
+| `route` | ``false`` \| `string`[] | Route to use to backdoor, including target. |
+
+#### Returns
+
+`Promise`<`void`\>
+
+#### Defined in
+
+[helpers/backdoor.ts:43](https://github.com/vladzaharia/bitburner/blob/main/src/helpers/backdoor.ts#L43)

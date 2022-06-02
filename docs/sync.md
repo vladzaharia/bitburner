@@ -6,7 +6,7 @@
 
 - [main](../wiki/sync#main)
 
-## Functions
+## Executable
 
 ### main
 
@@ -32,4 +32,4 @@ run /sync.js http://1.2.3.4:8123
 
 #### Defined in
 
-[sync.ts:18](https://github.com/vladzaharia/bitburner/blob/main/src/sync.ts#L18)
+[sync.ts:19](https://github.com/vladzaharia/bitburner/blob/main/src/sync.ts#L19)

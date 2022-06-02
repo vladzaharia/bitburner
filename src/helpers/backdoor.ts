@@ -3,6 +3,7 @@ import { getRoute } from "/helpers/discover.js";
 
 /**
  * Backdoor a host using the Terminal.
+ * @category Executable
  *
  * @example <caption>Backdoor single passed in host.</caption>
  * ```shell
@@ -34,6 +35,7 @@ export async function main(ns: NS) {
 
 /**
  * Connect to a host chain using `route` and backdoor the last server.
+ * @category Importable
  *
  * @param {NS} ns - The Netscript object.
  * @param {string[]} route - Route to use to backdoor, including target.

@@ -7,7 +7,7 @@
 - [main](../wiki/helpers.weaken#main)
 - [weaken](../wiki/helpers.weaken#weaken)
 
-## Functions
+## Executable
 
 ### main
 
@@ -37,9 +37,9 @@ run /helpers/weaken.js [host0] ... [hostn]
 
 #### Defined in
 
-[helpers/weaken.ts:18](https://github.com/vladzaharia/bitburner/blob/main/src/helpers/weaken.ts#L18)
+[helpers/weaken.ts:19](https://github.com/vladzaharia/bitburner/blob/main/src/helpers/weaken.ts#L19)
 
-___
+## Importable
 
 ### weaken
 
@@ -64,4 +64,4 @@ The amount by which the server's security level was decreased.
 
 #### Defined in
 
-[helpers/weaken.ts:40](https://github.com/vladzaharia/bitburner/blob/main/src/helpers/weaken.ts#L40)
+[helpers/weaken.ts:42](https://github.com/vladzaharia/bitburner/blob/main/src/helpers/weaken.ts#L42)

@@ -7,7 +7,7 @@
 - [main](../wiki/helpers.scp#main)
 - [scp](../wiki/helpers.scp#scp)
 
-## Functions
+## Executable
 
 ### main
 
@@ -37,9 +37,9 @@ run /helpers/hack.js [host] [file0] ... [filen]
 
 #### Defined in
 
-[helpers/scp.ts:18](https://github.com/vladzaharia/bitburner/blob/main/src/helpers/scp.ts#L18)
+[helpers/scp.ts:19](https://github.com/vladzaharia/bitburner/blob/main/src/helpers/scp.ts#L19)
 
-___
+## Importable
 
 ### scp
 
@@ -65,4 +65,4 @@ Whether the files were copied over successfully.
 
 #### Defined in
 
-[helpers/scp.ts:35](https://github.com/vladzaharia/bitburner/blob/main/src/helpers/scp.ts#L35)
+[helpers/scp.ts:37](https://github.com/vladzaharia/bitburner/blob/main/src/helpers/scp.ts#L37)

@@ -4,6 +4,7 @@ import { getRootedHosts, getRoute } from "/helpers/discover.js";
 
 /**
  * Automatically backdoor all available hosts.
+ * @category Executable
  *
  * @example
  * ```shell

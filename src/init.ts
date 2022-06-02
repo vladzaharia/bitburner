@@ -1,6 +1,9 @@
 import { NS } from "Netscript";
 
 /**
+ * Execute all node/* scripts on "home"
+ * @category Executable
+ *
  * @param {NS} ns - The Netscript object.
  */
 export async function main(ns: NS) {

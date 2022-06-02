@@ -3,6 +3,7 @@ import { getHackableHosts, getPersonalServers } from "/helpers/discover.js";
 
 /**
  * Automatically report on hackable and personal servers.
+ * @category Executable
  *
  * @example
  * ```shell

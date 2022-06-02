@@ -16,6 +16,8 @@ const MONEY_MULTIPLIER = 0.5;
  *  - If RAM needs upgrading, sell all purchased servers.
  *  - Fill available servers up to capacity in pools.
  *
+ * @category Executable
+ *
  * @example
  * ```shell
  * run /node/ps-control-purchaser.js

@@ -15,6 +15,8 @@ const MONEY_MULTIPLIER = 0.05;
  *  - Compare cost/benefit of each upgrade.
  *  - Purchase best available upgrade across all nodes or purchase a new node.
  *
+ * @category Executable
+ *
  * @example
  * ```shell
  * run /node/ps-control-hacknet.js

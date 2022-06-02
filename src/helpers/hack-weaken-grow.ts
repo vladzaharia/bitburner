@@ -10,6 +10,7 @@ const MONEY_PCT_THRESHOLD = 0.5;
 /** 
  * run /helpers/a serial hack/weaken/grow script via the Terminal.
  * @deprecated Serial HWG has been replaced with `/node/ps-control-scheduler.js` as the recommended way to run HWG.
+ * @category Executable
  * 
  * @example <caption>Run HWG on a single passed in host.</caption>
  * ```shell
@@ -42,6 +43,7 @@ export async function main(ns: NS) {
 
 /**
  * Run serial HWG on given `hostname`.
+ * @category Importable
  * @async
  * @deprecated Serial HWG is not recommended. Please use a parallelized HWG with thread count percentages instead.
  *

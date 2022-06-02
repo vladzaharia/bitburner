@@ -6,7 +6,7 @@
 
 - [main](../wiki/node.ps-control-watcher#main)
 
-## Functions
+## Executable
 
 ### main
 
@@ -31,4 +31,4 @@ run /node/ps-control-watcher.js
 
 #### Defined in
 
-[node/ps-control-watcher.ts:14](https://github.com/vladzaharia/bitburner/blob/main/src/node/ps-control-watcher.ts#L14)
+[node/ps-control-watcher.ts:15](https://github.com/vladzaharia/bitburner/blob/main/src/node/ps-control-watcher.ts#L15)

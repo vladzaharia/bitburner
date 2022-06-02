@@ -32,6 +32,8 @@ const MIN_SERVER_MONEY_PCT = 0.5;
  *  - Rooted server pools, with `HOSTS_PER_POOL`
  *  - ["home"]
  *
+ * @category Executable
+ *
  * @example
  * run /node/ps-control-scheduler.js
  *

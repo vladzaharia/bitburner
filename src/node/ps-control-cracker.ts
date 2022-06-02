@@ -4,6 +4,7 @@ import { getCrackableHosts, getRootedHosts } from "/helpers/discover.js";
 
 /**
  * Automatically crack all available hosts.
+ * @category Executable
  *
  * @example
  * ```shell

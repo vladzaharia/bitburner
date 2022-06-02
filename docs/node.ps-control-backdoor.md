@@ -6,7 +6,7 @@
 
 - [main](../wiki/node.ps-control-backdoor#main)
 
-## Functions
+## Executable
 
 ### main
 
@@ -31,4 +31,4 @@ run /node/ps-control-backdoor.js
 
 #### Defined in
 
-[node/ps-control-backdoor.ts:15](https://github.com/vladzaharia/bitburner/blob/main/src/node/ps-control-backdoor.ts#L15)
+[node/ps-control-backdoor.ts:16](https://github.com/vladzaharia/bitburner/blob/main/src/node/ps-control-backdoor.ts#L16)

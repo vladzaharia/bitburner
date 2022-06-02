@@ -2,6 +2,7 @@ import { NS } from "Netscript";
 
 /**
  * Sell servers from the Terminal.
+ * @category Executable
  *
  * @example <caption>Sell a single server with given hostname.</caption>
  * ```shell

@@ -11,6 +11,7 @@ import { scp } from "/helpers/scp.js";
 
 /**
  * Copy and execute a given file on a given host.
+ * @category Executable
  *
  * @example <caption>Copy and execute /helpers/hack-weaken-grow.js on all personal and rooted servers.</caption>
  * ```shell

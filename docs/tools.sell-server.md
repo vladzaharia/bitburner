@@ -6,7 +6,7 @@
 
 - [main](../wiki/tools.sell-server#main)
 
-## Functions
+## Executable
 
 ### main
 
@@ -36,4 +36,4 @@ run /tools/sell-server.js [host0] ... [hostn]
 
 #### Defined in
 
-[tools/sell-server.ts:18](https://github.com/vladzaharia/bitburner/blob/main/src/tools/sell-server.ts#L18)
+[tools/sell-server.ts:19](https://github.com/vladzaharia/bitburner/blob/main/src/tools/sell-server.ts#L19)

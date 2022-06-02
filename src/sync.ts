@@ -6,6 +6,7 @@ const MANIFEST_URL = `${BASE_URL}/res/manifest.json`;
 
 /**
  * Synchronizes files with hosted version. Base URL can be passed in as `args[0]`.
+ * @category Executable
  *
  * @example <caption>Synchronize with default server</caption>
  * run /sync.js

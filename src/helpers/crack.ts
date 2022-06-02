@@ -10,6 +10,7 @@ const ALL_OPENERS = [
 
 /**
  * Crack host(s) from Terminal.
+ * @category Executable
  *
  * @example <caption>Crack single passed in host.</caption>
  * ```shell
@@ -41,6 +42,7 @@ export async function main(ns: NS) {
 
 /**
  * Crack given host using available port openers and nuke.
+ * @category Importable
  *
  * @param {NS} ns - The Netscript object.
  * @param {string} hostname - Hostname to crack
@@ -61,6 +63,7 @@ export function crack(ns: NS, hostname: string) {
 
 /**
  * Get available port openers.
+ * @category Importable
  *
  * @param {NS} ns - The Netscript object.
  * @returns {string[]} Port openers available.

@@ -7,36 +7,7 @@
 - [hackWeakenGrow](../wiki/helpers.hack-weaken-grow#hackweakengrow)
 - [main](../wiki/helpers.hack-weaken-grow#main)
 
-## Functions
-
-### hackWeakenGrow
-
-▸ **hackWeakenGrow**(`ns`, `hostname`): `Promise`<`number`\>
-
-Run serial HWG on given `hostname`.
-
-**`async`**
-
-**`deprecated`** Serial HWG is not recommended. Please use a parallelized HWG with thread count percentages instead.
-
-#### Parameters
-
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `ns` | `NS` | The Netscript object. |
-| `hostname` | `string` | The hostname to run HWG on. |
-
-#### Returns
-
-`Promise`<`number`\>
-
-The amount of money hacked, minus any growth action taken.
-
-#### Defined in
-
-[helpers/hack-weaken-grow.ts:52](https://github.com/vladzaharia/bitburner/blob/main/src/helpers/hack-weaken-grow.ts#L52)
-
-___
+## Executable
 
 ### main
 
@@ -68,4 +39,33 @@ run /helpers/hack-weaken-grow.js [host0] ... [hostn]
 
 #### Defined in
 
-[helpers/hack-weaken-grow.ts:26](https://github.com/vladzaharia/bitburner/blob/main/src/helpers/hack-weaken-grow.ts#L26)
+[helpers/hack-weaken-grow.ts:27](https://github.com/vladzaharia/bitburner/blob/main/src/helpers/hack-weaken-grow.ts#L27)
+
+## Importable
+
+### hackWeakenGrow
+
+▸ **hackWeakenGrow**(`ns`, `hostname`): `Promise`<`number`\>
+
+Run serial HWG on given `hostname`.
+
+**`async`**
+
+**`deprecated`** Serial HWG is not recommended. Please use a parallelized HWG with thread count percentages instead.
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `ns` | `NS` | The Netscript object. |
+| `hostname` | `string` | The hostname to run HWG on. |
+
+#### Returns
+
+`Promise`<`number`\>
+
+The amount of money hacked, minus any growth action taken.
+
+#### Defined in
+
+[helpers/hack-weaken-grow.ts:54](https://github.com/vladzaharia/bitburner/blob/main/src/helpers/hack-weaken-grow.ts#L54)
