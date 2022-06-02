@@ -10,7 +10,7 @@ let foundHosts: string[] = [];
  * ```shell
  * run /helpers/discover.js
  * ```
- * 
+ *
  * @example <caption>Discover hosts to passed in depth.</caption>
  * ```shell
  * run /helpers/discover.js [depth]

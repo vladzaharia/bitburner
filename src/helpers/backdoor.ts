@@ -8,12 +8,12 @@ import { getRoute } from "/helpers/discover.js";
  * ```shell
  * run /helpers/backdoor.js [host0]
  * ```
- * 
+ *
  * @example <caption>Backdoor multiple passed in hosts.</caption>
  * ```shell
  * run /helpers/backdor.js [host0] ... [hostn]
  * ```
- * 
+ *
  * @param {NS} ns - The Netscript object.
  */
 export async function main(ns: NS) {
