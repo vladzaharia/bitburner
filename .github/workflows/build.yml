@@ -33,5 +33,5 @@ jobs:
         env:
           WIKI_DIR: out/docs
           GH_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
-          GH_MAIL: service@vlad.gg
-          GH_NAME: Service Account
+          GH_MAIL: hey@vlad.gg
+          GH_NAME: ${{ github.repository_owner }}
