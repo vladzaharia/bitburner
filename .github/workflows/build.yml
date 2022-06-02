@@ -27,7 +27,6 @@ jobs:
       - name: Build
         run: |
           gulp ci
-          gulp prettier
 
       - name: Push changes to wiki repo
         uses: cpina/github-action-push-to-another-repository@main

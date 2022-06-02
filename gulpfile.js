@@ -93,4 +93,13 @@ gulp.task(
   gulp.series("clean", "compile", "generate-docs", "generate-manifest")
 );
 
-gulp.task("ci", gulp.series("compile", "generate-docs", "generate-manifest"));
+gulp.task(
+  "ci",
+  gulp.series(
+    "clean",
+    "compile",
+    "generate-docs",
+    "generate-manifest",
+    "prettier"
+  )
+);
