@@ -32,4 +32,4 @@ run /tools/sell-server.js [host0] ... [hostn]
 
 #### Defined in
 
-[tools/sell-server.ts:14](https://github.com/vladzaharia/bitburner/blob/89080f7/src/tools/sell-server.ts#L14)
+[tools/sell-server.ts:14](https://github.com/vladzaharia/bitburner/blob/598557b/src/tools/sell-server.ts#L14)

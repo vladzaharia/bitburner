@@ -29,7 +29,7 @@ Crack given host using available port openers and nuke.
 
 #### Defined in
 
-[helpers/crack.ts:44](https://github.com/vladzaharia/bitburner/blob/89080f7/src/helpers/crack.ts#L44)
+[helpers/crack.ts:44](https://github.com/vladzaharia/bitburner/blob/598557b/src/helpers/crack.ts#L44)
 
 ___
 
@@ -53,7 +53,7 @@ Port openers available.
 
 #### Defined in
 
-[helpers/crack.ts:64](https://github.com/vladzaharia/bitburner/blob/89080f7/src/helpers/crack.ts#L64)
+[helpers/crack.ts:64](https://github.com/vladzaharia/bitburner/blob/598557b/src/helpers/crack.ts#L64)
 
 ___
 
@@ -81,4 +81,4 @@ run /helpers/crack.js [host0] ... [hostn]
 
 #### Defined in
 
-[helpers/crack.ts:22](https://github.com/vladzaharia/bitburner/blob/89080f7/src/helpers/crack.ts#L22)
+[helpers/crack.ts:22](https://github.com/vladzaharia/bitburner/blob/598557b/src/helpers/crack.ts#L22)

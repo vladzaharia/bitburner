@@ -32,7 +32,7 @@ The amount of money that was hacked.
 
 #### Defined in
 
-[helpers/hack.ts:37](https://github.com/vladzaharia/bitburner/blob/89080f7/src/helpers/hack.ts#L37)
+[helpers/hack.ts:37](https://github.com/vladzaharia/bitburner/blob/598557b/src/helpers/hack.ts#L37)
 
 ___
 
@@ -60,4 +60,4 @@ run /helpers/hack.js [host0] ... [hostn]
 
 #### Defined in
 
-[helpers/hack.ts:15](https://github.com/vladzaharia/bitburner/blob/89080f7/src/helpers/hack.ts#L15)
+[helpers/hack.ts:15](https://github.com/vladzaharia/bitburner/blob/598557b/src/helpers/hack.ts#L15)

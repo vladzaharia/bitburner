@@ -32,4 +32,4 @@ run /tools/purchase-server.js [ram] [host0] ... [hostn]
 
 #### Defined in
 
-[tools/purchase-server.ts:14](https://github.com/vladzaharia/bitburner/blob/89080f7/src/tools/purchase-server.ts#L14)
+[tools/purchase-server.ts:14](https://github.com/vladzaharia/bitburner/blob/598557b/src/tools/purchase-server.ts#L14)

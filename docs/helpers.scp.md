@@ -33,7 +33,7 @@ run /helpers/hack.js [host] [file0] ... [filen]
 
 #### Defined in
 
-[helpers/scp.ts:14](https://github.com/vladzaharia/bitburner/blob/89080f7/src/helpers/scp.ts#L14)
+[helpers/scp.ts:14](https://github.com/vladzaharia/bitburner/blob/598557b/src/helpers/scp.ts#L14)
 
 ___
 
@@ -61,4 +61,4 @@ Whether the files were copied over successfully.
 
 #### Defined in
 
-[helpers/scp.ts:31](https://github.com/vladzaharia/bitburner/blob/89080f7/src/helpers/scp.ts#L31)
+[helpers/scp.ts:31](https://github.com/vladzaharia/bitburner/blob/598557b/src/helpers/scp.ts#L31)
