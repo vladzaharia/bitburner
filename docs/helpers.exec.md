@@ -35,7 +35,7 @@ Whether the script was successfully run.
 
 #### Defined in
 
-[helpers/exec.ts:45](https://github.com/vladzaharia/bitburner/blob/main/src/helpers/exec.ts#L45)
+[helpers/exec.ts:51](https://github.com/vladzaharia/bitburner/blob/main/src/helpers/exec.ts#L51)
 
 ___
 
@@ -48,13 +48,19 @@ Execute a given file on a given host.
 **Note:** Script must exist on host. Use `/tools/scp-exec.js` to scp and execute.
 
 **`example`** Execute a script on a host.
+```shell
 run /helpers/exec.js [host] [path-to-script]
+```
 
 **`example`** Execute a script on a host with given threads.
+```shell
 run /helpers/exec.js [host] [path-to-script] [threads]
+```
 
 **`example`** Execute a script on a host with given threads and args.
+```shell
 run /helpers/exec.js [host] [path-to-script] [threads] [arg0] ... [argn]
+```
 
 #### Parameters
 
@@ -68,4 +74,4 @@ run /helpers/exec.js [host] [path-to-script] [threads] [arg0] ... [argn]
 
 #### Defined in
 
-[helpers/exec.ts:19](https://github.com/vladzaharia/bitburner/blob/main/src/helpers/exec.ts#L19)
+[helpers/exec.ts:25](https://github.com/vladzaharia/bitburner/blob/main/src/helpers/exec.ts#L25)

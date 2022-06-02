@@ -32,7 +32,7 @@ Grow host on `hostname`.
 
 #### Defined in
 
-[helpers/grow.ts:36](https://github.com/vladzaharia/bitburner/blob/main/src/helpers/grow.ts#L36)
+[helpers/grow.ts:40](https://github.com/vladzaharia/bitburner/blob/main/src/helpers/grow.ts#L40)
 
 ___
 
@@ -43,10 +43,14 @@ ___
 Grow host(s) from Terminal.
 
 **`example`** Grow single passed in host.
+```shell
 run /helpers/grow.js [host0]
+```
 
 **`example`** Grow multiple passed in hosts.
+```shell
 run /helpers/grow.js [host0] ... [hostn]
+```
 
 #### Parameters
 
@@ -60,4 +64,4 @@ run /helpers/grow.js [host0] ... [hostn]
 
 #### Defined in
 
-[helpers/grow.ts:14](https://github.com/vladzaharia/bitburner/blob/main/src/helpers/grow.ts#L14)
+[helpers/grow.ts:18](https://github.com/vladzaharia/bitburner/blob/main/src/helpers/grow.ts#L18)

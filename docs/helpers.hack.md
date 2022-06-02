@@ -32,7 +32,7 @@ The amount of money that was hacked.
 
 #### Defined in
 
-[helpers/hack.ts:37](https://github.com/vladzaharia/bitburner/blob/main/src/helpers/hack.ts#L37)
+[helpers/hack.ts:41](https://github.com/vladzaharia/bitburner/blob/main/src/helpers/hack.ts#L41)
 
 ___
 
@@ -43,10 +43,14 @@ ___
 Hack host(s) from Terminal.
 
 **`example`** Hack single passed in host.
+```shell
 run /helpers/hack.js [host0]
+```
 
 **`example`** Hack multiple passed in hosts.
+```shell
 run /helpers/hack.js [host0] ... [hostn]
+```
 
 #### Parameters
 
@@ -60,4 +64,4 @@ run /helpers/hack.js [host0] ... [hostn]
 
 #### Defined in
 
-[helpers/hack.ts:15](https://github.com/vladzaharia/bitburner/blob/main/src/helpers/hack.ts#L15)
+[helpers/hack.ts:19](https://github.com/vladzaharia/bitburner/blob/main/src/helpers/hack.ts#L19)

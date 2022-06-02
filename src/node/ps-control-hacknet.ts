@@ -16,7 +16,9 @@ const MONEY_MULTIPLIER = 0.05;
  *  - Purchase best available upgrade across all nodes or purchase a new node.
  *
  * @example
+ * ```shell
  * run /node/ps-control-hacknet.js
+ * ```
  *
  * @param {NS} ns - The Netscript object.
  */

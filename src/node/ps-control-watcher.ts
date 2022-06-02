@@ -5,7 +5,9 @@ import { getHackableHosts, getPersonalServers } from "/helpers/discover.js";
  * Automatically report on hackable and personal servers.
  *
  * @example
+ * ```shell
  * run /node/ps-control-watcher.js
+ * ```
  *
  * @param {NS} ns - The Netscript object.
  */

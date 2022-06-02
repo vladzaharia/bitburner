@@ -7,9 +7,14 @@ let foundHosts: string[] = [];
  * Get all available and crackable hosts via Terminal, to a default depth of 5.
  *
  * @example <caption>Discover hosts to depth of 5.</caption>
+ * ```shell
  * run /helpers/discover.js
+ * ```
+ * 
  * @example <caption>Discover hosts to passed in depth.</caption>
+ * ```shell
  * run /helpers/discover.js [depth]
+ * ```
  *
  * @param {NS} ns - The Netscript object.
  */

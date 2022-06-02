@@ -15,10 +15,14 @@
 Sell servers from the Terminal.
 
 **`example`** Sell a single server with given hostname.
+```shell
 run /tools/sell-server.js [host]
+```
 
 **`example`** Sell multiple servers with given hostnames.
+```shell
 run /tools/sell-server.js [host0] ... [hostn]
+```
 
 #### Parameters
 
@@ -32,4 +36,4 @@ run /tools/sell-server.js [host0] ... [hostn]
 
 #### Defined in
 
-[tools/sell-server.ts:14](https://github.com/vladzaharia/bitburner/blob/main/src/tools/sell-server.ts#L14)
+[tools/sell-server.ts:18](https://github.com/vladzaharia/bitburner/blob/main/src/tools/sell-server.ts#L18)

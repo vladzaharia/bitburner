@@ -4,10 +4,14 @@ import { NS } from "Netscript";
  * Grow host(s) from Terminal.
  *
  * @example <caption>Grow single passed in host.</caption>
+ * ```shell
  * run /helpers/grow.js [host0]
+ * ```
  *
  * @example <caption>Grow multiple passed in hosts.</caption>
+ * ```shell
  * run /helpers/grow.js [host0] ... [hostn]
+ * ```
  *
  * @param {NS} ns - The Netscript object.
  */

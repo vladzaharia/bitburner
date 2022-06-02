@@ -6,13 +6,19 @@ import { NS } from "Netscript";
  * **Note:** Script must exist on host. Use `/tools/scp-exec.js` to scp and execute.
  *
  * @example <caption>Execute a script on a host.</caption>
+ * ```shell
  * run /helpers/exec.js [host] [path-to-script]
+ * ```
  *
  * @example <caption>Execute a script on a host with given threads.</caption>
+ * ```shell
  * run /helpers/exec.js [host] [path-to-script] [threads]
+ * ```
  *
  * @example <caption>Execute a script on a host with given threads and args.</caption>
+ * ```shell
  * run /helpers/exec.js [host] [path-to-script] [threads] [arg0] ... [argn]
+ * ```
  *
  * @param {NS} ns - The Netscript object.
  */

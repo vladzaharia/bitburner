@@ -6,7 +6,9 @@ import { getCrackableHosts, getRootedHosts } from "/helpers/discover.js";
  * Automatically crack all available hosts.
  *
  * @example
+ * ```shell
  * run /node/ps-control-cracker.js
+ * ```
  *
  * @param {NS} ns - The Netscript object.
  */

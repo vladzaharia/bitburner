@@ -16,10 +16,14 @@
 Copy `filename`, along with helper files, to `hostname`.
 
 **`example`** Copy `filename` to `host`.
+```shell
 run /helpers/scp.js [host] [filename]
+```
 
 **`example`** Copy multiple files to `host`.
+```shell
 run /helpers/hack.js [host] [file0] ... [filen]
+```
 
 #### Parameters
 
@@ -33,7 +37,7 @@ run /helpers/hack.js [host] [file0] ... [filen]
 
 #### Defined in
 
-[helpers/scp.ts:14](https://github.com/vladzaharia/bitburner/blob/main/src/helpers/scp.ts#L14)
+[helpers/scp.ts:18](https://github.com/vladzaharia/bitburner/blob/main/src/helpers/scp.ts#L18)
 
 ___
 
@@ -61,4 +65,4 @@ Whether the files were copied over successfully.
 
 #### Defined in
 
-[helpers/scp.ts:31](https://github.com/vladzaharia/bitburner/blob/main/src/helpers/scp.ts#L31)
+[helpers/scp.ts:35](https://github.com/vladzaharia/bitburner/blob/main/src/helpers/scp.ts#L35)

@@ -4,10 +4,14 @@ import { NS } from "Netscript";
  * Hack host(s) from Terminal.
  *
  * @example <caption>Hack single passed in host.</caption>
+ * ```shell
  * run /helpers/hack.js [host0]
+ * ```
  *
  * @example <caption>Hack multiple passed in hosts.</caption>
+ * ```shell
  * run /helpers/hack.js [host0] ... [hostn]
+ * ```
  *
  * @param {NS} ns - The Netscript object.
  */

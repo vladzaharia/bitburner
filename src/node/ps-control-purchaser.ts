@@ -17,7 +17,9 @@ const MONEY_MULTIPLIER = 0.5;
  *  - Fill available servers up to capacity in pools.
  *
  * @example
+ * ```shell
  * run /node/ps-control-purchaser.js
+ * ```
  *
  * @param {NS} ns - The Netscript object.
  */

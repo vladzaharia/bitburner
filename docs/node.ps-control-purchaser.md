@@ -20,7 +20,9 @@ Each cycle will:
  - Fill available servers up to capacity in pools.
 
 **`example`**
+```shell
 run /node/ps-control-purchaser.js
+```
 
 #### Parameters
 
@@ -34,4 +36,4 @@ run /node/ps-control-purchaser.js
 
 #### Defined in
 
-[node/ps-control-purchaser.ts:24](https://github.com/vladzaharia/bitburner/blob/main/src/node/ps-control-purchaser.ts#L24)
+[node/ps-control-purchaser.ts:26](https://github.com/vladzaharia/bitburner/blob/main/src/node/ps-control-purchaser.ts#L26)

@@ -28,7 +28,7 @@ Connect to a host chain using `route` and backdoor the last server.
 
 #### Defined in
 
-[helpers/backdoor.ts:37](https://github.com/vladzaharia/bitburner/blob/main/src/helpers/backdoor.ts#L37)
+[helpers/backdoor.ts:41](https://github.com/vladzaharia/bitburner/blob/main/src/helpers/backdoor.ts#L41)
 
 ___
 
@@ -39,10 +39,14 @@ ___
 Backdoor a host using the Terminal.
 
 **`example`** Backdoor single passed in host.
+```shell
 run /helpers/backdoor.js [host0]
+```
 
 **`example`** Backdoor multiple passed in hosts.
+```shell
 run /helpers/backdor.js [host0] ... [hostn]
+```
 
 #### Parameters
 
@@ -56,4 +60,4 @@ run /helpers/backdor.js [host0] ... [hostn]
 
 #### Defined in
 
-[helpers/backdoor.ts:15](https://github.com/vladzaharia/bitburner/blob/main/src/helpers/backdoor.ts#L15)
+[helpers/backdoor.ts:19](https://github.com/vladzaharia/bitburner/blob/main/src/helpers/backdoor.ts#L19)

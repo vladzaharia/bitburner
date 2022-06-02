@@ -13,16 +13,24 @@ import { scp } from "/helpers/scp.js";
  * Copy and execute a given file on a given host.
  *
  * @example <caption>Copy and execute /helpers/hack-weaken-grow.js on all personal and rooted servers.</caption>
+ * ```shell
  * run /tools/scp-exec.js
+ * ```
  *
  * @example <caption>Copy and execute script on given host.</caption>
+ * ```shell
  * run /tools/scp-exec.js [host] [path-to-script]
+ * ```
  *
  * @example <caption>Copy and execute script on worker servers.</caption>
+ * ```shell
  * run /tools/scp-exec.js worker [path-to-script]
+ * ```
  *
  * @example <caption>Copy and execute script on host with given threads and args.</caption>
+ * ```shell
  * run /tools/scp-exec.js [host] [path-to-script] [threads] [arg0] ... [argn]
+ * ```
  *
  * @param {NS} ns - The Netscript object.
  */

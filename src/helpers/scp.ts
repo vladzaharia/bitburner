@@ -4,10 +4,14 @@ import { NS } from "Netscript";
  * Copy `filename`, along with helper files, to `hostname`.
  *
  * @example <caption>Copy `filename` to `host`.</caption>
+ * ```shell
  * run /helpers/scp.js [host] [filename]
+ * ```
  *
  * @example <caption>Copy multiple files to `host`.</caption>
+ * ```shell
  * run /helpers/hack.js [host] [file0] ... [filen]
+ * ```
  *
  * @param {NS} ns - The Netscript object.
  */

@@ -25,7 +25,9 @@ Pools:
  - ["home"]
 
 **`example`**
+```shell
 run /node/ps-control-scheduler.js
+```
 
 #### Parameters
 
@@ -39,4 +41,4 @@ run /node/ps-control-scheduler.js
 
 #### Defined in
 
-[node/ps-control-scheduler.ts:42](https://github.com/vladzaharia/bitburner/blob/main/src/node/ps-control-scheduler.ts#L42)
+[node/ps-control-scheduler.ts:44](https://github.com/vladzaharia/bitburner/blob/main/src/node/ps-control-scheduler.ts#L44)

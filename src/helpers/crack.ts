@@ -12,10 +12,14 @@ const ALL_OPENERS = [
  * Crack host(s) from Terminal.
  *
  * @example <caption>Crack single passed in host.</caption>
+ * ```shell
  * run /helpers/crack.js [host0]
+ * ```
  *
  * @example <caption>Crack multiple passed in hosts.</caption>
+ * ```shell
  * run /helpers/crack.js [host0] ... [hostn]
+ * ```
  *
  * @param {NS} ns - The Netscript object.
  */

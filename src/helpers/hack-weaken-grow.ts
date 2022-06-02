@@ -12,10 +12,14 @@ const MONEY_PCT_THRESHOLD = 0.5;
  * @deprecated Serial HWG has been replaced with `/node/ps-control-scheduler.js` as the recommended way to run HWG.
  * 
  * @example <caption>Run HWG on a single passed in host.</caption>
+ * ```shell
  * run /helpers/hack-weaken-grow.js [host0]
+ * ```
  * 
  * @example <caption>Run HWG on multiple passed in hosts.</caption>
+ * ```shell
  * run /helpers/hack-weaken-grow.js [host0] ... [hostn]
+ * ```
 
  * @param {NS} ns - The Netscript object.
  */

@@ -35,7 +35,9 @@ const MIN_SEC_LEVEL = 2;
  *  - ["home"]
  *
  * @example
+ * ```shell
  * run /node/ps-control-scheduler.js
+ * ```
  *
  * @param {NS} ns - The Netscript object.
  */

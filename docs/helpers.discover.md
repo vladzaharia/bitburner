@@ -40,7 +40,7 @@ All Control servers available from "home".
 
 #### Defined in
 
-[helpers/discover.ts:77](https://github.com/vladzaharia/bitburner/blob/main/src/helpers/discover.ts#L77)
+[helpers/discover.ts:82](https://github.com/vladzaharia/bitburner/blob/main/src/helpers/discover.ts#L82)
 
 ___
 
@@ -70,7 +70,7 @@ All crackable hosts available from "home".
 
 #### Defined in
 
-[helpers/discover.ts:112](https://github.com/vladzaharia/bitburner/blob/main/src/helpers/discover.ts#L112)
+[helpers/discover.ts:117](https://github.com/vladzaharia/bitburner/blob/main/src/helpers/discover.ts#L117)
 
 ___
 
@@ -100,7 +100,7 @@ All hackable hosts available from "home".
 
 #### Defined in
 
-[helpers/discover.ts:188](https://github.com/vladzaharia/bitburner/blob/main/src/helpers/discover.ts#L188)
+[helpers/discover.ts:193](https://github.com/vladzaharia/bitburner/blob/main/src/helpers/discover.ts#L193)
 
 ___
 
@@ -127,7 +127,7 @@ All hosts available from "home" to `depth`.
 
 #### Defined in
 
-[helpers/discover.ts:36](https://github.com/vladzaharia/bitburner/blob/main/src/helpers/discover.ts#L36)
+[helpers/discover.ts:41](https://github.com/vladzaharia/bitburner/blob/main/src/helpers/discover.ts#L41)
 
 ___
 
@@ -153,7 +153,7 @@ All personal servers available from "home".
 
 #### Defined in
 
-[helpers/discover.ts:56](https://github.com/vladzaharia/bitburner/blob/main/src/helpers/discover.ts#L56)
+[helpers/discover.ts:61](https://github.com/vladzaharia/bitburner/blob/main/src/helpers/discover.ts#L61)
 
 ___
 
@@ -183,7 +183,7 @@ All rooted hosts available from "home".
 
 #### Defined in
 
-[helpers/discover.ts:151](https://github.com/vladzaharia/bitburner/blob/main/src/helpers/discover.ts#L151)
+[helpers/discover.ts:156](https://github.com/vladzaharia/bitburner/blob/main/src/helpers/discover.ts#L156)
 
 ___
 
@@ -210,7 +210,7 @@ Either the path to the host from home, or false if no path is found.
 
 #### Defined in
 
-[helpers/discover.ts:274](https://github.com/vladzaharia/bitburner/blob/main/src/helpers/discover.ts#L274)
+[helpers/discover.ts:279](https://github.com/vladzaharia/bitburner/blob/main/src/helpers/discover.ts#L279)
 
 ___
 
@@ -236,7 +236,7 @@ All Worker servers available from "home".
 
 #### Defined in
 
-[helpers/discover.ts:93](https://github.com/vladzaharia/bitburner/blob/main/src/helpers/discover.ts#L93)
+[helpers/discover.ts:98](https://github.com/vladzaharia/bitburner/blob/main/src/helpers/discover.ts#L98)
 
 ___
 
@@ -247,10 +247,14 @@ ___
 Get all available and crackable hosts via Terminal, to a default depth of 5.
 
 **`example`** Discover hosts to depth of 5.
+```shell
 run /helpers/discover.js
+```
 
 **`example`** Discover hosts to passed in depth.
+```shell
 run /helpers/discover.js [depth]
+```
 
 #### Parameters
 
@@ -264,4 +268,4 @@ run /helpers/discover.js [depth]
 
 #### Defined in
 
-[helpers/discover.ts:16](https://github.com/vladzaharia/bitburner/blob/main/src/helpers/discover.ts#L16)
+[helpers/discover.ts:21](https://github.com/vladzaharia/bitburner/blob/main/src/helpers/discover.ts#L21)

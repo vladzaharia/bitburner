@@ -4,10 +4,14 @@ import { NS } from "Netscript";
  * Weaken host(s) from Terminal.
  *
  * @example <caption>Weaken single passed in host.</caption>
+ * ```shell
  * run /helpers/weaken.js [host0]
+ * ```
  *
  * @example <caption>Weaken multiple passed in hosts.</caption>
+ * ```shell
  * run /helpers/weaken.js [host0] ... [hostn]
+ * ```
  *
  * @param {NS} ns - The Netscript object.
  */

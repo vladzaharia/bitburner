@@ -29,7 +29,7 @@ gulp.task("generate-docs", function () {
             json: "./out/docs.json",
 
             name: "Bitburner",
-            categorizeByGroup: true,
+            categorizeByGroup: false,
             exclude: "./src/lib/**",
             gitRevision: "main",
             plugin: ["typedoc-github-wiki-theme", "typedoc-plugin-markdown"],

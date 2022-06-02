@@ -16,10 +16,14 @@
 Weaken host(s) from Terminal.
 
 **`example`** Weaken single passed in host.
+```shell
 run /helpers/weaken.js [host0]
+```
 
 **`example`** Weaken multiple passed in hosts.
+```shell
 run /helpers/weaken.js [host0] ... [hostn]
+```
 
 #### Parameters
 
@@ -33,7 +37,7 @@ run /helpers/weaken.js [host0] ... [hostn]
 
 #### Defined in
 
-[helpers/weaken.ts:14](https://github.com/vladzaharia/bitburner/blob/main/src/helpers/weaken.ts#L14)
+[helpers/weaken.ts:18](https://github.com/vladzaharia/bitburner/blob/main/src/helpers/weaken.ts#L18)
 
 ___
 
@@ -60,4 +64,4 @@ The amount by which the server's security level was decreased.
 
 #### Defined in
 
-[helpers/weaken.ts:36](https://github.com/vladzaharia/bitburner/blob/main/src/helpers/weaken.ts#L36)
+[helpers/weaken.ts:40](https://github.com/vladzaharia/bitburner/blob/main/src/helpers/weaken.ts#L40)

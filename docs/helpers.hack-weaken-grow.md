@@ -34,7 +34,7 @@ The amount of money hacked, minus any growth action taken.
 
 #### Defined in
 
-[helpers/hack-weaken-grow.ts:48](https://github.com/vladzaharia/bitburner/blob/main/src/helpers/hack-weaken-grow.ts#L48)
+[helpers/hack-weaken-grow.ts:52](https://github.com/vladzaharia/bitburner/blob/main/src/helpers/hack-weaken-grow.ts#L52)
 
 ___
 
@@ -47,10 +47,14 @@ run /helpers/a serial hack/weaken/grow script via the Terminal.
 **`deprecated`** Serial HWG has been replaced with `/node/ps-control-scheduler.js` as the recommended way to run HWG.
 
 **`example`** Run HWG on a single passed in host.
+```shell
 run /helpers/hack-weaken-grow.js [host0]
+```
 
 **`example`** Run HWG on multiple passed in hosts.
+```shell
 run /helpers/hack-weaken-grow.js [host0] ... [hostn]
+```
 
 #### Parameters
 
@@ -64,4 +68,4 @@ run /helpers/hack-weaken-grow.js [host0] ... [hostn]
 
 #### Defined in
 
-[helpers/hack-weaken-grow.ts:22](https://github.com/vladzaharia/bitburner/blob/main/src/helpers/hack-weaken-grow.ts#L22)
+[helpers/hack-weaken-grow.ts:26](https://github.com/vladzaharia/bitburner/blob/main/src/helpers/hack-weaken-grow.ts#L26)

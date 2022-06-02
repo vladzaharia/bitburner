@@ -15,10 +15,14 @@
 Purchase new servers from the Terminal.
 
 **`example`** Purchase a single server with given RAM.
+```shell
 run /tools/purchase-server.js [ram] [host0]
+```
 
 **`example`** Purchase multiple servers, each with given RAM.
+```shell
 run /tools/purchase-server.js [ram] [host0] ... [hostn]
+```
 
 #### Parameters
 
@@ -32,4 +36,4 @@ run /tools/purchase-server.js [ram] [host0] ... [hostn]
 
 #### Defined in
 
-[tools/purchase-server.ts:14](https://github.com/vladzaharia/bitburner/blob/main/src/tools/purchase-server.ts#L14)
+[tools/purchase-server.ts:18](https://github.com/vladzaharia/bitburner/blob/main/src/tools/purchase-server.ts#L18)

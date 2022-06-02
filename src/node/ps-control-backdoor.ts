@@ -6,7 +6,9 @@ import { getRootedHosts, getRoute } from "/helpers/discover.js";
  * Automatically backdoor all available hosts.
  *
  * @example
+ * ```shell
  * run /node/ps-control-backdoor.js
+ * ```
  *
  * @param {NS} ns - The Netscript object.
  */
