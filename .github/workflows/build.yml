@@ -26,10 +26,11 @@ jobs:
       - name: Build
         run: |
           gulp
+          gulp prettier
 
       - name: Publish to GitHub Wiki
         uses: SwiftDocOrg/github-wiki-publish-action@1.0.0
         with:
-          path: /docs
+          path: ./out/docs
         env:
-          GH_PERSONAL_ACCESS_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+          GITHUB_PERSONAL_ACCESS_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}

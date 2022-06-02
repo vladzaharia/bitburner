@@ -37,7 +37,6 @@
     "build:watch": "gulp watch",
     "build:sync-watch": "gulp watch-sync",
     "clean": "gulp clean",
-    "git:subtree-push": "git subtree push --prefix=docs/ wiki-https master",
     "lint:prettier": "gulp prettier",
     "serve": "npm run build && http-server ./out",
     "sync": "bitburner-sync",
