@@ -1,6 +1,7 @@
 var gulp = require("gulp");
 var clean = require("gulp-clean");
 var filelist = require("gulp-filelist");
+const prettier = require("gulp-prettier");
 var run = require("gulp-run");
 var ts = require("gulp-typescript");
 var typedoc = require("gulp-typedoc");
@@ -45,6 +46,13 @@ gulp.task("generate-manifest", function () {
         .pipe(gulp.dest("out/res"));
 });
 
+gulp.task("prettier", function () {
+    return gulp
+        .src(["**/*", "!node_modules/**", "!out/**", "!**/*.tt"])
+        .pipe(prettier({ tabWidth: 4 }))
+        .pipe(gulp.dest("."));
+});
+
 gulp.task("sync", function () {
     return run("npm run sync").exec();
 });
@@ -76,10 +84,11 @@ gulp.task("watch:sync", function () {
 // ### Misc tasks
 gulp.task(
     "default",
-    gulp.series("clean", "compile", "generate-docs", "generate-manifest")
-);
-
-gulp.task(
-    "precommit",
-    gulp.series("clean", "compile", "generate-docs", "generate-manifest")
+    gulp.series(
+        "clean",
+        "compile",
+        "generate-docs",
+        "generate-manifest",
+        "prettier"
+    )
 );
