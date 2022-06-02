@@ -34,8 +34,11 @@ jobs:
           ls out
           ls out/docs
 
-      - name: Publish to Wiki
-        uses: OrlovM/Wiki-Action@v1
-        with:
-          path: "out/docs"
-          token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+      - uses: awact/wiki-action@master
+        env:
+          ACTION_MAIL: service@vlad.gg
+          ACTION_NAME: Service Account
+          GH_PAT: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+          MD_FOLDER: out/docs
+          OWNER: vladzaharia
+          REPO_NAME: bitburner
