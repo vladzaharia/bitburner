@@ -23,6 +23,7 @@
     "replace-in-file": "^6.3.3",
     "typedoc": "^0.22.17",
     "typedoc-github-wiki-theme": "^1.0.1",
+    "typedoc-just-the-docs-theme": "^0.0.1",
     "typedoc-plugin-markdown": "^3.12.1"
   },
   "scripts": {

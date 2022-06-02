@@ -56,9 +56,26 @@ gulp.task("generate-docs-html", function () {
   );
 });
 
+gulp.task("generate-docs-jtd", function () {
+  return gulp.src("src/**/*.ts").pipe(
+    typedoc({
+      out: "./out/docs-jtd/",
+      json: "./out/docs.json",
+
+      name: "Bitburner",
+      categorizeByGroup: false,
+      exclude: "./src/lib/**",
+      gitRevision: "main",
+      plugin: ["typedoc-just-the-docs-theme", "typedoc-plugin-markdown"],
+      theme: "just-the-docs",
+      version: true,
+    })
+  );
+});
+
 gulp.task(
   "generate-docs",
-  gulp.parallel("generate-docs-md", "generate-docs-html")
+  gulp.parallel("generate-docs-md", "generate-docs-html", "generate-docs-jtd")
 );
 
 gulp.task("generate-manifest", function () {
