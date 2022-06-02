@@ -22,7 +22,7 @@ gulp.task("compile", function () {
   return result.js.pipe(gulp.dest("out"));
 });
 
-gulp.task("generate-docs", function () {
+gulp.task("generate-docs-md", function () {
   return gulp.src("src/**/*.ts").pipe(
     typedoc({
       out: "./out/docs/",
@@ -38,6 +38,28 @@ gulp.task("generate-docs", function () {
     })
   );
 });
+
+gulp.task("generate-docs-html", function () {
+  return gulp.src("src/**/*.ts").pipe(
+    typedoc({
+      out: "./out/docs-html/",
+      json: "./out/docs.json",
+
+      name: "Bitburner",
+      categorizeByGroup: false,
+      exclude: "./src/lib/**",
+      gitRevision: "main",
+      plugin: [],
+      theme: "default",
+      version: true,
+    })
+  );
+});
+
+gulp.task(
+  "generate-docs",
+  gulp.parallel("generate-docs-md", "generate-docs-html")
+);
 
 gulp.task("generate-manifest", function () {
   return gulp
