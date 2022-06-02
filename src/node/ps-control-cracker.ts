@@ -2,12 +2,12 @@ import { NS } from "Netscript";
 import { crackHost } from "/helpers/crack.js";
 import { getCrackableHosts, getRootedHosts } from "/helpers/discover.js";
 
-/** 
+/**
  * Automatically crack all available hosts.
- * 
+ *
  * @example
  * run /node/ps-control-cracker.js
- * 
+ *
  * @param {NS} ns - The Netscript object.
  */
 export async function main(ns: NS) {
@@ -28,12 +28,15 @@ export async function main(ns: NS) {
 
             getRootedHosts(ns, crackableHosts);
 
-            ns.print(`[ps-control-cracker] Finished cracking nodes, sleeping for 15min at ${new Date().toTimeString()}`);
+            ns.print(
+                `[ps-control-cracker] Finished cracking nodes, sleeping for 15min at ${new Date().toTimeString()}`
+            );
             await ns.sleep(15 * 60 * 1000);
         } else {
-            ns.print(`[ps-control-cracker] Found file /flags/SKIP_CRACKER.js, sleeping for 1min at ${new Date().toTimeString()}`);
+            ns.print(
+                `[ps-control-cracker] Found file /flags/SKIP_CRACKER.js, sleeping for 1min at ${new Date().toTimeString()}`
+            );
             await ns.sleep(60 * 1000);
         }
-
     }
 }

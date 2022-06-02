@@ -29,4 +29,4 @@ run /node/ps-control-backdoor.js
 
 #### Defined in
 
-[node/ps-control-backdoor.ts:13](https://github.com/vladzaharia/bitburner/blob/468eb83/src/node/ps-control-backdoor.ts#L13)
+[node/ps-control-backdoor.ts:13](https://github.com/vladzaharia/bitburner/blob/89080f7/src/node/ps-control-backdoor.ts#L13)

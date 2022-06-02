@@ -24,4 +24,4 @@
 
 #### Defined in
 
-[init.ts:6](https://github.com/vladzaharia/bitburner/blob/468eb83/src/init.ts#L6)
+[init.ts:6](https://github.com/vladzaharia/bitburner/blob/89080f7/src/init.ts#L6)

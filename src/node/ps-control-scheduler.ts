@@ -190,7 +190,9 @@ async function executeOnPool(ns: NS, hostnames: string[], args: string[]) {
         }
 
         ns.print(
-            `[ps-control-scheduler] Final Weights ${Object.values(finalScripts)}, RAM ${ramAvail}`
+            `[ps-control-scheduler] Final Weights ${Object.values(
+                finalScripts
+            )}, RAM ${ramAvail}`
         );
 
         // Basic check that RAM is available
@@ -207,12 +209,15 @@ async function executeOnPool(ns: NS, hostnames: string[], args: string[]) {
                     Object.values(finalScripts).reduce((n, t) => n + t, 0);
 
                 const threads = Math.floor(
-                    ((ramAvail * scriptWeightPct) / ns.getScriptRam(filename)) / fnArgs.length
+                    (ramAvail * scriptWeightPct) /
+                        ns.getScriptRam(filename) /
+                        fnArgs.length
                 );
 
                 if (threads > 0) {
                     ns.print(
-                        `[ps-control-scheduler] Executing ${filename} on ${hostname} with ${scriptWeightPct * 100
+                        `[ps-control-scheduler] Executing ${filename} on ${hostname} with ${
+                            scriptWeightPct * 100
                         }% threads`
                     );
 
@@ -249,7 +254,9 @@ function killRunningScript(ns: NS, hostname: string, filename: string) {
         .filter((proc) => proc.filename === filename);
 
     // Kill instance(s)
-    runningProc.forEach((proc) => ns.kill(proc.filename, hostname, ...proc.args));
+    runningProc.forEach((proc) =>
+        ns.kill(proc.filename, hostname, ...proc.args)
+    );
 }
 
 /**

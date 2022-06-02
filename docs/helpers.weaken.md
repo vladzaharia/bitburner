@@ -33,7 +33,7 @@ run /helpers/weaken.js [host0] ... [hostn]
 
 #### Defined in
 
-[helpers/weaken.ts:14](https://github.com/vladzaharia/bitburner/blob/468eb83/src/helpers/weaken.ts#L14)
+[helpers/weaken.ts:14](https://github.com/vladzaharia/bitburner/blob/89080f7/src/helpers/weaken.ts#L14)
 
 ___
 
@@ -60,4 +60,4 @@ The amount by which the server's security level was decreased.
 
 #### Defined in
 
-[helpers/weaken.ts:36](https://github.com/vladzaharia/bitburner/blob/468eb83/src/helpers/weaken.ts#L36)
+[helpers/weaken.ts:36](https://github.com/vladzaharia/bitburner/blob/89080f7/src/helpers/weaken.ts#L36)

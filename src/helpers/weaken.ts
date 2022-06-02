@@ -1,11 +1,11 @@
 import { NS } from "Netscript";
 
-/** 
+/**
  * Weaken host(s) from Terminal.
- * 
+ *
  * @example <caption>Weaken single passed in host.</caption>
  * run /helpers/weaken.js [host0]
- * 
+ *
  * @example <caption>Weaken multiple passed in hosts.</caption>
  * run /helpers/weaken.js [host0] ... [hostn]
  *
@@ -25,10 +25,10 @@ export async function main(ns: NS) {
     }
 }
 
-/** 
+/**
  * Weaken host at `hostname`.
  * @async
- * 
+ *
  * @param {NS} ns - The Netscript object.
  * @param {string} hostname - Host to weaken.
  * @returns {Promise<number>} The amount by which the server's security level was decreased.

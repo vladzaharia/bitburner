@@ -1,6 +1,6 @@
 import { NS } from "Netscript";
 
-/** 
+/**
  * @param {NS} ns - The Netscript object.
  */
 export async function main(ns: NS) {

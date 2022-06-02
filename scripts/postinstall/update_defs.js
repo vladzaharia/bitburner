@@ -1,18 +1,19 @@
 //Load the library and specify options
-const replace = require('replace-in-file');
-const https = require('https');
-const fs = require('fs');
+const replace = require("replace-in-file");
+const https = require("https");
+const fs = require("fs");
 
 const NETSCRIPT_DEFS_FILE = __dirname + "/../../src/lib/Netscript.d.ts";
 
 let def = "";
-const url = "https://raw.githubusercontent.com/danielyxie/bitburner/dev/src/ScriptEditor/NetscriptDefinitions.d.ts";
+const url =
+    "https://raw.githubusercontent.com/danielyxie/bitburner/dev/src/ScriptEditor/NetscriptDefinitions.d.ts";
 
 console.log(`Downloading definition file from ${url}`);
 const request = https.get(url, (response) => {
     response.on("error", (err) => {
         console.error(err);
-    })
+    });
 
     response.on("data", (chunk) => {
         def += chunk;
@@ -29,22 +30,21 @@ const request = https.get(url, (response) => {
             const options = {
                 files: NETSCRIPT_DEFS_FILE,
                 from: "[[DEFS]]",
-                to: def
+                to: def,
             };
-    
+
             try {
-                replace(options).then((response) => {
-                    console.log('Replacement results:', response);
-                }, () => {
-                    console.error('Error occurred:', error);
-                });
-            }
-            catch (error) {
-                console.error('Error occurred:', error);
+                replace(options).then(
+                    (response) => {
+                        console.log("Replacement results:", response);
+                    },
+                    () => {
+                        console.error("Error occurred:", error);
+                    }
+                );
+            } catch (error) {
+                console.error("Error occurred:", error);
             }
         });
     });
 });
-
-
-

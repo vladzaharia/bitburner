@@ -5,18 +5,10 @@
         "rootDir": "src/",
         "baseUrl": "src/",
         "paths": {
-            "/helpers/*": [
-                "helpers/*"
-            ],
-            "/lib/*": [
-                "lib/*"
-            ],
-            "/node/*": [
-                "node/*"
-            ],
-            "/tools/*": [
-                "tools/*"
-            ]
+            "/helpers/*": ["helpers/*"],
+            "/lib/*": ["lib/*"],
+            "/node/*": ["node/*"],
+            "/tools/*": ["tools/*"]
         },
         "outDir": "out/",
         "moduleResolution": "node",

@@ -1,13 +1,19 @@
 import { NS } from "Netscript";
 
-const ALL_OPENERS = ["BruteSSH.exe", "FTPCrack.exe", "relaySMTP.exe", "HTTPWorm.exe", "SQLInject.exe"];
+const ALL_OPENERS = [
+    "BruteSSH.exe",
+    "FTPCrack.exe",
+    "relaySMTP.exe",
+    "HTTPWorm.exe",
+    "SQLInject.exe",
+];
 
 /**
  * Crack host(s) from Terminal.
- * 
+ *
  * @example <caption>Crack single passed in host.</caption>
  * run /helpers/crack.js [host0]
- * 
+ *
  * @example <caption>Crack multiple passed in hosts.</caption>
  * run /helpers/crack.js [host0] ... [hostn]
  *
@@ -23,15 +29,15 @@ export async function main(ns: NS) {
     for (let i = 0; i < hostnames.length; i++) {
         const hostname = hostnames[i];
 
-        ns.print(`[crack] Executing crack on ${hostname}`)
+        ns.print(`[crack] Executing crack on ${hostname}`);
 
         crackHost(ns, hostname);
     }
 }
 
-/** 
+/**
  * Crack given host using available port openers and nuke.
- * 
+ *
  * @param {NS} ns - The Netscript object.
  * @param {string} hostname - Hostname to crack
  */
@@ -42,16 +48,16 @@ export function crackHost(ns: NS, hostname: string) {
             useAllOpeners(ns, hostname);
         }
 
-        ns.print(`[crack] Nuking ${hostname}`)
+        ns.print(`[crack] Nuking ${hostname}`);
         ns.nuke(hostname);
     } else {
-        ns.print(`[crack] ${hostname} already cracked!`)
+        ns.print(`[crack] ${hostname} already cracked!`);
     }
 }
 
-/** 
+/**
  * Get available port openers.
- * 
+ *
  * @param {NS} ns - The Netscript object.
  * @returns {string[]} Port openers available.
  */
@@ -69,10 +75,10 @@ export function getPortOpeners(ns: NS): string[] {
     return availableOpeners;
 }
 
-/** 
+/**
  * Use all available openers on `hostname`.
- * 
- * @param {NS} ns - The Netscript object. 
+ *
+ * @param {NS} ns - The Netscript object.
  * @param {string} hostname - The hostname to crack.
  */
 function useAllOpeners(ns: NS, hostname: string) {
@@ -83,15 +89,15 @@ function useAllOpeners(ns: NS, hostname: string) {
     }
 }
 
-/** 
+/**
  * Crack a port on `hostname` using `opener`
- * 
- * @param {NS} ns - The Netscript object. 
+ *
+ * @param {NS} ns - The Netscript object.
  * @param {string} hostname - The hostname to crack.
  * @param {string} opener - The opener to use.
  */
 function useOpener(ns: NS, hostname: string, opener: string) {
-    ns.print(`[crack] Using ${opener} on ${hostname}`)
+    ns.print(`[crack] Using ${opener} on ${hostname}`);
 
     switch (opener) {
         case "BruteSSH.exe":

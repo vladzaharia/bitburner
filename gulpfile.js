@@ -1,68 +1,84 @@
-var gulp = require('gulp');
-var clean = require('gulp-clean');
-var filelist = require('gulp-filelist');
-var run = require('gulp-run');
-var ts = require('gulp-typescript');
-var typedoc = require('gulp-typedoc');
+var gulp = require("gulp");
+var clean = require("gulp-clean");
+var filelist = require("gulp-filelist");
+var run = require("gulp-run");
+var ts = require("gulp-typescript");
+var typedoc = require("gulp-typedoc");
 
 // ### Base tasks
-gulp.task('clean', function () {
-    return gulp.src('out', {read: false, allowEmpty: true}).pipe(clean());
+gulp.task("clean", function () {
+    return gulp.src("out", { read: false, allowEmpty: true }).pipe(clean());
 });
 
-gulp.task('compile', function () {
+gulp.task("compile", function () {
     // Get TS Project for compilation
-    var tsProject = ts.createProject('tsconfig.json');
+    var tsProject = ts.createProject("tsconfig.json");
 
     // Compile
     var result = tsProject.src().pipe(tsProject());
 
     // Output to ./out
-    return result.js.pipe(gulp.dest('out'));
+    return result.js.pipe(gulp.dest("out"));
 });
 
-gulp.task('generate-docs', function () {
-    return gulp.src("src/**/*.ts").pipe(typedoc({
-        out: "./docs/",
-        json: "./out/docs.json",
+gulp.task("generate-docs", function () {
+    return gulp.src("src/**/*.ts").pipe(
+        typedoc({
+            out: "./docs/",
+            json: "./out/docs.json",
 
-        name: "Bitburner",
-        categorizeByGroup: true,
-        exclude: "./src/lib/**",
-        plugin: ["typedoc-github-wiki-theme", "typedoc-plugin-markdown"],
-        theme: "github-wiki",
-        version: true,
-    }));
+            name: "Bitburner",
+            categorizeByGroup: true,
+            exclude: "./src/lib/**",
+            plugin: ["typedoc-github-wiki-theme", "typedoc-plugin-markdown"],
+            theme: "github-wiki",
+            version: true,
+        })
+    );
 });
 
-gulp.task('generate-manifest', function () {
-    return gulp.src("out/**/*.js").pipe(filelist('manifest.json', { relative: true })).pipe(gulp.dest("out/res"));
+gulp.task("generate-manifest", function () {
+    return gulp
+        .src("out/**/*.js")
+        .pipe(filelist("manifest.json", { relative: true }))
+        .pipe(gulp.dest("out/res"));
 });
 
-gulp.task('sync', function () {
-    return run('npm run sync').exec();
+gulp.task("sync", function () {
+    return run("npm run sync").exec();
 });
 
 // ### Install tasks
-gulp.task('postinstall:config', function () {
-    return gulp.src('scripts/postinstall/retrieve_config.js', {read: false}).pipe(run('node ${file.path}'));
+gulp.task("postinstall:config", function () {
+    return gulp
+        .src("scripts/postinstall/retrieve_config.js", { read: false })
+        .pipe(run("node ${file.path}"));
 });
 
-gulp.task('postinstall:defs', function () {
-    return gulp.src('scripts/postinstall/update_defs.js', {read: false}).pipe(run('node ${file.path}'));
+gulp.task("postinstall:defs", function () {
+    return gulp
+        .src("scripts/postinstall/update_defs.js", { read: false })
+        .pipe(run("node ${file.path}"));
 });
 
-gulp.task('postinstall', gulp.series('postinstall:defs', 'postinstall:config'));
-
+gulp.task("postinstall", gulp.series("postinstall:defs", "postinstall:config"));
 
 // ### Watch tasks
-gulp.task('watch', function () {
-    gulp.watch('src/**/*.ts', gulp.series('compile'));
+gulp.task("watch", function () {
+    gulp.watch("src/**/*.ts", gulp.series("compile"));
 });
 
-gulp.task('watch:sync', function () {
-    gulp.watch('src/**/*.ts', gulp.series(['compile', 'sync']));
+gulp.task("watch:sync", function () {
+    gulp.watch("src/**/*.ts", gulp.series(["compile", "sync"]));
 });
 
 // ### Misc tasks
-gulp.task('default', gulp.series('clean', 'compile', 'generate-docs', 'generate-manifest'));
+gulp.task(
+    "default",
+    gulp.series("clean", "compile", "generate-docs", "generate-manifest")
+);
+
+gulp.task(
+    "precommit",
+    gulp.series("clean", "compile", "generate-docs", "generate-manifest")
+);

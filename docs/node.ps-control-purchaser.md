@@ -34,4 +34,4 @@ run /node/ps-control-purchaser.js
 
 #### Defined in
 
-[node/ps-control-purchaser.ts:24](https://github.com/vladzaharia/bitburner/blob/468eb83/src/node/ps-control-purchaser.ts#L24)
+[node/ps-control-purchaser.ts:24](https://github.com/vladzaharia/bitburner/blob/89080f7/src/node/ps-control-purchaser.ts#L24)

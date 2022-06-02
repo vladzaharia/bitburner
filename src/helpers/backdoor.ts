@@ -1,15 +1,15 @@
 import { NS } from "Netscript";
 import { getRoute } from "/helpers/discover.js";
 
-/** 
+/**
  * Backdoor a host using the Terminal.
- * 
+ *
  * @example <caption>Backdoor single passed in host.</caption>
  * run /helpers/backdoor.js [host0]
- * 
+ *
  * @example <caption>Backdoor multiple passed in hosts.</caption>
  * run /helpers/backdor.js [host0] ... [hostn]
- * 
+ *
  * @param {NS} ns - The Netscript object.
  */
 export async function main(ns: NS) {
@@ -22,16 +22,16 @@ export async function main(ns: NS) {
     for (let i = 0; i < hostnames.length; i++) {
         const hostname = hostnames[i];
 
-        ns.print(`[backdoor] Executing crack on ${hostname}`)
+        ns.print(`[backdoor] Executing crack on ${hostname}`);
 
         await backdoorHost(ns, getRoute(ns, hostname));
     }
 }
 
-/** 
+/**
  * Connect to a host chain using `route` and backdoor the last server.
- * 
- * @param {NS} ns - The Netscript object. 
+ *
+ * @param {NS} ns - The Netscript object.
  * @param {string[]} route - Route to use to backdoor, including target.
  */
 export async function backdoorHost(ns: NS, route: string[] | false) {
@@ -39,7 +39,7 @@ export async function backdoorHost(ns: NS, route: string[] | false) {
 
     if (route) {
         //(ns as any).connect("home");
-        ns.print(route.map((hn) => `${hn} [${ns.hasRootAccess(hn)}]`))
+        ns.print(route.map((hn) => `${hn} [${ns.hasRootAccess(hn)}]`));
 
         if (true) {
             // Connect to target via route
@@ -54,6 +54,6 @@ export async function backdoorHost(ns: NS, route: string[] | false) {
         } else {
         }
     } else {
-        ns.print(`[backdoor] No route to host!`)
+        ns.print(`[backdoor] No route to host!`);
     }
 }

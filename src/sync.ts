@@ -9,12 +9,10 @@ const MANIFEST_URL = `${BASE_URL}/res/manifest.json`;
  *
  * @example <caption>Synchronize with default server</caption>
  * run /sync.js
- * 
+ *
  * @example <caption>Synchronize with custom server</caption>
  * run /sync.js http://1.2.3.4:8123
  *
  * @param {NS} ns - The Netscript object.
  */
-export async function main(ns: NS) {
-
-}
+export async function main(ns: NS) {}

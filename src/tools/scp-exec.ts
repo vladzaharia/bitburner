@@ -1,23 +1,29 @@
 import { NS } from "Netscript";
-import { getControlServers, getRootedHosts, getPersonalServers, getWorkerServers, getHosts } from "/helpers/discover.js";
+import {
+    getControlServers,
+    getRootedHosts,
+    getPersonalServers,
+    getWorkerServers,
+    getHosts,
+} from "/helpers/discover.js";
 import { exec } from "/helpers/exec.js";
 import { scp } from "/helpers/scp.js";
 
-/** 
+/**
  * Copy and execute a given file on a given host.
- * 
+ *
  * @example <caption>Copy and execute /helpers/hack-weaken-grow.js on all personal and rooted servers.</caption>
  * run /tools/scp-exec.js
- * 
+ *
  * @example <caption>Copy and execute script on given host.</caption>
  * run /tools/scp-exec.js [host] [path-to-script]
- * 
+ *
  * @example <caption>Copy and execute script on worker servers.</caption>
  * run /tools/scp-exec.js worker [path-to-script]
- * 
+ *
  * @example <caption>Copy and execute script on host with given threads and args.</caption>
  * run /tools/scp-exec.js [host] [path-to-script] [threads] [arg0] ... [argn]
- * 
+ *
  * @param {NS} ns - The Netscript object.
  */
 export async function main(ns: NS) {
@@ -27,7 +33,9 @@ export async function main(ns: NS) {
     let filename = "/helpers/hack-weaken-grow.js";
     let args = hackableHosts;
 
-    ns.print(`[scp-exec] Found ${hostnames.length} personal servers: ${hostnames}`);
+    ns.print(
+        `[scp-exec] Found ${hostnames.length} personal servers: ${hostnames}`
+    );
 
     // Filter based on arg[0] if provided
     if (ns.args.length > 0) {
@@ -43,8 +51,12 @@ export async function main(ns: NS) {
             hostnames = getRootedHosts(ns);
             ns.print(`[scp-exec] Filtered to worker servers: ${hostnames}`);
         } else {
-            hostnames = getHosts(ns, 10).filter((hn) => hn.indexOf(hostnameArg) !== -1);
-            ns.print(`[scp-exec] Filtered based on ${hostnameArg}: ${hostnames}`);
+            hostnames = getHosts(ns, 10).filter(
+                (hn) => hn.indexOf(hostnameArg) !== -1
+            );
+            ns.print(
+                `[scp-exec] Filtered based on ${hostnameArg}: ${hostnames}`
+            );
         }
 
         // Execute alternative script
@@ -56,7 +68,9 @@ export async function main(ns: NS) {
             // Change number of threads
             if (ns.args.length > 2) {
                 threads = ns.args[2] as number;
-                ns.print(`[scp-exec] Executing alternative thread count: ${threads}`);
+                ns.print(
+                    `[scp-exec] Executing alternative thread count: ${threads}`
+                );
 
                 // Send rest of arguments to the script
                 if (ns.args.length > 3) {
@@ -71,13 +85,21 @@ export async function main(ns: NS) {
         let fnArgs = args.slice();
 
         if (ns.args.indexOf("targets") !== -1 && ns.args.length < 4) {
-            fnArgs = fnArgs.filter((hn, j) => j % hostnames.length === i % hostnames.length);
+            fnArgs = fnArgs.filter(
+                (hn, j) => j % hostnames.length === i % hostnames.length
+            );
         }
 
         // Kill existing scripts
-        ns.print(`[scp-exec] Killing existing script instance(s) on ${hostname}`);
-        const runningProc = ns.ps(hostname).filter((proc) => proc.filename === filename);
-        runningProc.forEach((proc) => ns.kill(proc.filename, hostname, ...proc.args));
+        ns.print(
+            `[scp-exec] Killing existing script instance(s) on ${hostname}`
+        );
+        const runningProc = ns
+            .ps(hostname)
+            .filter((proc) => proc.filename === filename);
+        runningProc.forEach((proc) =>
+            ns.kill(proc.filename, hostname, ...proc.args)
+        );
 
         // Copy and execute
         await scp(ns, hostname, [filename]);

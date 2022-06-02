@@ -30,22 +30,25 @@ export async function main(ns: NS) {
         const j = Math.floor(Math.random() * hostnames.length);
         const hostname = hostnames[j];
 
-        ns.print(`[hack] Executing hack on ${hostname}`)
+        ns.print(`[hack] Executing hack on ${hostname}`);
 
         await hackWeakenGrow(ns, hostname);
     }
 }
 
-/** 
+/**
  * Run serial HWG on given `hostname`.
  * @async
  * @deprecated Serial HWG is not recommended. Please use a parallelized HWG with thread count percentages instead.
- * 
+ *
  * @param {NS} ns - The Netscript object.
  * @param {string} hostname - The hostname to run HWG on.
  * @returns {Promise<number>} The amount of money hacked, minus any growth action taken.
  */
-export async function hackWeakenGrow(ns: NS, hostname: string): Promise<number> {
+export async function hackWeakenGrow(
+    ns: NS,
+    hostname: string
+): Promise<number> {
     // Get security level info
     const secLevel = ns.getServerSecurityLevel(hostname);
     const secMin = ns.getServerMinSecurityLevel(hostname);
@@ -58,16 +61,18 @@ export async function hackWeakenGrow(ns: NS, hostname: string): Promise<number> 
 
     // Run basic hacking w/ auto-grow/weaken
     if (moneyMax > 0) {
-        ns.print(`[hack] Executing hack/weaken/grow on ${hostname}, Level ${secLevel}/${secThresh}, Money ${moneyAvail}/${moneyThresh}`);
-        if ((moneyAvail < 100000) || (moneyAvail < moneyThresh)) {
+        ns.print(
+            `[hack] Executing hack/weaken/grow on ${hostname}, Level ${secLevel}/${secThresh}, Money ${moneyAvail}/${moneyThresh}`
+        );
+        if (moneyAvail < 100000 || moneyAvail < moneyThresh) {
             return (await grow(ns, hostname)) * -1;
         }
 
         return await hack(ns, hostname).then(async (amtMoney: number) => {
-            if ((amtMoney === 0) && (secLevel > secThresh)) {
+            if (amtMoney === 0 && secLevel > secThresh) {
                 await weaken(ns, hostname);
-            } else if ((amtMoney > 0) && (moneyAvail < moneyThresh)) {
-                return amtMoney - await grow(ns, hostname);
+            } else if (amtMoney > 0 && moneyAvail < moneyThresh) {
+                return amtMoney - (await grow(ns, hostname));
             }
 
             return amtMoney;

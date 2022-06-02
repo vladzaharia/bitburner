@@ -34,4 +34,4 @@ run /node/ps-control-hacknet.js
 
 #### Defined in
 
-[node/ps-control-hacknet.ts:23](https://github.com/vladzaharia/bitburner/blob/468eb83/src/node/ps-control-hacknet.ts#L23)
+[node/ps-control-hacknet.ts:23](https://github.com/vladzaharia/bitburner/blob/89080f7/src/node/ps-control-hacknet.ts#L23)
