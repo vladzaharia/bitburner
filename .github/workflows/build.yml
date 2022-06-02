@@ -29,9 +29,10 @@ jobs:
           gulp
           gulp prettier
 
-      - name: Publish to GitHub Wiki
-        uses: SwiftDocOrg/github-wiki-publish-action@1.0.0
-        with:
-          path: out/docs
+      - name: Push Wiki Changes
+        uses: Andrew-Chen-Wang/github-wiki-action@v3
         env:
-          GITHUB_PERSONAL_ACCESS_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+          WIKI_DIR: out/docs
+          GH_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+          GH_MAIL: service@vlad.gg
+          GH_NAME: ${{ github.repository_owner }}
