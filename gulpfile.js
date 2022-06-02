@@ -65,6 +65,12 @@ gulp.task("generate-docs-html", () => {
   );
 });
 
+gulp.task("copy-out-to-docs", () => {
+  return gulp
+    .src(["out/**/*", "!out/docs*/**", "!out/docs*"])
+    .pipe(gulp.dest("out/docs-html/api"));
+});
+
 gulp.task(
   "generate-docs",
   gulp.series("generate-docs-md", "generate-docs-html")
@@ -131,5 +137,12 @@ gulp.task("pre-commit", gulp.series("clean", "compile", "generate-manifest"));
 
 gulp.task(
   "ci",
-  gulp.series("clean", "compile", "generate-docs", "generate-manifest", "lint")
+  gulp.series(
+    "clean",
+    "compile",
+    "generate-manifest",
+    "generate-docs",
+    "copy-out-to-docs",
+    "lint"
+  )
 );
