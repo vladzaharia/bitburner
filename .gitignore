@@ -1,6 +1,5 @@
 node_modules
 out
-docs
 src/lib/Netscript.d.ts
 !src/lib/Netscript.d.ts.tt
 bitburner-sync.json
