@@ -12,9 +12,9 @@ Documentation is generated from TSDoc via [typedoc](https://typedoc.org) and [ty
 
 ### Prerequisites
 
-- [Doppler](https://www.doppler.com) token as `env.DOPPLER_TOKEN` to pull Bitburner auth token
-- nodejs / npm
-- gulp _(optional)_
+-   [Doppler](https://www.doppler.com) token as `env.DOPPLER_TOKEN` to pull Bitburner auth token
+-   nodejs / npm
+-   gulp _(optional)_
 
 ### Setting up
 

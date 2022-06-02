@@ -1,57 +1,57 @@
 {
-  "name": "bitburner-scripts",
-  "author": {
-    "name": "Vlad Zaharia",
-    "email": "hey@vlad.gg"
-  },
-  "dependencies": {
-    "typescript": "^4.7.2"
-  },
-  "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^5.27.0",
-    "@typescript-eslint/parser": "^5.27.0",
-    "bitburner-sync": "^1.5.2",
-    "eslint": "^8.16.0",
-    "eslint-config-prettier": "^8.5.0",
-    "gulp": "^4.0.2",
-    "gulp-clean": "^0.4.0",
-    "gulp-eslint": "^6.0.0",
-    "gulp-filelist": "^2.0.5",
-    "gulp-prettier": "^4.0.0",
-    "gulp-run": "^1.7.1",
-    "gulp-typedoc": "^3.0.2",
-    "gulp-typescript": "^6.0.0-alpha.1",
-    "http-server": "^14.1.0",
-    "husky": "^8.0.0",
-    "lint-staged": "^13.0.0",
-    "prettier": "^2.6.2",
-    "replace-in-file": "^6.3.3",
-    "typedoc": "^0.22.17",
-    "typedoc-github-wiki-theme": "^1.0.1",
-    "typedoc-just-the-docs-theme": "^0.0.1",
-    "typedoc-plugin-markdown": "^3.12.1"
-  },
-  "scripts": {
-    "pre-commit": "gulp pre-commit",
-    "prepare": "husky install",
-    "postinstall": "gulp postinstall",
-    "postinstall:defs": "gulp postinstall-defs",
-    "postinstall:config": "gulp postinstall-config",
-    "build": "gulp",
-    "build:compile": "gulp compile",
-    "build:docs": "gulp generate-doc",
-    "build:manifest": "gulp generate-manifest",
-    "build:watch": "gulp watch",
-    "build:sync-watch": "gulp watch-sync",
-    "clean": "gulp clean",
-    "lint": "gulp lint",
-    "lint:eslint": "gulp eslint",
-    "lint:prettier": "gulp prettier",
-    "serve": "npm run build && http-server ./out",
-    "sync": "bitburner-sync",
-    "sync:watch": "bitburner-sync --watch"
-  },
-  "lint-staged": {
-    "*.{ts,md,js,json,yml}": "prettier --write"
-  }
+    "name": "bitburner-scripts",
+    "author": {
+        "name": "Vlad Zaharia",
+        "email": "hey@vlad.gg"
+    },
+    "dependencies": {
+        "typescript": "^4.7.2"
+    },
+    "devDependencies": {
+        "@typescript-eslint/eslint-plugin": "^5.27.0",
+        "@typescript-eslint/parser": "^5.27.0",
+        "bitburner-sync": "^1.5.2",
+        "eslint": "^8.16.0",
+        "eslint-config-prettier": "^8.5.0",
+        "gulp": "^4.0.2",
+        "gulp-clean": "^0.4.0",
+        "gulp-eslint": "^6.0.0",
+        "gulp-filelist": "^2.0.5",
+        "gulp-prettier": "^4.0.0",
+        "gulp-run": "^1.7.1",
+        "gulp-typedoc": "^3.0.2",
+        "gulp-typescript": "^6.0.0-alpha.1",
+        "http-server": "^14.1.0",
+        "husky": "^8.0.0",
+        "lint-staged": "^13.0.0",
+        "prettier": "^2.6.2",
+        "replace-in-file": "^6.3.3",
+        "typedoc": "^0.22.17",
+        "typedoc-github-wiki-theme": "^1.0.1",
+        "typedoc-just-the-docs-theme": "^0.0.1",
+        "typedoc-plugin-markdown": "^3.12.1"
+    },
+    "scripts": {
+        "pre-commit": "gulp pre-commit",
+        "prepare": "husky install",
+        "postinstall": "gulp postinstall",
+        "postinstall:defs": "gulp postinstall-defs",
+        "postinstall:config": "gulp postinstall-config",
+        "build": "gulp",
+        "build:compile": "gulp compile",
+        "build:docs": "gulp generate-doc",
+        "build:manifest": "gulp generate-manifest",
+        "build:watch": "gulp watch",
+        "build:sync-watch": "gulp watch-sync",
+        "clean": "gulp clean",
+        "lint": "gulp lint",
+        "lint:eslint": "gulp eslint",
+        "lint:prettier": "gulp prettier",
+        "serve": "npm run build && http-server ./out",
+        "sync": "bitburner-sync",
+        "sync:watch": "bitburner-sync --watch"
+    },
+    "lint-staged": {
+        "*.{ts,md,js,json,yml}": "prettier --write"
+    }
 }

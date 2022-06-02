@@ -25,87 +25,93 @@ const MONEY_MULTIPLIER = 0.5;
  * @param {NS} ns - The Netscript object.
  */
 export async function main(ns: NS) {
-  ns.disableLog("ALL");
+    ns.disableLog("ALL");
 
-  while (true) {
-    ns.clearLog();
+    while (true) {
+        ns.clearLog();
 
-    if (!ns.fileExists("/flags/SKIP_PURCHASER.js", "home")) {
-      let purchasedServers = ns.getPurchasedServers();
+        if (!ns.fileExists("/flags/SKIP_PURCHASER.js", "home")) {
+            let purchasedServers = ns.getPurchasedServers();
 
-      // Determine worker RAM
-      const availMoney = Math.floor(
-        ns.getServerMoneyAvailable("home") * MONEY_MULTIPLIER
-      );
-      ns.print(`[ps-control-purchaser] Available money ${availMoney}`);
+            // Determine worker RAM
+            const availMoney = Math.floor(
+                ns.getServerMoneyAvailable("home") * MONEY_MULTIPLIER
+            );
+            ns.print(`[ps-control-purchaser] Available money ${availMoney}`);
 
-      // Check for upgrades from 16GB - 1TB
-      checkForUpgrade(ns, availMoney, 1024, purchasedServers);
-      checkForUpgrade(ns, availMoney, 512, purchasedServers);
-      checkForUpgrade(ns, availMoney, 256, purchasedServers);
-      checkForUpgrade(ns, availMoney, 128, purchasedServers);
-      checkForUpgrade(ns, availMoney, 64, purchasedServers);
-      checkForUpgrade(ns, availMoney, 32, purchasedServers);
-      checkForUpgrade(ns, availMoney, 16, purchasedServers);
+            // Check for upgrades from 16GB - 1TB
+            checkForUpgrade(ns, availMoney, 1024, purchasedServers);
+            checkForUpgrade(ns, availMoney, 512, purchasedServers);
+            checkForUpgrade(ns, availMoney, 256, purchasedServers);
+            checkForUpgrade(ns, availMoney, 128, purchasedServers);
+            checkForUpgrade(ns, availMoney, 64, purchasedServers);
+            checkForUpgrade(ns, availMoney, 32, purchasedServers);
+            checkForUpgrade(ns, availMoney, 16, purchasedServers);
 
-      purchasedServers = ns.getPurchasedServers();
-      let i = purchasedServers.length; // Total purchased servers
-      let j = 0; // Worker pool
-      let k = 0; // Server in pool
-      const max = ns.getPurchasedServerLimit();
+            purchasedServers = ns.getPurchasedServers();
+            let i = purchasedServers.length; // Total purchased servers
+            let j = 0; // Worker pool
+            let k = 0; // Server in pool
+            const max = ns.getPurchasedServerLimit();
 
-      ns.print(
-        `[ps-control-purchaser] Purchased servers ${i}/${max}: ${purchasedServers}`
-      );
+            ns.print(
+                `[ps-control-purchaser] Purchased servers ${i}/${max}: ${purchasedServers}`
+            );
 
-      // Determine j, k
-      if (i > 0) {
-        const regex = /^ps-worker(\d)-(\d)$/;
-        const latestServer = purchasedServers[purchasedServers.length - 1];
-        ns.print(
-          `[ps-control-purchaser] Checking latest server ${latestServer}`
-        );
+            // Determine j, k
+            if (i > 0) {
+                const regex = /^ps-worker(\d)-(\d)$/;
+                const latestServer =
+                    purchasedServers[purchasedServers.length - 1];
+                ns.print(
+                    `[ps-control-purchaser] Checking latest server ${latestServer}`
+                );
 
-        const match = latestServer.match(regex);
+                const match = latestServer.match(regex);
 
-        if (match) {
-          j = parseInt(match[1], 10);
-          k = parseInt(match[2], 10) + 1;
-        }
-      }
+                if (match) {
+                    j = parseInt(match[1], 10);
+                    k = parseInt(match[2], 10) + 1;
+                }
+            }
 
-      while (i < max) {
-        // Check if last node in pool
-        if (k >= WORKERS_PER_POOL) {
-          k = 0;
-          j++;
-        }
+            while (i < max) {
+                // Check if last node in pool
+                if (k >= WORKERS_PER_POOL) {
+                    k = 0;
+                    j++;
+                }
 
-        // Purchase a worker node
-        const purchased = purchaseServer(ns, RAM, `worker${j}`, k.toString());
+                // Purchase a worker node
+                const purchased = purchaseServer(
+                    ns,
+                    RAM,
+                    `worker${j}`,
+                    k.toString()
+                );
 
-        if (purchased) {
-          purchasedServers = ns.getPurchasedServers();
-          i = purchasedServers.length;
-          k++;
+                if (purchased) {
+                    purchasedServers = ns.getPurchasedServers();
+                    i = purchasedServers.length;
+                    k++;
 
-          await ns.sleep(1000);
+                    await ns.sleep(1000);
+                } else {
+                    await ns.sleep(5 * 60 * 1000);
+                }
+            }
+
+            ns.print(
+                `[ps-control-purchaser] At max personal servers (${max}), sleeping for 30min at ${new Date().toTimeString()}`
+            );
+            await ns.sleep(30 * 60 * 1000);
         } else {
-          await ns.sleep(5 * 60 * 1000);
+            ns.print(
+                `[ps-control-watcher] Found file /flags/SKIP_PURCHASER.js, sleeping for 1min at ${new Date().toTimeString()}`
+            );
+            await ns.sleep(60 * 1000);
         }
-      }
-
-      ns.print(
-        `[ps-control-purchaser] At max personal servers (${max}), sleeping for 30min at ${new Date().toTimeString()}`
-      );
-      await ns.sleep(30 * 60 * 1000);
-    } else {
-      ns.print(
-        `[ps-control-watcher] Found file /flags/SKIP_PURCHASER.js, sleeping for 1min at ${new Date().toTimeString()}`
-      );
-      await ns.sleep(60 * 1000);
     }
-  }
 }
 
 /**
@@ -118,24 +124,24 @@ export async function main(ns: NS) {
  * @param {string[]} purchasedServers - The current list of purchased servers.
  */
 function checkForUpgrade(
-  ns: NS,
-  availMoney: number,
-  ram: number,
-  purchasedServers: string[]
+    ns: NS,
+    availMoney: number,
+    ram: number,
+    purchasedServers: string[]
 ) {
-  ns.print(
-    `[ps-control-purchaser] Checking for ${ram}GB upgrade, ${
-      PRICE_PER_GB * ram
-    } < ${availMoney} && ${RAM} < ${ram}`
-  );
-
-  if (PRICE_PER_GB * ram < availMoney && RAM < ram) {
-    RAM = ram;
     ns.print(
-      `[ps-control-purchaser] Setting RAM to ${ram} and selling servers`
+        `[ps-control-purchaser] Checking for ${ram}GB upgrade, ${
+            PRICE_PER_GB * ram
+        } < ${availMoney} && ${RAM} < ${ram}`
     );
-    sellWorkerServers(ns, purchasedServers);
-  }
+
+    if (PRICE_PER_GB * ram < availMoney && RAM < ram) {
+        RAM = ram;
+        ns.print(
+            `[ps-control-purchaser] Setting RAM to ${ram} and selling servers`
+        );
+        sellWorkerServers(ns, purchasedServers);
+    }
 }
 
 /**
@@ -148,32 +154,32 @@ function checkForUpgrade(
  * @returns {boolean} Whether the server was purchased.
  */
 function purchaseServer(
-  ns: NS,
-  ram: number,
-  type: string,
-  name: string
+    ns: NS,
+    ram: number,
+    type: string,
+    name: string
 ): boolean {
-  const availMoney = Math.floor(
-    ns.getServerMoneyAvailable("home") * MONEY_MULTIPLIER
-  );
-  const neededMoney = ns.getPurchasedServerCost(ram);
-
-  // Check if we have enough money to purchase a server
-  if (availMoney > neededMoney) {
-    // Determine server name
-    const fullName = `ps-${type}-${name}`;
-
-    ns.print(
-      `[ps-control-purchaser] Purchasing server: ${fullName}, ${ram}GB for $${neededMoney}`
+    const availMoney = Math.floor(
+        ns.getServerMoneyAvailable("home") * MONEY_MULTIPLIER
     );
-    ns.purchaseServer(fullName, ram);
-    return true;
-  } else {
-    ns.print(
-      `[ps-control-purchaser] Need more money: ${availMoney}/${neededMoney}`
-    );
-    return false;
-  }
+    const neededMoney = ns.getPurchasedServerCost(ram);
+
+    // Check if we have enough money to purchase a server
+    if (availMoney > neededMoney) {
+        // Determine server name
+        const fullName = `ps-${type}-${name}`;
+
+        ns.print(
+            `[ps-control-purchaser] Purchasing server: ${fullName}, ${ram}GB for $${neededMoney}`
+        );
+        ns.purchaseServer(fullName, ram);
+        return true;
+    } else {
+        ns.print(
+            `[ps-control-purchaser] Need more money: ${availMoney}/${neededMoney}`
+        );
+        return false;
+    }
 }
 
 /**
@@ -183,21 +189,21 @@ function purchaseServer(
  * @param {string[]} allServers - The list of all personal servers.
  */
 function sellWorkerServers(ns: NS, allServers: string[]) {
-  if (!allServers || allServers.length === 0) {
-    return;
-  }
-
-  const purchasedWorkers = allServers.filter(
-    (hn) => hn.startsWith("pserv") || hn.startsWith("ps-worker")
-  );
-
-  if (ns.getServerMaxRam(purchasedWorkers[0]) < RAM) {
-    for (let i = 0; i < purchasedWorkers.length; i++) {
-      sellServer(ns, purchasedWorkers[i]);
+    if (!allServers || allServers.length === 0) {
+        return;
     }
-  } else {
-    ns.print(`Servers already satisfy ${RAM}GB RAM requirement`);
-  }
+
+    const purchasedWorkers = allServers.filter(
+        (hn) => hn.startsWith("pserv") || hn.startsWith("ps-worker")
+    );
+
+    if (ns.getServerMaxRam(purchasedWorkers[0]) < RAM) {
+        for (let i = 0; i < purchasedWorkers.length; i++) {
+            sellServer(ns, purchasedWorkers[i]);
+        }
+    } else {
+        ns.print(`Servers already satisfy ${RAM}GB RAM requirement`);
+    }
 }
 
 /**
@@ -207,6 +213,6 @@ function sellWorkerServers(ns: NS, allServers: string[]) {
  * @param {string} hostname - The hostname of the server to sell.
  */
 function sellServer(ns: NS, hostname: string) {
-  ns.killall(hostname);
-  ns.deleteServer(hostname);
+    ns.killall(hostname);
+    ns.deleteServer(hostname);
 }

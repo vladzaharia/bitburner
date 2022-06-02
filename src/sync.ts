@@ -19,5 +19,5 @@ const MANIFEST_URL = `${BASE_URL}/res/manifest.json`;
  * @param {NS} ns - The Netscript object.
  */
 export async function main(ns: NS) {
-  //nop
+    //nop
 }
