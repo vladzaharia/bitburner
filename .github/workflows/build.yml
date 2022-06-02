@@ -29,10 +29,12 @@ jobs:
           gulp
           gulp prettier
 
-      - name: Push Wiki Changes
-        uses: Andrew-Chen-Wang/github-wiki-action@v3
-        env:
-          WIKI_DIR: out/docs
-          GH_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
-          GH_MAIL: service@vlad.gg
-          GH_NAME: ${{ github.repository_owner }}
+      - name: Publish to Wiki
+        uses: joeizzard/action-wiki-sync@master
+        with:
+          username: vladzaharia
+          access_token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+          wiki_folder: out/docs
+          commit_username: "Service Account"
+          commit_email: "service@vlad.gg"
+          commit_message: "action: wiki sync"
