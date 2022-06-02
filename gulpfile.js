@@ -8,7 +8,9 @@ var typedoc = require("gulp-typedoc");
 
 // ### Base tasks
 gulp.task("clean", function () {
-  return gulp.src("out", { read: false, allowEmpty: true }).pipe(clean());
+  return gulp
+    .src(["out", "docs"], { read: false, allowEmpty: true })
+    .pipe(clean());
 });
 
 gulp.task("compile", function () {
@@ -25,7 +27,7 @@ gulp.task("compile", function () {
 gulp.task("generate-docs", function () {
   return gulp.src("src/**/*.ts").pipe(
     typedoc({
-      out: "./out/docs/",
+      out: "./docs/",
       json: "./out/docs.json",
 
       name: "Bitburner",
