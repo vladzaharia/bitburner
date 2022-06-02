@@ -25,6 +25,7 @@
         "typedoc-plugin-markdown": "^3.12.1"
     },
     "scripts": {
+        "prepare": "husky install",
         "postinstall": "gulp postinstall",
         "postinstall:defs": "gulp postinstall:defs",
         "postinstall:config": "gulp postinstall:config",
@@ -39,7 +40,6 @@
         "lint:prettier": "gulp prettier",
         "serve": "npm run build && http-server ./out",
         "sync": "bitburner-sync",
-        "sync:watch": "bitburner-sync --watch",
-        "prepare": "husky install"
+        "sync:watch": "bitburner-sync --watch"
     }
 }

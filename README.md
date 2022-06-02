@@ -2,55 +2,41 @@
 
 Scripts used in my Bitburner deployment.
 
-## `/helpers/`
+## Documentation
 
-Various helper scripts to execute common commands, can be run or imported.
+Extensive per-script documentation is found in the [Wiki](https://github.com/vladzaharia/bitburner/wiki), generated from TSDoc via [typedoc](https://typedoc.org) and [typedoc-plugin-markdown](https://github.com/tgreyuk/typedoc-plugin-markdown/tree/master/packages/typedoc-plugin-markdown) / [typedoc-github-wiki-theme](https://github.com/tgreyuk/typedoc-plugin-markdown/tree/master/packages/typedoc-github-wiki-theme).
 
--   `crack.js`: Cracks given server(s)
+## Getting Started
 
-    -   ```bash
-        run /helpers/crack.js [host0] [host2]
-        ```
-    -   ```ts
-        import { crackHost } from "/helpers/crack.js";
-        crackHost();
-        ```
+### Prerequisites
 
--   `discover.js`: Discover personal, crackable, hackable, rooted servers
--   `exec.js`: Executes a script on a hostname
--   `grow.js`: Grow 1+ servers
--   `hack-weaken-grow.js`: Execute basic HWG on 1+ servers _(not recommended)_
--   `hack.js`: Hack 1+ servers
--   `scp.js`: SCP helpers and a script to a server
--   `weaken.js`: Weaken 1+ servers
+- [Doppler](https://www.doppler.com) token as `env.DOPPLER_TOKEN` to pull Bitburner auth token
+- nodejs / npm
+- gulp *(optional)*
 
-## `/node/`
+### Setting up
 
-Scripts for automating Bitburner operations.
+1. Clone [this repository](https://github.com/vladzaharia/bitburner)
+2. Run `npm install` to install required packages, update NS definitions, and populate Bitburner auth token
 
-Purchasers:
+## Building
 
--   `ps-control-hacknet.js`: Automatically upgrade Hacknet nodes
--   `ps-control-purchaser.js`: Automatically buy new servers
+Run `npm run build` to compile TS, generate a file manifest and docs, and run prettier.
 
-Hackers:
+## Syncing with Bitburner
 
--   `ps-control-cracker.js`: Discover and crack servers that can be cracked
--   `ps-control-scheduler.js`: Schedule new nodes to run thread-split HWG
--   `ps-control-watcher.js`: List rooted and personal servers
+Auto-sync via [Bitburner VSCode Integration](https://marketplace.visualstudio.com/items?itemName=bitburner.bitburner-vscode-integration) is automatically set up as a `npm install` postrun.
 
-## `/tools/`
+You can also manually sync via [bitburner-sync](https://github.com/Nezrahm/bitburner-sync) using `npm run sync`, the token is also set up as a `npm install` postrun.
 
-Scripts for manual operations.
+This token can be manually synced by running `npm run postinstall:config`.
 
--   `legacy/`: Older scripts
--   `scp-exec.js`: SCP and execute script with given threads and args (or automatic 100% usage)
+## Updating Netscript defintiions
 
-Purchasers:
+The [Netscript definitions](src/lib/Netscript.d.ts) is automatically created as a `npm install` postrun task.
 
--   `purchase-server.js`: Buy 1+ new servers with given RAM and hostnames
--   `sell-server.js`: Sell 1+ servers with given hostnames
+This file can be updated by running `npm run postinstall:defs`.
 
-## `init.js`
+## Wiki Updates
 
-Execute all `/node` scripts on `home` server, starting automation.
+Documentation can be updated using `npm run git:subtree-push`.
