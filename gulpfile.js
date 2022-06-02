@@ -30,6 +30,7 @@ gulp.task("generate-docs", function () {
             name: "Bitburner",
             categorizeByGroup: true,
             exclude: "./src/lib/**",
+            gitRevision: "main",
             plugin: ["typedoc-github-wiki-theme", "typedoc-plugin-markdown"],
             theme: "github-wiki",
             version: true,

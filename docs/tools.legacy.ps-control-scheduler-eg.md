@@ -39,4 +39,4 @@ run /node/ps-control-scheduler.js
 
 #### Defined in
 
-[tools/legacy/ps-control-scheduler-eg.ts:40](https://github.com/vladzaharia/bitburner/blob/598557b/src/tools/legacy/ps-control-scheduler-eg.ts#L40)
+[tools/legacy/ps-control-scheduler-eg.ts:40](https://github.com/vladzaharia/bitburner/blob/main/src/tools/legacy/ps-control-scheduler-eg.ts#L40)

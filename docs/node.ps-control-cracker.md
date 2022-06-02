@@ -29,4 +29,4 @@ run /node/ps-control-cracker.js
 
 #### Defined in
 
-[node/ps-control-cracker.ts:13](https://github.com/vladzaharia/bitburner/blob/598557b/src/node/ps-control-cracker.ts#L13)
+[node/ps-control-cracker.ts:13](https://github.com/vladzaharia/bitburner/blob/main/src/node/ps-control-cracker.ts#L13)

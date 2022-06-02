@@ -32,4 +32,4 @@ run /sync.js http://1.2.3.4:8123
 
 #### Defined in
 
-[sync.ts:18](https://github.com/vladzaharia/bitburner/blob/598557b/src/sync.ts#L18)
+[sync.ts:18](https://github.com/vladzaharia/bitburner/blob/main/src/sync.ts#L18)

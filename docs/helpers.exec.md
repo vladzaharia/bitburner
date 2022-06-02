@@ -35,7 +35,7 @@ Whether the script was successfully run.
 
 #### Defined in
 
-[helpers/exec.ts:45](https://github.com/vladzaharia/bitburner/blob/598557b/src/helpers/exec.ts#L45)
+[helpers/exec.ts:45](https://github.com/vladzaharia/bitburner/blob/main/src/helpers/exec.ts#L45)
 
 ___
 
@@ -68,4 +68,4 @@ run /helpers/exec.js [host] [path-to-script] [threads] [arg0] ... [argn]
 
 #### Defined in
 
-[helpers/exec.ts:19](https://github.com/vladzaharia/bitburner/blob/598557b/src/helpers/exec.ts#L19)
+[helpers/exec.ts:19](https://github.com/vladzaharia/bitburner/blob/main/src/helpers/exec.ts#L19)
