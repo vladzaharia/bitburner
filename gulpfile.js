@@ -137,12 +137,5 @@ gulp.task("pre-commit", gulp.series("clean", "compile", "generate-manifest"));
 
 gulp.task(
   "ci",
-  gulp.series(
-    "clean",
-    "compile",
-    "generate-manifest",
-    "generate-docs",
-    "copy-out-to-docs",
-    "lint"
-  )
+  gulp.series("clean", "compile", "generate-manifest", "generate-docs", "lint")
 );

@@ -28,12 +28,7 @@ jobs:
       - name: Build
         run: |
           gulp ci
-
-      - name: Ls out
-        run: |
-          ls out
-          ls out/docs
-          ls out/docs-html
+          gulp copy-out-to-docs
 
       - name: Push Wiki Changes
         uses: Andrew-Chen-Wang/github-wiki-action@v3
