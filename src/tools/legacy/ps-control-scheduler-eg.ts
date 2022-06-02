@@ -54,8 +54,8 @@ export async function main(ns: NS) {
                 await executeOnPool(ns, pools[i], args);
             }
 
-            ns.print(`[ps-control-scheduler] Executing on home`);
-            await executeOnPool(ns, ["home"], args);
+            // ns.print(`[ps-control-scheduler] Executing on home`);
+            // await executeOnPool(ns, ["home"], args);
 
             ns.print(
                 `[ps-control-scheduler] Finished scheduling nodes, sleeping for 1hr at ${new Date().toTimeString()}`

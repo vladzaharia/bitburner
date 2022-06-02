@@ -37,7 +37,7 @@ export async function main(ns: NS) {
             const newNodeCost = Math.ceil(hacknet.getPurchaseNodeCost());
             ns.print(`[ps-control-hacknet] New node cost ${newNodeCost}`);
 
-            const levelCost = Math.ceil(hacknet.getLevelUpgradeCost(0, 1) * numNodes);
+            const levelCost = Math.ceil(hacknet.getLevelUpgradeCost(0, 5) * numNodes);
             const levelAdv = (levelCost === Infinity) ? Infinity : Math.floor(levelCost / MONEY_PER_LEVEL);
             ns.print(`[ps-control-hacknet] Level cost ${levelCost}, cost/benefit ${levelAdv}`);
 
@@ -66,7 +66,7 @@ export async function main(ns: NS) {
                 if (shouldSkip(ns, moneyAvail, ramCost, levelAdv, ramAdv)) {
                     if (levelCost < moneyAvail) {
                         ns.print(`[ps-control-hacknet] Upgrading level`);
-                        upgradeOnAll(hacknet, hacknet.upgradeLevel);
+                        upgradeOnAll(hacknet, hacknet.upgradeLevel, 5);
                     } else {
                         ns.print(`[ps-control-hacknet] Skipping upgrades, sleeping for 5min at ${new Date().toTimeString()}`);
                         await ns.sleep(5 * 60 * 1000);
@@ -117,11 +117,11 @@ function shouldSkip(ns: NS, moneyAvail: number, cost2: number, benefit1: number,
  * @param {Hacknet} hacknet - The Hacknet object.
  * @param {function} fn - The `upgradeX` funcrion to run.
  */
-function upgradeOnAll(hacknet: Hacknet, fn: (i: number, n: number) => boolean) {
+function upgradeOnAll(hacknet: Hacknet, fn: (i: number, n: number) => boolean, n: number = 1) {
     const numNodes = hacknet.numNodes();
 
     for (let i = 0; i < numNodes; i++) {
-        fn(i, 1);
+        fn(i, n);
     }
 }
 

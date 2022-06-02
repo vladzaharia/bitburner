@@ -162,6 +162,14 @@ async function executeOnPool(ns: NS, hostnames: string[], args: string[]) {
         (hn1, hn2) => ns.getServerMaxRam(hn2) - ns.getServerMaxRam(hn1)
     );
 
+    const scriptKeys = Object.keys(SCRIPTS);
+    const scriptArgs = {};
+
+    for (let j = 0; j < scriptKeys.length; j++) {
+        const filename = scriptKeys[j];
+        scriptArgs[filename] = getFilteredArgs(ns, filename, args);
+    }
+
     // Sort args by money available, descending order
     args = args.sort(
         (hn1, hn2) =>
@@ -173,7 +181,6 @@ async function executeOnPool(ns: NS, hostnames: string[], args: string[]) {
         const hostname = hostnames[i];
 
         let finalScripts = { ...SCRIPTS };
-        const scriptKeys = Object.keys(finalScripts);
 
         let ramAvail = ns.getServerMaxRam(hostname);
 
@@ -191,9 +198,7 @@ async function executeOnPool(ns: NS, hostnames: string[], args: string[]) {
             for (let j = 0; j < scriptKeys.length; j++) {
                 const filename = scriptKeys[j];
 
-                let fnArgs = getFilteredArgs(ns, filename, args);
-
-                fnArgs = fnArgs.filter(
+                const fnArgs = scriptArgs[filename].filter(
                     (hn, k) => k % hostnames.length === i % hostnames.length
                 );
 
@@ -202,7 +207,7 @@ async function executeOnPool(ns: NS, hostnames: string[], args: string[]) {
                     Object.values(finalScripts).reduce((n, t) => n + t, 0);
 
                 const threads = Math.floor(
-                    ((ramAvail / ns.getScriptRam(filename)) / getTotalFilteredArgs(ns, fnArgs)) - 1
+                    ((ramAvail * scriptWeightPct) / ns.getScriptRam(filename)) / fnArgs.length
                 );
 
                 if (threads > 0) {
