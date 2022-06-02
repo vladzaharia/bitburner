@@ -75,7 +75,7 @@ gulp.task("generate-docs-jtd", function () {
 
 gulp.task(
   "generate-docs",
-  gulp.parallel("generate-docs-md", "generate-docs-html", "generate-docs-jtd")
+  gulp.series("generate-docs-md", "generate-docs-html", "generate-docs-jtd")
 );
 
 gulp.task("generate-manifest", function () {
