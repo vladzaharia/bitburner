@@ -34,11 +34,10 @@ jobs:
           ls out
           ls out/docs
 
-      - uses: awact/wiki-action@master
+      - name: Publish to Github Action
+        uses: s0/git-publish-subdir-action@develop
         env:
-          ACTION_MAIL: service@vlad.gg
-          ACTION_NAME: Service Account
-          GH_PAT: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
-          MD_FOLDER: out/docs
-          OWNER: vladzaharia
-          REPO_NAME: bitburner
+          REPO: https://github.com/vladzaharia/bitburner.wiki.git
+          GITHUB_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+          BRANCH: master
+          FOLDER: out/docs
