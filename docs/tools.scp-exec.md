@@ -38,4 +38,4 @@ run /tools/scp-exec.js [host] [path-to-script] [threads] [arg0] ... [argn]
 
 #### Defined in
 
-[tools/scp-exec.ts:23](https://github.com/vladzaharia/bitburner/blob/9963ca2/src/tools/scp-exec.ts#L23)
+[tools/scp-exec.ts:23](https://github.com/vladzaharia/bitburner/blob/468eb83/src/tools/scp-exec.ts#L23)

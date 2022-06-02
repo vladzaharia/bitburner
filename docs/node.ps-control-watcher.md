@@ -29,4 +29,4 @@ run /node/ps-control-watcher.js
 
 #### Defined in
 
-[node/ps-control-watcher.ts:12](https://github.com/vladzaharia/bitburner/blob/9963ca2/src/node/ps-control-watcher.ts#L12)
+[node/ps-control-watcher.ts:12](https://github.com/vladzaharia/bitburner/blob/468eb83/src/node/ps-control-watcher.ts#L12)
