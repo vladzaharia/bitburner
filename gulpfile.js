@@ -71,7 +71,7 @@ gulp.task(
 );
 
 // ### Linting tasks
-gulp.task("eslint", () => {
+gulp.task("lint-eslint", () => {
   return gulp
     .src("src/**/*.ts")
     .pipe(eslint({ fix: true }))
@@ -79,7 +79,7 @@ gulp.task("eslint", () => {
     .pipe(gulp.dest("src"));
 });
 
-gulp.task("prettier", () => {
+gulp.task("lint-prettier", () => {
   return gulp
     .src([
       "**/*",
@@ -91,22 +91,22 @@ gulp.task("prettier", () => {
     .pipe(prettier({ tabWidth: 4 }))
     .pipe(gulp.dest("."));
 });
-gulp.task("lint", gulp.series("eslint", "prettier"));
+gulp.task("lint", gulp.series("lint-eslint", "lint-prettier"));
 
 // ### Install tasks
-gulp.task("postinstall:config", () => {
+gulp.task("postinstall-config", () => {
   return gulp
     .src("scripts/postinstall/retrieve_config.js", { read: false })
     .pipe(run("node ${file.path}"));
 });
 
-gulp.task("postinstall:defs", () => {
+gulp.task("postinstall-defs", () => {
   return gulp
     .src("scripts/postinstall/update_defs.js", { read: false })
     .pipe(run("node ${file.path}"));
 });
 
-gulp.task("postinstall", gulp.series("postinstall:defs", "postinstall:config"));
+gulp.task("postinstall", gulp.series("postinstall-defs", "postinstall-config"));
 
 // ### Watch tasks
 gulp.task("watch", () => {
