@@ -2,32 +2,34 @@ name: Build with Gulp
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    
+
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-    - name: Use Node.js 16.x
-      uses: actions/setup-node@v3
-      with:
-        node-version: 16.x
+      - name: Use Node.js 16.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
 
-    - name: Install
-      run: |
-        npm install --ignore-scripts
-        npm run postinstall:defs
-        
-    - name: Build
-      run: |
-        gulp
-        
-    - name: Publish to GitHub Wiki
-      uses: SwiftDocOrg/github-wiki-publish-action@1.0.0
-      with:
-        path: /docs
+      - name: Install
+        run: |
+          npm ci --ignore-scripts
+          npm run postinstall:defs
+
+      - name: Build
+        run: |
+          gulp
+
+      - name: Publish to GitHub Wiki
+        uses: SwiftDocOrg/github-wiki-publish-action@1.0.0
+        with:
+          path: /docs
+        env:
+          GH_PERSONAL_ACCESS_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}

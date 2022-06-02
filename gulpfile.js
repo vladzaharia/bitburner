@@ -48,7 +48,13 @@ gulp.task("generate-manifest", function () {
 
 gulp.task("prettier", function () {
   return gulp
-    .src(["**/*", "!node_modules/**", "!out/**", "!**/*.tt"])
+    .src([
+      "**/*",
+      "!package-lock.json",
+      "!node_modules/**",
+      "!out/**",
+      "!**/*.tt",
+    ])
     .pipe(prettier({ tabWidth: 4 }))
     .pipe(gulp.dest("."));
 });
