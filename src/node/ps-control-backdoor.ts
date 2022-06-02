@@ -1,5 +1,5 @@
 import { NS } from "Netscript";
-import { backdoorHost } from "/helpers/backdoor.js";
+import { backdoor } from "/helpers/backdoor.js";
 import { getRootedHosts, getRoute } from "/helpers/discover.js";
 
 /**
@@ -23,7 +23,7 @@ export async function main(ns: NS) {
 
             for (let i = 0; i < rootedHosts.length; i++) {
                 const hostname = rootedHosts[i];
-                await backdoorHost(ns, getRoute(ns, hostname));
+                await backdoor(ns, getRoute(ns, hostname));
 
                 await ns.sleep(10 * 1000);
             }

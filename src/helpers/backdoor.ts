@@ -24,7 +24,7 @@ export async function main(ns: NS) {
 
         ns.print(`[backdoor] Executing crack on ${hostname}`);
 
-        await backdoorHost(ns, getRoute(ns, hostname));
+        await backdoor(ns, getRoute(ns, hostname));
     }
 }
 
@@ -34,7 +34,7 @@ export async function main(ns: NS) {
  * @param {NS} ns - The Netscript object.
  * @param {string[]} route - Route to use to backdoor, including target.
  */
-export async function backdoorHost(ns: NS, route: string[] | false) {
+export async function backdoor(ns: NS, route: string[] | false) {
     ns.print(`[backdoor] Connecting ${route}`);
 
     if (route) {

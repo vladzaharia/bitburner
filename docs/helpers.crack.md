@@ -4,15 +4,15 @@
 
 ### Functions
 
-- [crackHost](../wiki/helpers.crack#crackhost)
+- [crack](../wiki/helpers.crack#crack)
 - [getPortOpeners](../wiki/helpers.crack#getportopeners)
 - [main](../wiki/helpers.crack#main)
 
 ## Functions
 
-### crackHost
+### crack
 
-▸ **crackHost**(`ns`, `hostname`): `void`
+▸ **crack**(`ns`, `hostname`): `void`
 
 Crack given host using available port openers and nuke.
 

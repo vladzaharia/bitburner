@@ -1,5 +1,5 @@
 import { NS } from "Netscript";
-import { crackHost } from "/helpers/crack.js";
+import { crack } from "/helpers/crack.js";
 import { getCrackableHosts, getRootedHosts } from "/helpers/discover.js";
 
 /**
@@ -23,7 +23,7 @@ export async function main(ns: NS) {
 
             for (let i = 0; i < crackableHosts.length; i++) {
                 const hostname = crackableHosts[i];
-                crackHost(ns, hostname);
+                crack(ns, hostname);
             }
 
             getRootedHosts(ns, crackableHosts);

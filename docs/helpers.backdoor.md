@@ -4,14 +4,14 @@
 
 ### Functions
 
-- [backdoorHost](../wiki/helpers.backdoor#backdoorhost)
+- [backdoor](../wiki/helpers.backdoor#backdoor)
 - [main](../wiki/helpers.backdoor#main)
 
 ## Functions
 
-### backdoorHost
+### backdoor
 
-▸ **backdoorHost**(`ns`, `route`): `Promise`<`void`\>
+▸ **backdoor**(`ns`, `route`): `Promise`<`void`\>
 
 Connect to a host chain using `route` and backdoor the last server.
 

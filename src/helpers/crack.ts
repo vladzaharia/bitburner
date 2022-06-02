@@ -31,7 +31,7 @@ export async function main(ns: NS) {
 
         ns.print(`[crack] Executing crack on ${hostname}`);
 
-        crackHost(ns, hostname);
+        crack(ns, hostname);
     }
 }
 
@@ -41,7 +41,7 @@ export async function main(ns: NS) {
  * @param {NS} ns - The Netscript object.
  * @param {string} hostname - Hostname to crack
  */
-export function crackHost(ns: NS, hostname: string) {
+export function crack(ns: NS, hostname: string) {
     // Nuke host first
     if (!ns.hasRootAccess(hostname)) {
         if (ns.getServerNumPortsRequired(hostname) > 0) {
