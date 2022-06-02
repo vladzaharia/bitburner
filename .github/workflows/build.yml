@@ -44,9 +44,12 @@ jobs:
           git commit -m "Wiki update" -a
 
       - name: Push changes to wiki repo
-        uses: ad-m/github-push-action@master
+        uses: cpina/github-action-push-to-another-repository@main
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
         with:
-          directory: out/docs
-          repository: https://github.com/vladzaharia/bitburner.wiki.git
-          github_token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
-          force: true
+          source-directory: out/docs
+          destination-github-username: vladzaharia
+          destination-repository-name: bitburner.wiki
+          user-email: service@vlad.gg
+          target-branch: master
