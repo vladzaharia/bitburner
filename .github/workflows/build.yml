@@ -29,6 +29,11 @@ jobs:
           gulp
           gulp prettier
 
+      - name: Check output files
+        run: |
+          ls out
+          ls out/docs
+
       - name: Publish to Wiki
         uses: OrlovM/Wiki-Action@v1
         with:
