@@ -30,11 +30,7 @@ jobs:
           gulp prettier
 
       - name: Publish to Wiki
-        uses: joeizzard/action-wiki-sync@master
+        uses: OrlovM/Wiki-Action@v1
         with:
-          username: vladzaharia
-          access_token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
-          wiki_folder: out/docs
-          commit_username: "Service Account"
-          commit_email: "service@vlad.gg"
-          commit_message: "action: wiki sync"
+          path: "out/docs"
+          token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
