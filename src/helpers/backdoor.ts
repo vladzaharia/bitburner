@@ -18,48 +18,49 @@ import { getRoute } from "/helpers/discover.js";
  * @param {NS} ns - The Netscript object.
  */
 export async function main(ns: NS) {
-    if (ns.args.length === 0) {
-        throw "Function must be called with 1+ hostnames";
-    }
+  if (ns.args.length === 0) {
+    throw "Function must be called with 1+ hostnames";
+  }
 
-    const hostnames: string[] = ns.args as string[];
+  const hostnames: string[] = ns.args as string[];
 
-    for (let i = 0; i < hostnames.length; i++) {
-        const hostname = hostnames[i];
+  for (let i = 0; i < hostnames.length; i++) {
+    const hostname = hostnames[i];
 
-        ns.print(`[backdoor] Executing crack on ${hostname}`);
+    ns.print(`[backdoor] Executing crack on ${hostname}`);
 
-        await backdoor(ns, getRoute(ns, hostname));
-    }
+    await backdoor(ns, getRoute(ns, hostname));
+  }
 }
 
 /**
  * Connect to a host chain using `route` and backdoor the last server.
+ * @alpha Does not currently backdoor, only prints out route.
  * @category Importable
  *
  * @param {NS} ns - The Netscript object.
  * @param {string[]} route - Route to use to backdoor, including target.
  */
 export async function backdoor(ns: NS, route: string[] | false) {
-    ns.print(`[backdoor] Connecting ${route}`);
+  ns.print(`[backdoor] Connecting ${route}`);
 
-    if (route) {
-        //(ns as any).connect("home");
-        ns.print(route.map((hn) => `${hn} [${ns.hasRootAccess(hn)}]`));
+  if (route) {
+    //(ns as any).connect("home");
+    ns.print(route.map((hn) => `${hn} [${ns.hasRootAccess(hn)}]`));
 
-        if (true) {
-            // Connect to target via route
-            // for (let i = 0; i < route.length; i++) {
-            //     (ns as any).connect(route);
-            // }
+    if (true) {
+      // Connect to target via route
+      // for (let i = 0; i < route.length; i++) {
+      //     (ns as any).connect(route);
+      // }
 
-            // Backdoor host
-            //(ns as any).installBackdoor();
+      // Backdoor host
+      //(ns as any).installBackdoor();
 
-            await ns.sleep(10 * 1000);
-        } else {
-        }
+      await ns.sleep(10 * 1000);
     } else {
-        ns.print(`[backdoor] No route to host!`);
     }
+  } else {
+    ns.print(`[backdoor] No route to host!`);
+  }
 }
