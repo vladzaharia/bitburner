@@ -3,6 +3,7 @@ var clean = require("gulp-clean");
 var eslint = require("gulp-eslint");
 var filelist = require("gulp-filelist");
 const prettier = require("gulp-prettier");
+var replace = require("gulp-replace");
 var run = require("gulp-run");
 var ts = require("gulp-typescript");
 var typedoc = require("gulp-typedoc");
@@ -26,7 +27,8 @@ gulp.task("compile", () => {
 gulp.task("generate-manifest", () => {
     return gulp
         .src("out/**/*.js")
-        .pipe(filelist("manifest.json", { relative: true }))
+        .pipe(filelist("manifest.txt", { relative: true }))
+        .pipe(replace(/((\s\s)?",?)|\[\n|\n\]/gm, ""))
         .pipe(gulp.dest("out/res"));
 });
 
