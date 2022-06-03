@@ -24,30 +24,23 @@ export async function main(ns: NS) {
 
             ns.clearLog();
 
-            for (let i = 0; i < hackableHosts.length; i++) {
-                const hostname = hackableHosts[i];
+            personalServers.forEach((hn) =>
+                ns.print(`[watcher] Server ${hn}, ${ns.getServerMaxRam(hn)}GB`)
+            );
 
-                const secLevel = ns.getServerSecurityLevel(hostname);
-                const secMin = ns.getServerMinSecurityLevel(hostname);
-
-                // Get money info
-                const moneyAvail = Math.round(
-                    ns.getServerMoneyAvailable(hostname)
-                );
-                const moneyMax = ns.getServerMaxMoney(hostname);
-
-                const ram = ns.getServerMaxRam(hostname);
-
+            hackableHosts.forEach((hn) =>
                 ns.print(
-                    `[watcher] Host ${hostname}, ${ram}GB, Money ${moneyAvail}/${moneyMax}, Sec ${secLevel}/${secMin}`
-                );
-            }
-
-            for (let i = 0; i < personalServers.length; i++) {
-                const hostname = personalServers[i];
-                const ram = ns.getServerMaxRam(hostname);
-                ns.print(`[watcher] Server ${hostname}, ${ram}GB`);
-            }
+                    `[watcher] Host ${hn}, ${ns.getServerMaxRam(
+                        hn
+                    )}GB, Money ${Math.round(
+                        ns.getServerMoneyAvailable(hn)
+                    )}/${ns.getServerMaxMoney(
+                        hn
+                    )}, Sec ${ns.getServerSecurityLevel(
+                        hn
+                    )}/${ns.getServerMinSecurityLevel(hn)}`
+                )
+            );
 
             ns.print(
                 `[watcher] Finished listing servers, sleeping for 5min at ${new Date().toTimeString()}`
