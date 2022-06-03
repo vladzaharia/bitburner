@@ -18,6 +18,7 @@ const MANIFEST_PATH = `/res/manifest.json`;
  */
 export async function main(ns: NS) {
     ns.clearLog();
+    ns.disableLog("ALL");
 
     let serverUrl = BASE_URL;
 
@@ -36,8 +37,6 @@ export async function main(ns: NS) {
         serverUrl = argUrl;
     }
 
-    ns.print(`[sync] Pulling latest scripts from ${serverUrl}`);
-
     const fileList = await getFileList(ns, serverUrl);
 
     ns.print(`[sync] Retrieved file list ${fileList}`);
@@ -51,20 +50,20 @@ export async function main(ns: NS) {
         }
     }
 
-    // Remove unknown files
-    const unknownFiles = ns
+    // Remove unknown scripts
+    const unknownScripts = ns
         .ls("home")
         .filter(
             (f) =>
-                (f.endsWith(".js") || f.endsWith(".txt")) &&
-                !fileList.includes(`/${f}`)
+                f.endsWith(".js") &&
+                !fileList.includes(f.startsWith("/") ? f.slice(1) : f)
         );
 
-    ns.print(`[sync] Removing ${unknownFiles.length} unknown files`);
-    unknownFiles.forEach((f) => ns.rm(f, "home"));
+    ns.print(`[sync] Removing ${unknownScripts.length} unknown scripts`);
+    unknownScripts.forEach((f) => ns.rm(f, "home"));
 
     ns.print(
-        `[sync] Finished pulling ${fileList.length} files from ${serverUrl}`
+        `[sync] Finished syncing ${fileList.length} files from ${serverUrl}`
     );
 }
 
