@@ -25,16 +25,47 @@ Documentation is generated from TSDoc via [typedoc](https://typedoc.org) and [ty
 
 Run `npm run build` to compile TS, generate a file manifest and docs, and run prettier.
 
-## Syncing with Bitburner
-
-Auto-sync via [Bitburner VSCode Integration](https://marketplace.visualstudio.com/items?itemName=bitburner.bitburner-vscode-integration) is automatically set up as a `npm install` postrun.
-
-You can also manually sync via [bitburner-sync](https://github.com/Nezrahm/bitburner-sync) using `npm run sync`, the token is also set up as a `npm install` postrun.
-
-This token can be manually synced by running `npm run postinstall:config`.
-
 ## Updating Netscript defintiions
 
 The [Netscript definitions](src/lib/Netscript.d.ts) is automatically created as a `npm install` postrun task.
 
 This file can be updated by running `npm run postinstall:defs`.
+
+## Syncing with Bitburner
+
+### VS Code Extension
+
+Auto-sync via [Bitburner VSCode Integration](https://marketplace.visualstudio.com/items?itemName=bitburner.bitburner-vscode-integration) is automatically set up as a `npm install` postrun.
+
+### bitburner-sync
+
+You can also manually sync via [bitburner-sync](https://github.com/Nezrahm/bitburner-sync) using `npm run sync`, the token is also set up as a `npm install` postrun.
+
+This token can be manually synced by running `npm run postinstall:config`.
+
+### sync.js
+
+You can run [`sync.js`](./src/sync.ts) which pulls files from a hosted or local endpoint.
+
+#### Hosted scripts
+
+To set up Bitburner for the first time, run:
+
+```shell
+wget https://bb.vlad.gg/api/sync.js
+run sync.js
+```
+
+Afterwards, you can use `run sync.js` to pull the latest files.
+
+#### Local development
+
+To download the scripts from a local instance, run `npm run serve` to build and serve the local versions of the files.
+
+Within Bitburner, use `run sync.js <IP_ADDR>:8080/api` to pull from the local development server.
+
+#### Pull requests
+
+Netlify will also create a deployment for each PR.
+
+Within Bitburner, use `run sync.js <PR_URL>/api` to pull from the PR deployment.
