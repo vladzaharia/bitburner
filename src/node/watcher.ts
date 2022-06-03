@@ -39,23 +39,23 @@ export async function main(ns: NS) {
                 const ram = ns.getServerMaxRam(hostname);
 
                 ns.print(
-                    `[ps-control-watcher] Host ${hostname}, ${ram}GB, Money ${moneyAvail}/${moneyMax}, Sec ${secLevel}/${secMin}`
+                    `[watcher] Host ${hostname}, ${ram}GB, Money ${moneyAvail}/${moneyMax}, Sec ${secLevel}/${secMin}`
                 );
             }
 
             for (let i = 0; i < personalServers.length; i++) {
                 const hostname = personalServers[i];
                 const ram = ns.getServerMaxRam(hostname);
-                ns.print(`[ps-control-watcher] Server ${hostname}, ${ram}GB`);
+                ns.print(`[watcher] Server ${hostname}, ${ram}GB`);
             }
 
             ns.print(
-                `[ps-control-watcher] Finished listing servers, sleeping for 5min at ${new Date().toTimeString()}`
+                `[watcher] Finished listing servers, sleeping for 5min at ${new Date().toTimeString()}`
             );
             await ns.sleep(5 * 60 * 1000);
         } else {
             ns.print(
-                `[ps-control-watcher] Found file /flags/SKIP_WATCHER.js, sleeping for 1min at ${new Date().toTimeString()}`
+                `[watcher] Found file /flags/SKIP_WATCHER.js, sleeping for 1min at ${new Date().toTimeString()}`
             );
             await ns.sleep(60 * 1000);
         }

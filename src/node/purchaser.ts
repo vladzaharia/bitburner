@@ -37,7 +37,7 @@ export async function main(ns: NS) {
             const availMoney = Math.floor(
                 ns.getServerMoneyAvailable("home") * MONEY_MULTIPLIER
             );
-            ns.print(`[ps-control-purchaser] Available money ${availMoney}`);
+            ns.print(`[purchaser] Available money ${availMoney}`);
 
             // Check for upgrades from 16GB - 1TB
             checkForUpgrade(ns, availMoney, 1024, purchasedServers);
@@ -54,8 +54,14 @@ export async function main(ns: NS) {
             let k = 0; // Server in pool
             const max = ns.getPurchasedServerLimit();
 
+            // End script if no upgrades possible
+            if (RAM === 1024 && purchasedServers.length === max) {
+                ns.print(`[purchaser] No further upgrades possible!`);
+                return;
+            }
+
             ns.print(
-                `[ps-control-purchaser] Purchased servers ${i}/${max}: ${purchasedServers}`
+                `[purchaser] Purchased servers ${i}/${max}: ${purchasedServers}`
             );
 
             // Determine j, k
@@ -63,9 +69,7 @@ export async function main(ns: NS) {
                 const regex = /^ps-worker(\d)-(\d)$/;
                 const latestServer =
                     purchasedServers[purchasedServers.length - 1];
-                ns.print(
-                    `[ps-control-purchaser] Checking latest server ${latestServer}`
-                );
+                ns.print(`[purchaser] Checking latest server ${latestServer}`);
 
                 const match = latestServer.match(regex);
 
@@ -102,12 +106,12 @@ export async function main(ns: NS) {
             }
 
             ns.print(
-                `[ps-control-purchaser] At max personal servers (${max}), sleeping for 30min at ${new Date().toTimeString()}`
+                `[purchaser] At max personal servers (${max}), sleeping for 30min at ${new Date().toTimeString()}`
             );
             await ns.sleep(30 * 60 * 1000);
         } else {
             ns.print(
-                `[ps-control-watcher] Found file /flags/SKIP_PURCHASER.js, sleeping for 1min at ${new Date().toTimeString()}`
+                `[watcher] Found file /flags/SKIP_PURCHASER.js, sleeping for 1min at ${new Date().toTimeString()}`
             );
             await ns.sleep(60 * 1000);
         }
@@ -130,16 +134,14 @@ function checkForUpgrade(
     purchasedServers: string[]
 ) {
     ns.print(
-        `[ps-control-purchaser] Checking for ${ram}GB upgrade, ${
+        `[purchaser] Checking for ${ram}GB upgrade, ${
             PRICE_PER_GB * ram
         } < ${availMoney} && ${RAM} < ${ram}`
     );
 
     if (PRICE_PER_GB * ram < availMoney && RAM < ram) {
         RAM = ram;
-        ns.print(
-            `[ps-control-purchaser] Setting RAM to ${ram} and selling servers`
-        );
+        ns.print(`[purchaser] Setting RAM to ${ram} and selling servers`);
         sellWorkerServers(ns, purchasedServers);
     }
 }
@@ -170,14 +172,12 @@ function purchaseServer(
         const fullName = `ps-${type}-${name}`;
 
         ns.print(
-            `[ps-control-purchaser] Purchasing server: ${fullName}, ${ram}GB for $${neededMoney}`
+            `[purchaser] Purchasing server: ${fullName}, ${ram}GB for $${neededMoney}`
         );
         ns.purchaseServer(fullName, ram);
         return true;
     } else {
-        ns.print(
-            `[ps-control-purchaser] Need more money: ${availMoney}/${neededMoney}`
-        );
+        ns.print(`[purchaser] Need more money: ${availMoney}/${neededMoney}`);
         return false;
     }
 }

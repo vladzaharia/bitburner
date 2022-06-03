@@ -32,12 +32,12 @@ export async function main(ns: NS) {
             }
 
             ns.print(
-                `[ps-control-cracker] Finished backdooring nodes, sleeping for 15min at ${new Date().toTimeString()}`
+                `[cracker] Finished backdooring nodes, sleeping for 15min at ${new Date().toTimeString()}`
             );
             await ns.sleep(15 * 60 * 1000);
         } else {
             ns.print(
-                `[ps-control-cracker] Found file /flags/SKIP_BACKDOOR.js, sleeping for 1min at ${new Date().toTimeString()}`
+                `[cracker] Found file /flags/SKIP_BACKDOOR.js, sleeping for 1min at ${new Date().toTimeString()}`
             );
             await ns.sleep(60 * 1000);
         }

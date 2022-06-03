@@ -55,21 +55,21 @@ export async function main(ns: NS) {
         if (!ns.fileExists("/flags/SKIP_SCHEDULER.js", "home")) {
             for (let i = 0; i < pools.length; i++) {
                 ns.print(
-                    `[ps-control-scheduler] Executing on pool ${i} with servers: ${pools[i]}`
+                    `[scheduler] Executing on pool ${i} with servers: ${pools[i]}`
                 );
                 await executeOnPool(ns, pools[i], args);
             }
 
-            ns.print(`[ps-control-scheduler] Executing on home`);
+            ns.print(`[scheduler] Executing on home`);
             await executeOnPool(ns, ["home"], args);
 
             ns.print(
-                `[ps-control-scheduler] Finished scheduling nodes, sleeping for 1hr at ${new Date().toTimeString()}`
+                `[scheduler] Finished scheduling nodes, sleeping for 1hr at ${new Date().toTimeString()}`
             );
             await ns.sleep(60 * 60 * 1000);
         } else {
             ns.print(
-                `[ps-control-scheduler] Found file /flags/SKIP_SCHEDULER.js, sleeping for 1min at ${new Date().toTimeString()}`
+                `[scheduler] Found file /flags/SKIP_SCHEDULER.js, sleeping for 1min at ${new Date().toTimeString()}`
             );
             await ns.sleep(60 * 1000);
         }
@@ -84,10 +84,10 @@ export async function main(ns: NS) {
  */
 function getPools(ns: NS): string[][] {
     const workers = getWorkerServers(ns);
-    ns.print(`[ps-control-scheduler] Workers: ${workers}`);
+    ns.print(`[scheduler] Workers: ${workers}`);
 
     const rootedNodes = getRootedHosts(ns);
-    ns.print(`[ps-control-scheduler] Rooted nodes: ${rootedNodes}`);
+    ns.print(`[scheduler] Rooted nodes: ${rootedNodes}`);
 
     return [...splitWorkers(ns, workers), ...splitHostnames(ns, rootedNodes)];
 }
@@ -105,13 +105,13 @@ function splitHostnames(ns: NS, hostnames: string[]): string[][] {
 
     for (let i = 0; i < hostnames.length; i++) {
         if (i === HOSTS_PER_POOL) {
-            ns.print(`[ps-control-scheduler] New pool created`);
+            ns.print(`[scheduler] New pool created`);
             finalHostnames = [...finalHostnames, currentPoolHostnames];
             currentPoolHostnames = [];
         }
 
         ns.print(
-            `[ps-control-scheduler] Added ${hostnames[i]} to pool ${currentPoolHostnames}`
+            `[scheduler] Added ${hostnames[i]} to pool ${currentPoolHostnames}`
         );
         currentPoolHostnames.push(hostnames[i]);
     }
@@ -138,13 +138,13 @@ function splitWorkers(ns: NS, hostnames: string[]): string[][] {
         const match = hn.match(regex);
 
         if (match && parseInt(match[1], 10) > currentPool) {
-            ns.print(`[ps-control-scheduler] New pool found ${match[1]}`);
+            ns.print(`[scheduler] New pool found ${match[1]}`);
             finalHostnames = [...finalHostnames, currentPoolHostnames];
             currentPool = parseInt(match[1], 10);
             currentPoolHostnames = [];
         }
 
-        ns.print(`[ps-control-scheduler] Added ${hn} to pool ${currentPool}`);
+        ns.print(`[scheduler] Added ${hn} to pool ${currentPool}`);
         currentPoolHostnames.push(hn);
     });
 
@@ -194,7 +194,7 @@ async function executeOnPool(ns: NS, hostnames: string[], args: string[]) {
         }
 
         ns.print(
-            `[ps-control-scheduler] Final Weights ${Object.values(
+            `[scheduler] Final Weights ${Object.values(
                 finalScripts
             )}, RAM ${ramAvail}`
         );
@@ -220,7 +220,7 @@ async function executeOnPool(ns: NS, hostnames: string[], args: string[]) {
 
                 if (threads > 0) {
                     ns.print(
-                        `[ps-control-scheduler] Executing ${filename} on ${hostname} with ${
+                        `[scheduler] Executing ${filename} on ${hostname} with ${
                             scriptWeightPct * 100
                         }% threads`
                     );
@@ -249,7 +249,7 @@ async function executeOnPool(ns: NS, hostnames: string[], args: string[]) {
  */
 function killRunningScript(ns: NS, hostname: string, filename: string) {
     ns.print(
-        `[ps-control-scheduler] Killing existing instance of ${filename} on ${hostname}`
+        `[scheduler] Killing existing instance of ${filename} on ${hostname}`
     );
 
     // Get running instance(s)
