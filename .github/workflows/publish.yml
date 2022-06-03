@@ -10,12 +10,19 @@ jobs:
         environment: production
 
         steps:
+            - name: Wait for build to succeed
+              uses: lewagon/wait-on-check-action@v1.0.0
+              with:
+                  ref: ${{ github.ref }}
+                  check-name: build
+                  repo-token: ${{ secrets.GITHUB_TOKEN }}
+
             - name: Download build artifact
               uses: dawidd6/action-download-artifact@v2
               with:
                   workflow: build.yml
                   workflow_conclusion: success
-                  branch: main
+                  branch: ${{ github.ref }}
                   name: artifact
                   path: out
                   check_artifacts: true
