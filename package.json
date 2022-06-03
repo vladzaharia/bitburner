@@ -38,6 +38,7 @@
         "postinstall:defs": "gulp postinstall-defs",
         "postinstall:config": "gulp postinstall-config",
         "build": "gulp",
+        "build:ci": "gulp ci",
         "build:compile": "gulp compile",
         "build:docs": "gulp generate-doc",
         "build:manifest": "gulp generate-manifest",
