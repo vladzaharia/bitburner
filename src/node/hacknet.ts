@@ -71,16 +71,6 @@ export async function main(ns: NS) {
                 `[hacknet] Core cost ${coreCost}, cost/benefit ${coreAdv}`
             );
 
-            // End script if no upgrades possible
-            if (
-                levelCost === Infinity &&
-                ramCost === Infinity &&
-                coreCost === Infinity
-            ) {
-                ns.print(`[hacknet] No further upgrades possible!`);
-                return;
-            }
-
             const baseNode = hacknet.getNodeStats(0);
             for (let i = 0; i < numNodes; i++) {
                 const node = hacknet.getNodeStats(i);
@@ -89,6 +79,16 @@ export async function main(ns: NS) {
                     upgradeToBaseline(ns, i);
                     await ns.sleep(1000);
                 }
+            }
+
+            // End script if no upgrades possible
+            if (
+                levelCost === Infinity &&
+                ramCost === Infinity &&
+                coreCost === Infinity
+            ) {
+                ns.print(`[hacknet] No further upgrades possible!`);
+                return;
             }
 
             if (
