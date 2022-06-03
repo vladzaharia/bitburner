@@ -1,45 +1,35 @@
 name: Build
 
 on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+    push:
+        branches: [main]
+    pull_request:
+        branches: [main]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    environment: production
+    build:
+        runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
+        steps:
+            - name: Checkout repo
+              uses: actions/checkout@v3
 
-      - name: Use Node.js 16.x
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16.x
+            - name: Use Node.js 16.x
+              uses: actions/setup-node@v3
+              with:
+                  node-version: 16.x
 
-      - name: Install
-        run: |
-          npm ci --ignore-scripts
-          npm run postinstall:defs
+            - name: Install dependencies and download Netscript defs
+              run: |
+                  npm ci --ignore-scripts
+                  npm run postinstall:defs
 
-      - name: Build
-        run: |
-          gulp ci
-          gulp copy-out-to-docs
+            - name: Build with Gulp
+              run: |
+                  gulp ci
+                  gulp copy-out-to-docs
 
-      - name: Push Wiki Changes
-        uses: Andrew-Chen-Wang/github-wiki-action@v3
-        env:
-          WIKI_DIR: out/docs
-          GH_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
-          GH_MAIL: hey@vlad.gg
-          GH_NAME: ${{ github.repository_owner }}
-
-      - name: Push GH Pages Changes
-        uses: JamesIves/github-pages-deploy-action@v4.3.3
-        with:
-          branch: gh-pages
-          folder: out/docs-html
+            - name: Publish artifacts
+              uses: actions/upload-artifact@v3
+              with:
+                  path: out
