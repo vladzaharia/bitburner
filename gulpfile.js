@@ -24,13 +24,25 @@ gulp.task("compile", () => {
     return result.js.pipe(gulp.dest("out"));
 });
 
-gulp.task("generate-manifest", () => {
+gulp.task("generate-manifest-json", () => {
+    return gulp
+        .src("out/**/*.js")
+        .pipe(filelist("manifest.json", { relative: true }))
+        .pipe(gulp.dest("out/res"));
+});
+
+gulp.task("generate-manifest-txt", () => {
     return gulp
         .src("out/**/*.js")
         .pipe(filelist("manifest.txt", { relative: true }))
         .pipe(replace(/((\s\s)?",?)|\[\n|\n\]/gm, ""))
         .pipe(gulp.dest("out/res"));
 });
+
+gulp.task(
+    "generate-manifest",
+    gulp.parallel("generate-manifest-json", "generate-manifest-txt")
+);
 
 // ### Doc generation tasks
 gulp.task("generate-docs-md", () => {
