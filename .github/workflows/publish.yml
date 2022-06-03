@@ -11,11 +11,11 @@ jobs:
 
         steps:
             - name: Wait for build to succeed
-              uses: lewagon/wait-on-check-action@v1.0.0
+              uses: fountainhead/action-wait-for-check@v1.0.0
+              id: wait-for-build
               with:
-                  ref: ${{ github.ref }}
-                  check-name: build
-                  repo-token: ${{ secrets.GITHUB_TOKEN }}
+                  token: ${{ secrets.GITHUB_TOKEN }}
+                  checkName: build
 
             - name: Download build artifact
               uses: dawidd6/action-download-artifact@v2
