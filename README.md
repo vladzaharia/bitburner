@@ -62,7 +62,7 @@ Afterwards, you can use `run sync.js` to pull the latest files.
 
 To download the scripts from a local instance, run `npm run serve` to build and serve the local versions of the files.
 
-Within Bitburner, use `run sync.js <IP_ADDR>:8080/api` to pull from the local development server.
+Within Bitburner, use `run sync.js http://<IP_ADDR>:8080/api` to pull from the local development server.
 
 #### Pull requests
 
