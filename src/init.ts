@@ -16,6 +16,7 @@ export async function main(ns: NS) {
 
         ns.kill(filename, "home");
         ns.exec(filename, "home");
+
         await ns.sleep(5 * 1000);
     }
 }

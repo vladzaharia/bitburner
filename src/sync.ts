@@ -42,6 +42,7 @@ export async function main(ns: NS) {
 
     ns.print(`[sync] Retrieved file list ${fileList}`);
 
+    // Download all files from manifest
     for (let i = 0; i < fileList.length; i++) {
         const downloaded = await getFile(ns, serverUrl, `/${fileList[i]}`);
 
@@ -49,6 +50,18 @@ export async function main(ns: NS) {
             throw `Download failed!`;
         }
     }
+
+    // Remove unknown files
+    const unknownFiles = ns
+        .ls("home")
+        .filter(
+            (f) =>
+                (f.endsWith(".js") || f.endsWith(".txt")) &&
+                !fileList.includes(`/${f}`)
+        );
+
+    ns.print(`[sync] Removing ${unknownFiles.length} unknown files`);
+    unknownFiles.forEach((f) => ns.rm(f, "home"));
 
     ns.print(
         `[sync] Finished pulling ${fileList.length} files from ${serverUrl}`
