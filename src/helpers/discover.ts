@@ -126,24 +126,13 @@ export function getCrackableHosts(
     depth?: number
 ): string[] {
     let finalHostnames: string[] = hostnames as string[];
-    const crackableHosts: string[] = [];
-
     ns.disableLog("ALL");
 
     if (!hostnames || hostnames.length === 0) {
         finalHostnames = getHosts(ns, depth || 10);
     }
 
-    ns.print(`[discover] Checking crackability on hosts: ${crackableHosts}`);
-
-    for (let i = 0; i < finalHostnames.length; i++) {
-        const hostCanCrack = canCrack(ns, finalHostnames[i]);
-
-        if (hostCanCrack) {
-            crackableHosts.push(finalHostnames[i]);
-        }
-    }
-
+    const crackableHosts = finalHostnames.filter((hn) => canCrack(ns, hn));
     ns.print(`[discover] Crackable hosts: ${crackableHosts}`);
 
     return crackableHosts;
@@ -166,22 +155,13 @@ export function getRootedHosts(
     depth?: number
 ): string[] {
     let finalHostnames = hostnames as string[];
-    const rootedHosts: string[] = [];
-
     ns.disableLog("ALL");
 
     if (!hostnames || hostnames.length === 0) {
         finalHostnames = getHosts(ns, depth || 10);
     }
 
-    for (let i = 0; i < finalHostnames.length; i++) {
-        const hostIsRooted = ns.hasRootAccess(finalHostnames[i]);
-
-        if (hostIsRooted) {
-            rootedHosts.push(finalHostnames[i]);
-        }
-    }
-
+    const rootedHosts = finalHostnames.filter((hn) => ns.hasRootAccess(hn));
     ns.print(`[discover] Rooted hosts: ${rootedHosts}`);
 
     return rootedHosts;
@@ -204,26 +184,18 @@ export function getHackableHosts(
     depth?: number
 ): string[] {
     let finalHostnames = hostnames as string[];
-    const rootedHosts: string[] = [];
-
     ns.disableLog("ALL");
 
     if (!hostnames || hostnames.length === 0) {
         finalHostnames = getHosts(ns, depth || 10);
     }
 
-    for (let i = 0; i < finalHostnames.length; i++) {
-        const hostIsRooted = ns.hasRootAccess(finalHostnames[i]);
-        const hostCanHaveMoney = ns.getServerMaxMoney(finalHostnames[i]);
+    const hackableHosts = finalHostnames.filter(
+        (hn) => ns.hasRootAccess(hn) && ns.getServerMaxMoney(hn)
+    );
+    ns.print(`[discover] Hackable hosts: ${hackableHosts}`);
 
-        if (hostIsRooted && hostCanHaveMoney > 0) {
-            rootedHosts.push(finalHostnames[i]);
-        }
-    }
-
-    ns.print(`[discover] Hackable hosts: ${rootedHosts}`);
-
-    return rootedHosts;
+    return hackableHosts;
 }
 
 /**
@@ -256,17 +228,17 @@ export function getRoute(ns: NS, hostname: string): string[] | false {
         ns.print(
             `[discover] Scan targets ${scanTargets} already scanned ${alreadyScanned}`
         );
+
         if (scanTargets.length > 0) {
-            for (let i = 0; i < scanTargets.length; i++) {
-                const result = innerLoop(scanTargets[i], [
-                    ...hostnames,
-                    target,
-                ]);
+            scanTargets.forEach((hn) => {
+                const result = innerLoop(hn, [...hostnames, target]);
+
                 if (result) {
                     ns.print(`[discover] Passing found path ${result} back up`);
                     return result;
                 }
-            }
+            });
+
             return false;
         } else {
             return false;
@@ -308,19 +280,15 @@ function scanHost(
     // ns.print(`[discover] Need to scan ${hostnamesToScan}, depth ${curDepth}/${maxDepth}`);
 
     if (curDepth <= maxDepth) {
-        for (let i = 0; i < hostnamesToScan.length; i++) {
-            let newHostnames = scanHost(
-                ns,
-                hostnamesToScan[i],
-                maxDepth,
-                curDepth + 1
-            );
+        hostnamesToScan.forEach((hostname) => {
+            let newHostnames = scanHost(ns, hostname, maxDepth, curDepth + 1);
+
             newHostnames = newHostnames.filter(
                 (hn) => hn !== "home" && !hn.startsWith("pserv-")
             );
+
             hostnames = hostnames.concat(newHostnames);
-            // ns.print(`[discover] Found ${newHostnames}`);
-        }
+        });
     }
 
     return hostnames;

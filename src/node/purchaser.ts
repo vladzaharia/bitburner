@@ -198,9 +198,7 @@ function sellWorkerServers(ns: NS, allServers: string[]) {
     );
 
     if (ns.getServerMaxRam(purchasedWorkers[0]) < RAM) {
-        for (let i = 0; i < purchasedWorkers.length; i++) {
-            sellServer(ns, purchasedWorkers[i]);
-        }
+        purchasedWorkers.forEach((hn) => sellServer(ns, hn));
     } else {
         ns.print(`Servers already satisfy ${RAM}GB RAM requirement`);
     }

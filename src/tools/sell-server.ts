@@ -21,10 +21,8 @@ export async function main(ns: NS) {
         throw "Function must be called with servers to sell!";
     }
 
-    const purchasedServers = ns.args as string[];
-
-    for (let i = 0; i < purchasedServers.length; i++) {
-        ns.killall(purchasedServers[i]);
-        ns.deleteServer(purchasedServers[i]);
-    }
+    (ns.args as string[]).forEach((hn) => {
+        ns.killall(hn);
+        ns.deleteServer(hn);
+    });
 }

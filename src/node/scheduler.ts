@@ -103,18 +103,16 @@ function splitHostnames(ns: NS, hostnames: string[]): string[][] {
     let finalHostnames: string[][] = [];
     let currentPoolHostnames: string[] = [];
 
-    for (let i = 0; i < hostnames.length; i++) {
+    hostnames.forEach((hn, i) => {
         if (i === HOSTS_PER_POOL) {
             ns.print(`[scheduler] New pool created`);
             finalHostnames = [...finalHostnames, currentPoolHostnames];
             currentPoolHostnames = [];
         }
 
-        ns.print(
-            `[scheduler] Added ${hostnames[i]} to pool ${currentPoolHostnames}`
-        );
-        currentPoolHostnames.push(hostnames[i]);
-    }
+        ns.print(`[scheduler] Added ${hn} to pool ${currentPoolHostnames}`);
+        currentPoolHostnames.push(hn);
+    });
 
     finalHostnames = [...finalHostnames, currentPoolHostnames];
 
@@ -167,12 +165,9 @@ async function executeOnPool(ns: NS, hostnames: string[], args: string[]) {
     );
 
     const scriptKeys = Object.keys(SCRIPTS);
-    const scriptArgs = {};
+    const scriptArgs: { [key: string]: string[] } = {};
 
-    for (let j = 0; j < scriptKeys.length; j++) {
-        const filename = scriptKeys[j];
-        scriptArgs[filename] = getFilteredArgs(ns, filename, args);
-    }
+    scriptKeys.forEach((f) => (scriptArgs[f] = getFilteredArgs(ns, f, args)));
 
     // Sort args by money available, descending order
     args = args.sort(
@@ -229,9 +224,9 @@ async function executeOnPool(ns: NS, hostnames: string[], args: string[]) {
 
                     await scp(ns, hostname, [filename]);
 
-                    for (let k = 0; k < fnArgs.length; k++) {
-                        exec(ns, hostname, filename, threads, [fnArgs[k]]);
-                    }
+                    fnArgs.forEach((hn) =>
+                        exec(ns, hostname, filename, threads, [hn])
+                    );
                 }
                 await ns.sleep(100);
             }

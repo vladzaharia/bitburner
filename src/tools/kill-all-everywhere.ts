@@ -19,7 +19,5 @@ export async function main(ns: NS) {
         "home",
     ];
 
-    for (let i = 0; i < allServers.length; i++) {
-        ns.killall(allServers[i]);
-    }
+    allServers.forEach((hn) => ns.killall(hn));
 }

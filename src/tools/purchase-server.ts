@@ -24,8 +24,8 @@ export async function main(ns: NS) {
     const ram = ns.args[0] as number;
     const hostnames = ns.args.splice(1) as string[];
 
-    for (let i = 0; i < hostnames.length; i++) {
-        const hostname = hostnames[i];
+    hostnames.forEach((hn) => {
+        const hostname = hn;
         const availMoney = Math.floor(ns.getServerMoneyAvailable("home"));
         const neededMoney = ns.getPurchasedServerCost(ram);
 
@@ -37,5 +37,5 @@ export async function main(ns: NS) {
                 `[purchase-server] Need more money: ${availMoney}/${neededMoney}`
             );
         }
-    }
+    });
 }

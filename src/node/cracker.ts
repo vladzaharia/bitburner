@@ -24,10 +24,7 @@ export async function main(ns: NS) {
 
             ns.clearLog();
 
-            for (let i = 0; i < crackableHosts.length; i++) {
-                const hostname = crackableHosts[i];
-                crack(ns, hostname);
-            }
+            crackableHosts.forEach((hn) => crack(ns, hn));
 
             getRootedHosts(ns, crackableHosts);
 

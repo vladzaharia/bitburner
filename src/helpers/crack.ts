@@ -31,13 +31,10 @@ export async function main(ns: NS) {
 
     const hostnames: string[] = ns.args as string[];
 
-    for (let i = 0; i < hostnames.length; i++) {
-        const hostname = hostnames[i];
-
-        ns.print(`[crack] Executing crack on ${hostname}`);
-
-        crack(ns, hostname);
-    }
+    hostnames.forEach((hn) => {
+        ns.print(`[crack] Executing crack on ${hn}`);
+        crack(ns, hn);
+    });
 }
 
 /**
@@ -91,9 +88,7 @@ export function getPortOpeners(ns: NS): string[] {
 function useAllOpeners(ns: NS, hostname: string) {
     // Run available openers
     const availableOpeners = getPortOpeners(ns);
-    for (let i = 0; i < availableOpeners.length; i++) {
-        useOpener(ns, hostname, availableOpeners[i]);
-    }
+    availableOpeners.forEach((op) => useOpener(ns, hostname, op));
 }
 
 /**
