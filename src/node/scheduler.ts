@@ -6,6 +6,7 @@ import {
 } from "/helpers/discover.js";
 import { exec } from "/helpers/exec.js";
 import { scp } from "/helpers/scp.js";
+import { sleep } from "/helpers/sleep.js";
 
 const HACK_SCRIPT = "/helpers/hack.js";
 const WEAKEN_SCRIPT = "/helpers/weaken.js";
@@ -18,7 +19,7 @@ SCRIPTS[GROW_SCRIPT] = 50;
 
 const HOSTS_PER_POOL = 8;
 
-const MIN_SERVER_MONEY_PCT = 0.5;
+const MIN_SERVER_MONEY_PCT = 0.25;
 const MIN_SEC_LEVEL = 2;
 
 /**
@@ -63,15 +64,11 @@ export async function main(ns: NS) {
             ns.print(`[scheduler] Executing on home`);
             await executeOnPool(ns, ["home"], args);
 
-            ns.print(
-                `[scheduler] Finished scheduling nodes, sleeping for 1hr at ${new Date().toTimeString()}`
-            );
-            await ns.sleep(60 * 60 * 1000);
+            ns.print(`[scheduler] Finished scheduling nodes`);
+            await sleep(ns, 60 * 60 * 1000);
         } else {
-            ns.print(
-                `[scheduler] Found file /flags/SKIP_SCHEDULER.js, sleeping for 1min at ${new Date().toTimeString()}`
-            );
-            await ns.sleep(60 * 1000);
+            ns.print(`[scheduler] Found file /flags/SKIP_SCHEDULER.js`);
+            await sleep(ns, 20 * 1000);
         }
     }
 }
@@ -86,7 +83,7 @@ function getPools(ns: NS): string[][] {
     const workers = getWorkerServers(ns);
     ns.print(`[scheduler] Workers: ${workers}`);
 
-    const rootedNodes = getRootedHosts(ns);
+    const rootedNodes = getRootedHosts(ns, [], 15);
     ns.print(`[scheduler] Rooted nodes: ${rootedNodes}`);
 
     return [...splitWorkers(ns, workers), ...splitHostnames(ns, rootedNodes)];
@@ -186,6 +183,7 @@ async function executeOnPool(ns: NS, hostnames: string[], args: string[]) {
         // Reserve space on home for node scripts
         if (hostname === "home") {
             ramAvail = ramAvail - 32;
+            finalScripts[HACK_SCRIPT] = 0;
         }
 
         ns.print(
@@ -228,9 +226,9 @@ async function executeOnPool(ns: NS, hostnames: string[], args: string[]) {
                         exec(ns, hostname, filename, threads, [hn])
                     );
                 }
-                await ns.sleep(100);
+                await sleep(ns, 100, false);
             }
-            await ns.sleep(500);
+            await sleep(ns, 500, false);
         }
     }
 }

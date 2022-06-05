@@ -1,4 +1,5 @@
 import { NS } from "Netscript";
+import { sleep } from "/helpers/sleep.js";
 
 const PRICE_PER_GB = 55000 * 25;
 let RAM = 8;
@@ -40,6 +41,8 @@ export async function main(ns: NS) {
             ns.print(`[purchaser] Available money ${availMoney}`);
 
             // Check for upgrades from 16GB - 1TB
+            checkForUpgrade(ns, availMoney, 4096, purchasedServers);
+            checkForUpgrade(ns, availMoney, 2048, purchasedServers);
             checkForUpgrade(ns, availMoney, 1024, purchasedServers);
             checkForUpgrade(ns, availMoney, 512, purchasedServers);
             checkForUpgrade(ns, availMoney, 256, purchasedServers);
@@ -99,21 +102,17 @@ export async function main(ns: NS) {
                     i = purchasedServers.length;
                     k++;
 
-                    await ns.sleep(1000);
+                    await sleep(ns, 1000, false);
                 } else {
-                    await ns.sleep(5 * 60 * 1000);
+                    await sleep(ns, 5 * 60 * 1000, false);
                 }
             }
 
-            ns.print(
-                `[purchaser] At max personal servers (${max}), sleeping for 30min at ${new Date().toTimeString()}`
-            );
-            await ns.sleep(30 * 60 * 1000);
+            ns.print(`[purchaser] At max personal servers (${max})`);
+            await sleep(ns, 30 * 60 * 1000);
         } else {
-            ns.print(
-                `[watcher] Found file /flags/SKIP_PURCHASER.js, sleeping for 1min at ${new Date().toTimeString()}`
-            );
-            await ns.sleep(60 * 1000);
+            ns.print(`[watcher] Found file /flags/SKIP_PURCHASER.js`);
+            await sleep(ns, 60 * 1000);
         }
     }
 }

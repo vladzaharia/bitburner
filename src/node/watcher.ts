@@ -1,5 +1,6 @@
 import { NS } from "Netscript";
 import { getHackableHosts, getPersonalServers } from "/helpers/discover.js";
+import { sleep } from "/helpers/sleep.js";
 
 /**
  * Automatically report on hackable and personal servers.
@@ -42,15 +43,11 @@ export async function main(ns: NS) {
                 )
             );
 
-            ns.print(
-                `[watcher] Finished listing servers, sleeping for 5min at ${new Date().toTimeString()}`
-            );
-            await ns.sleep(5 * 60 * 1000);
+            ns.print(`[watcher] Finished listing servers`);
+            await sleep(ns, 5 * 60 * 1000);
         } else {
-            ns.print(
-                `[watcher] Found file /flags/SKIP_WATCHER.js, sleeping for 1min at ${new Date().toTimeString()}`
-            );
-            await ns.sleep(60 * 1000);
+            ns.print(`[watcher] Found file /flags/SKIP_WATCHER.js`);
+            await sleep(ns, 60 * 1000);
         }
     }
 }

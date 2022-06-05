@@ -1,8 +1,9 @@
 import { Hacknet, NS } from "Netscript";
+import { sleep } from "/helpers/sleep.js";
 
-const MONEY_PER_LEVEL = 8.668;
-const MONEY_PER_RAM = 31830;
-const MONEY_PER_CORE = 198.278;
+const MONEY_PER_LEVEL = 6.751;
+const MONEY_PER_RAM = 74.856;
+const MONEY_PER_CORE = 39.38;
 
 // Amount of money dedicated to upgrades
 const MONEY_MULTIPLIER = 0.05;
@@ -35,6 +36,16 @@ export async function main(ns: NS) {
         if (!ns.fileExists("/flags/SKIP_HACKNET.js", "home")) {
             const numNodes = hacknet.numNodes();
 
+            const baseNode = hacknet.getNodeStats(0);
+            for (let i = 0; i < numNodes; i++) {
+                const node = hacknet.getNodeStats(i);
+
+                if (node.production < baseNode.production) {
+                    upgradeToBaseline(ns, i);
+                    await sleep(ns, 1000, false);
+                }
+            }
+
             const moneyAvail = Math.floor(
                 ns.getServerMoneyAvailable("home") * MONEY_MULTIPLIER
             );
@@ -49,7 +60,7 @@ export async function main(ns: NS) {
             const levelAdv =
                 levelCost === Infinity
                     ? Infinity
-                    : Math.floor(levelCost / MONEY_PER_LEVEL);
+                    : Math.floor(levelCost / (MONEY_PER_LEVEL * 5));
             ns.print(
                 `[hacknet] Level cost ${levelCost}, cost/benefit ${levelAdv}`
             );
@@ -70,16 +81,6 @@ export async function main(ns: NS) {
             ns.print(
                 `[hacknet] Core cost ${coreCost}, cost/benefit ${coreAdv}`
             );
-
-            const baseNode = hacknet.getNodeStats(0);
-            for (let i = 0; i < numNodes; i++) {
-                const node = hacknet.getNodeStats(i);
-
-                if (node.production < baseNode.production) {
-                    upgradeToBaseline(ns, i);
-                    await ns.sleep(1000);
-                }
-            }
 
             // End script if no upgrades possible
             if (
@@ -106,10 +107,8 @@ export async function main(ns: NS) {
                         ns.print(`[hacknet] Upgrading level`);
                         upgradeOnAll(hacknet, hacknet.upgradeLevel, 5);
                     } else {
-                        ns.print(
-                            `[hacknet] Skipping upgrades, sleeping for 5min at ${new Date().toTimeString()}`
-                        );
-                        await ns.sleep(5 * 60 * 1000);
+                        ns.print(`[hacknet] Skipping upgrades`);
+                        await sleep(ns, 5 * 60 * 1000);
                     }
                 } else {
                     ns.print(`[hacknet] Upgrading RAM`);
@@ -120,12 +119,10 @@ export async function main(ns: NS) {
                 upgradeOnAll(hacknet, hacknet.upgradeCore);
             }
 
-            await ns.sleep(1000);
+            await sleep(ns, 5 * 1000, false);
         } else {
-            ns.print(
-                `[hacknet] Found file /flags/SKIP_HACKNET.js, sleeping for 1min at ${new Date().toTimeString()}`
-            );
-            await ns.sleep(60 * 1000);
+            ns.print(`[hacknet] Found file /flags/SKIP_HACKNET.js`);
+            await sleep(ns, 60 * 1000);
         }
     }
 }

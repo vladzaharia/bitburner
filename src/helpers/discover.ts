@@ -1,6 +1,7 @@
 import { NS } from "Netscript";
 import { getPortOpeners } from "/helpers/crack.js";
 
+const DEPTH = 10;
 let foundHosts: string[] = [];
 
 /**
@@ -20,7 +21,7 @@ let foundHosts: string[] = [];
  * @param {NS} ns - The Netscript object.
  */
 export async function main(ns: NS) {
-    let depth = 5;
+    let depth = DEPTH;
 
     if (ns.args.length === 1) {
         depth = ns.args[0] as number;
@@ -129,7 +130,7 @@ export function getCrackableHosts(
     ns.disableLog("ALL");
 
     if (!hostnames || hostnames.length === 0) {
-        finalHostnames = getHosts(ns, depth || 10);
+        finalHostnames = getHosts(ns, depth || DEPTH);
     }
 
     const crackableHosts = finalHostnames.filter((hn) => canCrack(ns, hn));
@@ -158,7 +159,7 @@ export function getRootedHosts(
     ns.disableLog("ALL");
 
     if (!hostnames || hostnames.length === 0) {
-        finalHostnames = getHosts(ns, depth || 10);
+        finalHostnames = getHosts(ns, depth || DEPTH);
     }
 
     const rootedHosts = finalHostnames.filter((hn) => ns.hasRootAccess(hn));
@@ -187,7 +188,7 @@ export function getHackableHosts(
     ns.disableLog("ALL");
 
     if (!hostnames || hostnames.length === 0) {
-        finalHostnames = getHosts(ns, depth || 10);
+        finalHostnames = getHosts(ns, depth || DEPTH);
     }
 
     const hackableHosts = finalHostnames.filter(

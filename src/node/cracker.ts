@@ -1,6 +1,7 @@
 import { NS } from "Netscript";
 import { crack } from "/helpers/crack.js";
 import { getCrackableHosts, getRootedHosts } from "/helpers/discover.js";
+import { sleep } from "/helpers/sleep.js";
 
 /**
  * Automatically crack all available hosts.
@@ -28,15 +29,11 @@ export async function main(ns: NS) {
 
             getRootedHosts(ns, crackableHosts);
 
-            ns.print(
-                `[cracker] Finished cracking nodes, sleeping for 5min at ${new Date().toTimeString()}`
-            );
-            await ns.sleep(5 * 60 * 1000);
+            ns.print(`[cracker] Finished cracking nodes`);
+            await sleep(ns, 5 * 60 * 1000);
         } else {
-            ns.print(
-                `[cracker] Found file /flags/SKIP_CRACKER.js, sleeping for 1min at ${new Date().toTimeString()}`
-            );
-            await ns.sleep(60 * 1000);
+            ns.print(`[cracker] Found file /flags/SKIP_CRACKER.js`);
+            await sleep(ns, 60 * 1000);
         }
     }
 }

@@ -1,6 +1,7 @@
 import { NS } from "Netscript";
 import { backdoor } from "/helpers/backdoor.js";
 import { getRootedHosts, getRoute } from "/helpers/discover.js";
+import { sleep } from "/helpers/sleep.js";
 
 /**
  * Automatically backdoor all available hosts.
@@ -27,19 +28,14 @@ export async function main(ns: NS) {
             for (let i = 0; i < rootedHosts.length; i++) {
                 const hostname = rootedHosts[i];
                 await backdoor(ns, getRoute(ns, hostname));
-
-                await ns.sleep(10 * 1000);
+                await sleep(ns, 10 * 1000, false);
             }
 
-            ns.print(
-                `[cracker] Finished backdooring nodes, sleeping for 15min at ${new Date().toTimeString()}`
-            );
-            await ns.sleep(15 * 60 * 1000);
+            ns.print(`[cracker] Finished backdooring nodes`);
+            await sleep(ns, 15 * 60 * 1000);
         } else {
-            ns.print(
-                `[cracker] Found file /flags/SKIP_BACKDOOR.js, sleeping for 1min at ${new Date().toTimeString()}`
-            );
-            await ns.sleep(60 * 1000);
+            ns.print(`[cracker] Found file /flags/SKIP_BACKDOOR.js`);
+            await sleep(ns, 60 * 1000);
         }
     }
 }
