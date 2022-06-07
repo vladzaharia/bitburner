@@ -172,7 +172,7 @@ export function getRootedHosts(
  * Get list of hackable hosts from "home".
  * @category Importable
  * @async
- * @see "hackable" - Is rooted and has max money > 0.
+ * @see "hackable" - Is rooted, lower level than hacking level, and has max money > 0.
  *
  * @param {NS} ns - The Netscript object.
  * @param {string[]} hostnames - Optional list of hostnames to check crackability, uses all available servers to `depth`.
@@ -294,7 +294,7 @@ function scanHost(
 }
 
 /**
- * Check if `hostname` can be cracked by current hacking level and port openers.
+ * Check if `hostname` can be cracked by current port openers.
  * @async
  *
  * @param {NS} ns - The Netscript object.
@@ -313,7 +313,7 @@ function canCrack(ns: NS, hostname: string): boolean {
 }
 
 /**
- * Check if `hostname` can be cracked by current hacking level and port openers.
+ * Check if `hostname` can be hacked by current hacking level.
  * @async
  *
  * @param {NS} ns - The Netscript object.

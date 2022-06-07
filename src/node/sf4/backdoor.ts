@@ -1,5 +1,5 @@
 import { NS } from "Netscript";
-import { backdoor } from "/helpers/backdoor.js";
+import { backdoor } from "/helpers/sf4/backdoor.js";
 import { getRootedHosts, getRoute } from "/helpers/discover.js";
 import { sleep } from "/helpers/sleep.js";
 
