@@ -49,7 +49,7 @@ export async function main(ns: NS) {
 
     while (true) {
         const pools = getPools(ns);
-        const args = getHackableHosts(ns);
+        const args = getHackableHosts(ns, [], 10);
 
         ns.clearLog();
 
@@ -65,10 +65,10 @@ export async function main(ns: NS) {
             await executeOnPool(ns, ["home"], args);
 
             ns.print(`[scheduler] Finished scheduling nodes`);
-            await sleep(ns, 60 * 60 * 1000);
+            await sleep(ns, 15 * 60 * 1000);
         } else {
             ns.print(`[scheduler] Found file /flags/SKIP_SCHEDULER.js`);
-            await sleep(ns, 20 * 1000);
+            await sleep(ns, 60 * 1000);
         }
     }
 }
@@ -83,7 +83,7 @@ function getPools(ns: NS): string[][] {
     const workers = getWorkerServers(ns);
     ns.print(`[scheduler] Workers: ${workers}`);
 
-    const rootedNodes = getRootedHosts(ns, [], 15);
+    const rootedNodes = getRootedHosts(ns);
     ns.print(`[scheduler] Rooted nodes: ${rootedNodes}`);
 
     return [...splitWorkers(ns, workers), ...splitHostnames(ns, rootedNodes)];
@@ -182,7 +182,7 @@ async function executeOnPool(ns: NS, hostnames: string[], args: string[]) {
 
         // Reserve space on home for node scripts
         if (hostname === "home") {
-            ramAvail = ramAvail - 32;
+            ramAvail = ramAvail - 16;
             finalScripts[HACK_SCRIPT] = 0;
         }
 

@@ -1,7 +1,7 @@
 import { NS } from "Netscript";
 import { getPortOpeners } from "/helpers/crack.js";
 
-const DEPTH = 10;
+const DEPTH = 99;
 let foundHosts: string[] = [];
 
 /**
@@ -191,9 +191,7 @@ export function getHackableHosts(
         finalHostnames = getHosts(ns, depth || DEPTH);
     }
 
-    const hackableHosts = finalHostnames.filter(
-        (hn) => ns.hasRootAccess(hn) && ns.getServerMaxMoney(hn)
-    );
+    const hackableHosts = finalHostnames.filter((hn) => canHack(ns, hn));
     ns.print(`[discover] Hackable hosts: ${hackableHosts}`);
 
     return hackableHosts;
@@ -310,8 +308,28 @@ function canCrack(ns: NS, hostname: string): boolean {
     const numPortsRequired = ns.getServerNumPortsRequired(hostname);
 
     ns.print(
-        `[discover] Hostname ${hostname}, Level ${level}/${levelRequired}, Ports ${numPorts}/${numPortsRequired}`
+        `[discover] Hostname ${hostname}, Ports ${numPorts}/${numPortsRequired}`
     );
 
-    return level >= levelRequired && numPorts >= numPortsRequired;
+    return numPorts >= numPortsRequired;
+}
+
+/**
+ * Check if `hostname` can be cracked by current hacking level and port openers.
+ * @async
+ *
+ * @param {NS} ns - The Netscript object.
+ * @param {string} hostname - The hostname to check.
+ * @returns {boolean} Whether `hostname` can be cracked.
+ */
+function canHack(ns: NS, hostname: string): boolean {
+    const level = ns.getHackingLevel();
+    const levelRequired = ns.getServerRequiredHackingLevel(hostname);
+    const isRooted = ns.hasRootAccess(hostname);
+
+    ns.print(
+        `[discover] Hostname ${hostname}, Rooted ${isRooted}, Level ${level}/${levelRequired}`
+    );
+
+    return isRooted && level >= levelRequired;
 }

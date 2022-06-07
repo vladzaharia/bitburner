@@ -119,7 +119,7 @@ export async function main(ns: NS) {
                 upgradeOnAll(hacknet, hacknet.upgradeCore);
             }
 
-            await sleep(ns, 5 * 1000, false);
+            await sleep(ns, 2 * 1000, false);
         } else {
             ns.print(`[hacknet] Found file /flags/SKIP_HACKNET.js`);
             await sleep(ns, 60 * 1000);
