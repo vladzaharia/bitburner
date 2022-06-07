@@ -114,7 +114,7 @@ export function getWorkerServers(ns: NS): string[] {
  * Get list of crackable hosts from "home".
  * @category Importable
  * @async
- * @see "crackable" - Can crack using current hacking level and port openers.
+ * @see "crackable" - Can crack using current port openers.
  *
  * @param {NS} ns - The Netscript object.
  * @param {string[]} hostnames - Optional list of hostnames to check crackability, uses all available servers to `depth`.
