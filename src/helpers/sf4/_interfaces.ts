@@ -21,14 +21,19 @@ export interface City {
     enemies: Cities[];
 
     /**
-     * The money required to gain this city's faction invitation.
+     * Faction-specific information for this city.
      */
-    money: number;
+    faction: {
+        /**
+         * The requirements to gain an invitation to this faction.
+         */
+        requirements: FactionRequirements;
 
-    /**
-     * Augmentations available for purchase.
-     */
-    augmentations: Augmentations[];
+        /**
+         * Augmentations available for purchase.
+         */
+        augmentations: Augmentations[];
+    };
 }
 
 /**
@@ -49,16 +54,26 @@ export interface Company {
      * Hostname of the server, if available.
      */
     hostname?: string;
+}
 
+/**
+ * A company with a faction.
+ */
+export interface MegaCorporation extends Company {
     /**
-     * Augmentations available for purchase.
+     * Faction-specific information for this company.
      */
-    augmentations?: Augmentations[];
+    faction: {
+        /**
+         * The requirements to gain an invitation to this faction.
+         */
+        requirements: FactionRequirements;
 
-    /**
-     * The requirements to gain an invitation to this faction.
-     */
-    factionRequirements?: FactionRequirements;
+        /**
+         * Augmentations available for purchase.
+         */
+        augmentations: Augmentations[];
+    };
 }
 
 /**

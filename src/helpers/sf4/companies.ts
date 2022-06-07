@@ -1,78 +1,108 @@
-import { Company } from "/helpers/sf4/_interfaces.js";
+import { Company, MegaCorporation } from "/helpers/sf4/_interfaces.js";
 
 /**
  * All MegaCorporations (companies with factions) in the game.
  */
-export const MEGACORPS: Company[] = [
+export const MEGACORPS: MegaCorporation[] = [
     {
         name: "ECorp",
         location: "Aevum",
-        factionRequirements: {
-            reputation: 200000,
+        faction: {
+            requirements: {
+                reputation: 200000,
+            },
+            augmentations: [],
         },
     },
     {
         name: "MegaCorp",
         location: "Sector-12",
-        factionRequirements: {
-            reputation: 200000,
+        faction: {
+            requirements: {
+                reputation: 200000,
+            },
+            augmentations: [],
         },
     },
     {
         name: "KuaiGong International",
         location: "Chongqing",
-        factionRequirements: {
-            reputation: 200000,
+        faction: {
+            requirements: {
+                reputation: 200000,
+            },
+            augmentations: [],
         },
     },
     {
         name: "Four Sigma",
         location: "Sector-12",
-        factionRequirements: {
-            reputation: 200000,
+        faction: {
+            requirements: {
+                reputation: 200000,
+            },
+            augmentations: [],
         },
     },
     {
         name: "NWO",
         location: "Volhaven",
-        factionRequirements: {
-            reputation: 200000,
+        faction: {
+            requirements: {
+                reputation: 200000,
+            },
+            augmentations: [],
         },
     },
     {
         name: "Blade Industries",
         location: "Sector-12",
-        factionRequirements: {
-            reputation: 200000,
+        faction: {
+            requirements: {
+                reputation: 200000,
+            },
+            augmentations: [],
         },
     },
     {
         name: "OmniTek Incorporated",
         location: "Volhaven",
-        factionRequirements: {
-            reputation: 200000,
+        faction: {
+            requirements: {
+                reputation: 200000,
+            },
+            augmentations: [],
         },
     },
     {
         name: "Bachman & Associates",
         location: "Aevum",
-        factionRequirements: {
-            reputation: 200000,
+        faction: {
+            requirements: {
+                reputation: 200000,
+            },
+            augmentations: [],
         },
     },
     {
         name: "Clarke Incorporated",
         location: "Aevum",
-        factionRequirements: {
-            reputation: 200000,
+        faction: {
+            requirements: {
+                reputation: 200000,
+            },
+            augmentations: [],
         },
     },
     {
         name: "Fulcrum Technologies",
         location: "Aevum",
-        factionRequirements: {
-            reputation: 250000,
-            backdoor: "fulcrumassets",
+        faction: {
+            requirements: {
+                reputation: 250000,
+                backdoor: "fulcrumassets",
+            },
+            augmentations: [],
         },
     },
 ];
