@@ -43,19 +43,16 @@ export const CITIES: City[] = [
 export interface City {
     /**
      * The name of the city.
-     * @argument {string}
      */
     name: Cities;
 
     /**
      * The enemies this city has.
-     * @argument {string[]}
      */
     enemies: Cities[];
 
     /**
      * The money required to gain this city's faction invitation.
-     * @argument {number}
      */
     money: number;
 }
