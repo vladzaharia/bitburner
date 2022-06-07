@@ -1,5 +1,7 @@
-import { CITIES } from "./cities";
-import { Cities, Factions } from "/helpers/sf4/_types.js";
+import { Faction, FactionRequirements } from "/helpers/sf4/_interfaces.js";
+import { CITIES } from "/helpers/sf4/cities.js";
+import { MEGACORPS } from "./companies";
+import { Augmentations, MegaCorporations } from "./_types";
 
 /**
  * All factions, including cities and MegaCorporations.
@@ -11,83 +13,23 @@ export const FACTIONS: Faction[] = [
             requirements: {
                 money: c.money,
             },
+            augmentations: c.augmentations,
+        };
+    }),
+
+    ...MEGACORPS.map((mc) => {
+        return {
+            name: mc.name as MegaCorporations,
+            requirements: mc.factionRequirements as FactionRequirements,
+            augmentations: mc.augmentations as Augmentations[],
         };
     }),
 ];
 
 /**
- * A faction and its requirements.
+ * All factions, as an object.
  */
-export interface Faction {
-    /**
-     * The faction name.
-     * @argument {string}
-     */
-    name: Factions;
-
-    /**
-     * The requirements to gain an invitation to this faction.
-     * @argument {Requirements}
-     */
-    requirements: Requirements;
-}
-
-/**
- * Requirements to gain access to a faction.
- */
-interface Requirements {
-    /**
-     * Amount of money needed.
-     */
-    money?: number;
-
-    /**
-     * Hacking level needed.
-     */
-    level?: number;
-
-    /**
-     * Combat level (Str, Def, Agi, Dex) needed.
-     */
-    combat?: number;
-
-    /**
-     * List of cities you have to be in.
-     */
-    location?: Cities[];
-
-    /**
-     * Server needed to backdoor.
-     */
-    backdoor?: string;
-
-    /**
-     * Number of augmentations needed.
-     */
-    augmentations?: number;
-
-    /**
-     * Karma level needed (negative).
-     */
-    karma?: number;
-
-    /**
-     * Number of people killed.
-     */
-    killed?: number;
-
-    /**
-     * User needs certain hacknet requirements.
-     */
-    hacknet?: boolean;
-
-    /**
-     * User needs to be a C-Level executive.
-     */
-    clevel?: boolean;
-
-    /**
-     * User cannot work at CIA / NSA.
-     */
-    notgov?: boolean;
-}
+export const FACTIONS_OBJ: { [key: string]: Faction } = FACTIONS.reduce(
+    (a, v) => ({ ...a, [v.name]: v }),
+    {}
+);
