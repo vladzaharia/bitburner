@@ -1,4 +1,5 @@
 import { NS } from "Netscript";
+import { crack } from "../crack";
 import { getRoute } from "/helpers/discover.js";
 
 /**
@@ -51,12 +52,15 @@ export async function backdoor(ns: NS, route: string[] | false) {
 
         if (true) {
             // Connect to target via route
-            // for (let i = 0; i < route.length; i++) {
-            //     (ns as any).connect(route);
-            // }
+            for (let i = 0; i < route.length; i++) {
+                ns.singularity.connect(route[i]);
+            }
+
+            // Crack host
+            crack(ns, route[route.length - 1]);
 
             // Backdoor host
-            //(ns as any).installBackdoor();
+            ns.singularity.installBackdoor();
 
             await ns.sleep(10 * 1000);
         } else {
