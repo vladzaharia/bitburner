@@ -302,8 +302,6 @@ function scanHost(
  * @returns {boolean} Whether `hostname` can be cracked.
  */
 function canCrack(ns: NS, hostname: string): boolean {
-    const level = ns.getHackingLevel();
-    const levelRequired = ns.getServerRequiredHackingLevel(hostname);
     const numPorts = getPortOpeners(ns).length;
     const numPortsRequired = ns.getServerNumPortsRequired(hostname);
 
