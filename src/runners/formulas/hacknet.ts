@@ -1,15 +1,20 @@
 import { Hacknet, NS } from "Netscript";
 import { sleep } from "/helpers/sleep.js";
 
+/** Gain per level upgrade (manually added) */
 const MONEY_PER_LEVEL = 6.751;
+
+/** Gain per RAM upgrade (manually added) */
 const MONEY_PER_RAM = 74.856;
+
+/** Gain per core upgrade (manually added) */
 const MONEY_PER_CORE = 39.38;
 
-// Amount of money dedicated to upgrades
+/** Money reserved for Hacknet upgrades. */
 const MONEY_MULTIPLIER = 0.05;
 
 /**
- * Automatically maintain Hacknet nodes.
+ * Automatically maintain Hacknet nodes, using Formulas API for better prediction algorithms.
  *
  * Each cycle will:
  *  - Upgrade any nodes to "baseline" (first node).
@@ -17,6 +22,7 @@ const MONEY_MULTIPLIER = 0.05;
  *  - Purchase best available upgrade across all nodes or purchase a new node.
  *
  * @category Executable
+ * @export
  *
  * @example
  * ```shell
@@ -34,8 +40,19 @@ export async function main(ns: NS) {
         ns.clearLog();
 
         if (!ns.fileExists("/flags/SKIP_HACKNET.js", "home")) {
-            const numNodes = hacknet.numNodes();
+            let numNodes = hacknet.numNodes();
 
+            // Purchase initial node if needed
+            if (numNodes === 0) {
+                // Purchase and normalize level
+                hacknet.purchaseNode();
+                hacknet.upgradeLevel(0, 4);
+
+                // Increment numNodes so the rest of the script is happy
+                numNodes++;
+            }
+
+            // Upgrade all nodes to node[0]
             const baseNode = hacknet.getNodeStats(0);
             for (let i = 0; i < numNodes; i++) {
                 const node = hacknet.getNodeStats(i);
@@ -46,14 +63,17 @@ export async function main(ns: NS) {
                 }
             }
 
+            // Get available money for Hacknet upgrades
             const moneyAvail = Math.floor(
                 ns.getServerMoneyAvailable("home") * MONEY_MULTIPLIER
             );
             ns.print(`[hacknet] Available money ${moneyAvail}`);
 
+            // Get cost of new node
             const newNodeCost = Math.ceil(hacknet.getPurchaseNodeCost());
             ns.print(`[hacknet] New node cost ${newNodeCost}`);
 
+            // Get cost and benefit of purchasing 5 level upgrades
             const levelCost = Math.ceil(
                 hacknet.getLevelUpgradeCost(0, 5) * numNodes
             );
@@ -65,6 +85,7 @@ export async function main(ns: NS) {
                 `[hacknet] Level cost ${levelCost}, cost/benefit ${levelAdv}`
             );
 
+            // Get cost and benefit of purchasing 1 RAM upgrade
             const ramCost = Math.ceil(
                 hacknet.getRamUpgradeCost(0, 1) * numNodes
             );
@@ -74,6 +95,7 @@ export async function main(ns: NS) {
                     : Math.floor(ramCost / MONEY_PER_RAM);
             ns.print(`[hacknet] RAM cost ${ramCost}, cost/benefit ${ramAdv}`);
 
+            // Get cost and benefit of purchasing 1 core upgrade
             const coreCost = Math.ceil(
                 hacknet.getCoreUpgradeCost(0, 1) * numNodes
             );
@@ -92,9 +114,10 @@ export async function main(ns: NS) {
                 return;
             }
 
+            // Purchase best upgrade
             if (
                 newNodeCost < moneyAvail &&
-                hacknet.numNodes < hacknet.maxNumNodes
+                hacknet.numNodes() < hacknet.maxNumNodes()
             ) {
                 ns.print(`[hacknet] Buying new node`);
                 hacknet.purchaseNode();
