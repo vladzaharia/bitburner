@@ -6,6 +6,27 @@ import {
 } from "/helpers/sf4/_types.js";
 
 /**
+ * An augmentation in Bitburner.
+ * @interface
+ */
+export interface Augmentation {
+    /**
+     * The name of the city.
+     */
+    name: Augmentations;
+
+    /**
+     * The requirements to gain an invitation to this faction.
+     */
+    requirements: AugmentationRequirements;
+
+    /**
+     * Benefits to this augmentation.
+     */
+    benefits: AugmentationBenefits;
+}
+
+/**
  * A city in Bitburner.
  * @interface
  */
@@ -38,6 +59,7 @@ export interface City {
 
 /**
  * A company that can be worked at.
+ * @interface
  */
 export interface Company {
     /**
@@ -58,6 +80,7 @@ export interface Company {
 
 /**
  * A company with a faction.
+ * @interface
  */
 export interface MegaCorporation extends Company {
     /**
@@ -78,6 +101,7 @@ export interface MegaCorporation extends Company {
 
 /**
  * A faction and its requirements.
+ * @interface
  */
 export interface Faction {
     /**
@@ -97,14 +121,34 @@ export interface Faction {
 }
 
 /**
- * Requirements to gain access to a faction.
+ * Requirements to purchase an augmentation.
+ * @interface
  */
-export interface FactionRequirements {
+export interface AugmentationRequirements {
     /**
      * Amount of money needed.
      */
     money?: number;
 
+    /**
+     * Company/Faction reputation needed.
+     */
+    reputation?: number;
+}
+
+/**
+ * Benefits from purchasing an augmentation.
+ * @interface
+ */
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface AugmentationBenefits {}
+
+/**
+ * Requirements to gain access to a faction.
+ * @interface
+ * @extends {AugmentationRequirements}
+ */
+export interface FactionRequirements extends AugmentationRequirements {
     /**
      * Hacking level needed.
      */
@@ -114,11 +158,6 @@ export interface FactionRequirements {
      * Combat level (Str, Def, Agi, Dex) needed.
      */
     combat?: number;
-
-    /**
-     * Company reputation needed.
-     */
-    reputation?: number;
 
     /**
      * List of cities you have to be in.
