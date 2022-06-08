@@ -9,7 +9,7 @@ const RUNNERS: string[] = [
     "purchaser.js",
     "scheduler.js",
     "hacknet.js",
-    "watcher.js",
+    // "watcher.js",
 ];
 
 /**
