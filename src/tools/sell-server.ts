@@ -21,8 +21,8 @@ export async function main(ns: NS) {
         throw "Function must be called with servers to sell!";
     }
 
-    (ns.args as string[]).forEach((hn) => {
-        ns.killall(hn);
-        ns.deleteServer(hn);
-    });
+    for (const hostname of ns.args as string[]) {
+        ns.killall(hostname);
+        ns.deleteServer(hostname);
+    }
 }

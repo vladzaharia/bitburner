@@ -229,11 +229,8 @@ export function getRoute(ns: NS, hostname: string): string[] | false {
             );
 
         if (scanTargets.length > 0) {
-            for (let i = 0; i < scanTargets.length; i++) {
-                const result = innerLoop(scanTargets[i], [
-                    ...hostnames,
-                    target,
-                ]);
+            for (const scanTarget of scanTargets) {
+                const result = innerLoop(scanTarget, [...hostnames, target]);
 
                 if (result) {
                     return result;
@@ -281,7 +278,7 @@ function scanHost(
     // ns.print(`[discover] Need to scan ${hostnamesToScan}, depth ${curDepth}/${maxDepth}`);
 
     if (curDepth <= maxDepth) {
-        hostnamesToScan.forEach((hostname) => {
+        for (const hostname of hostnamesToScan) {
             let newHostnames = scanHost(ns, hostname, maxDepth, curDepth + 1);
 
             newHostnames = newHostnames.filter(
@@ -289,7 +286,7 @@ function scanHost(
             );
 
             hostnames = hostnames.concat(newHostnames);
-        });
+        }
     }
 
     return hostnames;

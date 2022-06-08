@@ -38,8 +38,7 @@ export async function main(ns: NS) {
             const rootedHosts = getRootedHosts(ns);
 
             // Backdoor all rooted hosts
-            for (let i = 0; i < rootedHosts.length; i++) {
-                const hostname = rootedHosts[i];
+            for (const hostname of rootedHosts) {
                 await backdoor(ns, getRoute(ns, hostname));
                 await sleep(ns, 10 * 1000, false);
             }

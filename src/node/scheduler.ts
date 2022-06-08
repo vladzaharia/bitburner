@@ -129,8 +129,8 @@ function splitWorkers(ns: NS, hostnames: string[]): string[][] {
     let currentPoolHostnames: string[] = [];
     const regex = /^ps-worker(\d)-(\d)$/;
 
-    hostnames.forEach((hn) => {
-        const match = hn.match(regex);
+    for (const hostname of hostnames) {
+        const match = hostname.match(regex);
 
         if (match && parseInt(match[1], 10) > currentPool) {
             ns.print(`[scheduler] New pool found ${match[1]}`);
@@ -139,9 +139,9 @@ function splitWorkers(ns: NS, hostnames: string[]): string[][] {
             currentPoolHostnames = [];
         }
 
-        ns.print(`[scheduler] Added ${hn} to pool ${currentPool}`);
-        currentPoolHostnames.push(hn);
-    });
+        ns.print(`[scheduler] Added ${hostname} to pool ${currentPool}`);
+        currentPoolHostnames.push(hostname);
+    }
 
     finalHostnames = [...finalHostnames, currentPoolHostnames];
 
@@ -194,9 +194,7 @@ async function executeOnPool(ns: NS, hostnames: string[], args: string[]) {
 
         // Basic check that RAM is available
         if (ramAvail > 0) {
-            for (let j = 0; j < scriptKeys.length; j++) {
-                const filename = scriptKeys[j];
-
+            for (const filename of scriptKeys) {
                 const fnArgs = scriptArgs[filename].filter(
                     (hn, k) => k % hostnames.length === i % hostnames.length
                 );

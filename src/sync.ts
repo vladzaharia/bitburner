@@ -42,8 +42,8 @@ export async function main(ns: NS) {
     ns.print(`[sync] Retrieved file list ${fileList}`);
 
     // Download all files from manifest
-    for (let i = 0; i < fileList.length; i++) {
-        const downloaded = await getFile(ns, serverUrl, `/${fileList[i]}`);
+    for (const file of fileList) {
+        const downloaded = await getFile(ns, serverUrl, `/${file}`);
 
         if (downloaded === null) {
             throw `Download failed!`;

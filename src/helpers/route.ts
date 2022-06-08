@@ -25,11 +25,7 @@ export async function main(ns: NS) {
         throw "Function must be called with 1+ hostnames";
     }
 
-    const hostnames: string[] = ns.args as string[];
-
-    for (let i = 0; i < hostnames.length; i++) {
-        const hostname = hostnames[i];
-
+    for (const hostname of ns.args as string[]) {
         ns.print(`[route] Getting route to ${hostname}`);
 
         await printRoute(ns, getRoute(ns, hostname));

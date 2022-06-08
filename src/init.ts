@@ -11,9 +11,7 @@ export async function main(ns: NS) {
 
     const files = ns.ls("home").filter((file) => file.startsWith("/node"));
 
-    for (let i = 0; i < files.length; i++) {
-        const filename = files[i];
-
+    for (const filename of files) {
         ns.kill(filename, "home");
         ns.exec(filename, "home");
 

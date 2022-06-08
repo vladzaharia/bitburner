@@ -29,12 +29,10 @@ export async function main(ns: NS) {
         throw "Function must be called with 1+ hostnames";
     }
 
-    const hostnames: string[] = ns.args as string[];
-
-    hostnames.forEach((hn) => {
-        ns.print(`[crack] Executing crack on ${hn}`);
-        crack(ns, hn);
-    });
+    for (const hostname of ns.args as string[]) {
+        ns.print(`[crack] Executing crack on ${hostname}`);
+        crack(ns, hostname);
+    }
 }
 
 /**
@@ -68,8 +66,7 @@ export function crack(ns: NS, hostname: string) {
 export function getPortOpeners(ns: NS): string[] {
     const availableOpeners: string[] = [];
 
-    for (let i = 0; i < ALL_OPENERS.length; i++) {
-        const opener = ALL_OPENERS[i];
+    for (const opener of ALL_OPENERS) {
         const canUse = ns.fileExists(opener, "home");
         if (canUse) {
             availableOpeners.push(opener);

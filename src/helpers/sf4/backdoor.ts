@@ -24,11 +24,7 @@ export async function main(ns: NS) {
         throw "Function must be called with 1+ hostnames";
     }
 
-    const hostnames: string[] = ns.args as string[];
-
-    for (let i = 0; i < hostnames.length; i++) {
-        const hostname = hostnames[i];
-
+    for (const hostname of ns.args as string[]) {
         ns.print(`[backdoor] Executing crack on ${hostname}`);
 
         await backdoor(ns, getRoute(ns, hostname));
@@ -52,8 +48,8 @@ export async function backdoor(ns: NS, route: string[] | false) {
 
         if (true) {
             // Connect to target via route
-            for (let i = 0; i < route.length; i++) {
-                ns.singularity.connect(route[i]);
+            for (const host of route) {
+                ns.singularity.connect(host);
             }
 
             // Crack host
