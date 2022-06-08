@@ -130,13 +130,13 @@ export interface AugmentationBenefits {
         cost?: number;
 
         /** Cost of upgrading level. */
-        level_cost?: number;
+        levelCost?: number;
 
         /** Cost of upgrading RAM. */
-        ram_cost?: number;
+        ramCost?: number;
 
         /** Cost of upgrading CPU cores. */
-        core_cost?: number;
+        coreCost?: number;
     };
 
     /** Company/Faction multipliers. */
@@ -159,6 +159,12 @@ export interface AugmentationBenefits {
         /** Money gained from crimes. */
         money?: number;
     };
+
+    /** Increases player's starting money between augmentation installs. */
+    startingMoney?: number;
+
+    /** Keeps program between augmentation installs. */
+    programs?: string[];
 }
 
 /**
@@ -167,10 +173,10 @@ export interface AugmentationBenefits {
  */
 interface SkillBenefits {
     /** Skill multiplier.. */
-    mult?: number;
+    skill?: number;
 
     /** Exp gain multiplier for skill. */
-    exp_mult?: number;
+    exp?: number;
 }
 
 /**
@@ -226,5 +232,5 @@ export interface FactionRequirements extends AugmentationRequirements {
     clevel?: boolean;
 
     /** User cannot work at CIA / NSA. */
-    notgov?: boolean;
+    notGov?: boolean;
 }
