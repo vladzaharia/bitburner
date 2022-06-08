@@ -1,16 +1,5 @@
 import { NS } from "Netscript";
-
-// TODO: Move this to constants
-/**
- * All openers to use.
- */
-const ALL_OPENERS = [
-    "BruteSSH.exe",
-    "FTPCrack.exe",
-    "relaySMTP.exe",
-    "HTTPWorm.exe",
-    "SQLInject.exe",
-];
+import { ALL_OPENERS } from "/_types/constants/program.js";
 
 /**
  * Crack host(s) from Terminal.
