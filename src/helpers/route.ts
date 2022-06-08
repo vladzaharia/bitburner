@@ -1,5 +1,5 @@
 import { NS } from "Netscript";
-import { getRoute } from "/helpers/discover.js";
+import { canHack, getRoute } from "/helpers/discover.js";
 
 /**
  * Get route to a host using the Terminal.
@@ -18,6 +18,9 @@ import { getRoute } from "/helpers/discover.js";
  * @param {NS} ns - The Netscript object.
  */
 export async function main(ns: NS) {
+    ns.clearLog();
+    ns.disableLog("ALL");
+
     if (ns.args.length === 0) {
         throw "Function must be called with 1+ hostnames";
     }
@@ -42,11 +45,19 @@ export async function main(ns: NS) {
  * @param {string[]} route - Route to use to backdoor, including target.
  */
 export async function printRoute(ns: NS, route: string[] | false) {
-    ns.print(`[route] Connecting ${route}`);
-
     if (route) {
-        //(ns as any).connect("home");
-        ns.print(route.map((hn) => `${hn} [${ns.hasRootAccess(hn)}]`));
+        const _getRootedString = (hn: string) =>
+            `${hn} [` +
+            (canHack(ns, hn)
+                ? "true"
+                : `${ns.getHackingLevel()}/${ns.getServerRequiredHackingLevel(
+                      hn
+                  )}`) +
+            `]`;
+
+        ns.print(
+            `[route] Final route: ` + route.map((hn) => _getRootedString(hn))
+        );
     } else {
         ns.print(`[route] No route to host!`);
     }

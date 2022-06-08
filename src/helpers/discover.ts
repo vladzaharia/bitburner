@@ -210,33 +210,35 @@ export function getRoute(ns: NS, hostname: string): string[] | false {
     ns.print(`[discover] Looking for ${hostname}`);
 
     const alreadyScanned: string[] = [];
-    const innerLoop = (target: string, hostnames: string[]) => {
+    const innerLoop = (
+        target: string,
+        hostnames: string[]
+    ): string[] | false => {
         alreadyScanned.push(target);
 
-        if (hostname === target) {
+        if (target.toLowerCase() === hostname.toLowerCase()) {
             ns.print(`[discover] Found ${target} via ${hostnames}`);
             return [...hostnames, target];
         }
 
-        const scannableNames: string[] = ns.scan(target);
-        const scanTargets: string[] = scannableNames.filter(
-            (hn: string) =>
-                !hn.startsWith("ps-") && !alreadyScanned.includes(hn)
-        );
-
-        ns.print(
-            `[discover] Scan targets ${scanTargets} already scanned ${alreadyScanned}`
-        );
+        const scanTargets: string[] = ns
+            .scan(target)
+            .filter(
+                (hn: string) =>
+                    !hn.startsWith("ps-") && !alreadyScanned.includes(hn)
+            );
 
         if (scanTargets.length > 0) {
-            scanTargets.forEach((hn) => {
-                const result = innerLoop(hn, [...hostnames, target]);
+            for (let i = 0; i < scanTargets.length; i++) {
+                const result = innerLoop(scanTargets[i], [
+                    ...hostnames,
+                    target,
+                ]);
 
                 if (result) {
-                    ns.print(`[discover] Passing found path ${result} back up`);
                     return result;
                 }
-            });
+            }
 
             return false;
         } else {
@@ -320,7 +322,7 @@ function canCrack(ns: NS, hostname: string): boolean {
  * @param {string} hostname - The hostname to check.
  * @returns {boolean} Whether `hostname` can be cracked.
  */
-function canHack(ns: NS, hostname: string): boolean {
+export function canHack(ns: NS, hostname: string): boolean {
     const level = ns.getHackingLevel();
     const levelRequired = ns.getServerRequiredHackingLevel(hostname);
     const isRooted = ns.hasRootAccess(hostname);
