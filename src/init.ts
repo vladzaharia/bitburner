@@ -13,7 +13,7 @@ const RUNNERS: string[] = [
 ];
 
 /**
- * Execute all node/* scripts on "home"
+ * Execute set of automated scripts, based on `RUNNERS`.
  * @category Executable
  * @export
  *
