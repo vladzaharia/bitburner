@@ -3,6 +3,7 @@ import { NS } from "Netscript";
 /**
  * Execute a given file on a given host.
  * @category Executable
+ * @export
  *
  * **Note:** Script must exist on host. Use `/tools/scp-exec.js` to scp and execute.
  *
@@ -43,6 +44,7 @@ export async function main(ns: NS) {
  * **Note:** Script must exist on host. Use `/tools/scp-exec.js` to scp and execute.
  *
  * @category Importable
+ * @export
  *
  * @param {NS} ns - The Netscript object.
  * @param {string} hostname - The hostname to execute script on.

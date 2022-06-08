@@ -35,6 +35,8 @@ export async function main(ns: NS) {
  * Connect to a host chain using `route` and backdoor the last server.
  * @alpha Does not currently backdoor, only prints out route.
  * @category Importable
+ * @export
+ * @async
  *
  * @param {NS} ns - The Netscript object.
  * @param {string[]} route - Route to use to backdoor, including target.

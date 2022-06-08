@@ -6,6 +6,7 @@ import { sleep } from "/helpers/sleep.js";
 /**
  * Automatically crack all available hosts.
  * @category Executable
+ * @export
  *
  * @example
  * ```shell

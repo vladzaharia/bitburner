@@ -11,6 +11,7 @@ import { crack } from "/helpers/crack";
 /**
  * Automatically backdoor all available hosts.
  * @category Executable
+ * @export
  *
  * @example
  * ```shell

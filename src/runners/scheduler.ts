@@ -8,18 +8,28 @@ import { exec } from "/helpers/exec.js";
 import { scp } from "/helpers/scp.js";
 import { sleep } from "/helpers/sleep.js";
 
+/** Path to hack script to execute on hosts. */
 const HACK_SCRIPT = "/helpers/hack.js";
+
+/** Path to weaken script to execute on hosts. */
 const WEAKEN_SCRIPT = "/helpers/weaken.js";
+
+/** Path to grow script to execute on hosts. */
 const GROW_SCRIPT = "/helpers/grow.js";
 
+/** Weights of individual scripts, used to determine thread count. */
 const SCRIPTS: { [key: string]: number } = {};
 SCRIPTS[HACK_SCRIPT] = 25;
 SCRIPTS[WEAKEN_SCRIPT] = 25;
 SCRIPTS[GROW_SCRIPT] = 50;
 
+/** Number of hosts per pool, for rooted servers. */
 const HOSTS_PER_POOL = 8;
 
+/** Minimum server money % to hack. */
 const MIN_SERVER_MONEY_PCT = 0.25;
+
+/** Minimum security level threshold to stop weakening. */
 const MIN_SEC_LEVEL = 2;
 
 /**
@@ -36,6 +46,7 @@ const MIN_SEC_LEVEL = 2;
  *  - ["home"]
  *
  * @category Executable
+ * @export
  *
  * @example
  * ```shell

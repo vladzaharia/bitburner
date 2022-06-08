@@ -3,6 +3,7 @@ import { NS } from "Netscript";
 /**
  * Purchase new servers from the Terminal.
  * @category Executable
+ * @export
  *
  * @example <caption>Purchase a single server with given RAM.</caption>
  * ```shell

@@ -3,6 +3,7 @@ import { NS } from "Netscript";
 /**
  * Copy `filename`, along with helper files, to `hostname`.
  * @category Executable
+ * @export
  *
  * @example <caption>Copy `filename` to `host`.</caption>
  * ```shell
@@ -27,6 +28,7 @@ export async function main(ns: NS) {
 /**
  * Copy `filenames`, along with helper scripts in `/helpers` to `hostname`.
  * @category Importable
+ * @export
  * @async
  *
  * @param {NS} ns - The Netscript object.

@@ -3,6 +3,7 @@ import { NS } from "Netscript";
 /**
  * Weaken host(s) from Terminal.
  * @category Executable
+ * @export
  *
  * @example <caption>Weaken single passed in host.</caption>
  * ```shell
@@ -33,6 +34,7 @@ export async function main(ns: NS) {
 /**
  * Weaken host at `hostname`.
  * @category Importable
+ * @export
  * @async
  *
  * @param {NS} ns - The Netscript object.

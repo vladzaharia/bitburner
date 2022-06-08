@@ -1,17 +1,29 @@
 import { NS } from "Netscript";
 
 /**
+ * All runners to execute.
+ * @type {string[]}
+ */
+const RUNNERS: string[] = [
+    "cracker.js",
+    "purchaser.js",
+    "scheduler.js",
+    "hacknet.js",
+    "watcher.js",
+];
+
+/**
  * Execute all node/* scripts on "home"
  * @category Executable
+ * @export
  *
  * @param {NS} ns - The Netscript object.
  */
 export async function main(ns: NS) {
     ns.disableLog("ALL");
 
-    const files = ns.ls("home").filter((file) => file.startsWith("/node"));
-
-    for (const filename of files) {
+    // Kill and execute runners on "home"
+    for (const filename of RUNNERS.map((f) => `/runners/${f}`)) {
         ns.kill(filename, "home");
         ns.exec(filename, "home");
 

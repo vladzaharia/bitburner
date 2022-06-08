@@ -5,6 +5,7 @@ import { sleep } from "/helpers/sleep.js";
 /**
  * Automatically report on hackable and personal servers.
  * @category Executable
+ * @export
  *
  * @example
  * ```shell

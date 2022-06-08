@@ -1,11 +1,16 @@
 import { NS } from "Netscript";
 import { sleep } from "/helpers/sleep.js";
 
-const PRICE_PER_GB = 55000 * 25;
+/** RAM to purchase, determined by available money and cost for max servers. */
 let RAM = 8;
+
+/** Cost of server per GB of RAM. */
+const PRICE_PER_GB = 55000 * 25;
+
+/** Number of workers per pool. */
 const WORKERS_PER_POOL = 8;
 
-// Amount of money dedicated to servers
+/** Money reserved for worker servers. */
 const MONEY_MULTIPLIER = 0.5;
 
 /**
@@ -17,6 +22,7 @@ const MONEY_MULTIPLIER = 0.5;
  *  - Fill available servers up to capacity in pools.
  *
  * @category Executable
+ * @export
  *
  * @example
  * ```shell
@@ -119,7 +125,6 @@ export async function main(ns: NS) {
 
 /**
  * Check RAM level based on available money, and sell servers if needed.
- * @async
  *
  * @param {NS} ns - The Netscript object.
  * @param {number} availMoney - The player's available money.

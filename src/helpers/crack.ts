@@ -1,5 +1,9 @@
 import { NS } from "Netscript";
 
+// TODO: Move this to constants
+/**
+ * All openers to use.
+ */
 const ALL_OPENERS = [
     "BruteSSH.exe",
     "FTPCrack.exe",
@@ -11,6 +15,7 @@ const ALL_OPENERS = [
 /**
  * Crack host(s) from Terminal.
  * @category Executable
+ * @export
  *
  * @example <caption>Crack single passed in host.</caption>
  * ```shell
@@ -38,6 +43,7 @@ export async function main(ns: NS) {
 /**
  * Crack given host using available port openers and nuke.
  * @category Importable
+ * @export
  *
  * @param {NS} ns - The Netscript object.
  * @param {string} hostname - Hostname to crack
@@ -59,6 +65,7 @@ export function crack(ns: NS, hostname: string) {
 /**
  * Get available port openers.
  * @category Importable
+ * @export
  *
  * @param {NS} ns - The Netscript object.
  * @returns {string[]} Port openers available.

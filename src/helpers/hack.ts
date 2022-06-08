@@ -3,6 +3,7 @@ import { NS } from "Netscript";
 /**
  * Hack host(s) from Terminal.
  * @category Executable
+ * @export
  *
  * @example <caption>Hack single passed in host.</caption>
  * ```shell
@@ -34,6 +35,7 @@ export async function main(ns: NS) {
 /**
  * Hack host at `hostname`.
  * @category Importable
+ * @export
  * @async
  *
  * @param {NS} ns - The Netscript object.

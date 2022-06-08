@@ -4,6 +4,7 @@ import { getPersonalServers, getRootedHosts } from "/helpers/discover";
 /**
  * Kill all scripts on all known servers.
  * @category Executable
+ * @export
  *
  * @example <caption>Kill all scripts, everywhere.</caption>
  * ```shell

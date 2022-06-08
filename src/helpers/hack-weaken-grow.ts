@@ -3,14 +3,17 @@ import { grow } from "/helpers/grow.js";
 import { hack } from "/helpers/hack.js";
 import { weaken } from "/helpers/weaken.js";
 
-// Min security level to interact with server
+/** Threshold to stop weakening server. */
 const SEC_LEVEL_THRESHOLD = 7;
+
+/** Threshold to stop growing server. */
 const MONEY_PCT_THRESHOLD = 0.5;
 
 /** 
  * run /helpers/a serial hack/weaken/grow script via the Terminal.
  * @deprecated Serial HWG has been replaced with `/node/ps-control-scheduler.js` as the recommended way to run HWG.
  * @category Executable
+ * @export
  * 
  * @example <caption>Run HWG on a single passed in host.</caption>
  * ```shell
@@ -44,6 +47,7 @@ export async function main(ns: NS) {
 /**
  * Run serial HWG on given `hostname`.
  * @category Importable
+ * @export
  * @async
  * @deprecated Serial HWG is not recommended. Please use a parallelized HWG with thread count percentages instead.
  *

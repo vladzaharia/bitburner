@@ -3,6 +3,7 @@ import { NS } from "Netscript";
 /**
  * Sleeps for `duration` and prints a user-readable string.
  * @category Importable
+ * @export
  * @async
  *
  * @param {NS} ns - The Netscript object.

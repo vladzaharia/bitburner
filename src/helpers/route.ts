@@ -4,6 +4,7 @@ import { canHack, getRoute } from "/helpers/discover.js";
 /**
  * Get route to a host using the Terminal.
  * @category Executable
+ * @export
  *
  * @example <caption>Gets route to single passed in host.</caption>
  * ```shell
@@ -28,19 +29,19 @@ export async function main(ns: NS) {
     for (const hostname of ns.args as string[]) {
         ns.print(`[route] Getting route to ${hostname}`);
 
-        await printRoute(ns, getRoute(ns, hostname));
+        printRoute(ns, getRoute(ns, hostname));
     }
 }
 
 /**
- * Connect to a host chain using `route` and backdoor the last server.
- * @alpha Does not currently backdoor, only prints out route.
+ * Print the route to a host.
  * @category Importable
+ * @export
  *
  * @param {NS} ns - The Netscript object.
  * @param {string[]} route - Route to use to backdoor, including target.
  */
-export async function printRoute(ns: NS, route: string[] | false) {
+export function printRoute(ns: NS, route: string[] | false) {
     if (route) {
         const _getRootedString = (hn: string) =>
             `${hn} [` +

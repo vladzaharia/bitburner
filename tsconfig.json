@@ -8,7 +8,7 @@
             "/_types/*": ["_types/*"],
             "/helpers/*": ["helpers/*"],
             "/lib/*": ["lib/*"],
-            "/node/*": ["node/*"],
+            "/runners/*": ["runners/*"],
             "/tools/*": ["tools/*"]
         },
         "outDir": "out/",

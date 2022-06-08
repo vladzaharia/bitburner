@@ -1,12 +1,16 @@
 import { NS } from "Netscript";
 import { getPortOpeners } from "/helpers/crack.js";
 
+/** Depth to search to */
 const DEPTH = 99;
+
+/** Hosts found */
 let foundHosts: string[] = [];
 
 /**
  * Get all available and crackable hosts via Terminal, to a default depth of 5.
  * @category Executable
+ * @export
  *
  * @example <caption>Discover hosts to depth of 5.</caption>
  * ```shell
@@ -35,7 +39,7 @@ export async function main(ns: NS) {
 /**
  * Get available hosts to a specified `depth`.
  * @category Importable
- * @async
+ * @export
  *
  * @param {NS} ns - The Netscript object.
  * @param {number} depth - The depth to search to.
@@ -57,7 +61,7 @@ export function getHosts(ns: NS, depth: number): string[] {
 /**
  * Get a list of all personal servers.
  * @category Importable
- * @async
+ * @export
  *
  * @param {NS} ns - The Netscript object.
  * @returns {string[]} All personal servers available from "home".
@@ -78,7 +82,7 @@ export function getPersonalServers(ns: NS): string[] {
 /**
  * Get list of all personal Control servers.
  * @category Importable
- * @async
+ * @export
  * @deprecated Control servers have been superceded by scripts running on "home"
  *
  * @param {NS} ns - The Netscript object.
@@ -96,7 +100,7 @@ export function getControlServers(ns: NS): string[] {
 /**
  * Get list of all personal Worker servers.
  * @category Importable
- * @async
+ * @export
  *
  * @param {NS} ns - The Netscript object.
  * @returns {string[]} All Worker servers available from "home".
@@ -113,7 +117,7 @@ export function getWorkerServers(ns: NS): string[] {
 /**
  * Get list of crackable hosts from "home".
  * @category Importable
- * @async
+ * @export
  * @see "crackable" - Can crack using current port openers.
  *
  * @param {NS} ns - The Netscript object.
@@ -142,7 +146,7 @@ export function getCrackableHosts(
 /** 
  * Get list of rooted hosts from "home".
  * @category Importable
- * @async
+ * @export
  * @see "rooted" - Was successfully cracked via `/helpers/crack.js`.
 
  * @param {NS} ns - The Netscript object.
@@ -171,7 +175,7 @@ export function getRootedHosts(
 /**
  * Get list of hackable hosts from "home".
  * @category Importable
- * @async
+ * @export
  * @see "hackable" - Is rooted, lower level than hacking level, and has max money > 0.
  *
  * @param {NS} ns - The Netscript object.
@@ -200,7 +204,7 @@ export function getHackableHosts(
 /**
  * Get route from "home" to `hostname`.
  * @category Importable
- * @async
+ * @export
  *
  * @param {NS} ns - The Netscript object.
  * @param {string} hostname - The hostname to try and get a path to.
@@ -248,7 +252,6 @@ export function getRoute(ns: NS, hostname: string): string[] | false {
 
 /**
  * Scan a host recursively, up to `maxDepth`.
- * @async
  *
  * @param {NS} ns - The Netscript object.
  * @param {string} hostname - The hostname to scan.
@@ -294,7 +297,6 @@ function scanHost(
 
 /**
  * Check if `hostname` can be cracked by current port openers.
- * @async
  *
  * @param {NS} ns - The Netscript object.
  * @param {string} hostname - The hostname to check.
@@ -313,7 +315,7 @@ function canCrack(ns: NS, hostname: string): boolean {
 
 /**
  * Check if `hostname` can be hacked by current hacking level.
- * @async
+ * @export
  *
  * @param {NS} ns - The Netscript object.
  * @param {string} hostname - The hostname to check.
