@@ -10,19 +10,13 @@ import {
  * @interface
  */
 export interface Augmentation {
-    /**
-     * The name of the city.
-     */
+    /** The name of the city. */
     name: Augmentations;
 
-    /**
-     * The requirements to gain an invitation to this faction.
-     */
+    /** The requirements to gain an invitation to this faction. */
     requirements: AugmentationRequirements;
 
-    /**
-     * Benefits to this augmentation.
-     */
+    /** Benefits to this augmentation. */
     benefits: AugmentationBenefits;
 }
 
@@ -31,28 +25,18 @@ export interface Augmentation {
  * @interface
  */
 export interface City {
-    /**
-     * The name of the city.
-     */
+    /** The name of the city. */
     name: Cities;
 
-    /**
-     * The enemies this city has.
-     */
+    /** The enemies this city has. */
     enemies: Cities[];
 
-    /**
-     * Faction-specific information for this city.
-     */
+    /** Faction-specific information for this city. */
     faction: {
-        /**
-         * The requirements to gain an invitation to this faction.
-         */
+        /** The requirements to gain an invitation to this faction. */
         requirements: FactionRequirements;
 
-        /**
-         * Augmentations available for purchase.
-         */
+        /** Augmentations available for purchase. */
         augmentations: Augmentations[];
     };
 }
@@ -62,19 +46,13 @@ export interface City {
  * @interface
  */
 export interface Company {
-    /**
-     * Name of the company.
-     */
+    /** Name of the company. */
     name: Companies;
 
-    /**
-     * City the company is located in.
-     */
+    /** City the company is located in. */
     location: Cities;
 
-    /**
-     * Hostname of the server, if available.
-     */
+    /** Hostname of the server, if available. */
     hostname?: string;
 }
 
@@ -83,18 +61,12 @@ export interface Company {
  * @interface
  */
 export interface MegaCorporation extends Company {
-    /**
-     * Faction-specific information for this company.
-     */
+    /** Faction-specific information for this company. */
     faction: {
-        /**
-         * The requirements to gain an invitation to this faction.
-         */
+        /** The requirements to gain an invitation to this faction. */
         requirements: FactionRequirements;
 
-        /**
-         * Augmentations available for purchase.
-         */
+        /** Augmentations available for purchase. */
         augmentations: Augmentations[];
     };
 }
@@ -104,19 +76,13 @@ export interface MegaCorporation extends Company {
  * @interface
  */
 export interface Faction {
-    /**
-     * The faction name.
-     */
+    /** The faction name. */
     name: Factions;
 
-    /**
-     * The requirements to gain an invitation to this faction.
-     */
+    /** The requirements to gain an invitation to this faction. */
     requirements: FactionRequirements;
 
-    /**
-     * Augmentations available for purchase.
-     */
+    /** Augmentations available for purchase. */
     augmentations: Augmentations[];
 }
 
@@ -125,14 +91,10 @@ export interface Faction {
  * @interface
  */
 export interface AugmentationRequirements {
-    /**
-     * Amount of money needed.
-     */
+    /** Amount of money needed. */
     money?: number;
 
-    /**
-     * Company/Faction reputation needed.
-     */
+    /** Company/Faction reputation needed. */
     reputation?: number;
 }
 
@@ -140,8 +102,95 @@ export interface AugmentationRequirements {
  * Benefits from purchasing an augmentation.
  * @interface
  */
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface AugmentationBenefits {}
+export interface AugmentationBenefits {
+    /** Hacking skill multipliers. */
+    hack?: HackingBenefits;
+
+    /** Strength skill multipliers. */
+    str?: SkillBenefits;
+
+    /** Defense skill multipliers. */
+    def?: SkillBenefits;
+
+    /** Dexterity skill multipliers. */
+    dex?: SkillBenefits;
+
+    /** Agility skill multipliers. */
+    agi?: SkillBenefits;
+
+    /** Charisma skill multipliers. */
+    cha?: SkillBenefits;
+
+    /** Hacknet multipliers. */
+    hacknet?: {
+        /** Money gained from hacknets. */
+        money?: number;
+
+        /** Cost of purchasing a new hacknet node. */
+        cost?: number;
+
+        /** Cost of upgrading level. */
+        level_cost?: number;
+
+        /** Cost of upgrading RAM. */
+        ram_cost?: number;
+
+        /** Cost of upgrading CPU cores. */
+        core_cost?: number;
+    };
+
+    /** Company/Faction multipliers. */
+    work?: {
+        /** Reputation gained from working for a company. */
+        company?: number;
+
+        /** Reputation gained from working for a faction. */
+        faction?: number;
+
+        /** Money gained from working for a company. */
+        money?: number;
+    };
+
+    /** Crime multipliers. */
+    crime?: {
+        /** Success rate of crimes. */
+        success?: number;
+
+        /** Money gained from crimes. */
+        money?: number;
+    };
+}
+
+/**
+ * Benefits for a given skill.
+ * @interface
+ */
+interface SkillBenefits {
+    /** Skill multiplier.. */
+    mult?: number;
+
+    /** Exp gain multiplier for skill. */
+    exp_mult?: number;
+}
+
+/**
+ * Benefits for the hacking skill.
+ * @interface
+ * @extends {SkillBenefits}
+ */
+interface HackingBenefits extends SkillBenefits {
+    /** Player's hacking chance. */
+    chance?: number;
+
+    /** Player's hacking speed. */
+    speed?: number;
+
+    /** Money gained from hacking. */
+    money?: number;
+
+    /** Improves grow() operation. */
+    grow?: number;
+}
 
 /**
  * Requirements to gain access to a faction.
@@ -149,53 +198,33 @@ export interface AugmentationBenefits {}
  * @extends {AugmentationRequirements}
  */
 export interface FactionRequirements extends AugmentationRequirements {
-    /**
-     * Hacking level needed.
-     */
+    /** Hacking level needed. */
     level?: number;
 
-    /**
-     * Combat level (Str, Def, Agi, Dex) needed.
-     */
+    /** Combat level (Str, Def, Agi, Dex) needed. */
     combat?: number;
 
-    /**
-     * List of cities you have to be in.
-     */
+    /** List of cities you have to be in. */
     location?: Cities[];
 
-    /**
-     * Server needed to backdoor.
-     */
+    /** Server needed to backdoor. */
     backdoor?: string;
 
-    /**
-     * Number of augmentations needed.
-     */
+    /** Number of augmentations needed. */
     augmentations?: number;
 
-    /**
-     * Karma level needed (negative).
-     */
+    /** Karma level needed (negative). */
     karma?: number;
 
-    /**
-     * Number of people killed.
-     */
+    /** Number of people killed. */
     killed?: number;
 
-    /**
-     * User needs certain hacknet requirements.
-     */
+    /** User needs certain hacknet requirements. */
     hacknet?: boolean;
 
-    /**
-     * User needs to be a C-Level executive.
-     */
+    /** User needs to be a C-Level executive. */
     clevel?: boolean;
 
-    /**
-     * User cannot work at CIA / NSA.
-     */
+    /** User cannot work at CIA / NSA. */
     notgov?: boolean;
 }
