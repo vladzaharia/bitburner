@@ -5,6 +5,7 @@
         "rootDir": "src/",
         "baseUrl": "src/",
         "paths": {
+            "/_types/*": ["_types/*"],
             "/helpers/*": ["helpers/*"],
             "/lib/*": ["lib/*"],
             "/node/*": ["node/*"],
