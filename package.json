@@ -48,7 +48,7 @@
         "lint": "gulp lint",
         "lint:eslint": "gulp eslint",
         "lint:prettier": "gulp prettier",
-        "serve": "npm run build && http-server ./out",
+        "serve": "npm run build && (npm run build:watch & http-server ./out)",
         "sync": "bitburner-sync",
         "sync:watch": "bitburner-sync --watch"
     },
