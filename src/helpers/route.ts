@@ -1,4 +1,5 @@
 import { NS } from "Netscript";
+
 import { canHack, getRoute } from "/helpers/discover.js";
 
 /**

@@ -1,4 +1,5 @@
 import { NS } from "Netscript";
+
 import { getPersonalServers, getRootedHosts } from "/helpers/discover";
 
 /**

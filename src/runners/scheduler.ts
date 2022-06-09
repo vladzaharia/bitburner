@@ -1,4 +1,5 @@
 import { NS } from "Netscript";
+
 import {
     getHackableHosts,
     getRootedHosts,

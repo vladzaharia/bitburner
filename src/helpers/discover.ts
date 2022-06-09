@@ -1,4 +1,5 @@
 import { NS } from "Netscript";
+
 import { getPortOpeners } from "/helpers/crack.js";
 
 /** Depth to search to */

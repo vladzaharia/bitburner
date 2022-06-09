@@ -6,12 +6,8 @@ import { City } from "/_types/interfaces/city.js";
 export const CITIES: City[] = [
     {
         name: "Sector-12",
-        enemies: ["Chongqing", "New Tokyo", "Ishima", "Volhaven"],
+        enemies: ["Chongqing", "Ishima", "New Tokyo", "Volhaven"],
         faction: {
-            requirements: {
-                money: 15000000,
-                location: ["Sector-12"],
-            },
             augmentations: [
                 "Augmented Targeting I",
                 "Augmented Targeting II",
@@ -20,16 +16,16 @@ export const CITIES: City[] = [
                 "Speech Processor Implant",
                 "Wired Reflexes",
             ],
+            requirements: {
+                location: ["Sector-12"],
+                money: 15000000,
+            },
         },
     },
     {
         name: "Chongqing",
-        enemies: ["Sector-12", "Aevum", "Volhaven"],
+        enemies: ["Aevum", "Sector-12", "Volhaven"],
         faction: {
-            requirements: {
-                money: 20000000,
-                location: ["Chongqing"],
-            },
             augmentations: [
                 "DataJack",
                 "Neuralstimulator",
@@ -37,16 +33,16 @@ export const CITIES: City[] = [
                 "Nuoptimal Nootropic Injector Implant",
                 "Speech Processor Implant",
             ],
+            requirements: {
+                location: ["Chongqing"],
+                money: 20000000,
+            },
         },
     },
     {
         name: "New Tokyo",
-        enemies: ["Sector-12", "Aevum", "Volhaven"],
+        enemies: ["Aevum", "Sector-12", "Volhaven"],
         faction: {
-            requirements: {
-                money: 20000000,
-                location: ["New Tokyo"],
-            },
             augmentations: [
                 "DataJack",
                 "Neuralstimulator",
@@ -54,16 +50,16 @@ export const CITIES: City[] = [
                 "NutriGen Implant",
                 "Speech Processor Implant",
             ],
+            requirements: {
+                location: ["New Tokyo"],
+                money: 20000000,
+            },
         },
     },
     {
         name: "Ishima",
-        enemies: ["Sector-12", "Aevum", "Volhaven"],
+        enemies: ["Aevum", "Sector-12", "Volhaven"],
         faction: {
-            requirements: {
-                money: 30000000,
-                location: ["Ishima"],
-            },
             augmentations: [
                 "Augmented Targeting I",
                 "Combat Rib I",
@@ -73,16 +69,16 @@ export const CITIES: City[] = [
                 "Speech Processor Implant",
                 "Wired Reflexes",
             ],
+            requirements: {
+                location: ["Ishima"],
+                money: 30000000,
+            },
         },
     },
     {
         name: "Aevum",
-        enemies: ["Chongqing", "New Tokyo", "Ishima", "Volhaven"],
+        enemies: ["Chongqing", "Ishima", "New Tokyo", "Volhaven"],
         faction: {
-            requirements: {
-                money: 40000000,
-                location: ["Aevum"],
-            },
             augmentations: [
                 "Neuralstimulator",
                 "Neurotrainer I",
@@ -91,16 +87,16 @@ export const CITIES: City[] = [
                 "Synaptic Enhancement Implant",
                 "Wired Reflexes",
             ],
+            requirements: {
+                location: ["Aevum"],
+                money: 40000000,
+            },
         },
     },
     {
         name: "Volhaven",
-        enemies: ["Sector-12", "Aevum", "Chongqing", "New Tokyo", "Ishima"],
+        enemies: ["Aevum", "Chongqing", "Ishima", "New Tokyo", "Sector-12"],
         faction: {
-            requirements: {
-                money: 50000000,
-                location: ["Volhaven"],
-            },
             augmentations: [
                 "Combat Rib I",
                 "Combat Rib II",
@@ -110,6 +106,10 @@ export const CITIES: City[] = [
                 "Speech Processor Implant",
                 "Wired Reflexes",
             ],
+            requirements: {
+                location: ["Volhaven"],
+                money: 50000000,
+            },
         },
     },
 ];

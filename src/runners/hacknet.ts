@@ -1,4 +1,5 @@
 import { Hacknet, NS } from "Netscript";
+
 import { sleep } from "/helpers/sleep.js";
 
 /** Gain per level upgrade (manually added) */

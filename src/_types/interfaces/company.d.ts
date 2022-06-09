@@ -1,5 +1,5 @@
-import { Companies, Cities, Augmentations } from "/_types/types.js";
 import { FactionRequirements } from "/_types/interfaces/requirements.js";
+import { Augmentations, Cities, Companies } from "/_types/types.js";
 
 /**
  * A company that can be worked at.

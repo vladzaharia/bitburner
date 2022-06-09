@@ -4,8 +4,8 @@ import * as eslint from "gulp-eslint";
 import * as filelist from "gulp-filelist";
 import * as prettier from "gulp-prettier";
 import * as run from "gulp-run";
-import * as ts from "gulp-typescript";
 import * as typedoc from "gulp-typedoc";
+import * as ts from "gulp-typescript";
 
 // ### Install tasks
 gulp.task("postinstall-config", () => {
@@ -107,7 +107,7 @@ gulp.task("lint-prettier", () => {
             "!out/**",
             "!**/*.tt",
         ])
-        .pipe(prettier({ tabWidth: 4 }))
+        .pipe(prettier(".prettierrc.json"))
         .pipe(gulp.dest("."));
 });
 gulp.task("lint", gulp.series("lint-eslint", "lint-prettier"));

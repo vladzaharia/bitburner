@@ -1,4 +1,5 @@
 import { NS } from "Netscript";
+
 import { sleep } from "/helpers/sleep.js";
 
 /** RAM to purchase, determined by available money and cost for max servers. */

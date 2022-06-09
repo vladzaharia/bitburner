@@ -1,6 +1,6 @@
-import { Augmentations, Factions } from "/_types/types.js";
 import { AugmentationBenefits } from "/_types/interfaces/benefits.js";
 import { AugmentationRequirements } from "/_types/interfaces/requirements.js";
+import { Augmentations, Factions } from "/_types/types.js";
 
 /**
  * An augmentation in Bitburner.

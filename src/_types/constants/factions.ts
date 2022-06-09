@@ -1,7 +1,7 @@
-import { MegaCorporations } from "/_types/types.js";
 import { CITIES } from "/_types/constants/cities.js";
 import { MEGACORPS } from "/_types/constants/companies.js";
 import { Faction } from "/_types/interfaces/faction.js";
+import { MegaCorporations } from "/_types/types.js";
 
 /**
  * All factions, including cities and MegaCorporations.
@@ -9,155 +9,155 @@ import { Faction } from "/_types/interfaces/faction.js";
 export const FACTIONS: Faction[] = [
     {
         name: "CyberSec",
+        augmentations: [],
         requirements: {
             backdoor: "CSEC",
         },
-        augmentations: [],
     },
     {
         name: "Tian Di Hui",
-        requirements: {
-            money: 1000000,
-            level: 50,
-            location: ["Chongqing", "New Tokyo", "Ishima"],
-        },
         augmentations: [],
+        requirements: {
+            level: 50,
+            location: ["Chongqing", "Ishima", "New Tokyo"],
+            money: 1000000,
+        },
     },
     {
         name: "Netburners",
-        requirements: {
-            level: 80,
-            hacknet: true,
-        },
         augmentations: [],
+        requirements: {
+            hacknet: true,
+            level: 80,
+        },
     },
     {
         name: "NiteSec",
+        augmentations: [],
         requirements: {
             backdoor: "avmnite-02h",
         },
-        augmentations: [],
     },
     {
         name: "The Black Hand",
+        augmentations: [],
         requirements: {
             backdoor: "I.I.I.I",
         },
-        augmentations: [],
     },
     {
         name: "BitRunners",
+        augmentations: [],
         requirements: {
             backdoor: "run4theh111z",
         },
-        augmentations: [],
     },
     {
         name: "Slum Snakes",
+        augmentations: [],
         requirements: {
             combat: 30,
             karma: -9,
             money: 1000000,
         },
-        augmentations: [],
     },
     {
         name: "Tetrads",
+        augmentations: [],
         requirements: {
             combat: 75,
             karma: -18,
-            location: ["Chongqing", "New Tokyo", "Ishima"],
+            location: ["Chongqing", "Ishima", "New Tokyo"],
         },
-        augmentations: [],
     },
     {
         name: "Silhouette",
+        augmentations: [],
         requirements: {
             clevel: true,
-            money: 15000000,
             karma: -22,
+            money: 15000000,
         },
-        augmentations: [],
     },
     {
         name: "Speakers for the Dead",
+        augmentations: [],
         requirements: {
-            level: 100,
             combat: 300,
-            killed: 30,
             karma: -45,
+            killed: 30,
+            level: 100,
             notGov: true,
         },
-        augmentations: [],
     },
     {
         name: "The Dark Army",
-        requirements: {
-            level: 300,
-            combat: 300,
-            killed: 5,
-            karma: -45,
-            notGov: true,
-            location: ["Chongqing"],
-        },
         augmentations: [],
+        requirements: {
+            combat: 300,
+            karma: -45,
+            killed: 5,
+            level: 300,
+            location: ["Chongqing"],
+            notGov: true,
+        },
     },
     {
         name: "The Syndicate",
+        augmentations: [],
         requirements: {
-            level: 200,
             combat: 200,
             karma: -90,
+            level: 200,
+            location: ["Aevum", "Sector-12"],
             money: 10000000,
             notGov: true,
-            location: ["Aevum", "Sector-12"],
         },
-        augmentations: [],
     },
     {
         name: "The Covenant",
+        augmentations: [],
         requirements: {
-            level: 850,
-            combat: 850,
             augmentations: 20,
+            combat: 850,
+            level: 850,
             money: 75000000000,
         },
-        augmentations: [],
     },
     {
         name: "Daedalus",
+        augmentations: [],
         requirements: {
-            level: 2500,
-            combat: 1500,
             augmentations: 30,
+            combat: 1500,
+            level: 2500,
             money: 100000000000,
         },
-        augmentations: [],
     },
     {
         name: "Illuminati",
+        augmentations: [],
         requirements: {
-            level: 1500,
-            combat: 1200,
             augmentations: 30,
+            combat: 1200,
+            level: 1500,
             money: 150000000000,
         },
-        augmentations: [],
     },
 
     ...CITIES.map((c) => {
         return {
             name: c.name,
-            requirements: c.faction.requirements,
             augmentations: c.faction.augmentations,
+            requirements: c.faction.requirements,
         };
     }),
 
     ...MEGACORPS.map((mc) => {
         return {
             name: mc.name as MegaCorporations,
-            requirements: mc.faction.requirements,
             augmentations: mc.faction.augmentations,
+            requirements: mc.faction.requirements,
         };
     }),
 ];

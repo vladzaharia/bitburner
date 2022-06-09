@@ -1012,6 +1012,280 @@ export const AUGMENTATIONS: Augmentation[] = [
             },
         },
     },
+    {
+        name: "Neural Accelerator",
+        factions: ["BitRunners"],
+        requirements: {
+            money: 1750000000,
+            reputation: 200000,
+        },
+        benefits: {
+            hack: {
+                exp: 1.15,
+                money: 1.2,
+                skill: 1.1,
+            },
+        },
+    },
+    {
+        name: "Neural-Retention Enhancement",
+        factions: ["NiteSec"],
+        requirements: {
+            money: 250000000,
+            reputation: 20000,
+        },
+        benefits: {
+            hack: {
+                exp: 1.25,
+            },
+        },
+    },
+    {
+        name: "Neuralstimulator",
+        factions: [
+            "Bachman & Associates",
+            "Clarke Incorporated",
+            "Four Sigma",
+            "The Black Hand",
+            "Aevum",
+            "Chongqing",
+            "Ishima",
+            "New Tokyo",
+            "Sector-12",
+            "Volhaven",
+        ],
+        requirements: {
+            money: 3000000000,
+            reputation: 50000,
+        },
+        benefits: {
+            hack: {
+                chance: 1.1,
+                exp: 1.12,
+                speed: 1.02,
+            },
+        },
+    },
+    {
+        name: "Neuregen Gene Modification",
+        factions: ["Chongqing"],
+        requirements: {
+            money: 375000000,
+            reputation: 37500,
+        },
+        benefits: {
+            hack: {
+                exp: 1.4,
+            },
+        },
+    },
+    {
+        name: "Neuronal Densification",
+        factions: ["Clarke Incorporated"],
+        requirements: {
+            money: 1375000000,
+            reputation: 187500,
+        },
+        benefits: {
+            hack: {
+                speed: 1.03,
+                exp: 1.1,
+                skill: 1.15,
+            },
+        },
+    },
+    {
+        name: "Neurotrainer I",
+        factions: ["CyberSec"],
+        requirements: {
+            money: 4000000,
+            reputation: 1000,
+        },
+        benefits: {
+            str: {
+                exp: 1.1,
+            },
+            def: {
+                exp: 1.1,
+            },
+            dex: {
+                exp: 1.1,
+            },
+            agi: {
+                exp: 1.1,
+            },
+            cha: {
+                exp: 1.1,
+            },
+            hack: {
+                exp: 1.1,
+            },
+        },
+    },
+    {
+        name: "Neurotrainer II",
+        factions: ["BitRunners", "NiteSec"],
+        requirements: {
+            money: 45000000,
+            reputation: 10000,
+        },
+        benefits: {
+            str: {
+                exp: 1.15,
+            },
+            def: {
+                exp: 1.15,
+            },
+            dex: {
+                exp: 1.15,
+            },
+            agi: {
+                exp: 1.15,
+            },
+            cha: {
+                exp: 1.15,
+            },
+            hack: {
+                exp: 1.15,
+            },
+        },
+    },
+    {
+        name: "Neurotrainer III",
+        factions: ["NWO", "Four Sigma"],
+        requirements: {
+            money: 130000000,
+            reputation: 25000,
+        },
+        benefits: {
+            str: {
+                exp: 1.2,
+            },
+            def: {
+                exp: 1.2,
+            },
+            dex: {
+                exp: 1.2,
+            },
+            agi: {
+                exp: 1.2,
+            },
+            cha: {
+                exp: 1.2,
+            },
+            hack: {
+                exp: 1.2,
+            },
+        },
+    },
+    {
+        name: "nextSENS Gene Modification",
+        factions: ["Clarke Incorporated"],
+        requirements: {
+            money: 1925000000,
+            reputation: 437500,
+        },
+        benefits: {
+            str: {
+                skill: 1.2,
+            },
+            def: {
+                skill: 1.2,
+            },
+            dex: {
+                skill: 1.2,
+            },
+            agi: {
+                skill: 1.2,
+            },
+            cha: {
+                skill: 1.2,
+            },
+            hack: {
+                skill: 1.2,
+            },
+        },
+    },
+    {
+        name: "Nuoptimal Nootropic Injector Implant",
+        factions: [
+            "Bachman & Associates",
+            "Clarke Incorporated",
+            "Four Sigma",
+            "Chongqing",
+            "Ishima",
+            "New Tokyo",
+            "Volhaven",
+            "Tian Di Hui",
+        ],
+        requirements: {
+            money: 20000000,
+            reputation: 5000,
+        },
+        benefits: {
+            work: {
+                company: 1.2,
+            },
+        },
+    },
+    {
+        name: "NutriGen Implant",
+        factions: ["New Tokyo"],
+        requirements: {
+            money: 2500000,
+            reputation: 6250,
+        },
+        benefits: {
+            str: {
+                exp: 1.2,
+            },
+            def: {
+                exp: 1.2,
+            },
+            agi: {
+                exp: 1.2,
+            },
+            dex: {
+                exp: 1.2,
+            },
+        },
+    },
+    {
+        name: "OmniTek InfoLoad",
+        factions: ["OmniTek Incorporated"],
+        requirements: {
+            money: 2875000000,
+            reputation: 625000,
+        },
+        benefits: {
+            hack: {
+                exp: 1.25,
+                skill: 1.2,
+            },
+        },
+    },
+    {
+        name: "PC Direct-Neural Interface",
+        factions: [
+            "Bachman & Associates",
+            "Clarke Incorporated",
+            "Four Sigma",
+            "Chongqing",
+            "Ishima",
+            "New Tokyo",
+            "Volhaven",
+            "Tian Di Hui",
+        ],
+        requirements: {
+            money: 20000000,
+            reputation: 5000,
+        },
+        benefits: {
+            work: {
+                company: 1.2,
+            },
+        },
+    },
 ];
 
 /**

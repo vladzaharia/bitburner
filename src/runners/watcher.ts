@@ -1,4 +1,5 @@
 import { NS } from "Netscript";
+
 import { getHackableHosts, getPersonalServers } from "/helpers/discover.js";
 import { sleep } from "/helpers/sleep.js";
 

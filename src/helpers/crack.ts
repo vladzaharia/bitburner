@@ -1,4 +1,5 @@
 import { NS } from "Netscript";
+
 import { ALL_OPENERS } from "/_types/constants/program.js";
 
 /**

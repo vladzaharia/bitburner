@@ -1,5 +1,5 @@
-import { Augmentations, Factions } from "/_types/types.js";
 import { FactionRequirements } from "/_types/interfaces/requirements.js";
+import { Augmentations, Factions } from "/_types/types.js";
 
 /**
  * A faction and its requirements.

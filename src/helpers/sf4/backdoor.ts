@@ -1,4 +1,5 @@
 import { NS } from "Netscript";
+
 import { crack } from "/helpers/crack.js";
 import { getRoute } from "/helpers/discover.js";
 

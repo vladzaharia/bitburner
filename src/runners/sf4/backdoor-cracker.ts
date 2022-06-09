@@ -1,12 +1,13 @@
 import { NS } from "Netscript";
-import { backdoor } from "/helpers/sf4/backdoor.js";
+
+import { crack } from "/helpers/crack";
 import {
     getCrackableHosts,
     getRootedHosts,
     getRoute,
 } from "/helpers/discover.js";
+import { backdoor } from "/helpers/sf4/backdoor.js";
 import { sleep } from "/helpers/sleep.js";
-import { crack } from "/helpers/crack";
 
 /**
  * Automatically backdoor all available hosts.

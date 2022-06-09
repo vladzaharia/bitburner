@@ -1,10 +1,11 @@
 import { NS } from "Netscript";
+
 import {
     getControlServers,
-    getRootedHosts,
-    getPersonalServers,
-    getWorkerServers,
     getHosts,
+    getPersonalServers,
+    getRootedHosts,
+    getWorkerServers,
 } from "/helpers/discover.js";
 import { exec } from "/helpers/exec.js";
 import { scp } from "/helpers/scp.js";

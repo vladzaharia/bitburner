@@ -1,5 +1,5 @@
-import { Augmentations, Cities } from "/_types/types.js";
 import { FactionRequirements } from "/_types/interfaces/requirements.js";
+import { Augmentations, Cities } from "/_types/types.js";
 
 /**
  * A city in Bitburner.

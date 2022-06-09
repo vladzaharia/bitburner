@@ -1,5 +1,5 @@
-import { replaceInFile, ReplaceInFileConfig } from "replace-in-file";
 import { copyFile, existsSync } from "fs";
+import { ReplaceInFileConfig, replaceInFile } from "replace-in-file";
 
 /**
  * Copy `file`.tt to `file` and replace any instances of `search` with `replacement` using `replace-in-file`.
