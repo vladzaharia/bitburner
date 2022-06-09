@@ -1,4 +1,6 @@
 {
+    "include": ["src/**/*"],
+    "exclude": ["gulpfile.ts", "scripts/**/*"],
     "compilerOptions": {
         "target": "ES2021",
         "module": "ES2020",
@@ -14,5 +16,10 @@
         "moduleResolution": "node",
         "strictNullChecks": true,
         "strictPropertyInitialization": true
+    },
+    "ts-node": {
+        "compilerOptions": {
+            "module": "commonjs"
+        }
     }
 }

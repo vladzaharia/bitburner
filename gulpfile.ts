@@ -1,11 +1,26 @@
-var gulp = require("gulp");
-var clean = require("gulp-clean");
-var eslint = require("gulp-eslint");
-var filelist = require("gulp-filelist");
-const prettier = require("gulp-prettier");
-var run = require("gulp-run");
-var ts = require("gulp-typescript");
-var typedoc = require("gulp-typedoc");
+import * as gulp from "gulp";
+import * as clean from "gulp-clean";
+import * as eslint from "gulp-eslint";
+import * as filelist from "gulp-filelist";
+import * as prettier from "gulp-prettier";
+import * as run from "gulp-run";
+import * as ts from "gulp-typescript";
+import * as typedoc from "gulp-typedoc";
+
+// ### Install tasks
+gulp.task("postinstall-config", () => {
+    return gulp
+        .src("scripts/postinstall/retrieve_config.ts", { read: false })
+        .pipe(run("ts-node ${file.path}"));
+});
+
+gulp.task("postinstall-defs", () => {
+    return gulp
+        .src("scripts/postinstall/update_defs.ts", { read: false })
+        .pipe(run("ts-node ${file.path}"));
+});
+
+gulp.task("postinstall", gulp.series("postinstall-defs", "postinstall-config"));
 
 // ### Base tasks
 gulp.task("clean", () => {
@@ -14,10 +29,10 @@ gulp.task("clean", () => {
 
 gulp.task("compile", () => {
     // Get TS Project for compilation
-    var tsProject = ts.createProject("tsconfig.json");
+    const tsProject = ts.createProject("tsconfig.json");
 
     // Compile
-    var result = tsProject.src().pipe(tsProject());
+    const result = tsProject.src().pipe(tsProject());
 
     // Output to ./out
     return result.js.pipe(gulp.dest("out"));
@@ -38,10 +53,9 @@ gulp.task("generate-docs-md", () => {
             json: "./out/docs.json",
 
             name: "Bitburner",
-            categorizeByGroup: false,
             exclude: "./src/lib/**",
             gitRevision: "main",
-            plugin: ["typedoc-github-wiki-theme", "typedoc-plugin-markdown"],
+            plugins: ["typedoc-github-wiki-theme", "typedoc-plugin-markdown"],
             theme: "github-wiki",
             version: true,
         })
@@ -55,10 +69,9 @@ gulp.task("generate-docs-html", () => {
             json: "./out/docs.json",
 
             name: "Bitburner",
-            categorizeByGroup: false,
             exclude: "./src/lib/**",
             gitRevision: "main",
-            plugin: [],
+            plugins: [],
             theme: "default",
             version: true,
         })
@@ -98,21 +111,6 @@ gulp.task("lint-prettier", () => {
         .pipe(gulp.dest("."));
 });
 gulp.task("lint", gulp.series("lint-eslint", "lint-prettier"));
-
-// ### Install tasks
-gulp.task("postinstall-config", () => {
-    return gulp
-        .src("scripts/postinstall/retrieve_config.js", { read: false })
-        .pipe(run("node ${file.path}"));
-});
-
-gulp.task("postinstall-defs", () => {
-    return gulp
-        .src("scripts/postinstall/update_defs.js", { read: false })
-        .pipe(run("node ${file.path}"));
-});
-
-gulp.task("postinstall", gulp.series("postinstall-defs", "postinstall-config"));
 
 // ### Watch tasks
 gulp.task("watch", () => {
