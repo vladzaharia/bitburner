@@ -1,3 +1,5 @@
+import { Programs } from "/_types/types.js";
+
 /**
  * Benefits from purchasing an augmentation.
  * @interface
@@ -64,7 +66,7 @@ export interface AugmentationBenefits {
     startingMoney?: number;
 
     /** Keeps program between augmentation installs. */
-    programs?: string[];
+    programs?: Programs[];
 
     /** Red pill gains access to endgame. */
     endgame?: boolean;
