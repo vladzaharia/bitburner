@@ -5,66 +5,60 @@ import { Augmentation } from "/_types/interfaces/augmentation.js";
  */
 export const AUGMENTATIONS: Augmentation[] = [
     {
-        name: "ADR-V1 Pheromone Gene",
-        factions: [
-            "MegaCorp",
-            "NWO",
-            "Four Sigma",
-            "The Syndicate",
-            "Tian Di Hui",
-        ],
-        requirements: {
-            money: 17500000,
-            reputation: 3750,
-        },
         benefits: {
             work: {
                 company: 1.1,
                 faction: 1.1,
             },
         },
+        factions: [
+            "Four Sigma",
+            "MegaCorp",
+            "NWO",
+            "The Syndicate",
+            "Tian Di Hui",
+        ],
+        name: "ADR-V1 Pheromone Gene",
+        requirements: {
+            money: 17500000,
+            reputation: 3750,
+        },
     },
     {
-        name: "ADR-V2 Pheromone Gene",
-        factions: [
-            "Bachman & Associates",
-            "Clarke Incorporated",
-            "Four Sigma",
-            "Silhouette",
-        ],
-        requirements: {
-            money: 550000000,
-            reputation: 62500,
-        },
         benefits: {
             work: {
                 company: 1.2,
                 faction: 1.2,
             },
         },
+        factions: [
+            "Bachman & Associates",
+            "Clarke Incorporated",
+            "Four Sigma",
+            "Silhouette",
+        ],
+        name: "ADR-V2 Pheromone Gene",
+        requirements: {
+            money: 550000000,
+            reputation: 62500,
+        },
     },
     {
+        benefits: {
+            hack: {
+                money: 1.15,
+                skill: 1.12,
+                speed: 1.03,
+            },
+        },
+        factions: ["BitRunners", "Fulcrum Technologies"],
         name: "Artificial Bio-neural Network Implant",
-        factions: ["Fulcrum Technologies", "BitRunners"],
         requirements: {
             money: 3000000000,
             reputation: 275000,
         },
-        benefits: {
-            hack: {
-                money: 1.15,
-                speed: 1.03,
-                skill: 1.12,
-            },
-        },
     },
     {
-        name: "Artificial Synaptic Potentiation",
-        factions: ["The Black Hand", "NiteSec"],
-        requirements: {
-            money: 80000000,
-            reputation: 6250,
-        },
         benefits: {
             hack: {
                 chance: 1.05,
@@ -72,122 +66,116 @@ export const AUGMENTATIONS: Augmentation[] = [
                 speed: 1.02,
             },
         },
+        factions: ["NiteSec", "The Black Hand"],
+        name: "Artificial Synaptic Potentiation",
+        requirements: {
+            money: 80000000,
+            reputation: 6250,
+        },
     },
     {
-        name: "Augmented Targeting I",
-        factions: [
-            "Blade Industries",
-            "OmniTek Incorporated",
-            "KuaiGong International",
-            "Ishima",
-            "Sector-12",
-            "Volhaven",
-            "The Dark Army",
-            "The Syndicate",
-            "Slum Snakes",
-        ],
-        requirements: {
-            money: 15000000,
-            reputation: 5000,
-        },
         benefits: {
             dex: {
                 skill: 1.1,
             },
         },
-    },
-    {
-        name: "Augmented Targeting II",
         factions: [
             "Blade Industries",
-            "OmniTek Incorporated",
-            "KuaiGong International",
             "Ishima",
+            "KuaiGong International",
+            "OmniTek Incorporated",
             "Sector-12",
-            "Volhaven",
+            "Slum Snakes",
             "The Dark Army",
             "The Syndicate",
+            "Volhaven",
         ],
+        name: "Augmented Targeting I",
         requirements: {
-            money: 42500000,
-            reputation: 8750,
+            money: 15000000,
+            reputation: 5000,
         },
+    },
+    {
         benefits: {
             dex: {
                 skill: 1.2,
             },
         },
+        factions: [
+            "Blade Industries",
+            "Ishima",
+            "KuaiGong International",
+            "OmniTek Incorporated",
+            "Sector-12",
+            "The Dark Army",
+            "The Syndicate",
+            "Volhaven",
+        ],
+        name: "Augmented Targeting II",
+        requirements: {
+            money: 42500000,
+            reputation: 8750,
+        },
     },
     {
-        name: "Augmented Targeting III",
+        benefits: {
+            dex: {
+                skill: 1.3,
+            },
+        },
         factions: [
-            "The Covenant",
             "Blade Industries",
-            "OmniTek Incorporated",
             "KuaiGong International",
+            "OmniTek Incorporated",
+            "The Covenant",
             "The Dark Army",
             "The Syndicate",
         ],
+        name: "Augmented Targeting III",
         requirements: {
             money: 115000000,
             reputation: 27500,
         },
+    },
+    {
         benefits: {
             dex: {
                 skill: 1.3,
             },
+            str: {
+                skill: 1.3,
+            },
         },
-    },
-    {
-        name: "Bionic Arms",
         factions: ["Tetrads"],
+        name: "Bionic Arms",
         requirements: {
             money: 275000000,
             reputation: 62500,
         },
-        benefits: {
-            str: {
-                skill: 1.3,
-            },
-            dex: {
-                skill: 1.3,
-            },
-        },
     },
     {
-        name: "Bionic Legs",
-        factions: [
-            "Blade Industries",
-            "OmniTek Incorporated",
-            "KuaiGong International",
-            "Speakers for the Dead",
-            "The Syndicate",
-        ],
-        requirements: {
-            money: 375000000,
-            reputation: 150000,
-        },
         benefits: {
             agi: {
                 skill: 1.6,
             },
         },
-    },
-    {
-        name: "Bionic Spine",
         factions: [
             "Blade Industries",
-            "OmniTek Incorporated",
             "KuaiGong International",
+            "OmniTek Incorporated",
             "Speakers for the Dead",
             "The Syndicate",
         ],
+        name: "Bionic Legs",
         requirements: {
-            money: 125000000,
-            reputation: 45000,
+            money: 375000000,
+            reputation: 150000,
         },
+    },
+    {
         benefits: {
-            str: {
+            agi: {
                 skill: 1.15,
             },
             def: {
@@ -196,18 +184,24 @@ export const AUGMENTATIONS: Augmentation[] = [
             dex: {
                 skill: 1.15,
             },
-            agi: {
+            str: {
                 skill: 1.15,
             },
         },
+        factions: [
+            "Blade Industries",
+            "KuaiGong International",
+            "OmniTek Incorporated",
+            "Speakers for the Dead",
+            "The Syndicate",
+        ],
+        name: "Bionic Spine",
+        requirements: {
+            money: 125000000,
+            reputation: 45000,
+        },
     },
     {
-        name: "BitRunners Neurolink",
-        factions: ["BitRunners"],
-        requirements: {
-            money: 4375000000,
-            reputation: 875000,
-        },
         benefits: {
             hack: {
                 chance: 1.1,
@@ -216,172 +210,172 @@ export const AUGMENTATIONS: Augmentation[] = [
                 speed: 1.05,
             },
         },
+        factions: ["BitRunners"],
+        name: "BitRunners Neurolink",
+        requirements: {
+            money: 4375000000,
+            reputation: 875000,
+        },
     },
     {
-        name: "BitWire",
-        factions: ["NiteSec", "CyberSec"],
-        requirements: {
-            money: 10000000,
-            reputation: 3750,
-        },
         benefits: {
             hack: {
                 skill: 1.05,
             },
         },
+        factions: ["CyberSec", "NiteSec"],
+        name: "BitWire",
+        requirements: {
+            money: 10000000,
+            reputation: 3750,
+        },
     },
     {
-        name: "BrachiBlades",
-        factions: ["The Syndicate"],
-        requirements: {
-            money: 90000000,
-            reputation: 12500,
-        },
         benefits: {
-            str: {
-                skill: 1.15,
-            },
-            def: {
-                skill: 1.15,
-            },
             crime: {
                 money: 1.15,
                 success: 1.1,
             },
+            def: {
+                skill: 1.15,
+            },
+            str: {
+                skill: 1.15,
+            },
+        },
+        factions: ["The Syndicate"],
+        name: "BrachiBlades",
+        requirements: {
+            money: 90000000,
+            reputation: 12500,
         },
     },
     {
-        name: "CashRoot Starter Kit",
+        benefits: {
+            programs: ["BruteSSH.exe"],
+        },
         factions: ["Sector-12"],
+        name: "CashRoot Starter Kit",
         requirements: {
             money: 125000000,
             reputation: 12500,
         },
-        benefits: {
-            programs: ["BruteSSH.exe"],
-        },
     },
     {
-        name: "Combat Rib I",
+        benefits: {
+            def: {
+                skill: 1.1,
+            },
+            str: {
+                skill: 1.1,
+            },
+        },
         factions: [
             "Blade Industries",
-            "OmniTek Incorporated",
-            "KuaiGong International",
             "Ishima",
+            "KuaiGong International",
+            "OmniTek Incorporated",
             "Sector-12",
-            "Volhaven",
+            "Slum Snakes",
             "The Dark Army",
             "The Syndicate",
-            "Slum Snakes",
+            "Volhaven",
         ],
+        name: "Combat Rib I",
         requirements: {
             money: 23750000,
             reputation: 7500,
         },
-        benefits: {
-            str: {
-                skill: 1.1,
-            },
-            def: {
-                skill: 1.1,
-            },
-        },
     },
     {
-        name: "Combat Rib II",
+        benefits: {
+            def: {
+                skill: 1.14,
+            },
+            str: {
+                skill: 1.14,
+            },
+        },
         factions: [
             "Blade Industries",
-            "OmniTek Incorporated",
-            "KuaiGong International",
             "Ishima",
+            "KuaiGong International",
+            "OmniTek Incorporated",
             "Sector-12",
-            "Volhaven",
             "The Dark Army",
             "The Syndicate",
+            "Volhaven",
         ],
+        name: "Combat Rib II",
         requirements: {
             money: 65000000,
             reputation: 18750,
         },
-        benefits: {
-            str: {
-                skill: 1.14,
-            },
-            def: {
-                skill: 1.14,
-            },
-        },
     },
     {
-        name: "Combat Rib III",
+        benefits: {
+            def: {
+                skill: 1.18,
+            },
+            str: {
+                skill: 1.18,
+            },
+        },
         factions: [
-            "The Covenant",
             "Blade Industries",
-            "OmniTek Incorporated",
             "KuaiGong International",
+            "OmniTek Incorporated",
+            "The Covenant",
             "The Dark Army",
             "The Syndicate",
         ],
+        name: "Combat Rib III",
         requirements: {
             money: 120000000,
             reputation: 35000,
         },
-        benefits: {
-            str: {
-                skill: 1.18,
-            },
-            def: {
-                skill: 1.18,
-            },
-        },
     },
     {
-        name: "CordiARC Fusion Reactor",
+        benefits: {
+            agi: {
+                exp: 1.35,
+                skill: 1.35,
+            },
+            def: {
+                exp: 1.35,
+                skill: 1.35,
+            },
+            dex: {
+                exp: 1.35,
+                skill: 1.35,
+            },
+            str: {
+                exp: 1.35,
+                skill: 1.35,
+            },
+        },
         factions: ["MegaCorp"],
+        name: "CordiARC Fusion Reactor",
         requirements: {
             money: 5000000000,
             reputation: 1125000,
         },
-        benefits: {
-            str: {
-                skill: 1.35,
-                exp: 1.35,
-            },
-            def: {
-                skill: 1.35,
-                exp: 1.35,
-            },
-            agi: {
-                skill: 1.35,
-                exp: 1.35,
-            },
-            dex: {
-                skill: 1.35,
-                exp: 1.35,
-            },
-        },
     },
     {
-        name: "Cranial Signal Processors - Gen I",
-        factions: ["CyberSec"],
-        requirements: {
-            money: 70000000,
-            reputation: 10000,
-        },
         benefits: {
             hack: {
                 skill: 1.05,
                 speed: 1.01,
             },
         },
+        factions: ["CyberSec"],
+        name: "Cranial Signal Processors - Gen I",
+        requirements: {
+            money: 70000000,
+            reputation: 10000,
+        },
     },
     {
-        name: "Cranial Signal Processors - Gen II",
-        factions: ["NiteSec", "CyberSec"],
-        requirements: {
-            money: 125000000,
-            reputation: 18750,
-        },
         benefits: {
             hack: {
                 chance: 1.05,
@@ -389,14 +383,14 @@ export const AUGMENTATIONS: Augmentation[] = [
                 speed: 1.02,
             },
         },
+        factions: ["CyberSec", "NiteSec"],
+        name: "Cranial Signal Processors - Gen II",
+        requirements: {
+            money: 125000000,
+            reputation: 18750,
+        },
     },
     {
-        name: "Cranial Signal Processors - Gen III",
-        factions: ["BitRunners", "The Black Hand", "NiteSec"],
-        requirements: {
-            money: 550000000,
-            reputation: 50000,
-        },
         benefits: {
             hack: {
                 chance: 1.15,
@@ -404,14 +398,14 @@ export const AUGMENTATIONS: Augmentation[] = [
                 speed: 1.02,
             },
         },
+        factions: ["BitRunners", "NiteSec", "The Black Hand"],
+        name: "Cranial Signal Processors - Gen III",
+        requirements: {
+            money: 550000000,
+            reputation: 50000,
+        },
     },
     {
-        name: "Cranial Signal Processors - Gen IV",
-        factions: ["BitRunners", "The Black Hand"],
-        requirements: {
-            money: 1100000000,
-            reputation: 125000,
-        },
         benefits: {
             hack: {
                 chance: 1.25,
@@ -419,14 +413,14 @@ export const AUGMENTATIONS: Augmentation[] = [
                 speed: 1.02,
             },
         },
+        factions: ["BitRunners", "The Black Hand"],
+        name: "Cranial Signal Processors - Gen IV",
+        requirements: {
+            money: 1100000000,
+            reputation: 125000,
+        },
     },
     {
-        name: "Cranial Signal Processors - Gen V",
-        factions: ["BitRunners"],
-        requirements: {
-            money: 2250000000,
-            reputation: 250000,
-        },
         benefits: {
             hack: {
                 chance: 1.75,
@@ -434,124 +428,116 @@ export const AUGMENTATIONS: Augmentation[] = [
                 speed: 1.3,
             },
         },
+        factions: ["BitRunners"],
+        name: "Cranial Signal Processors - Gen V",
+        requirements: {
+            money: 2250000000,
+            reputation: 250000,
+        },
     },
     {
-        name: "CRTX42-AA Gene Modification",
-        factions: ["NiteSec"],
-        requirements: {
-            money: 225000000,
-            reputation: 45000,
-        },
         benefits: {
             hack: {
                 exp: 1.15,
                 skill: 1.08,
             },
         },
+        factions: ["NiteSec"],
+        name: "CRTX42-AA Gene Modification",
+        requirements: {
+            money: 225000000,
+            reputation: 45000,
+        },
     },
     {
-        name: "DataJack",
-        factions: [
-            "BitRunners",
-            "The Black Hand",
-            "NiteSec",
-            "Chongqing",
-            "New Tokyo",
-        ],
-        requirements: {
-            money: 450000000,
-            reputation: 112500,
-        },
         benefits: {
             hack: {
                 money: 1.25,
             },
         },
+        factions: [
+            "BitRunners",
+            "Chongqing",
+            "New Tokyo",
+            "NiteSec",
+            "The Black Hand",
+        ],
+        name: "DataJack",
+        requirements: {
+            money: 450000000,
+            reputation: 112500,
+        },
     },
     {
-        name: "DermaForce Particle Barrier",
-        factions: ["Volhaven"],
-        requirements: {
-            money: 50000000,
-            reputation: 15000,
-        },
         benefits: {
             def: {
                 skill: 1.4,
             },
         },
+        factions: ["Volhaven"],
+        name: "DermaForce Particle Barrier",
+        requirements: {
+            money: 50000000,
+            reputation: 15000,
+        },
     },
     {
-        name: "ECorp HVMind Implant",
-        factions: ["ECorp"],
-        requirements: {
-            money: 5500000000,
-            reputation: 1500000,
-        },
         benefits: {
             hack: {
                 grow: 3,
             },
         },
+        factions: ["ECorp"],
+        name: "ECorp HVMind Implant",
+        requirements: {
+            money: 5500000000,
+            reputation: 1500000,
+        },
     },
     {
-        name: "Embedded Netburner Module",
-        factions: [
-            "ECorp",
-            "MegaCorp",
-            "Blade Industries",
-            "NWO",
-            "Fulcrum Technologies",
-            "BitRunners",
-            "The Black Hand",
-            "NiteSec",
-        ],
-        requirements: {
-            money: 250000000,
-            reputation: 15000,
-        },
         benefits: {
             hack: {
                 skill: 1.08,
             },
         },
+        factions: [
+            "BitRunners",
+            "Blade Industries",
+            "ECorp",
+            "Fulcrum Technologies",
+            "MegaCorp",
+            "NiteSec",
+            "NWO",
+            "The Black Hand",
+        ],
+        name: "Embedded Netburner Module",
+        requirements: {
+            money: 250000000,
+            reputation: 15000,
+        },
     },
     {
-        name: "Embedded Netburner Module Analyze Engine",
-        factions: [
-            "Illuminati",
-            "Daedalus",
-            "The Covenant",
-            "ECorp",
-            "MegaCorp",
-            "NWO",
-            "Fulcrum Technologies",
-        ],
-        requirements: {
-            money: 6000000000,
-            reputation: 625000,
-        },
         benefits: {
             hack: {
                 speed: 1.1,
             },
         },
+        factions: [
+            "Daedalus",
+            "ECorp",
+            "Fulcrum Technologies",
+            "Illuminati",
+            "MegaCorp",
+            "NWO",
+            "The Covenant",
+        ],
+        name: "Embedded Netburner Module Analyze Engine",
+        requirements: {
+            money: 6000000000,
+            reputation: 625000,
+        },
     },
     {
-        name: "Embedded Netburner Module Core Implant",
-        factions: [
-            "ECorp",
-            "MegaCorp",
-            "Blade Industries",
-            "NWO",
-            "Fulcrum Technologies",
-            "BitRunners",
-            "The Black Hand",
-        ],
-        requirements: {
-            money: 2500000000,
-            reputation: 250000,
-        },
         benefits: {
             hack: {
                 chance: 1.03,
@@ -561,23 +547,22 @@ export const AUGMENTATIONS: Augmentation[] = [
                 speed: 1.03,
             },
         },
+        factions: [
+            "BitRunners",
+            "Blade Industries",
+            "ECorp",
+            "Fulcrum Technologies",
+            "MegaCorp",
+            "NWO",
+            "The Black Hand",
+        ],
+        name: "Embedded Netburner Module Core Implant",
+        requirements: {
+            money: 2500000000,
+            reputation: 250000,
+        },
     },
     {
-        name: "Embedded Netburner Module Core V2 Upgrade",
-        factions: [
-            "ECorp",
-            "MegaCorp",
-            "Blade Industries",
-            "NWO",
-            "OmniTek Incorporated",
-            "KuaiGong International",
-            "Fulcrum Technologies",
-            "BitRunners",
-        ],
-        requirements: {
-            money: 4500000000,
-            reputation: 1000000,
-        },
         benefits: {
             hack: {
                 chance: 1.05,
@@ -587,22 +572,23 @@ export const AUGMENTATIONS: Augmentation[] = [
                 speed: 1.05,
             },
         },
-    },
-    {
-        name: "Embedded Netburner Module Core V3 Upgrade",
         factions: [
-            "Illuminati",
-            "Daedalus",
-            "The Covenant",
+            "BitRunners",
+            "Blade Industries",
             "ECorp",
+            "Fulcrum Technologies",
+            "KuaiGong International",
             "MegaCorp",
             "NWO",
-            "Fulcrum Technologies",
+            "OmniTek Incorporated",
         ],
+        name: "Embedded Netburner Module Core V2 Upgrade",
         requirements: {
-            money: 7500000000,
-            reputation: 1750000,
+            money: 4500000000,
+            reputation: 1000000,
         },
+    },
+    {
         benefits: {
             hack: {
                 chance: 1.1,
@@ -612,36 +598,44 @@ export const AUGMENTATIONS: Augmentation[] = [
                 speed: 1.05,
             },
         },
-    },
-    {
-        name: "Embedded Netburner Module Direct Memory Access Upgrade",
         factions: [
-            "Illuminati",
             "Daedalus",
-            "The Covenant",
             "ECorp",
+            "Fulcrum Technologies",
+            "Illuminati",
             "MegaCorp",
             "NWO",
-            "Fulcrum Technologies",
+            "The Covenant",
         ],
+        name: "Embedded Netburner Module Core V3 Upgrade",
         requirements: {
-            money: 7000000000,
-            reputation: 1000000,
+            money: 7500000000,
+            reputation: 1750000,
         },
+    },
+    {
         benefits: {
             hack: {
                 chance: 1.2,
                 money: 1.4,
             },
         },
+        factions: [
+            "Daedalus",
+            "ECorp",
+            "Fulcrum Technologies",
+            "Illuminati",
+            "MegaCorp",
+            "NWO",
+            "The Covenant",
+        ],
+        name: "Embedded Netburner Module Direct Memory Access Upgrade",
+        requirements: {
+            money: 7000000000,
+            reputation: 1000000,
+        },
     },
     {
-        name: "Enhanced Myelin Sheathing",
-        factions: ["Fulcrum Technologies", "BitRunners", "The Black Hand"],
-        requirements: {
-            money: 1375000000,
-            reputation: 100000,
-        },
         benefits: {
             hack: {
                 exp: 1.1,
@@ -649,56 +643,51 @@ export const AUGMENTATIONS: Augmentation[] = [
                 speed: 1.03,
             },
         },
-    },
-    {
-        name: "Enhanced Social Interaction Implant",
-        factions: [
-            "Bachman & Associates",
-            "NWO",
-            "Clarke Incorporated",
-            "OmniTek Incorporated",
-            "Four Sigma",
-        ],
+        factions: ["BitRunners", "Fulcrum Technologies", "The Black Hand"],
+        name: "Enhanced Myelin Sheathing",
         requirements: {
             money: 1375000000,
-            reputation: 375000,
+            reputation: 100000,
         },
+    },
+    {
         benefits: {
             cha: {
                 exp: 1.6,
                 skill: 1.6,
             },
         },
-    },
-    {
-        name: "FocusWire",
         factions: [
             "Bachman & Associates",
             "Clarke Incorporated",
             "Four Sigma",
-            "KuaiGong International",
+            "NWO",
+            "OmniTek Incorporated",
         ],
+        name: "Enhanced Social Interaction Implant",
         requirements: {
-            money: 900000000,
-            reputation: 75000,
+            money: 1375000000,
+            reputation: 375000,
         },
+    },
+    {
         benefits: {
-            hack: {
+            agi: {
                 exp: 1.05,
             },
-            str: {
+            cha: {
                 exp: 1.05,
             },
             def: {
                 exp: 1.05,
             },
-            agi: {
-                exp: 1.05,
-            },
             dex: {
                 exp: 1.05,
             },
-            cha: {
+            hack: {
+                exp: 1.05,
+            },
+            str: {
                 exp: 1.05,
             },
             work: {
@@ -706,45 +695,50 @@ export const AUGMENTATIONS: Augmentation[] = [
                 money: 1.2,
             },
         },
+        factions: [
+            "Bachman & Associates",
+            "Clarke Incorporated",
+            "Four Sigma",
+            "KuaiGong International",
+        ],
+        name: "FocusWire",
+        requirements: {
+            money: 900000000,
+            reputation: 75000,
+        },
     },
     {
-        name: "Graphene Bionic Arms Upgrade",
+        benefits: {
+            dex: {
+                skill: 1.85,
+            },
+            str: {
+                skill: 1.85,
+            },
+        },
         factions: ["The Dark Army"],
+        name: "Graphene Bionic Arms Upgrade",
         requirements: {
             money: 3750000000,
             reputation: 500000,
         },
-        benefits: {
-            str: {
-                skill: 1.85,
-            },
-            dex: {
-                skill: 1.85,
-            },
-        },
     },
     {
-        name: "Graphene Bionic Legs Upgrade",
-        factions: ["ECorp", "MegaCorp", "Fulcrum Technologies"],
-        requirements: {
-            money: 4500000000,
-            reputation: 750000,
-        },
         benefits: {
             agi: {
                 skill: 2.5,
             },
         },
+        factions: ["ECorp", "Fulcrum Technologies", "MegaCorp"],
+        name: "Graphene Bionic Legs Upgrade",
+        requirements: {
+            money: 4500000000,
+            reputation: 750000,
+        },
     },
     {
-        name: "Graphene Bionic Spine Upgrade",
-        factions: ["ECorp", "Fulcrum Technologies"],
-        requirements: {
-            money: 6000000000,
-            reputation: 1625000,
-        },
         benefits: {
-            str: {
+            agi: {
                 skill: 1.6,
             },
             def: {
@@ -753,144 +747,144 @@ export const AUGMENTATIONS: Augmentation[] = [
             dex: {
                 skill: 1.6,
             },
-            agi: {
+            str: {
                 skill: 1.6,
             },
         },
+        factions: ["ECorp", "Fulcrum Technologies"],
+        name: "Graphene Bionic Spine Upgrade",
+        requirements: {
+            money: 6000000000,
+            reputation: 1625000,
+        },
     },
     {
+        benefits: {
+            def: {
+                skill: 1.7,
+            },
+            str: {
+                skill: 1.7,
+            },
+        },
+        factions: ["Fulcrum Technologies", "The Covenant"],
         name: "Graphene Bone Lacings",
-        factions: ["The Covenant", "Fulcrum Technologies"],
         requirements: {
             money: 4250000000,
             reputation: 1125000,
         },
-        benefits: {
-            str: {
-                skill: 1.7,
-            },
-            def: {
-                skill: 1.7,
-            },
-        },
     },
     {
-        name: "Graphene BranchiBlades Upgrade",
-        factions: ["Speakers for the Dead"],
-        requirements: {
-            money: 2500000000,
-            reputation: 225000,
-        },
         benefits: {
-            str: {
-                skill: 1.4,
-            },
-            def: {
-                skill: 1.4,
-            },
             crime: {
                 money: 1.3,
                 success: 1.1,
             },
+            def: {
+                skill: 1.4,
+            },
+            str: {
+                skill: 1.4,
+            },
+        },
+        factions: ["Speakers for the Dead"],
+        name: "Graphene BranchiBlades Upgrade",
+        requirements: {
+            money: 2500000000,
+            reputation: 225000,
         },
     },
     {
-        name: "Hacknet Node Cache Architecture Neural-Upload",
+        benefits: {
+            hacknet: {
+                levelCost: 0.85,
+                money: 1.1,
+            },
+        },
         factions: ["Netburners"],
+        name: "Hacknet Node Cache Architecture Neural-Upload",
         requirements: {
             money: 5500000,
             reputation: 2500,
         },
-        benefits: {
-            hacknet: {
-                money: 1.1,
-                levelCost: 0.85,
-            },
-        },
     },
     {
-        name: "Hacknet Node Core Direct-Neural Interface",
-        factions: ["Netburners"],
-        requirements: {
-            money: 60000000,
-            reputation: 12500,
-        },
         benefits: {
             hacknet: {
                 money: 1.45,
             },
         },
+        factions: ["Netburners"],
+        name: "Hacknet Node Core Direct-Neural Interface",
+        requirements: {
+            money: 60000000,
+            reputation: 12500,
+        },
     },
     {
-        name: "Hacknet Node CPU Architecture Neural-Upload",
+        benefits: {
+            hacknet: {
+                cost: 0.85,
+                money: 1.15,
+            },
+        },
         factions: ["Netburners"],
+        name: "Hacknet Node CPU Architecture Neural-Upload",
         requirements: {
             money: 11000000,
             reputation: 3750,
         },
-        benefits: {
-            hacknet: {
-                money: 1.15,
-                cost: 0.85,
-            },
-        },
     },
     {
-        name: "Hacknet Node Kernel Direct-Neural Interface",
-        factions: ["Netburners"],
-        requirements: {
-            money: 40000000,
-            reputation: 7500,
-        },
         benefits: {
             hacknet: {
                 money: 1.25,
             },
         },
+        factions: ["Netburners"],
+        name: "Hacknet Node Kernel Direct-Neural Interface",
+        requirements: {
+            money: 40000000,
+            reputation: 7500,
+        },
     },
     {
-        name: "Hacknet Node NIC Architecture Neural-Upload",
+        benefits: {
+            hacknet: {
+                cost: 0.9,
+                money: 1.1,
+            },
+        },
         factions: ["Netburners"],
+        name: "Hacknet Node NIC Architecture Neural-Upload",
         requirements: {
             money: 4500000,
             reputation: 1875,
         },
-        benefits: {
-            hacknet: {
-                money: 1.1,
-                cost: 0.9,
-            },
-        },
     },
     {
-        name: "HemoRecirculator",
-        factions: ["The Dark Army", "The Syndicate", "Tetrads"],
-        requirements: {
-            money: 45000000,
-            reputation: 10000,
-        },
         benefits: {
-            str: {
+            agi: {
                 skill: 1.08,
             },
             def: {
                 skill: 1.08,
             },
-            agi: {
-                skill: 1.08,
-            },
             dex: {
                 skill: 1.08,
             },
+            str: {
+                skill: 1.08,
+            },
+        },
+        factions: ["Tetrads", "The Dark Army", "The Syndicate"],
+        name: "HemoRecirculator",
+        requirements: {
+            money: 45000000,
+            reputation: 10000,
         },
     },
     {
-        name: "HyperSight Corneal Implant",
-        factions: ["Blade Industries", "KuaiGong International"],
-        requirements: {
-            money: 2750000000,
-            reputation: 150000,
-        },
         benefits: {
             dex: {
                 skill: 1.4,
@@ -900,31 +894,31 @@ export const AUGMENTATIONS: Augmentation[] = [
                 speed: 1.03,
             },
         },
+        factions: ["Blade Industries", "KuaiGong International"],
+        name: "HyperSight Corneal Implant",
+        requirements: {
+            money: 2750000000,
+            reputation: 150000,
+        },
     },
     {
-        name: "INFRARET Enhancement",
-        factions: ["Ishima"],
-        requirements: {
-            money: 30000000,
-            reputation: 7500,
-        },
         benefits: {
-            dex: {
-                skill: 1.1,
-            },
             crime: {
                 money: 1.1,
                 success: 1.25,
             },
+            dex: {
+                skill: 1.1,
+            },
+        },
+        factions: ["Ishima"],
+        name: "INFRARET Enhancement",
+        requirements: {
+            money: 30000000,
+            reputation: 7500,
         },
     },
     {
-        name: "LuminCloaking-V1 Skin Implant",
-        factions: ["Ishima"],
-        requirements: {
-            money: 5000000,
-            reputation: 1500,
-        },
         benefits: {
             agi: {
                 skill: 1.05,
@@ -933,92 +927,92 @@ export const AUGMENTATIONS: Augmentation[] = [
                 money: 1.1,
             },
         },
+        factions: ["Ishima"],
+        name: "LuminCloaking-V1 Skin Implant",
+        requirements: {
+            money: 5000000,
+            reputation: 1500,
+        },
     },
     {
-        name: "LuminCloaking-V2 Skin Implant",
-        factions: ["Tetrads", "Slum Snakes"],
-        requirements: {
-            money: 30000000,
-            reputation: 5000,
-        },
         benefits: {
-            def: {
-                skill: 1.1,
-            },
             agi: {
                 skill: 1.1,
             },
             crime: {
                 money: 1.25,
             },
+            def: {
+                skill: 1.1,
+            },
+        },
+        factions: ["Slum Snakes", "Tetrads"],
+        name: "LuminCloaking-V2 Skin Implant",
+        requirements: {
+            money: 30000000,
+            reputation: 5000,
         },
     },
     {
-        name: "Nanofiber Weave",
+        benefits: {
+            def: {
+                skill: 1.2,
+            },
+            str: {
+                skill: 1.2,
+            },
+        },
         factions: [
             "Blade Industries",
-            "OmniTek Incorporated",
             "Fulcrum Technologies",
+            "OmniTek Incorporated",
             "Speakers for the Dead",
             "The Dark Army",
             "The Syndicate",
             "Tian Di Hui",
         ],
+        name: "Nanofiber Weave",
         requirements: {
             money: 125000000,
             reputation: 37500,
         },
-        benefits: {
-            str: {
-                skill: 1.2,
-            },
-            def: {
-                skill: 1.2,
-            },
-        },
     },
     {
-        name: "NEMEAN Subdermal Weave",
-        factions: [
-            "Illuminati",
-            "Daedalus",
-            "The Covenant",
-            "Fulcrum Technologies",
-            "The Syndicate",
-        ],
-        requirements: {
-            money: 3250000000,
-            reputation: 875000,
-        },
         benefits: {
             def: {
                 skill: 2.2,
             },
         },
+        factions: [
+            "Daedalus",
+            "Fulcrum Technologies",
+            "Illuminati",
+            "The Covenant",
+            "The Syndicate",
+        ],
+        name: "NEMEAN Subdermal Weave",
+        requirements: {
+            money: 3250000000,
+            reputation: 875000,
+        },
     },
     {
-        name: "Neotra",
+        benefits: {
+            def: {
+                skill: 1.55,
+            },
+            str: {
+                skill: 1.55,
+            },
+        },
         factions: ["Blade Industries"],
+        name: "Neotra",
         requirements: {
             money: 2875000000,
             reputation: 562500,
         },
-        benefits: {
-            str: {
-                skill: 1.55,
-            },
-            def: {
-                skill: 1.55,
-            },
-        },
     },
     {
-        name: "Neural Accelerator",
-        factions: ["BitRunners"],
-        requirements: {
-            money: 1750000000,
-            reputation: 200000,
-        },
         benefits: {
             hack: {
                 exp: 1.15,
@@ -1026,38 +1020,27 @@ export const AUGMENTATIONS: Augmentation[] = [
                 skill: 1.1,
             },
         },
+        factions: ["BitRunners"],
+        name: "Neural Accelerator",
+        requirements: {
+            money: 1750000000,
+            reputation: 200000,
+        },
     },
     {
-        name: "Neural-Retention Enhancement",
-        factions: ["NiteSec"],
-        requirements: {
-            money: 250000000,
-            reputation: 20000,
-        },
         benefits: {
             hack: {
                 exp: 1.25,
             },
         },
+        factions: ["NiteSec"],
+        name: "Neural-Retention Enhancement",
+        requirements: {
+            money: 250000000,
+            reputation: 20000,
+        },
     },
     {
-        name: "Neuralstimulator",
-        factions: [
-            "Bachman & Associates",
-            "Clarke Incorporated",
-            "Four Sigma",
-            "The Black Hand",
-            "Aevum",
-            "Chongqing",
-            "Ishima",
-            "New Tokyo",
-            "Sector-12",
-            "Volhaven",
-        ],
-        requirements: {
-            money: 3000000000,
-            reputation: 50000,
-        },
         benefits: {
             hack: {
                 chance: 1.1,
@@ -1065,225 +1048,645 @@ export const AUGMENTATIONS: Augmentation[] = [
                 speed: 1.02,
             },
         },
+        factions: [
+            "Aevum",
+            "Bachman & Associates",
+            "Chongqing",
+            "Clarke Incorporated",
+            "Four Sigma",
+            "Ishima",
+            "New Tokyo",
+            "Sector-12",
+            "The Black Hand",
+            "Volhaven",
+        ],
+        name: "Neuralstimulator",
+        requirements: {
+            money: 3000000000,
+            reputation: 50000,
+        },
     },
     {
-        name: "Neuregen Gene Modification",
-        factions: ["Chongqing"],
-        requirements: {
-            money: 375000000,
-            reputation: 37500,
-        },
         benefits: {
             hack: {
                 exp: 1.4,
             },
         },
+        factions: ["Chongqing"],
+        name: "Neuregen Gene Modification",
+        requirements: {
+            money: 375000000,
+            reputation: 37500,
+        },
     },
     {
-        name: "Neuronal Densification",
+        benefits: {
+            hack: {
+                exp: 1.1,
+                skill: 1.15,
+                speed: 1.03,
+            },
+        },
         factions: ["Clarke Incorporated"],
+        name: "Neuronal Densification",
         requirements: {
             money: 1375000000,
             reputation: 187500,
         },
-        benefits: {
-            hack: {
-                speed: 1.03,
-                exp: 1.1,
-                skill: 1.15,
-            },
-        },
     },
     {
-        name: "Neurotrainer I",
+        benefits: {
+            agi: {
+                exp: 1.1,
+            },
+            cha: {
+                exp: 1.1,
+            },
+            def: {
+                exp: 1.1,
+            },
+            dex: {
+                exp: 1.1,
+            },
+            hack: {
+                exp: 1.1,
+            },
+            str: {
+                exp: 1.1,
+            },
+        },
         factions: ["CyberSec"],
+        name: "Neurotrainer I",
         requirements: {
             money: 4000000,
             reputation: 1000,
         },
-        benefits: {
-            str: {
-                exp: 1.1,
-            },
-            def: {
-                exp: 1.1,
-            },
-            dex: {
-                exp: 1.1,
-            },
-            agi: {
-                exp: 1.1,
-            },
-            cha: {
-                exp: 1.1,
-            },
-            hack: {
-                exp: 1.1,
-            },
-        },
     },
     {
-        name: "Neurotrainer II",
+        benefits: {
+            agi: {
+                exp: 1.15,
+            },
+            cha: {
+                exp: 1.15,
+            },
+            def: {
+                exp: 1.15,
+            },
+            dex: {
+                exp: 1.15,
+            },
+            hack: {
+                exp: 1.15,
+            },
+            str: {
+                exp: 1.15,
+            },
+        },
         factions: ["BitRunners", "NiteSec"],
+        name: "Neurotrainer II",
         requirements: {
             money: 45000000,
             reputation: 10000,
         },
-        benefits: {
-            str: {
-                exp: 1.15,
-            },
-            def: {
-                exp: 1.15,
-            },
-            dex: {
-                exp: 1.15,
-            },
-            agi: {
-                exp: 1.15,
-            },
-            cha: {
-                exp: 1.15,
-            },
-            hack: {
-                exp: 1.15,
-            },
-        },
     },
     {
+        benefits: {
+            agi: {
+                exp: 1.2,
+            },
+            cha: {
+                exp: 1.2,
+            },
+            def: {
+                exp: 1.2,
+            },
+            dex: {
+                exp: 1.2,
+            },
+            hack: {
+                exp: 1.2,
+            },
+            str: {
+                exp: 1.2,
+            },
+        },
+        factions: ["Four Sigma", "NWO"],
         name: "Neurotrainer III",
-        factions: ["NWO", "Four Sigma"],
         requirements: {
             money: 130000000,
             reputation: 25000,
         },
-        benefits: {
-            str: {
-                exp: 1.2,
-            },
-            def: {
-                exp: 1.2,
-            },
-            dex: {
-                exp: 1.2,
-            },
-            agi: {
-                exp: 1.2,
-            },
-            cha: {
-                exp: 1.2,
-            },
-            hack: {
-                exp: 1.2,
-            },
-        },
     },
     {
-        name: "nextSENS Gene Modification",
+        benefits: {
+            agi: {
+                skill: 1.2,
+            },
+            cha: {
+                skill: 1.2,
+            },
+            def: {
+                skill: 1.2,
+            },
+            dex: {
+                skill: 1.2,
+            },
+            hack: {
+                skill: 1.2,
+            },
+            str: {
+                skill: 1.2,
+            },
+        },
         factions: ["Clarke Incorporated"],
+        name: "nextSENS Gene Modification",
         requirements: {
             money: 1925000000,
             reputation: 437500,
         },
-        benefits: {
-            str: {
-                skill: 1.2,
-            },
-            def: {
-                skill: 1.2,
-            },
-            dex: {
-                skill: 1.2,
-            },
-            agi: {
-                skill: 1.2,
-            },
-            cha: {
-                skill: 1.2,
-            },
-            hack: {
-                skill: 1.2,
-            },
-        },
     },
     {
-        name: "Nuoptimal Nootropic Injector Implant",
-        factions: [
-            "Bachman & Associates",
-            "Clarke Incorporated",
-            "Four Sigma",
-            "Chongqing",
-            "Ishima",
-            "New Tokyo",
-            "Volhaven",
-            "Tian Di Hui",
-        ],
-        requirements: {
-            money: 20000000,
-            reputation: 5000,
-        },
         benefits: {
             work: {
                 company: 1.2,
             },
         },
+        factions: [
+            "Bachman & Associates",
+            "Chongqing",
+            "Clarke Incorporated",
+            "Four Sigma",
+            "Ishima",
+            "New Tokyo",
+            "Tian Di Hui",
+            "Volhaven",
+        ],
+        name: "Nuoptimal Nootropic Injector Implant",
+        requirements: {
+            money: 20000000,
+            reputation: 5000,
+        },
     },
     {
-        name: "NutriGen Implant",
-        factions: ["New Tokyo"],
-        requirements: {
-            money: 2500000,
-            reputation: 6250,
-        },
         benefits: {
-            str: {
+            agi: {
                 exp: 1.2,
             },
             def: {
                 exp: 1.2,
             },
-            agi: {
-                exp: 1.2,
-            },
             dex: {
                 exp: 1.2,
             },
+            str: {
+                exp: 1.2,
+            },
+        },
+        factions: ["New Tokyo"],
+        name: "NutriGen Implant",
+        requirements: {
+            money: 2500000,
+            reputation: 6250,
         },
     },
     {
-        name: "OmniTek InfoLoad",
-        factions: ["OmniTek Incorporated"],
-        requirements: {
-            money: 2875000000,
-            reputation: 625000,
-        },
         benefits: {
             hack: {
                 exp: 1.25,
                 skill: 1.2,
             },
         },
+        factions: ["OmniTek Incorporated"],
+        name: "OmniTek InfoLoad",
+        requirements: {
+            money: 2875000000,
+            reputation: 625000,
+        },
     },
     {
+        benefits: {
+            hack: {
+                skill: 1.08,
+            },
+            work: {
+                company: 1.3,
+            },
+        },
+        factions: [
+            "Blade Industries",
+            "ECorp",
+            "Four Sigma",
+            "OmniTek Incorporated",
+        ],
         name: "PC Direct-Neural Interface",
+        requirements: {
+            money: 3750000000,
+            reputation: 375000,
+        },
+    },
+    {
+        benefits: {
+            hack: {
+                skill: 1.1,
+                speed: 1.05,
+            },
+            work: {
+                company: 2,
+            },
+        },
+        factions: ["Fulcrum Technologies"],
+        name: "PC Direct-Neural Interface NeuroNet Injector",
+        requirements: {
+            money: 7500000000,
+            reputation: 1500000,
+        },
+    },
+    {
+        benefits: {
+            hack: {
+                skill: 1.1,
+            },
+            work: {
+                company: 1.75,
+            },
+        },
+        factions: ["Blade Industries", "ECorp", "Fulcrum Technologies"],
+        name: "PC Direct-Neural Interface Optimization Submodule",
+        requirements: {
+            money: 4500000000,
+            reputation: 500000,
+        },
+    },
+    {
+        benefits: {
+            agi: {
+                skill: 1.4,
+            },
+            def: {
+                skill: 1.4,
+            },
+            str: {
+                skill: 1.4,
+            },
+        },
+        factions: ["KuaiGong International"],
+        name: "Photosynthetic Cells",
+        requirements: {
+            money: 2750000000,
+            reputation: 562500,
+        },
+    },
+    {
+        benefits: {
+            agi: {
+                exp: 1.1,
+                skill: 1.05,
+            },
+            cha: {
+                exp: 1.1,
+                skill: 1.05,
+            },
+            def: {
+                exp: 1.1,
+                skill: 1.05,
+            },
+            dex: {
+                exp: 1.1,
+                skill: 1.05,
+            },
+            hack: {
+                exp: 1.1,
+                skill: 1.05,
+            },
+            str: {
+                exp: 1.1,
+                skill: 1.05,
+            },
+        },
+        factions: ["NWO", "Tetrads", "The Dark Army", "The Syndicate"],
+        name: "Power Recirculation Core",
+        requirements: {
+            money: 180000000,
+            reputation: 25000,
+        },
+    },
+    {
+        benefits: {
+            hack: {
+                chance: 2.5,
+                money: 4,
+                skill: 1.75,
+                speed: 2,
+            },
+        },
+        factions: ["Illuminati"],
+        name: "QLink",
+        requirements: {
+            money: 25000000000000,
+            reputation: 1875000,
+        },
+    },
+    {
+        benefits: {
+            cha: {
+                exp: 1.5,
+                skill: 1.5,
+            },
+            work: {
+                company: 1.25,
+                faction: 1.25,
+            },
+        },
+        factions: ["Bachman & Associates"],
+        name: "SmartJaw",
+        requirements: {
+            money: 2750000000,
+            reputation: 375000,
+        },
+    },
+    {
+        benefits: {
+            crime: {
+                money: 1.25,
+            },
+            dex: {
+                exp: 1.15,
+                skill: 1.1,
+            },
+        },
+        factions: ["Slum Snakes"],
+        name: "SmartSonar Implant",
+        requirements: {
+            money: 75000000,
+            reputation: 22500,
+        },
+    },
+    {
+        benefits: {
+            work: {
+                company: 1.15,
+                faction: 1.15,
+                money: 1.1,
+            },
+        },
+        factions: ["Tian Di Hui"],
+        name: "Social Negotiation Assistant (S.N.A)",
+        requirements: {
+            money: 30000000,
+            reputation: 6250,
+        },
+    },
+    {
+        benefits: {
+            cha: {
+                skill: 1.1,
+            },
+            work: {
+                company: 1.1,
+            },
+        },
         factions: [
             "Bachman & Associates",
             "Clarke Incorporated",
             "Four Sigma",
+            "KuaiGong International",
+            "Speakers for the Dead",
+            "Tian Di Hui",
+        ],
+        name: "Speech Enhancement",
+        requirements: {
+            money: 12500000,
+            reputation: 2500,
+        },
+    },
+    {
+        benefits: {
+            cha: {
+                skill: 1.2,
+            },
+        },
+        factions: [
+            "Aevum",
             "Chongqing",
             "Ishima",
             "New Tokyo",
-            "Volhaven",
+            "Sector-12",
+            "Silhouette",
             "Tian Di Hui",
+            "Volhaven",
         ],
+        name: "Speech Processor Implant",
         requirements: {
-            money: 20000000,
-            reputation: 5000,
+            money: 50000000,
+            reputation: 7500,
         },
+    },
+    {
+        benefits: {
+            agi: {
+                skill: 1.75,
+            },
+            def: {
+                skill: 1.75,
+            },
+            dex: {
+                skill: 1.75,
+            },
+            hack: {
+                skill: 1.75,
+            },
+            str: {
+                skill: 1.75,
+            },
+        },
+        factions: ["The Covenant"],
+        name: "SPTN-97 Gene Modification",
+        requirements: {
+            money: 4875000000,
+            reputation: 1250000,
+        },
+    },
+    {
+        benefits: {
+            hack: {
+                speed: 1.03,
+            },
+        },
+        factions: ["CyberSec"],
+        name: "Synaptic Enhancement Implant",
+        requirements: {
+            money: 7500000,
+            reputation: 2000,
+        },
+    },
+    {
+        benefits: {
+            def: {
+                skill: 1.3,
+            },
+            str: {
+                skill: 1.3,
+            },
+        },
+        factions: [
+            "Blade Industries",
+            "Daedalus",
+            "Fulcrum Technologies",
+            "Illuminati",
+            "KuaiGong International",
+            "NWO",
+            "Speakers for the Dead",
+            "The Covenant",
+        ],
+        name: "Synfibril Muscle",
+        requirements: {
+            money: 1125000000,
+            reputation: 437500,
+        },
+    },
+    {
+        benefits: {
+            agi: {
+                skill: 1.5,
+            },
+            str: {
+                skill: 1.5,
+            },
+        },
+        factions: [
+            "Daedalus",
+            "Fulcrum Technologies",
+            "Illuminati",
+            "KuaiGong International",
+            "NWO",
+            "Speakers for the Dead",
+            "The Covenant",
+        ],
+        name: "Synthetic Heart",
+        requirements: {
+            money: 2875000000,
+            reputation: 750000,
+        },
+    },
+    {
+        benefits: {
+            dex: {
+                skill: 1.15,
+            },
+            hack: {
+                money: 1.1,
+                skill: 1.1,
+                speed: 1.02,
+            },
+            str: {
+                skill: 1.15,
+            },
+        },
+        factions: ["The Black Hand"],
+        name: "The Black Hand",
+        requirements: {
+            money: 550000000,
+            reputation: 100000,
+        },
+    },
+    {
+        benefits: {
+            endgame: true,
+        },
+        factions: ["Daedalus"],
+        name: "The Red Pill",
+        requirements: {
+            money: 0,
+            reputation: 2500000,
+        },
+    },
+    {
         benefits: {
             work: {
-                company: 1.2,
+                company: 1.15,
+                faction: 1.15,
             },
+        },
+        factions: ["Speakers for the Dead", "The Dark Army", "The Syndicate"],
+        name: "The Shadow's Simulacrum",
+        requirements: {
+            money: 400000000,
+            reputation: 37500,
+        },
+    },
+    {
+        benefits: {
+            cha: {
+                exp: 1.15,
+                skill: 1.15,
+            },
+        },
+        factions: ["Silhouette"],
+        name: "TITN-41 Gene-Modification Injection",
+        requirements: {
+            money: 190000000,
+            reputation: 25000,
+        },
+    },
+    {
+        benefits: {
+            agi: {
+                skill: 1.05,
+            },
+            dex: {
+                skill: 1.05,
+            },
+        },
+        factions: [
+            "Aevum",
+            "Ishima",
+            "Sector-12",
+            "Slum Snakes",
+            "Speakers for the Dead",
+            "The Dark Army",
+            "The Syndicate",
+            "Tian Di Hui",
+            "Volhaven",
+        ],
+        name: "Wired Reflexes",
+        requirements: {
+            money: 2500000,
+            reputation: 1250,
+        },
+    },
+    {
+        benefits: {
+            agi: {
+                exp: 1.15,
+                skill: 1.2,
+            },
+            cha: {
+                exp: 1.15,
+                skill: 1.2,
+            },
+            def: {
+                exp: 1.15,
+                skill: 1.2,
+            },
+            dex: {
+                exp: 1.15,
+                skill: 1.2,
+            },
+            hack: {
+                exp: 1.15,
+                skill: 1.2,
+            },
+            str: {
+                exp: 1.15,
+                skill: 1.2,
+            },
+        },
+        factions: ["NWO"],
+        name: "Xanipher",
+        requirements: {
+            money: 4250000000,
+            reputation: 875000,
         },
     },
 ];

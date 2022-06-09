@@ -65,6 +65,9 @@ export interface AugmentationBenefits {
 
     /** Keeps program between augmentation installs. */
     programs?: string[];
+
+    /** Red pill gains access to endgame. */
+    endgame?: boolean;
 }
 
 /**
