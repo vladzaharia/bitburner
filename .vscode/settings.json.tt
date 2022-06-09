@@ -1,6 +1,6 @@
 {
     "bitburner.authToken": "[[AUTHTOKEN]]",
-    "bitburner.fileWatcher.enable": true,
+    "bitburner.fileWatcher.enable": [[FILEWATCHER_ENABLE]],
     "bitburner.scriptRoot": "./out",
     "bitburner.showPushSuccessNotification": true,
     "typescript.tsdk": "node_modules/typescript/lib"
