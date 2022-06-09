@@ -3,5 +3,6 @@
     "tabWidth": 4,
     "importOrder": ["Netscript", "^/(.*)$"],
     "importOrderSeparation": true,
-    "importOrderSortSpecifiers": true
+    "importOrderSortSpecifiers": true,
+    "plugins": ["prettier-plugin-packagejson"]
 }
