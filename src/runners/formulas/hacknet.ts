@@ -34,6 +34,10 @@ const MONEY_MULTIPLIER = 0.05;
 export async function main(ns: NS) {
     ns.disableLog("ALL");
 
+    if (!ns.fileExists("/Formulas.exe", "home")) {
+        throw "Must have Formulas.exe, use /runners/hacknet.ts instead.";
+    }
+
     const hacknet = ns.hacknet;
 
     while (true) {

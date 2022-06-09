@@ -206,6 +206,9 @@ async function executeOnPool(ns: NS, hostnames: string[], args: string[]) {
         // Basic check that RAM is available
         if (ramAvail > 0) {
             for (const filename of scriptKeys) {
+                // Kill all running instances of script
+                killRunningScript(ns, hostname, filename);
+
                 const fnArgs = scriptArgs[filename].filter(
                     (hn, k) => k % hostnames.length === i % hostnames.length
                 );
@@ -226,8 +229,6 @@ async function executeOnPool(ns: NS, hostnames: string[], args: string[]) {
                             scriptWeightPct * 100
                         }% threads`
                     );
-
-                    killRunningScript(ns, hostname, filename);
 
                     await scp(ns, hostname, [filename]);
 
