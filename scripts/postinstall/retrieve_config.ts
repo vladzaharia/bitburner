@@ -1,5 +1,5 @@
-import { copyAndReplaceTT } from "../helpers/_copy_replace";
-import { downloadAndProcess } from "../helpers/_download_file";
+import { copyAndReplaceTT } from "../helpers/copy_replace";
+import { downloadAndProcess } from "../helpers/download_file";
 
 const BITBURNER_CONFIG_FILE = __dirname + "/../../bitburner-sync.json";
 const VSCODE_CONFIG_FILE = __dirname + "/../../.vscode/settings.json";

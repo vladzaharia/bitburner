@@ -1,5 +1,5 @@
-import { copyAndReplaceTT } from "../helpers/_copy_replace";
-import { downloadAndProcess } from "../helpers/_download_file";
+import { copyAndReplaceTT } from "../helpers/copy_replace";
+import { downloadAndProcess } from "../helpers/download_file";
 
 const NETSCRIPT_DEFS_FILE = __dirname + "/../../src/lib/Netscript.d.ts";
 
