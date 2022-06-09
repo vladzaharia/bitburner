@@ -1,6 +1,10 @@
 import { NS } from "Netscript";
 import { crack } from "/helpers/crack.js";
-import { getCrackableHosts, getRootedHosts } from "/helpers/discover.js";
+import {
+    getCrackableHosts,
+    getHackableHosts,
+    getRootedHosts,
+} from "/helpers/discover.js";
 import { sleep } from "/helpers/sleep.js";
 
 /**
@@ -28,6 +32,7 @@ export async function main(ns: NS) {
 
             crackableHosts.forEach((hn) => crack(ns, hn));
 
+            getHackableHosts(ns);
             getRootedHosts(ns, crackableHosts);
 
             ns.print(`[cracker] Finished cracking nodes`);
