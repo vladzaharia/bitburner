@@ -17,6 +17,10 @@ jobs:
                   token: ${{ secrets.GITHUB_TOKEN }}
                   checkName: build
 
+            - name: Fail if build not successful
+              run: exit 1
+              if: ${{ steps.wait-for-build.outputs.conclusion != 'success' }}
+
             - name: Download build artifact
               uses: dawidd6/action-download-artifact@v2
               with:
@@ -36,7 +40,3 @@ jobs:
                   GH_MAIL: hey@vlad.gg
                   GH_NAME: ${{ github.repository_owner }}
                   if: ${{ steps.wait-for-build.outputs.conclusion == 'success' }}
-
-            - name: Fail if build not successful
-              run: exit 1
-              if: ${{ steps.wait-for-build.outputs.conclusion != 'success' }}
