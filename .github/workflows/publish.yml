@@ -39,4 +39,5 @@ jobs:
                   GH_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
                   GH_MAIL: hey@vlad.gg
                   GH_NAME: ${{ github.repository_owner }}
+                  WIKI_PUSH_MESSAGE: Wiki docs update
                   if: ${{ steps.wait-for-build.outputs.conclusion == 'success' }}
