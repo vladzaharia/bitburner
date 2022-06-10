@@ -1,9 +1,10 @@
+import { GetAugmentedList } from "/_internal/constants/augmentations.js";
 import { ICompany, IMegaCorporation } from "/_internal/interfaces/company.js";
 
 /**
  * All MegaCorporations (companies with factions) in the game.
  */
-export const MEGACORPS: IMegaCorporation[] = [
+export const MEGACORPS: IMegaCorporation[] = GetAugmentedList([
     {
         name: "ECorp",
         faction: {
@@ -105,7 +106,7 @@ export const MEGACORPS: IMegaCorporation[] = [
         },
         location: "Aevum",
     },
-];
+]);
 
 /**
  * All companies in the game.

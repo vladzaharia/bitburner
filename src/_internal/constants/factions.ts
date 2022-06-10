@@ -1,3 +1,4 @@
+import { GetAugmentedList } from "/_internal/constants/augmentations.js";
 import { CITIES } from "/_internal/constants/cities.js";
 import { MEGACORPS } from "/_internal/constants/companies.js";
 import { IFaction } from "/_internal/interfaces/faction.js";
@@ -6,7 +7,7 @@ import { MegaCorporations } from "/_internal/types/companies.js";
 /**
  * All factions, including cities and MegaCorporations.
  */
-export const FACTIONS: IFaction[] = [
+export const FACTIONS: IFaction[] = GetAugmentedList([
     {
         name: "CyberSec",
         augmentations: [],
@@ -160,7 +161,7 @@ export const FACTIONS: IFaction[] = [
             requirements: mc.faction.requirements,
         };
     }),
-];
+]);
 
 /**
  * All factions, as an object.
