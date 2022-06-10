@@ -14,8 +14,9 @@ export abstract class Purchaser<T> implements IPurchaser<T> {
     /**
      * Budget available to this purchaser.
      *
-     * If > 1, interpreted as exact budget.
-     * If < 1, interpreted as percentage of available money, use 0 for none.
+     * - If > 1, interpreted as exact budget.
+     * - If < 1, interpreted as percentage of available money.
+     * - Use 0 to disable purchasing.
      */
     private readonly _budget: number;
 
