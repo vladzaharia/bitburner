@@ -26,7 +26,7 @@ jobs:
                   name: artifact
                   path: out
                   check_artifacts: true
-              if: ${{ steps.wait-for-build.outputs.conclusion == "success" }}
+              if: ${{ steps.wait-for-build.outputs.conclusion == 'success' }}
 
             - name: Push Wiki Changes
               uses: Andrew-Chen-Wang/github-wiki-action@v3
@@ -35,4 +35,4 @@ jobs:
                   GH_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
                   GH_MAIL: hey@vlad.gg
                   GH_NAME: ${{ github.repository_owner }}
-                  if: ${{ steps.wait-for-build.outputs.conclusion == "success" }}
+                  if: ${{ steps.wait-for-build.outputs.conclusion == 'success' }}
