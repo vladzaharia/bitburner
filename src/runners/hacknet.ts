@@ -1,5 +1,6 @@
-import { Hacknet, NS } from "Netscript";
+import { NS } from "Netscript";
 
+import { HacknetPurchaser } from "/_internal/classes/purchaser/hacknet.js";
 import { sleep } from "/helpers/sleep.js";
 
 /** Gain per level upgrade (manually added) */
@@ -10,9 +11,6 @@ const MONEY_PER_RAM = 74.856;
 
 /** Gain per core upgrade (manually added) */
 const MONEY_PER_CORE = 39.38;
-
-/** Money reserved for Hacknet upgrades. */
-const MONEY_MULTIPLIER = 0.05;
 
 /**
  * Automatically maintain Hacknet nodes.
@@ -36,48 +34,25 @@ export async function main(ns: NS) {
     ns.disableLog("ALL");
 
     const hacknet = ns.hacknet;
+    const hacknetPurchaser = new HacknetPurchaser(ns);
 
     while (true) {
         ns.clearLog();
 
         if (!ns.fileExists("/flags/SKIP_HACKNET.js", "home")) {
-            let numNodes = hacknet.numNodes();
-
-            // Purchase initial node if needed
-            if (numNodes === 0) {
-                // Purchase and normalize level
-                hacknet.purchaseNode();
-                hacknet.upgradeLevel(0, 4);
-
-                // Increment numNodes so the rest of the script is happy
-                numNodes++;
-            }
-
-            // Upgrade all nodes to node[0]
-            const baseNode = hacknet.getNodeStats(0);
-            for (let i = 0; i < numNodes; i++) {
-                const node = hacknet.getNodeStats(i);
-
-                if (node.production < baseNode.production) {
-                    upgradeToBaseline(ns, i);
-                    await sleep(ns, 1000, false);
-                }
-            }
-
-            // Get available money for Hacknet upgrades
-            const moneyAvail = Math.floor(
-                ns.getServerMoneyAvailable("home") * MONEY_MULTIPLIER
-            );
-            ns.print(`[hacknet] Available money ${moneyAvail}`);
+            // Upgrade all nodes to baseline
+            await hacknetPurchaser.upgradeAllNodesToBaseline();
 
             // Get cost of new node
-            const newNodeCost = Math.ceil(hacknet.getPurchaseNodeCost());
+            const newNodeCost = hacknetPurchaser.getPurchaseCost({
+                upgrade: "node",
+            });
             ns.print(`[hacknet] New node cost ${newNodeCost}`);
 
             // Get cost and benefit of purchasing 5 level upgrades
-            const levelCost = Math.ceil(
-                hacknet.getLevelUpgradeCost(0, 5) * numNodes
-            );
+            const levelCost = hacknetPurchaser.getPurchaseCost({
+                upgrade: "level",
+            });
             const levelAdv =
                 levelCost === Infinity
                     ? Infinity
@@ -87,9 +62,9 @@ export async function main(ns: NS) {
             );
 
             // Get cost and benefit of purchasing 1 RAM upgrade
-            const ramCost = Math.ceil(
-                hacknet.getRamUpgradeCost(0, 1) * numNodes
-            );
+            const ramCost = hacknetPurchaser.getPurchaseCost({
+                upgrade: "ram",
+            });
             const ramAdv =
                 ramCost === Infinity
                     ? Infinity
@@ -97,9 +72,9 @@ export async function main(ns: NS) {
             ns.print(`[hacknet] RAM cost ${ramCost}, cost/benefit ${ramAdv}`);
 
             // Get cost and benefit of purchasing 1 core upgrade
-            const coreCost = Math.ceil(
-                hacknet.getCoreUpgradeCost(0, 1) * numNodes
-            );
+            const coreCost = hacknetPurchaser.getPurchaseCost({
+                upgrade: "core",
+            });
             const coreAdv = Math.floor(coreCost / MONEY_PER_CORE);
             ns.print(
                 `[hacknet] Core cost ${coreCost}, cost/benefit ${coreAdv}`
@@ -117,30 +92,33 @@ export async function main(ns: NS) {
 
             // Purchase best upgrade
             if (
-                newNodeCost < moneyAvail &&
+                hacknetPurchaser.canPurchase({ upgrade: "node" }) &&
                 hacknet.numNodes() < hacknet.maxNumNodes()
             ) {
                 ns.print(`[hacknet] Buying new node`);
                 hacknet.purchaseNode();
             } else if (
-                shouldSkip(ns, moneyAvail, coreCost, levelAdv, coreAdv) ||
-                shouldSkip(ns, moneyAvail, coreCost, ramAdv, coreAdv)
+                shouldSkip(ns, coreCost, levelAdv, coreAdv) ||
+                shouldSkip(ns, coreCost, ramAdv, coreAdv)
             ) {
-                if (shouldSkip(ns, moneyAvail, ramCost, levelAdv, ramAdv)) {
-                    if (levelCost < moneyAvail) {
+                if (shouldSkip(ns, ramCost, levelAdv, ramAdv)) {
+                    if (hacknetPurchaser.canPurchase({ upgrade: "level" })) {
                         ns.print(`[hacknet] Upgrading level`);
-                        upgradeOnAll(hacknet, hacknet.upgradeLevel, 5);
+                        hacknetPurchaser.purchaseOnAllNodes({
+                            upgrade: "level",
+                            num: 5,
+                        });
                     } else {
                         ns.print(`[hacknet] Skipping upgrades`);
                         await sleep(ns, 5 * 60 * 1000);
                     }
                 } else {
                     ns.print(`[hacknet] Upgrading RAM`);
-                    upgradeOnAll(hacknet, hacknet.upgradeRam);
+                    hacknetPurchaser.purchaseOnAllNodes({ upgrade: "ram" });
                 }
             } else {
                 ns.print(`[hacknet] Upgrading cores`);
-                upgradeOnAll(hacknet, hacknet.upgradeCore);
+                hacknetPurchaser.purchaseOnAllNodes({ upgrade: "core" });
             }
 
             await sleep(ns, 2 * 1000, false);
@@ -165,11 +143,11 @@ export async function main(ns: NS) {
  */
 function shouldSkip(
     ns: NS,
-    moneyAvail: number,
     cost2: number,
     benefit1: number,
     benefit2: number
 ): boolean {
+    const moneyAvail = ns.getServerMoneyAvailable("home");
     const costSkip = cost2 > moneyAvail;
     const benefitSkip = benefit1 < benefit2;
     const costOverride =
@@ -181,72 +159,3 @@ function shouldSkip(
     }
     return costSkip || benefitSkip;
 }
-
-/**
- * Run upgrade `fn` on all nodes.
- *
- * @param {Hacknet} hacknet - The Hacknet object.
- * @param {function} fn - The `upgradeX` funcrion to run.
- */
-function upgradeOnAll(
-    hacknet: Hacknet,
-    fn: (i: number, n: number) => boolean,
-    n = 1
-) {
-    const numNodes = hacknet.numNodes();
-
-    for (let i = 0; i < numNodes; i++) {
-        fn(i, n);
-    }
-}
-
-/**
- * Upgrade node to "baseline" (first node).
- *
- * @param {NS} ns - The Netscript object.
- * @param {number} index - The hacknet node to upgrade.
- */
-function upgradeToBaseline(ns: NS, index: number) {
-    ns.print(`[hacknet] Upgrading ${index} to baseline stats`);
-
-    const hacknet = ns.hacknet;
-    const baseNode = hacknet.getNodeStats(0);
-    const node = hacknet.getNodeStats(index);
-
-    if (node.level < baseNode.level) {
-        ns.print(
-            `[hacknet] Upgrading level ${node.level} -> ${baseNode.level}`
-        );
-        hacknet.upgradeLevel(index, baseNode.level - node.level);
-    }
-    if (node.ram < baseNode.ram) {
-        ns.print(`[hacknet] Upgrading RAM ${node.ram} -> ${baseNode.ram}`);
-        hacknet.upgradeRam(
-            index,
-            Math.log2(baseNode.ram) - Math.log2(node.ram)
-        );
-    }
-    if (node.cores < baseNode.cores) {
-        ns.print(
-            `[hacknet] Upgrading cores ${node.cores} -> ${baseNode.cores}`
-        );
-        hacknet.upgradeCore(index, baseNode.cores - node.cores);
-    }
-}
-
-// /**
-//  * @param {Hacknet} hacknet
-//  * @param {number} nodeId
-//  */
-// function getNodeUpgradeCost(hacknet, nodeId) {
-// 	const baseNode = hacknet.getNodeStats(0);
-// 	const node = hacknet.getNodeStats(nodeId);
-
-// 	return hacknet.getLevelUpgradeCost(nodeId, (baseNode.level) - )
-// }
-
-// /** @param {Hacknet} hacknet */
-// function getNodeBenefit(hacknet) {
-// 	const node = hacknet.getNodeStats(0);
-// 	return (node.cores * MONEY_PER_CORE) + (node.ram * MONEY_PER_RAM) + (node.level * MONEY_PER_LEVEL);
-// }

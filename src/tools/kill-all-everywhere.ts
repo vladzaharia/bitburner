@@ -1,6 +1,6 @@
 import { NS } from "Netscript";
 
-import { getPersonalServers, getRootedHosts } from "/helpers/discover";
+import { getPersonalServers, getRootedHosts } from "/helpers/discover.js";
 
 /**
  * Kill all scripts on all known servers.

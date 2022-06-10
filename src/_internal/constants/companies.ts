@@ -1,4 +1,4 @@
-import { ICompany, IMegaCorporation } from "/_types/interfaces/company.js";
+import { ICompany, IMegaCorporation } from "/_internal/interfaces/company.js";
 
 /**
  * All MegaCorporations (companies with factions) in the game.

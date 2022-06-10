@@ -1,7 +1,7 @@
-import { CITIES } from "/_types/constants/cities.js";
-import { MEGACORPS } from "/_types/constants/companies.js";
-import { IFaction } from "/_types/interfaces/faction.js";
-import { MegaCorporations } from "/_types/types.js";
+import { CITIES } from "/_internal/constants/cities.js";
+import { MEGACORPS } from "/_internal/constants/companies.js";
+import { IFaction } from "/_internal/interfaces/faction.js";
+import { MegaCorporations } from "/_internal/types/companies.js";
 
 /**
  * All factions, including cities and MegaCorporations.

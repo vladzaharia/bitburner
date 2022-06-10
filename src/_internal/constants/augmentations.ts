@@ -1,4 +1,4 @@
-import { IAugmentation } from "/_types/interfaces/augmentation.js";
+import { IAugmentation } from "/_internal/interfaces/augmentation.js";
 
 /**
  * All augmentations in the game.

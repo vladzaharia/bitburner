@@ -1,6 +1,6 @@
 import { NS } from "Netscript";
 
-import { ALL_OPENERS } from "/_types/constants/program.js";
+import { ALL_OPENERS } from "/_internal/constants/programs.js";
 
 /**
  * Crack host(s) from Terminal.

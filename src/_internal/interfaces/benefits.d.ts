@@ -1,4 +1,4 @@
-import { Programs } from "/_types/types.js";
+import { Programs } from "/_internal/types/programs.js";
 
 /**
  * Benefits from purchasing an augmentation.

@@ -1,5 +1,7 @@
-import { IFactionRequirements } from "/_types/interfaces/requirements.js";
-import { Augmentations, Cities, Companies } from "/_types/types.js";
+import { IFactionRequirements } from "/_internal/interfaces/requirements.js";
+import { Augmentations } from "/_internal/types/augmentations.js";
+import { Cities } from "/_internal/types/cities.js";
+import { Companies } from "/_internal/types/companies.js";
 
 /**
  * A company that can be worked at.

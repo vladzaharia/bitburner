@@ -7,7 +7,7 @@
         "rootDir": "src/",
         "baseUrl": "src/",
         "paths": {
-            "/_types/*": ["_types/*"],
+            "/_internal/*": ["_internal/*"],
             "/helpers/*": ["helpers/*"],
             "/lib/*": ["lib/*"],
             "/runners/*": ["runners/*"],

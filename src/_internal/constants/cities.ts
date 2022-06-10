@@ -1,4 +1,4 @@
-import { ICity } from "/_types/interfaces/city.js";
+import { ICity } from "/_internal/interfaces/city.js";
 
 /**
  * All cities in the game.

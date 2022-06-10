@@ -1,4 +1,4 @@
-import { Cities } from "/_types/types.js";
+import { Cities } from "/_internal/types/cities.js";
 
 /**
  * Requirements to purchase an augmentation.

@@ -1,4 +1,4 @@
-import { PortOpeners } from "/_types/types.js";
+import { PortOpeners } from "/_internal/types/programs.js";
 
 /**
  * All openers to use.

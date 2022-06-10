@@ -1,5 +1,6 @@
-import { IFactionRequirements } from "/_types/interfaces/requirements.js";
-import { Augmentations, Factions } from "/_types/types.js";
+import { IFactionRequirements } from "/_internal/interfaces/requirements.js";
+import { Augmentations } from "/_internal/types/augmentations.js";
+import { Factions } from "/_internal/types/factions.js";
 
 /**
  * A faction and its requirements.
