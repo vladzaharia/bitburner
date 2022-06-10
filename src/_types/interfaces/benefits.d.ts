@@ -4,24 +4,24 @@ import { Programs } from "/_types/types.js";
  * Benefits from purchasing an augmentation.
  * @interface
  */
-export interface AugmentationBenefits {
+export interface IAugmentationBenefits {
     /** Hacking skill multipliers. */
-    hack?: HackingBenefits;
+    hack?: IHackingBenefits;
 
     /** Strength skill multipliers. */
-    str?: SkillBenefits;
+    str?: ISkillBenefits;
 
     /** Defense skill multipliers. */
-    def?: SkillBenefits;
+    def?: ISkillBenefits;
 
     /** Dexterity skill multipliers. */
-    dex?: SkillBenefits;
+    dex?: ISkillBenefits;
 
     /** Agility skill multipliers. */
-    agi?: SkillBenefits;
+    agi?: ISkillBenefits;
 
     /** Charisma skill multipliers. */
-    cha?: SkillBenefits;
+    cha?: ISkillBenefits;
 
     /** Hacknet multipliers. */
     hacknet?: {
@@ -76,7 +76,7 @@ export interface AugmentationBenefits {
  * Benefits for a given skill.
  * @interface
  */
-interface SkillBenefits {
+interface ISkillBenefits {
     /** Skill multiplier.. */
     skill?: number;
 
@@ -87,9 +87,9 @@ interface SkillBenefits {
 /**
  * Benefits for the hacking skill.
  * @interface
- * @extends {SkillBenefits}
+ * @extends {ISkillBenefits}
  */
-interface HackingBenefits extends SkillBenefits {
+interface IHackingBenefits extends ISkillBenefits {
     /** Player's hacking chance. */
     chance?: number;
 

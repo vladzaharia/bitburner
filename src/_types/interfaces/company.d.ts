@@ -1,11 +1,11 @@
-import { FactionRequirements } from "/_types/interfaces/requirements.js";
+import { IFactionRequirements } from "/_types/interfaces/requirements.js";
 import { Augmentations, Cities, Companies } from "/_types/types.js";
 
 /**
  * A company that can be worked at.
  * @interface
  */
-export interface Company {
+export interface ICompany {
     /** Name of the company. */
     name: Companies;
 
@@ -20,11 +20,11 @@ export interface Company {
  * A company with a faction.
  * @interface
  */
-export interface MegaCorporation extends Company {
+export interface IMegaCorporation extends ICompany {
     /** Faction-specific information for this company. */
     faction: {
         /** The requirements to gain an invitation to this faction. */
-        requirements: FactionRequirements;
+        requirements: IFactionRequirements;
 
         /** Augmentations available for purchase. */
         augmentations: Augmentations[];

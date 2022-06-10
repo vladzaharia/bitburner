@@ -1,11 +1,11 @@
-import { FactionRequirements } from "/_types/interfaces/requirements.js";
+import { IFactionRequirements } from "/_types/interfaces/requirements.js";
 import { Augmentations, Cities } from "/_types/types.js";
 
 /**
  * A city in Bitburner.
  * @interface
  */
-export interface City {
+export interface ICity {
     /** The name of the city. */
     name: Cities;
 
@@ -15,7 +15,7 @@ export interface City {
     /** Faction-specific information for this city. */
     faction: {
         /** The requirements to gain an invitation to this faction. */
-        requirements: FactionRequirements;
+        requirements: IFactionRequirements;
 
         /** Augmentations available for purchase. */
         augmentations: Augmentations[];

@@ -53,12 +53,13 @@ gulp.task("generate-docs-md", () => {
             json: "./out/docs.json",
 
             name: "Bitburner",
+            categorizeByGroup: false,
             exclude: "./src/lib/**",
             gitRevision: "main",
-            plugins: ["typedoc-github-wiki-theme", "typedoc-plugin-markdown"],
+            plugin: ["typedoc-github-wiki-theme", "typedoc-plugin-markdown"],
             theme: "github-wiki",
             version: true,
-        })
+        } as never)
     );
 });
 
@@ -69,12 +70,13 @@ gulp.task("generate-docs-html", () => {
             json: "./out/docs.json",
 
             name: "Bitburner",
+            categorizeByGroup: false,
             exclude: "./src/lib/**",
             gitRevision: "main",
-            plugins: [],
+            plugin: [],
             theme: "default",
             version: true,
-        })
+        } as never)
     );
 });
 

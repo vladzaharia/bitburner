@@ -4,7 +4,7 @@ import { Cities } from "/_types/types.js";
  * Requirements to purchase an augmentation.
  * @interface
  */
-export interface AugmentationRequirements {
+export interface IAugmentationRequirements {
     /** Amount of money needed. */
     money?: number;
 
@@ -15,9 +15,9 @@ export interface AugmentationRequirements {
 /**
  * Requirements to gain access to a faction.
  * @interface
- * @extends {AugmentationRequirements}
+ * @extends {IAugmentationRequirements}
  */
-export interface FactionRequirements extends AugmentationRequirements {
+export interface IFactionRequirements extends IAugmentationRequirements {
     /** Hacking level needed. */
     level?: number;
 

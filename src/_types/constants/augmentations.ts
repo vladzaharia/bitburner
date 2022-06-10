@@ -1,9 +1,9 @@
-import { Augmentation } from "/_types/interfaces/augmentation.js";
+import { IAugmentation } from "/_types/interfaces/augmentation.js";
 
 /**
  * All augmentations in the game.
  */
-export const AUGMENTATIONS: Augmentation[] = [
+export const AUGMENTATIONS: IAugmentation[] = [
     {
         name: "ADR-V1 Pheromone Gene",
         benefits: {
@@ -1719,5 +1719,5 @@ export const AUGMENTATIONS: Augmentation[] = [
 /**
  * All augmenatations, as an object.
  */
-export const AUGMENTATIONS_OBJ: { [key: string]: Augmentation } =
+export const AUGMENTATIONS_OBJ: { [key: string]: IAugmentation } =
     AUGMENTATIONS.reduce((a, v) => ({ ...a, [v.name]: v }), {});

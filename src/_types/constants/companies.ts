@@ -1,9 +1,9 @@
-import { Company, MegaCorporation } from "/_types/interfaces/company.js";
+import { ICompany, IMegaCorporation } from "/_types/interfaces/company.js";
 
 /**
  * All MegaCorporations (companies with factions) in the game.
  */
-export const MEGACORPS: MegaCorporation[] = [
+export const MEGACORPS: IMegaCorporation[] = [
     {
         name: "ECorp",
         faction: {
@@ -110,7 +110,7 @@ export const MEGACORPS: MegaCorporation[] = [
 /**
  * All companies in the game.
  */
-export const COMPANIES: Company[] = [
+export const COMPANIES: ICompany[] = [
     {
         name: "Storm Technologies",
         location: "Ishima",
@@ -230,7 +230,7 @@ export const COMPANIES: Company[] = [
 /**
  * All cities, as an object.
  */
-export const COMPANIES_OBJ: { [key: string]: Company } = COMPANIES.reduce(
+export const COMPANIES_OBJ: { [key: string]: ICompany } = COMPANIES.reduce(
     (a, v) => ({ ...a, [v.name]: v }),
     {}
 );

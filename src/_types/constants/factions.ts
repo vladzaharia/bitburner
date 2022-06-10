@@ -1,12 +1,12 @@
 import { CITIES } from "/_types/constants/cities.js";
 import { MEGACORPS } from "/_types/constants/companies.js";
-import { Faction } from "/_types/interfaces/faction.js";
+import { IFaction } from "/_types/interfaces/faction.js";
 import { MegaCorporations } from "/_types/types.js";
 
 /**
  * All factions, including cities and MegaCorporations.
  */
-export const FACTIONS: Faction[] = [
+export const FACTIONS: IFaction[] = [
     {
         name: "CyberSec",
         augmentations: [],
@@ -165,7 +165,7 @@ export const FACTIONS: Faction[] = [
 /**
  * All factions, as an object.
  */
-export const FACTIONS_OBJ: { [key: string]: Faction } = FACTIONS.reduce(
+export const FACTIONS_OBJ: { [key: string]: IFaction } = FACTIONS.reduce(
     (a, v) => ({ ...a, [v.name]: v }),
     {}
 );

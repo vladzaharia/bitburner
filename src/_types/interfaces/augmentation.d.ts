@@ -1,12 +1,12 @@
-import { AugmentationBenefits } from "/_types/interfaces/benefits.js";
-import { AugmentationRequirements } from "/_types/interfaces/requirements.js";
+import { IAugmentationBenefits } from "/_types/interfaces/benefits.js";
+import { IAugmentationRequirements } from "/_types/interfaces/requirements.js";
 import { Augmentations, Factions } from "/_types/types.js";
 
 /**
  * An augmentation in Bitburner.
  * @interface
  */
-export interface Augmentation {
+export interface IAugmentation {
     /** The name of the city. */
     name: Augmentations;
 
@@ -14,8 +14,8 @@ export interface Augmentation {
     factions: Factions[];
 
     /** The requirements to gain an invitation to this faction. */
-    requirements: AugmentationRequirements;
+    requirements: IAugmentationRequirements;
 
     /** Benefits to this augmentation. */
-    benefits: AugmentationBenefits;
+    benefits: IAugmentationBenefits;
 }

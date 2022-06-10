@@ -1,9 +1,9 @@
-import { City } from "/_types/interfaces/city.js";
+import { ICity } from "/_types/interfaces/city.js";
 
 /**
  * All cities in the game.
  */
-export const CITIES: City[] = [
+export const CITIES: ICity[] = [
     {
         name: "Sector-12",
         enemies: ["Chongqing", "Ishima", "New Tokyo", "Volhaven"],
@@ -117,7 +117,7 @@ export const CITIES: City[] = [
 /**
  * All cities, as an object.
  */
-export const CITIES_OBJ: { [key: string]: City } = CITIES.reduce(
+export const CITIES_OBJ: { [key: string]: ICity } = CITIES.reduce(
     (a, v) => ({ ...a, [v.name]: v }),
     {}
 );
