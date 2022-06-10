@@ -3,7 +3,7 @@ import { NS } from "Netscript";
 import { IPurchaser } from "/_internal/interfaces/purchaser.js";
 
 /**
- * Abstract class representing an entity capable of purchasing using parameters `T`.
+ * Abstract class representing an entity capable of purchasing using parameters `params`.
  *
  * @template T
  */
@@ -47,7 +47,7 @@ export abstract class Purchaser<T> implements IPurchaser<T> {
     }
 
     /**
-     * Checks whether the user can purchase based on parameters `T`.
+     * Checks whether the user can purchase based on parameters `params`.
      *
      * @param {T} params - Parameters for this transaction.
      * @returns {boolean} Whether this transaction is possible.
@@ -57,7 +57,7 @@ export abstract class Purchaser<T> implements IPurchaser<T> {
     }
 
     /**
-     * Get cost of purchase with parameters `T`.
+     * Get cost of purchase with parameters `params`.
      * @virtual
      *
      * @param {T} params - Parameters for this transaction.
@@ -69,7 +69,7 @@ export abstract class Purchaser<T> implements IPurchaser<T> {
     }
 
     /**
-     * Purchase an item with parameters `T` if there is money available.
+     * Purchase an item with parameters `params` if there is money available.
      *
      * @param {T} params - Parameters for this transaction.
      * @returns {boolean} Whether the transaction was successful.

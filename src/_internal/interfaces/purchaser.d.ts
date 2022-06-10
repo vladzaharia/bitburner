@@ -12,7 +12,7 @@ export interface IPurchaser<T> {
     getAvailableMoney(): number;
 
     /**
-     * Checks whether the user can purchase based on parameters `T`.
+     * Checks whether the user can purchase based on parameters `params`.
      *
      * @param {T} params - Parameters for this transaction.
      * @returns {boolean} Whether this transaction is possible.
@@ -20,7 +20,7 @@ export interface IPurchaser<T> {
     canPurchase(params: T): boolean;
 
     /**
-     * Get cost of purchase with parameters `T`.
+     * Get cost of purchase with parameters `params`.
      *
      * @param {T} params - Parameters for this transaction.
      * @returns {number} Cost of the transaction.
@@ -28,7 +28,7 @@ export interface IPurchaser<T> {
     getPurchaseCost(params: T): number;
 
     /**
-     * Purchase an item with parameters `T` if there is money available.
+     * Purchase an item with parameters `params` if there is money available.
      *
      * @param {T} params - Parameters for this transaction.
      * @returns {boolean} Whether the transaction was successful.

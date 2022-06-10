@@ -22,8 +22,13 @@ interface HacknetParams {
  * Layer on top of `NS` and `Hacknet` to simplify node management.
  */
 export class HacknetPurchaser extends Purchaser<HacknetParams> {
+    /** Hacknet object within NS. */
     private readonly _hacknet: Hacknet;
+
+    /** Current number of nodes purchased. */
     private _numNodes = 0;
+
+    /** Base node (index 0) to use for upgrades. */
     private _baseNode: NodeStats;
 
     /**
