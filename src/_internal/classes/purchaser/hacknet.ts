@@ -43,26 +43,12 @@ export class HacknetPurchaser extends Purchaser<HacknetParams> {
 
         // Buy first node if needed
         if (this._numNodes === 0) {
-            this.purchaseNode();
+            this._purchaseNode();
             this.purchase({ index: 0, upgrade: "level", num: 4 });
         }
 
         // Set the base node statistics
         this._baseNode = this._setBaseNodeStats();
-    }
-
-    /**
-     * Purchase a new node.
-     */
-    public purchaseNode() {
-        const result = this._hacknet.purchaseNode();
-        this._setNumNodes();
-
-        this._ns.print(
-            `[hacknet] Purchased new node, new count: ${this._numNodes}`
-        );
-
-        return result !== -1;
     }
 
     /**
@@ -125,7 +111,7 @@ export class HacknetPurchaser extends Purchaser<HacknetParams> {
                 result = this._hacknet.upgradeCore(indexAsNumber, numAsNumber);
                 break;
             case "node":
-                result = this.purchaseNode();
+                result = this._purchaseNode();
                 break;
             default:
                 throw "Upgrade not possible!";
@@ -184,6 +170,20 @@ export class HacknetPurchaser extends Purchaser<HacknetParams> {
         }
 
         return result.every((r) => r);
+    }
+
+    /**
+     * Purchase a new node.
+     */
+    private _purchaseNode() {
+        const result = this._hacknet.purchaseNode();
+        this._setNumNodes();
+
+        this._ns.print(
+            `[hacknet] Purchased new node, new count: ${this._numNodes}`
+        );
+
+        return result !== -1;
     }
 
     /**
