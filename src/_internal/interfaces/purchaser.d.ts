@@ -1,7 +1,7 @@
 /**
  * Represents a class capable of purchasing, with a percentage of available money allocated to it.
  * @interface
- * @template T
+ * @template T - The transaction parameters for implementing classes.
  */
 export interface IPurchaser<T> {
     /**

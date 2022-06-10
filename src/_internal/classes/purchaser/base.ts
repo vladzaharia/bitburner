@@ -4,8 +4,8 @@ import { IPurchaser } from "/_internal/interfaces/purchaser.js";
 
 /**
  * Abstract class representing an entity capable of purchasing using parameters `params`.
- *
- * @template T
+ * @abstract
+ * @template T - The transaction parameters for implementing classes.
  */
 export abstract class Purchaser<T> implements IPurchaser<T> {
     /** The Netscript object. */
