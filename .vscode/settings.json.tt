@@ -4,7 +4,5 @@
     "bitburner.scriptRoot": "./out",
     "bitburner.showPushSuccessNotification": true,
     "typescript.tsdk": "node_modules/typescript/lib",
-    "sortJSON.orderOverride": [
-        "name"
-    ]
+    "sortJSON.orderOverride": ["name"],
 }
