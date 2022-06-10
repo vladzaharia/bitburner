@@ -39,8 +39,7 @@ jobs:
 
             - name: Build with Gulp
               run: |
-                  gulp ci
-                  gulp copy-out-to-docs
+                  npm run build:ci
 
             - name: Publish artifacts
               uses: actions/upload-artifact@v3
