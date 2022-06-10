@@ -36,3 +36,7 @@ jobs:
                   GH_MAIL: hey@vlad.gg
                   GH_NAME: ${{ github.repository_owner }}
                   if: ${{ steps.wait-for-build.outputs.conclusion == 'success' }}
+
+            - name: Fail if build not successful
+              run: exit 1
+              if: ${{ steps.wait-for-build.outputs.conclusion != 'success' }}
