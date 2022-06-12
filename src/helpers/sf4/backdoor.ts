@@ -1,7 +1,7 @@
 import { NS } from "Netscript";
 
+import { Scanner } from "/_internal/classes/scanner.js";
 import { crack } from "/helpers/crack.js";
-import { getRoute } from "/helpers/discover.js";
 
 /**
  * Backdoor a host using the Terminal.
@@ -25,10 +25,14 @@ export async function main(ns: NS) {
         throw "Function must be called with 1+ hostnames";
     }
 
+    const scanner = new Scanner(ns);
+
     for (const hostname of ns.args as string[]) {
         ns.print(`[backdoor] Executing crack on ${hostname}`);
 
-        await backdoor(ns, getRoute(ns, hostname));
+        const host = scanner.getHost(hostname);
+
+        await backdoor(ns, host.route);
     }
 }
 

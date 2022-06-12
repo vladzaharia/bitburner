@@ -1,7 +1,6 @@
 import { NS } from "Netscript";
 
-import { getRoute } from "/helpers/discover.js";
-import { canHack } from "/helpers/hack";
+import { Scanner, canHack } from "/_internal/classes/scanner.js";
 
 /**
  * Get route to a host using the Terminal.
@@ -24,6 +23,8 @@ export async function main(ns: NS) {
     ns.clearLog();
     ns.disableLog("ALL");
 
+    const scanner = new Scanner(ns);
+
     if (ns.args.length === 0) {
         throw "Function must be called with 1+ hostnames";
     }
@@ -31,7 +32,9 @@ export async function main(ns: NS) {
     for (const hostname of ns.args as string[]) {
         ns.print(`[route] Getting route to ${hostname}`);
 
-        printRoute(ns, getRoute(ns, hostname));
+        const host = scanner.getHost(hostname);
+
+        printRoute(ns, host.route);
     }
 }
 

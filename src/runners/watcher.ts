@@ -1,6 +1,6 @@
 import { NS } from "Netscript";
 
-import { getHackableHosts, getPersonalServers } from "/helpers/discover.js";
+import { Scanner } from "/_internal/classes/scanner.js";
 import { sleep } from "/helpers/sleep.js";
 
 /**
@@ -18,12 +18,14 @@ import { sleep } from "/helpers/sleep.js";
 export async function main(ns: NS) {
     ns.disableLog("ALL");
 
+    const scanner = new Scanner(ns);
+
     while (true) {
         ns.clearLog();
 
         if (!ns.fileExists("/flags/SKIP_WATCHER.js", "home")) {
-            const hackableHosts = getHackableHosts(ns);
-            const personalServers = getPersonalServers(ns);
+            const hackableHosts = scanner.getHostnames("hackable");
+            const personalServers = scanner.getHostnames("worker");
 
             ns.clearLog();
 

@@ -1,11 +1,7 @@
 import { NS } from "Netscript";
 
+import { Scanner } from "/_internal/classes/scanner.js";
 import { crack } from "/helpers/crack.js";
-import {
-    getCrackableHosts,
-    getHackableHosts,
-    getRootedHosts,
-} from "/helpers/discover.js";
 import { sleep } from "/helpers/sleep.js";
 
 /**
@@ -23,18 +19,26 @@ import { sleep } from "/helpers/sleep.js";
 export async function main(ns: NS) {
     ns.disableLog("ALL");
 
+    const scanner = new Scanner(ns);
+
     while (true) {
         ns.clearLog();
 
         if (!ns.fileExists("/flags/SKIP_CRACKER.js", "home")) {
-            const crackableHosts = getCrackableHosts(ns);
+            const crackableHosts = scanner.getHostnames("crackable");
 
             ns.clearLog();
 
+            ns.print(`[cracker] Crackable hosts: ${crackableHosts}`);
+
             crackableHosts.forEach((hn) => crack(ns, hn));
 
-            getHackableHosts(ns);
-            getRootedHosts(ns, crackableHosts);
+            ns.print(
+                `[cracker] Hackable hosts: ${scanner.getHostnames("hackable")}`
+            );
+            ns.print(
+                `[cracker] Rooted hosts: ${scanner.getHostnames("rooted")}`
+            );
 
             ns.print(`[cracker] Finished cracking nodes`);
             await sleep(ns, 5 * 60 * 1000);

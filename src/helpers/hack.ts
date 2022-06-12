@@ -46,23 +46,3 @@ export async function hack(ns: NS, hostname: string): Promise<number> {
     ns.print(`[hack] Executing hack on ${hostname}`);
     return await ns.hack(hostname);
 }
-
-/**
- * Check if `hostname` can be hacked by current hacking level.
- * @export
- *
- * @param {NS} ns - The Netscript object.
- * @param {string} hostname - The hostname to check.
- * @returns {boolean} Whether `hostname` can be cracked.
- */
-export function canHack(ns: NS, hostname: string): boolean {
-    const level = ns.getHackingLevel();
-    const levelRequired = ns.getServerRequiredHackingLevel(hostname);
-    const isRooted = ns.hasRootAccess(hostname);
-
-    ns.print(
-        `[discover] Hostname ${hostname}, Rooted ${isRooted}, Level ${level}/${levelRequired}`
-    );
-
-    return isRooted && level >= levelRequired && !hostname.startsWith("ps-");
-}

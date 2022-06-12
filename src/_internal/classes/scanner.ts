@@ -1,8 +1,9 @@
 import { NS } from "Netscript";
 
 import { IHost } from "/_internal/interfaces/host.js";
-import { canCrack } from "/helpers/crack.js";
-import { canHack } from "/helpers/hack.js";
+import { getPortOpeners } from "/helpers/crack.js";
+
+import { ScanType } from "../types/scanner";
 
 /**
  * Discovers and documents
@@ -27,14 +28,67 @@ export class Scanner {
     }
 
     /**
+     * Get host object for `hostname`.
+     *
+     * @param {string} hostname - The hostname to update and lookup.
+     * @returns {IHost} The host object for `hostname`.
+     */
+    public getHost(hostname: string): IHost {
+        // Update host before returning
+        this._updateHost(hostname);
+
+        return this._hostMap[hostname];
+    }
+
+    /**
+     * Get all host objects based on provided `scanType`.
+     *
+     * @param {ScanType} scanType - The scan to perform.
+     * @returns {IHost[]} All host objects, according to the `scanType`.
+     */
+    public getHosts(scanType: ScanType): IHost[] {
+        // Update hosts before retrieving
+        this._updateHosts();
+
+        // Start with all host objects
+        const allHosts: IHost[] = Object.values(this._hostMap);
+
+        // Filter based on scan type
+        switch (scanType) {
+            case "all":
+                return allHosts;
+            case "worker":
+                return allHosts.filter(({ hostname }) =>
+                    this._isWorker(hostname)
+                );
+            case "crackable":
+            case "hackable":
+            case "rooted":
+                return allHosts.filter(
+                    ({ capabilities }) => capabilities[scanType]
+                );
+            default:
+                throw "Unknown scan type!";
+        }
+    }
+
+    /**
+     * Get all hostnames based on provided `scanType`.
+     *
+     * @param {ScanType} scanType - The scan to perform.
+     * @returns {IHost[]} All hostnames, according to the `scanType`.
+     */
+    public getHostnames(scanType: ScanType): string[] {
+        return this.getHosts(scanType).map(({ hostname }) => hostname);
+    }
+
+    /**
      * Updates all hosts, both the `_hostnames` list and the `_hostMap` mapping.
      *
      * @returns {string[]} All discovered hostnames.
      */
     private _updateHosts(): string[] {
         const _scanHost = (hostname: string, route: string[]) => {
-            this._ns.print(`[discover] Scanning ${hostname}`);
-
             // Update global params
             this._hostnames.push(hostname);
             this._updateHost(hostname, route);
@@ -52,14 +106,6 @@ export class Scanner {
 
         // Start scan from home
         _scanHost("home", []);
-
-        this._ns.print(
-            `[discover] Discovered ${this._hostnames.length} hosts: ${this._hostnames}`
-        );
-
-        this._ns.print(
-            `[discover] Discovered routes: ${JSON.stringify(this._hostMap)}`
-        );
         return this._hostnames;
     }
 
@@ -77,7 +123,7 @@ export class Scanner {
     ): IHost {
         const host: IHost = {
             hostname,
-            route,
+            route: [...route, hostname],
             money: {
                 current: this._ns.getServerMoneyAvailable(hostname),
                 max: this._ns.getServerMaxMoney(hostname),
@@ -93,7 +139,9 @@ export class Scanner {
             },
             capabilities: {
                 crackable: canCrack(this._ns, hostname),
-                rooted: this._ns.hasRootAccess(hostname),
+                rooted:
+                    this._ns.hasRootAccess(hostname) &&
+                    !this._isWorker(hostname, false),
                 hackable: canHack(this._ns, hostname),
             },
         };
@@ -123,11 +171,40 @@ export class Scanner {
      * @param hostname - The hostname to check.
      * @returns {boolean} Whether the hostname is a worker or other host.
      */
-    private _isWorker(hostname: string): boolean {
-        // Ensure worker list is up to date
-        this._updateWorkers();
+    private _isWorker(hostname: string, updateWorker = true): boolean {
+        if (updateWorker) {
+            // Ensure worker list is up to date
+            this._updateWorkers();
+        }
 
         // Check against official worker list
         return this._workers.includes(hostname);
     }
+}
+
+/**
+ * Check if `hostname` can be cracked by current port openers.
+ *
+ * @param {NS} ns - The Netscript object.
+ * @param {string} hostname - The hostname to check.
+ * @returns {boolean} Whether `hostname` can be cracked.
+ */
+export function canCrack(ns: NS, hostname: string): boolean {
+    return getPortOpeners(ns).length >= ns.getServerNumPortsRequired(hostname);
+}
+
+/**
+ * Check if `hostname` can be hacked by current hacking level.
+ * @export
+ *
+ * @param {NS} ns - The Netscript object.
+ * @param {string} hostname - The hostname to check.
+ * @returns {boolean} Whether `hostname` can be cracked.
+ */
+export function canHack(ns: NS, hostname: string): boolean {
+    return (
+        ns.hasRootAccess(hostname) &&
+        ns.getHackingLevel() >= ns.getServerRequiredHackingLevel(hostname) &&
+        !hostname.startsWith("ps-")
+    );
 }

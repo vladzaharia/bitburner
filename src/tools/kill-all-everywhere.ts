@@ -1,6 +1,6 @@
 import { NS } from "Netscript";
 
-import { getPersonalServers, getRootedHosts } from "/helpers/discover.js";
+import { Scanner } from "/_internal/classes/scanner.js";
 
 /**
  * Kill all scripts on all known servers.
@@ -15,9 +15,10 @@ import { getPersonalServers, getRootedHosts } from "/helpers/discover.js";
  * @param {NS} ns - The Netscript object.
  */
 export async function main(ns: NS) {
+    const scanner = new Scanner(ns);
     const allServers = [
-        ...getRootedHosts(ns),
-        ...getPersonalServers(ns),
+        ...scanner.getHostnames("rooted"),
+        ...scanner.getHostnames("worker"),
         "home",
     ];
 

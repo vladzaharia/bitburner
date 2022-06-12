@@ -1,12 +1,6 @@
 import { NS } from "Netscript";
 
-import {
-    getControlServers,
-    getHosts,
-    getPersonalServers,
-    getRootedHosts,
-    getWorkerServers,
-} from "/helpers/discover.js";
+import { Scanner } from "/_internal/classes/scanner.js";
 import { exec } from "/helpers/exec.js";
 import { scp } from "/helpers/scp.js";
 
@@ -38,11 +32,12 @@ import { scp } from "/helpers/scp.js";
  * @param {NS} ns - The Netscript object.
  */
 export async function main(ns: NS) {
-    const hackableHosts = getRootedHosts(ns);
-    let hostnames = [...getPersonalServers(ns), ...hackableHosts];
+    const scanner = new Scanner(ns);
+    const rootedHosts = scanner.getHostnames("rooted");
+    let hostnames = [...scanner.getHostnames("worker"), ...rootedHosts];
     let threads = 0;
     let filename = "/helpers/hack-weaken-grow.js";
-    let args = hackableHosts;
+    let args = rootedHosts;
 
     ns.print(
         `[scp-exec] Found ${hostnames.length} personal servers: ${hostnames}`
@@ -52,19 +47,16 @@ export async function main(ns: NS) {
     if (ns.args.length > 0) {
         const hostnameArg = ns.args[0] as string;
 
-        if (hostnameArg === "control") {
-            hostnames = getControlServers(ns);
-            ns.print(`[scp-exec] Filtered to control servers: ${hostnames}`);
-        } else if (hostnameArg === "worker") {
-            hostnames = getWorkerServers(ns);
+        if (hostnameArg === "worker") {
+            hostnames = scanner.getHostnames("worker");
             ns.print(`[scp-exec] Filtered to worker servers: ${hostnames}`);
         } else if (hostnameArg === "rooted") {
-            hostnames = getRootedHosts(ns);
+            hostnames = scanner.getHostnames("rooted");
             ns.print(`[scp-exec] Filtered to worker servers: ${hostnames}`);
         } else {
-            hostnames = getHosts(ns, 10).filter(
-                (hn) => !hn.includes(hostnameArg)
-            );
+            hostnames = scanner
+                .getHostnames("all")
+                .filter((hn) => !hn.includes(hostnameArg));
             ns.print(
                 `[scp-exec] Filtered based on ${hostnameArg}: ${hostnames}`
             );

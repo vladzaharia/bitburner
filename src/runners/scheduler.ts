@@ -1,10 +1,6 @@
 import { NS } from "Netscript";
 
-import {
-    getHackableHosts,
-    getRootedHosts,
-    getWorkerServers,
-} from "/helpers/discover.js";
+import { Scanner } from "/_internal/classes/scanner.js";
 import { exec } from "/helpers/exec.js";
 import { scp } from "/helpers/scp.js";
 import { sleep } from "/helpers/sleep.js";
@@ -59,9 +55,11 @@ const MIN_SEC_LEVEL = 2;
 export async function main(ns: NS) {
     ns.disableLog("ALL");
 
+    const scanner = new Scanner(ns);
+
     while (true) {
-        const pools = getPools(ns);
-        const args = getHackableHosts(ns, [], 10);
+        const pools = getPools(ns, scanner);
+        const args = scanner.getHostnames("hackable");
 
         ns.clearLog();
 
@@ -89,13 +87,14 @@ export async function main(ns: NS) {
  * Get all pools available.
  *
  * @param {NS} ns - The Netscript object.
+ * @param {Scanner} scanner - Scanner class to use for hostname lookups.
  * @returns {string[][]} All pools - worker, rooted and home.
  */
-function getPools(ns: NS): string[][] {
-    const workers = getWorkerServers(ns);
+function getPools(ns: NS, scanner: Scanner): string[][] {
+    const workers = scanner.getHostnames("worker");
     ns.print(`[scheduler] Workers: ${workers}`);
 
-    const rootedNodes = getRootedHosts(ns);
+    const rootedNodes = scanner.getHostnames("rooted");
     ns.print(`[scheduler] Rooted nodes: ${rootedNodes}`);
 
     return [...splitHostnames(ns, workers), ...splitHostnames(ns, rootedNodes)];

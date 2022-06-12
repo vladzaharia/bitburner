@@ -1,11 +1,7 @@
 import { NS } from "Netscript";
 
+import { Scanner } from "/_internal/classes/scanner.js";
 import { crack } from "/helpers/crack";
-import {
-    getCrackableHosts,
-    getRootedHosts,
-    getRoute,
-} from "/helpers/discover.js";
 import { backdoor } from "/helpers/sf4/backdoor.js";
 import { sleep } from "/helpers/sleep.js";
 
@@ -24,12 +20,14 @@ import { sleep } from "/helpers/sleep.js";
 export async function main(ns: NS) {
     ns.disableLog("ALL");
 
+    const scanner = new Scanner(ns);
+
     while (true) {
         ns.clearLog();
 
         if (!ns.fileExists("/flags/SKIP_CRACKER.js", "home")) {
             ns.print(`[cracker] Cracking all possible nodes`);
-            const crackableHosts = getCrackableHosts(ns);
+            const crackableHosts = scanner.getHostnames("crackable");
             ns.clearLog();
 
             // Crack all possible hosts
@@ -37,11 +35,13 @@ export async function main(ns: NS) {
 
             ns.print(`[cracker] Finished cracking nodes, backdooring`);
 
-            const rootedHosts = getRootedHosts(ns);
+            const rootedHosts = scanner.getHostnames("rooted");
 
             // Backdoor all rooted hosts
             for (const hostname of rootedHosts) {
-                await backdoor(ns, getRoute(ns, hostname));
+                const host = scanner.getHost(hostname);
+
+                await backdoor(ns, host.route);
                 await sleep(ns, 10 * 1000, false);
             }
 
