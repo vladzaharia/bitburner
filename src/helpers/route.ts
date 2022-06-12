@@ -1,6 +1,7 @@
 import { NS } from "Netscript";
 
-import { canHack, getRoute } from "/helpers/discover.js";
+import { getRoute } from "/helpers/discover.js";
+import { canHack } from "/helpers/hack";
 
 /**
  * Get route to a host using the Terminal.

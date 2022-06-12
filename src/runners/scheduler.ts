@@ -98,7 +98,7 @@ function getPools(ns: NS): string[][] {
     const rootedNodes = getRootedHosts(ns);
     ns.print(`[scheduler] Rooted nodes: ${rootedNodes}`);
 
-    return [...splitWorkers(ns, workers), ...splitHostnames(ns, rootedNodes)];
+    return [...splitHostnames(ns, workers), ...splitHostnames(ns, rootedNodes)];
 }
 
 /**
@@ -122,38 +122,6 @@ function splitHostnames(ns: NS, hostnames: string[]): string[][] {
         ns.print(`[scheduler] Added ${hn} to pool ${currentPoolHostnames}`);
         currentPoolHostnames.push(hn);
     });
-
-    finalHostnames = [...finalHostnames, currentPoolHostnames];
-
-    return finalHostnames;
-}
-
-/**
- * Split workers into pools.
- *
- * @param {NS} ns - The Netscript object.
- * @param {string[]} hostnames - The workers to split into pools, based on `ps-worker[n]`.
- * @returns {string[][]} The pools of workers with the same `n`.
- */
-function splitWorkers(ns: NS, hostnames: string[]): string[][] {
-    let finalHostnames: string[][] = [];
-    let currentPool = 0;
-    let currentPoolHostnames: string[] = [];
-    const regex = /^ps-worker(\d)-(\d)$/;
-
-    for (const hostname of hostnames) {
-        const match = hostname.match(regex);
-
-        if (match && parseInt(match[1], 10) > currentPool) {
-            ns.print(`[scheduler] New pool found ${match[1]}`);
-            finalHostnames = [...finalHostnames, currentPoolHostnames];
-            currentPool = parseInt(match[1], 10);
-            currentPoolHostnames = [];
-        }
-
-        ns.print(`[scheduler] Added ${hostname} to pool ${currentPool}`);
-        currentPoolHostnames.push(hostname);
-    }
 
     finalHostnames = [...finalHostnames, currentPoolHostnames];
 

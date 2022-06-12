@@ -1,6 +1,8 @@
 import { NS } from "Netscript";
 
-import { getPortOpeners } from "/helpers/crack.js";
+import { Scanner } from "/_internal/classes/scanner.js";
+import { canCrack } from "/helpers/crack.js";
+import { canHack } from "/helpers/hack.js";
 
 /** Depth to search to */
 const DEPTH = 99;
@@ -26,6 +28,8 @@ let foundHosts: string[] = [];
  * @param {NS} ns - The Netscript object.
  */
 export async function main(ns: NS) {
+    ns.clearLog();
+
     let depth = DEPTH;
 
     if (ns.args.length === 1) {
@@ -34,6 +38,7 @@ export async function main(ns: NS) {
 
     const allHosts = getHosts(ns, depth);
     getCrackableHosts(ns, allHosts, depth);
+
     return allHosts;
 }
 
@@ -276,9 +281,7 @@ function scanHost(
             hn !== "home" && !hn.startsWith("pserv-") && !hn.startsWith("ps-")
     );
 
-    const hostnamesToScan = hostnames.filter(
-        (hn) => foundHosts.indexOf(hn) === -1
-    );
+    const hostnamesToScan = hostnames.filter((hn) => !foundHosts.includes(hn));
     // ns.print(`[discover] Need to scan ${hostnamesToScan}, depth ${curDepth}/${maxDepth}`);
 
     if (curDepth <= maxDepth) {
@@ -294,42 +297,4 @@ function scanHost(
     }
 
     return hostnames;
-}
-
-/**
- * Check if `hostname` can be cracked by current port openers.
- *
- * @param {NS} ns - The Netscript object.
- * @param {string} hostname - The hostname to check.
- * @returns {boolean} Whether `hostname` can be cracked.
- */
-function canCrack(ns: NS, hostname: string): boolean {
-    const numPorts = getPortOpeners(ns).length;
-    const numPortsRequired = ns.getServerNumPortsRequired(hostname);
-
-    ns.print(
-        `[discover] Hostname ${hostname}, Ports ${numPorts}/${numPortsRequired}`
-    );
-
-    return numPorts >= numPortsRequired;
-}
-
-/**
- * Check if `hostname` can be hacked by current hacking level.
- * @export
- *
- * @param {NS} ns - The Netscript object.
- * @param {string} hostname - The hostname to check.
- * @returns {boolean} Whether `hostname` can be cracked.
- */
-export function canHack(ns: NS, hostname: string): boolean {
-    const level = ns.getHackingLevel();
-    const levelRequired = ns.getServerRequiredHackingLevel(hostname);
-    const isRooted = ns.hasRootAccess(hostname);
-
-    ns.print(
-        `[discover] Hostname ${hostname}, Rooted ${isRooted}, Level ${level}/${levelRequired}`
-    );
-
-    return isRooted && level >= levelRequired;
 }

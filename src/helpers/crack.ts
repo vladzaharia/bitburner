@@ -115,3 +115,21 @@ function useOpener(ns: NS, hostname: string, opener: string) {
             throw "Unknown opener!";
     }
 }
+
+/**
+ * Check if `hostname` can be cracked by current port openers.
+ *
+ * @param {NS} ns - The Netscript object.
+ * @param {string} hostname - The hostname to check.
+ * @returns {boolean} Whether `hostname` can be cracked.
+ */
+export function canCrack(ns: NS, hostname: string): boolean {
+    const numPorts = getPortOpeners(ns).length;
+    const numPortsRequired = ns.getServerNumPortsRequired(hostname);
+
+    ns.print(
+        `[discover] Hostname ${hostname}, Ports ${numPorts}/${numPortsRequired}`
+    );
+
+    return numPorts >= numPortsRequired;
+}

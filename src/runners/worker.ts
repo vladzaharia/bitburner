@@ -31,7 +31,7 @@ export async function main(ns: NS) {
 
         if (!ns.fileExists("/flags/SKIP_PURCHASER.js", "home")) {
             ns.print(
-                `[purchaser] Available money ${workerStore.getAvailableMoney()}`
+                `[worker] Available money ${workerStore.getAvailableMoney()}`
             );
 
             // Sell servers if we need to upgrade RAM
@@ -45,12 +45,12 @@ export async function main(ns: NS) {
                 workerStore.getCurrentRAM() === 2048 &&
                 purchasedServers.length === max
             ) {
-                ns.print(`[purchaser] No further upgrades possible!`);
+                ns.print(`[worker] No further upgrades possible!`);
                 return;
             }
 
             ns.print(
-                `[purchaser] Purchased servers ${purchasedServers.length}/${max}`
+                `[worker] Purchased servers ${purchasedServers.length}/${max}`
             );
 
             while (purchasedServers.length < max) {
@@ -65,10 +65,10 @@ export async function main(ns: NS) {
                 }
             }
 
-            ns.print(`[purchaser] At max personal servers (${max})`);
+            ns.print(`[worker] At max personal servers (${max})`);
             await sleep(ns, 30 * 60 * 1000);
         } else {
-            ns.print(`[watcher] Found file /flags/SKIP_PURCHASER.js`);
+            ns.print(`[worker] Found file /flags/SKIP_PURCHASER.js`);
             await sleep(ns, 60 * 1000);
         }
     }

@@ -63,7 +63,7 @@ export async function main(ns: NS) {
             ns.print(`[scp-exec] Filtered to worker servers: ${hostnames}`);
         } else {
             hostnames = getHosts(ns, 10).filter(
-                (hn) => hn.indexOf(hostnameArg) !== -1
+                (hn) => !hn.includes(hostnameArg)
             );
             ns.print(
                 `[scp-exec] Filtered based on ${hostnameArg}: ${hostnames}`
@@ -95,7 +95,7 @@ export async function main(ns: NS) {
         const hostname = hostnames[i];
         let fnArgs = args.slice();
 
-        if (ns.args.indexOf("targets") !== -1 && ns.args.length < 4) {
+        if (!ns.args.includes("targets") && ns.args.length < 4) {
             fnArgs = fnArgs.filter(
                 (hn, j) => j % hostnames.length === i % hostnames.length
             );
