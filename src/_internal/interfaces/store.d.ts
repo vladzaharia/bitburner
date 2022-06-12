@@ -4,7 +4,7 @@
  * @template P - The purchase parameters for implementing classes.
  * @template S - The sell parameters for implementing classes.
  */
-export interface IPurchaser<P, S> {
+export interface IStore<P, S> {
     /**
      * Gets the amount of money available to this store.
      *

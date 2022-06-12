@@ -1,6 +1,6 @@
 import { Hacknet, NS, NodeStats } from "Netscript";
 
-import { Purchaser } from "/_internal/classes/store/base.js";
+import { Store } from "/_internal/classes/store/base.js";
 import { HacknetUpgrade } from "/_internal/types/hacknet.js";
 import { sleep } from "/helpers/sleep";
 
@@ -23,7 +23,7 @@ interface HacknetParams {
  * Layer on top of `NS` and `Hacknet` to simplify node management.
  * @class
  */
-export class HacknetPurchaser extends Purchaser<HacknetParams, null> {
+export class HacknetPurchaser extends Store<HacknetParams, null> {
     /** Hacknet object within NS. */
     private readonly _hacknet: Hacknet;
 
@@ -100,6 +100,7 @@ export class HacknetPurchaser extends Purchaser<HacknetParams, null> {
     /**
      * Upgrade `upgrade` stat on `index` node by `levels` amount.
      * @override
+     * @async
      *
      * @param {number} index
      * @param {string} upgrade
@@ -142,6 +143,7 @@ export class HacknetPurchaser extends Purchaser<HacknetParams, null> {
 
     /**
      * Upgrade `upgrade` stat on all nodes by `levels` amount.
+     * @async
      *
      * @param {HacknetParams} params - Parameters for purchasing.
      * @param {number} num - Number of upgrades to apply to all nodes.
@@ -158,7 +160,7 @@ export class HacknetPurchaser extends Purchaser<HacknetParams, null> {
         const result: boolean[] = [];
 
         this._ns.print(
-            `[hacknet] Purchasing ${upgrade}x${num || 1} on all nodes`
+            `[store] Purchasing ${upgrade}x${num || 1} on all nodes`
         );
         for (let index = 0; index < this._numNodes; index++) {
             result.push(await this.purchase({ index, upgrade, num: num || 1 }));
@@ -169,6 +171,7 @@ export class HacknetPurchaser extends Purchaser<HacknetParams, null> {
 
     /**
      * Upgrade all nodes to base node stats, if needed.
+     * @async
      *
      * @param {number} index - The index of the node to upgrade.
      */
@@ -195,7 +198,7 @@ export class HacknetPurchaser extends Purchaser<HacknetParams, null> {
         this._updateNumNodes();
 
         this._ns.print(
-            `[hacknet] Purchased new node, new count: ${this._numNodes}`
+            `[store] Purchased new node, new count: ${this._numNodes}`
         );
 
         return result !== -1;
@@ -203,11 +206,12 @@ export class HacknetPurchaser extends Purchaser<HacknetParams, null> {
 
     /**
      * Upgrade node `index` to base node stats.
+     * @async
      *
      * @param {number} index - The index of the node to upgrade.
      */
     private async _upgradeNodeToBaseline(index: number): Promise<boolean> {
-        this._ns.print(`[hacknet] Upgrading ${index} to baseline stats`);
+        this._ns.print(`[store] Upgrading ${index} to baseline stats`);
 
         const node = this._hacknet.getNodeStats(index);
         const upgrades: HacknetUpgrade[] = ["level", "ram", "cores"];
@@ -219,7 +223,7 @@ export class HacknetPurchaser extends Purchaser<HacknetParams, null> {
 
             if (nodeLevel < baseNodeLevel) {
                 this._ns.print(
-                    `[hacknet] Upgrading ${upgrade} ${nodeLevel} -> ${baseNodeLevel}`
+                    `[store] Upgrading ${upgrade} ${nodeLevel} -> ${baseNodeLevel}`
                 );
 
                 let levelDiff = baseNodeLevel - nodeLevel;

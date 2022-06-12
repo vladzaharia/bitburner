@@ -1,6 +1,6 @@
 import { NS } from "Netscript";
 
-import { IPurchaser } from "/_internal/interfaces/store.js";
+import { IStore } from "/_internal/interfaces/store.js";
 import { sleep } from "/helpers/sleep";
 
 /**
@@ -10,7 +10,7 @@ import { sleep } from "/helpers/sleep";
  * @template P - The purchase parameters for implementing classes.
  * @template S - The sell parameters for implementing classes.
  */
-export abstract class Purchaser<P, S> implements IPurchaser<P, S> {
+export abstract class Store<P, S> implements IStore<P, S> {
     /** The Netscript object. */
     protected _ns: NS;
 
@@ -76,6 +76,8 @@ export abstract class Purchaser<P, S> implements IPurchaser<P, S> {
 
     /**
      * Purchase an item with parameters `params` if there is money available.
+     * @virtual
+     * @async
      *
      * @param {P} params - Parameters for this transaction.
      * @returns {Promise<boolean>} Whether the transaction was successful.
@@ -87,7 +89,7 @@ export abstract class Purchaser<P, S> implements IPurchaser<P, S> {
         const moneyAvail = this.getAvailableMoney();
         if (cost > moneyAvail) {
             this._ns.print(
-                `[purchaser] Not enough money available! ${cost}/${moneyAvail}`
+                `[store] Not enough money available! ${cost}/${moneyAvail}`
             );
             await sleep(this._ns, 60 * 1000);
             return false;
@@ -99,6 +101,7 @@ export abstract class Purchaser<P, S> implements IPurchaser<P, S> {
     /**
      * Purchase an item, must be overridden by implementing classes.
      * @virtual
+     * @async
      *
      * @param {P} params - Parameters for this transaction.
      * @returns {Promise<boolean>} Whether the transaction was successful.
@@ -110,6 +113,7 @@ export abstract class Purchaser<P, S> implements IPurchaser<P, S> {
 
     /**
      * Sell an item with params `params`, if possible.
+     * @async
      *
      * @param {S} params - Parameters for this sale.
      * @returns {Promise<boolean>} Whether the transaction was successful.
@@ -123,6 +127,8 @@ export abstract class Purchaser<P, S> implements IPurchaser<P, S> {
 
     /**
      * Sell an item with params `params`, must be overridden by implementing classes if supported.
+     * @virtual
+     * @async
      *
      * @param {S} params - Parameters for this sale.
      * @returns {Promise<boolean>} Whether the transaction was successful.

@@ -6,7 +6,7 @@ import { NS } from "Netscript";
  */
 const RUNNERS: string[] = [
     "cracker.js",
-    "purchaser.js",
+    "worker.js",
     "scheduler.js",
     "hacknet.js",
     // "watcher.js",

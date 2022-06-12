@@ -1,6 +1,6 @@
 import { NS } from "Netscript";
 
-import { HacknetPurchaser } from "/_internal/classes/store/hacknet.js";
+import { HacknetPurchaser as HacknetStore } from "/_internal/classes/store/hacknet.js";
 import { sleep } from "/helpers/sleep.js";
 
 /** Gain per level upgrade (manually added) */
@@ -34,21 +34,21 @@ export async function main(ns: NS) {
     ns.disableLog("ALL");
 
     const hacknet = ns.hacknet;
-    const hacknetPurchaser = new HacknetPurchaser(ns);
+    const hacknetStore = new HacknetStore(ns);
 
     while (true) {
         ns.clearLog();
 
         if (!ns.fileExists("/flags/SKIP_HACKNET.js", "home")) {
             // Upgrade all nodes to baseline
-            await hacknetPurchaser.upgradeAllNodesToBaseline();
+            await hacknetStore.upgradeAllNodesToBaseline();
 
             ns.print(
-                `[hacknet] Available money ${hacknetPurchaser.getAvailableMoney()}`
+                `[hacknet] Available money ${hacknetStore.getAvailableMoney()}`
             );
 
             // Get cost of new node
-            const newNodeCost = hacknetPurchaser.getPurchaseCost(
+            const newNodeCost = hacknetStore.getPurchaseCost(
                 {
                     upgrade: "node",
                 },
@@ -57,7 +57,7 @@ export async function main(ns: NS) {
             ns.print(`[hacknet] New node cost ${newNodeCost}`);
 
             // Get cost and benefit of purchasing 5 level upgrades
-            const levelCost = hacknetPurchaser.getPurchaseCost(
+            const levelCost = hacknetStore.getPurchaseCost(
                 {
                     upgrade: "level",
                 },
@@ -72,7 +72,7 @@ export async function main(ns: NS) {
             );
 
             // Get cost and benefit of purchasing 1 RAM upgrade
-            const ramCost = hacknetPurchaser.getPurchaseCost(
+            const ramCost = hacknetStore.getPurchaseCost(
                 {
                     upgrade: "ram",
                 },
@@ -85,7 +85,7 @@ export async function main(ns: NS) {
             ns.print(`[hacknet] RAM cost ${ramCost}, cost/benefit ${ramAdv}`);
 
             // Get cost and benefit of purchasing 1 core upgrade
-            const coreCost = hacknetPurchaser.getPurchaseCost(
+            const coreCost = hacknetStore.getPurchaseCost(
                 {
                     upgrade: "cores",
                 },
@@ -108,25 +108,25 @@ export async function main(ns: NS) {
 
             // Purchase best upgrade
             if (
-                hacknetPurchaser.canPurchase({ upgrade: "node" }) &&
+                hacknetStore.canPurchase({ upgrade: "node" }) &&
                 hacknet.numNodes() < hacknet.maxNumNodes()
             ) {
                 ns.print(`[hacknet] Buying new node`);
-                await hacknetPurchaser.purchase({ upgrade: "node" });
+                await hacknetStore.purchase({ upgrade: "node" });
             } else if (
                 shouldSkip(ns, coreCost, levelAdv, coreAdv) ||
                 shouldSkip(ns, coreCost, ramAdv, coreAdv)
             ) {
                 if (shouldSkip(ns, ramCost, levelAdv, ramAdv)) {
                     if (
-                        hacknetPurchaser.canPurchase({
+                        hacknetStore.canPurchase({
                             upgrade: "level",
                             index: 0,
                             num: 5,
                         })
                     ) {
                         ns.print(`[hacknet] Upgrading level`);
-                        await hacknetPurchaser.purchaseOnAllNodes({
+                        await hacknetStore.purchaseOnAllNodes({
                             upgrade: "level",
                             num: 5,
                         });
@@ -136,13 +136,13 @@ export async function main(ns: NS) {
                     }
                 } else {
                     ns.print(`[hacknet] Upgrading RAM`);
-                    await hacknetPurchaser.purchaseOnAllNodes({
+                    await hacknetStore.purchaseOnAllNodes({
                         upgrade: "ram",
                     });
                 }
             } else {
                 ns.print(`[hacknet] Upgrading cores`);
-                await hacknetPurchaser.purchaseOnAllNodes({ upgrade: "cores" });
+                await hacknetStore.purchaseOnAllNodes({ upgrade: "cores" });
             }
 
             await sleep(ns, 2 * 1000, false);

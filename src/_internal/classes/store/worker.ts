@@ -1,6 +1,6 @@
 import { NS } from "Netscript";
 
-import { Purchaser } from "/_internal/classes/store/base.js";
+import { Store } from "/_internal/classes/store/base.js";
 
 /** Cost of server per GB of RAM. */
 const PRICE_PER_GB = 55000 * 25;
@@ -30,10 +30,7 @@ interface WorkerSellParams {
  * Layer on top of `NS` to simplify worker management.
  * @class
  */
-export class WorkerPurchaser extends Purchaser<
-    WorkerPurchaseParams,
-    WorkerSellParams
-> {
+export class WorkerStore extends Store<WorkerPurchaseParams, WorkerSellParams> {
     /** Current number of nodes purchased. */
     private _workers: string[] = [];
 
@@ -58,7 +55,7 @@ export class WorkerPurchaser extends Purchaser<
 
     /**
      * Get cost of purchasing a new worker with `params.ram`.
-     * @virtual
+     * @override
      *
      * @param {WorkerPurchaseParams} params - Parameters for this transaction.
      * @returns {number} Cost of the transaction.
@@ -69,8 +66,29 @@ export class WorkerPurchaser extends Purchaser<
     }
 
     /**
+     * Gets current RAM value.
+     *
+     * @returns {number} Current RAM value based on available money.
+     */
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    public getCurrentRAM(): number {
+        return this._currentRAM;
+    }
+
+    /**
+     * Gets current workers.
+     *
+     * @returns {string[]} All purchased workers.
+     */
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    public getWorkers(): string[] {
+        return this._workers;
+    }
+
+    /**
      * Purchase a new worker with `params.ram`.
-     * @virtual
+     * @override
+     * @async
      *
      * @param {WorkerPurchaseParams} params - Parameters for this transaction.
      * @returns {Promise<boolean>} Whether the transaction was successful.
@@ -79,27 +97,50 @@ export class WorkerPurchaser extends Purchaser<
     protected override async _purchase(
         params: WorkerPurchaseParams
     ): Promise<boolean> {
-        return (
-            this._ns.purchaseServer(params.hostname as string, params.ram) !==
-            ""
+        // Get worker name if not provided
+        if (!params.hostname) {
+            params.hostname = this._getWorkerName();
+        }
+
+        this._ns.print(
+            `[store] Purchasing new server ${params.hostname} with RAM ${params.ram}.`
         );
+
+        // Purchase server
+        const result = this._ns.purchaseServer(params.hostname, params.ram);
+
+        // Update worker list after operation
+        this._updateWorkers();
+
+        return result !== "";
     }
 
     /**
      * Sell a worker with hostnmae `params.hostname`.
+     * @override
+     * @async
      *
      * @param {WorkerSellParams} params - Parameters for this sale.
      * @returns {Promise<boolean>} Whether the transaction was successful.
      */
     protected override async _sell(params: WorkerSellParams): Promise<boolean> {
+        this._ns.print(`[store] Selling server ${params.hostname}.`);
+
         // Kill all scripts before selling
         this._ns.killall(params.hostname);
 
-        return this._ns.deleteServer(params.hostname);
+        // Sell server
+        const result = this._ns.deleteServer(params.hostname);
+
+        // Update worker list after operation
+        this._updateWorkers();
+
+        return result;
     }
 
     /**
      * Check RAM level based on available money, and sell servers if needed.
+     * @async
      *
      * @returns {boolean} Whether servers were sold.
      */
@@ -112,7 +153,7 @@ export class WorkerPurchaser extends Purchaser<
 
         if (this._currentRAM < purchaseRAM) {
             this._ns.print(
-                `[purchaser] Can upgrade to ${purchaseRAM}, selling servers and purchasing new ones.`
+                `[store] Can upgrade to ${purchaseRAM}, selling servers and purchasing new ones.`
             );
 
             for (const hostname of this._workers) {
@@ -121,7 +162,7 @@ export class WorkerPurchaser extends Purchaser<
             }
         } else {
             this._ns.print(
-                `[purchaser] Current RAM ${this._currentRAM} is best available.`
+                `[store] Current RAM ${this._currentRAM} is best available.`
             );
         }
 
@@ -181,6 +222,10 @@ export class WorkerPurchaser extends Purchaser<
         }
 
         return ramCheck && hostnameCheck;
+    }
+
+    private _getWorkerName(): string {
+        return `ps-worker-${this._workers.length - 1}`;
     }
 
     /**
