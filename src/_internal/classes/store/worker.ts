@@ -145,13 +145,16 @@ export class WorkerStore extends Store<WorkerPurchaseParams, WorkerSellParams> {
      * @returns {boolean} Whether servers were sold.
      */
     public async sellServersIfNeeded() {
-        // Update current RAM if needed
+        // Update current RAM and workers
         this._updateCurrentRAM();
+        this._updateWorkers();
 
         const purchaseRAM = this._getBestRAMPurchase();
         let result = false;
 
         if (this._currentRAM < purchaseRAM) {
+            this._currentRAM = purchaseRAM;
+
             this._ns.print(
                 `[store] Can upgrade to ${purchaseRAM}, selling servers and purchasing new ones.`
             );
@@ -175,7 +178,7 @@ export class WorkerStore extends Store<WorkerPurchaseParams, WorkerSellParams> {
      * @returns {number} The best available RAM purchase, based on available money.
      */
     private _getBestRAMPurchase(): number {
-        for (let i = 3; i < 13; i++) {
+        for (let i = 12; i > 3; i--) {
             const ram = Math.pow(2, i);
 
             if (this.getPurchaseCost({ ram }) < this.getAvailableMoney()) {
@@ -225,7 +228,7 @@ export class WorkerStore extends Store<WorkerPurchaseParams, WorkerSellParams> {
     }
 
     private _getWorkerName(): string {
-        return `ps-worker-${this._workers.length - 1}`;
+        return `ps-worker-${this._workers.length}`;
     }
 
     /**

@@ -91,7 +91,7 @@ export class Scanner {
         const _scanHost = (hostname: string, route: string[]) => {
             // Update global params
             this._hostnames.push(hostname);
-            this._updateHost(hostname, route);
+            this._updateHost(hostname, [...route, hostname]);
 
             const hostnamesToScan = this._ns
                 .scan(hostname)
@@ -123,7 +123,7 @@ export class Scanner {
     ): IHost {
         const host: IHost = {
             hostname,
-            route: [...route, hostname],
+            route,
             money: {
                 current: this._ns.getServerMoneyAvailable(hostname),
                 max: this._ns.getServerMaxMoney(hostname),

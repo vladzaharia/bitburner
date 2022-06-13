@@ -35,7 +35,7 @@ export async function main(ns: NS) {
             );
 
             // Sell servers if we need to upgrade RAM
-            workerStore.sellServersIfNeeded();
+            await workerStore.sellServersIfNeeded();
 
             let purchasedServers = workerStore.getWorkers();
             const max = ns.getPurchasedServerLimit();
