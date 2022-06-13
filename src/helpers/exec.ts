@@ -26,7 +26,9 @@ import { NS } from "Netscript";
  */
 export async function main(ns: NS) {
     if (ns.args.length < 2) {
-        throw "Function must be called with hostname and filename, threads and args optional";
+        throw new Error(
+            "Function must be called with hostname and filename, threads and args optional"
+        );
     }
 
     exec(

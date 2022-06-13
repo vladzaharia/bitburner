@@ -26,7 +26,7 @@ export async function main(ns: NS) {
     const scanner = new Scanner(ns);
 
     if (ns.args.length === 0) {
-        throw "Function must be called with 1+ hostnames";
+        throw new Error("Function must be called with 1+ hostnames");
     }
 
     for (const hostname of ns.args as string[]) {

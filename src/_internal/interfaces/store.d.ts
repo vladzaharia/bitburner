@@ -4,7 +4,7 @@
  * @template P - The purchase parameters for implementing classes.
  * @template S - The sell parameters for implementing classes.
  */
-export interface IStore<P, S> {
+export interface IPurchaseable<P> {
     /**
      * Gets the amount of money available to this store.
      *
@@ -35,7 +35,14 @@ export interface IStore<P, S> {
      * @returns {boolean} Whether the transaction was successful.
      */
     purchase(params: P): Promise<boolean>;
+}
 
+/**
+ * Represents a class capable of selling, with a percentage of available money allocated to it.
+ * @interface
+ * @template S - The sell parameters for implementing classes.
+ */
+export interface ISellable<S> {
     /**
      * Sell an item with parameters `params`, if possible.
      *

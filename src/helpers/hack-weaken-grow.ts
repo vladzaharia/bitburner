@@ -30,7 +30,7 @@ const MONEY_PCT_THRESHOLD = 0.5;
  */
 export async function main(ns: NS) {
     if (ns.args.length === 0) {
-        throw "Function must be called with 1+ hostnames";
+        throw new Error("Function must be called with 1+ hostnames");
     }
 
     const hostnames = ns.args as string[];

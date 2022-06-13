@@ -19,7 +19,7 @@ import { NS } from "Netscript";
  */
 export async function main(ns: NS) {
     if (ns.args.length === 0) {
-        throw "Function must be called with servers to sell!";
+        throw new Error("Function must be called with servers to sell!");
     }
 
     for (const hostname of ns.args as string[]) {

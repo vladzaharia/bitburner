@@ -1,6 +1,6 @@
 import { Hacknet, NS, NodeStats } from "Netscript";
 
-import { Store } from "/_internal/classes/store/base.js";
+import { Store } from "/_internal/classes/store/_base.js";
 import { HacknetUpgrade } from "/_internal/types/hacknet.js";
 import { sleep } from "/helpers/sleep";
 
@@ -35,6 +35,7 @@ export class HacknetStore extends Store<HacknetParams, null> {
 
     /**
      * Creates a new Hacknet instance which allows for purchasing and upgrading nodes.
+     * @constructor
      *
      * @param {NS} ns - The Netscript object.
      */
@@ -93,7 +94,7 @@ export class HacknetStore extends Store<HacknetParams, null> {
             case "node":
                 return Math.ceil(this._hacknet.getPurchaseNodeCost());
             default:
-                throw "Upgrade not possible!";
+                throw new Error("Upgrade not possible!");
         }
     }
 
@@ -130,7 +131,7 @@ export class HacknetStore extends Store<HacknetParams, null> {
                 result = this._purchaseNode();
                 break;
             default:
-                throw "Upgrade not possible!";
+                throw new Error("Upgrade not possible!");
         }
 
         // If updating the base note, update the node stats as well
@@ -154,7 +155,7 @@ export class HacknetStore extends Store<HacknetParams, null> {
         const { upgrade, num } = params;
 
         if (upgrade === "node") {
-            throw "Upgrade not possible!";
+            throw new Error("Upgrade not possible!");
         }
 
         const result: boolean[] = [];

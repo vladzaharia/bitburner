@@ -21,7 +21,7 @@ import { ALL_OPENERS } from "/_internal/constants/programs.js";
  */
 export async function main(ns: NS) {
     if (ns.args.length === 0) {
-        throw "Function must be called with 1+ hostnames";
+        throw new Error("Function must be called with 1+ hostnames");
     }
 
     for (const hostname of ns.args as string[]) {
@@ -112,6 +112,6 @@ function useOpener(ns: NS, hostname: string, opener: string) {
             ns.sqlinject(hostname);
             return true;
         default:
-            throw "Unknown opener!";
+            throw new Error("Unknown opener!");
     }
 }

@@ -1,7 +1,7 @@
 import { NS } from "Netscript";
 
-import { IStore } from "/_internal/interfaces/store.js";
-import { sleep } from "/helpers/sleep";
+import { IPurchaseable, ISellable } from "/_internal/interfaces/store.js";
+import { sleep } from "/helpers/sleep.js";
 
 /**
  * Abstract class representing an entity capable of purchasing and selling.
@@ -10,7 +10,7 @@ import { sleep } from "/helpers/sleep";
  * @template P - The purchase parameters for implementing classes.
  * @template S - The sell parameters for implementing classes.
  */
-export abstract class Store<P, S> implements IStore<P, S> {
+export abstract class Store<P, S> implements IPurchaseable<P>, ISellable<S> {
     /** The Netscript object. */
     protected _ns: NS;
 
@@ -71,7 +71,7 @@ export abstract class Store<P, S> implements IStore<P, S> {
      */
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     public getPurchaseCost(params: P): number {
-        throw "Must be implemented in subclasses.";
+        throw new Error("Must be implemented in subclasses.");
     }
 
     /**
@@ -108,7 +108,7 @@ export abstract class Store<P, S> implements IStore<P, S> {
      */
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     protected async _purchase(params: P): Promise<boolean> {
-        throw "Must be implemented in subclasses.";
+        throw new Error("Must be implemented in subclasses.");
     }
 
     /**
@@ -135,7 +135,7 @@ export abstract class Store<P, S> implements IStore<P, S> {
      */
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     protected async _sell(params: S): Promise<boolean> {
-        throw "Must be implemented in subclasses.";
+        throw new Error("Must be implemented in subclasses.");
     }
 
     /**
@@ -149,7 +149,7 @@ export abstract class Store<P, S> implements IStore<P, S> {
             return true;
         }
 
-        throw "Parameters are invalid!";
+        throw new Error("Parameters are invalid!");
     }
 
     /**

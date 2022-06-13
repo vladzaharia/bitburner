@@ -17,7 +17,7 @@ export function copyAndReplaceTT(
     const ttFile = `${file}.tt`;
 
     if (!existsSync(ttFile)) {
-        throw `TT file ${ttFile} must exist!`;
+        throw new Error(`TT file ${ttFile} must exist!`);
     }
 
     copyFile(ttFile, file, (err) => {

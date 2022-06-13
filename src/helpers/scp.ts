@@ -19,7 +19,7 @@ import { NS } from "Netscript";
  */
 export async function main(ns: NS) {
     if (ns.args.length < 2) {
-        throw "Function must be called with hostname and filename";
+        throw new Error("Function must be called with hostname and filename");
     }
 
     await scp(ns, ns.args[0] as string, ns.args.slice(1) as string[]);

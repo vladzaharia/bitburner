@@ -1,6 +1,6 @@
 import { NS } from "Netscript";
 
-import { Store } from "/_internal/classes/store/base.js";
+import { Store } from "/_internal/classes/store/_base.js";
 import { ALL_OPENERS } from "/_internal/constants/programs.js";
 import { Programs } from "/_internal/types/programs.js";
 
@@ -24,6 +24,7 @@ interface HomeParams {
 export class HomeStore extends Store<HomeParams, null> {
     /**
      * Creates a new Home store which allows for upgrading RAM and purchasing darkweb upgrades.
+     * @constructor
      *
      * @param {NS} ns - The Netscript object.
      */
@@ -66,7 +67,7 @@ export class HomeStore extends Store<HomeParams, null> {
                     this.getPurchaseCost(params) > 0
                 );
             default:
-                throw "Unkown upgrade!";
+                throw new Error("Unkown upgrade!");
         }
     }
 
@@ -97,7 +98,7 @@ export class HomeStore extends Store<HomeParams, null> {
                     params.upgrade
                 );
             default:
-                throw "Unkown upgrade!";
+                throw new Error("Unkown upgrade!");
         }
     }
 
@@ -162,7 +163,7 @@ export class HomeStore extends Store<HomeParams, null> {
             case "Formulas.exe":
                 return this._ns.singularity.purchaseProgram(params.upgrade);
             default:
-                throw "Unkown upgrade!";
+                throw new Error("Unkown upgrade!");
         }
     }
 }

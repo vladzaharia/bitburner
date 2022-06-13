@@ -1,6 +1,6 @@
 import { NS } from "Netscript";
 
-import { Store } from "/_internal/classes/store/base.js";
+import { Store } from "/_internal/classes/store/_base.js";
 
 /** Cost of server per GB of RAM. */
 const PRICE_PER_GB = 55000;
@@ -39,6 +39,7 @@ export class WorkerStore extends Store<WorkerPurchaseParams, WorkerSellParams> {
 
     /**
      * Creates a new Hacknet instance which allows for purchasing and upgrading nodes.
+     * @constructor
      *
      * @param {NS} ns - The Netscript object.
      */

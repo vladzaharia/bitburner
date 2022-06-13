@@ -1,9 +1,8 @@
 import { NS } from "Netscript";
 
 import { IHost } from "/_internal/interfaces/host.js";
+import { ScanType } from "/_internal/types/scanner.js";
 import { getPortOpeners } from "/helpers/crack.js";
-
-import { ScanType } from "../types/scanner";
 
 /**
  * Discovers and documents
@@ -12,11 +11,18 @@ export class Scanner {
     /** The Netscript object. */
     private _ns: NS;
 
-    /** List of workers  */
+    /** List of purchased workers. */
     private _workers: string[] = [];
+
+    /** All known hostnames. */
     private _hostnames: string[] = [];
+
+    /** Mapping to `IHost` object containing information on the hosts. */
     private _hostMap: { [key: string]: IHost } = {};
 
+    /**
+     *
+     */
     public constructor(ns: NS) {
         this._ns = ns;
 
@@ -68,7 +74,7 @@ export class Scanner {
                     ({ capabilities }) => capabilities[scanType]
                 );
             default:
-                throw "Unknown scan type!";
+                throw new Error("Unknown scan type!");
         }
     }
 

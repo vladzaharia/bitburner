@@ -19,7 +19,7 @@ import { NS } from "Netscript";
  */
 export async function main(ns: NS) {
     if (ns.args.length < 2) {
-        throw "Function must be called with RAM and 1+ hostnames!";
+        throw new Error("Function must be called with RAM and 1+ hostnames!");
     }
 
     const ram = ns.args[0] as number;
