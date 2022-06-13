@@ -40,9 +40,10 @@ export async function main(ns: NS) {
         if (!ns.fileExists("/flags/SKIP_FOCUSER.js", "home")) {
             // Check if anything if focusable
             if (focusManager.canFocus()) {
-                if (focusManager.focus()) {
+                const sleepTime = focusManager.focus();
+                if (sleepTime > 0) {
                     ns.print(`[focus] Focusing...`);
-                    await sleep(ns, 30 * 60 * 1000);
+                    await sleep(ns, sleepTime);
                 } else {
                     ns.print(`[focus] Failed to focus! Trying again...`);
                     await sleep(ns, 5 * 1000, false);

@@ -17,7 +17,6 @@ import { NS } from "Netscript";
  *
  * @param {NS} ns - The Netscript object.
  */
-
 export async function main(ns: NS) {
     if (ns.args.length === 0) {
         throw new Error("Function must be called with 1+ hostnames");
