@@ -5,10 +5,12 @@ import { NS } from "Netscript";
  * @type {string[]}
  */
 const RUNNERS: string[] = [
-    "cracker.js",
+    // "cracker.js",
+    "sf4/backdoor-cracker.js",
     "worker.js",
     "scheduler.js",
     "hacknet.js",
+    "sf4/home.js",
     // "watcher.js",
 ];
 

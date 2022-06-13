@@ -1,7 +1,6 @@
 import { NS } from "Netscript";
 
 import { Scanner } from "/_internal/classes/scanner.js";
-import { crack } from "/helpers/crack.js";
 
 /**
  * Backdoor a host using the Terminal.
@@ -47,28 +46,21 @@ export async function main(ns: NS) {
  * @param {string[]} route - Route to use to backdoor, including target.
  */
 export async function backdoor(ns: NS, route: string[] | false) {
-    ns.print(`[backdoor] Connecting ${route}`);
-
     if (route) {
-        //(ns as any).connect("home");
+        const target = route[route.length - 1];
+
+        ns.print(`[backdoor] Connecting to ${target}`);
+
         ns.print(route.map((hn) => `${hn} [${ns.hasRootAccess(hn)}]`));
-
-        if (true) {
-            // Connect to target via route
-            for (const host of route) {
-                ns.singularity.connect(host);
-            }
-
-            // Crack host
-            crack(ns, route[route.length - 1]);
-
-            // Backdoor host
-            ns.singularity.installBackdoor();
-
-            await ns.sleep(10 * 1000);
-        } else {
-            //nop
+        // Connect to target via route
+        for (const host of route) {
+            ns.singularity.connect(host);
         }
+
+        ns.print(`[backdoor] Backdooring ${target}`);
+
+        // Backdoor host
+        await ns.singularity.installBackdoor();
     } else {
         ns.print(`[backdoor] No route to host!`);
     }

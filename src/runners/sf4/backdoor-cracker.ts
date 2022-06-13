@@ -35,18 +35,20 @@ export async function main(ns: NS) {
 
             ns.print(`[cracker] Finished cracking nodes, backdooring`);
 
-            const rootedHosts = scanner.getHostnames("rooted");
+            const rootedHosts = scanner
+                .getHostnames("rooted")
+                .filter((hn) => hn !== "home" && !hn.startsWith("ps-"));
 
             // Backdoor all rooted hosts
             for (const hostname of rootedHosts) {
                 const host = scanner.getHost(hostname);
 
                 await backdoor(ns, host.route);
-                await sleep(ns, 10 * 1000, false);
+                await sleep(ns, 1000, false);
             }
 
             ns.print(`[cracker] Finished backdooring nodes`);
-            await sleep(ns, 15 * 60 * 1000);
+            await sleep(ns, 5 * 60 * 1000);
         } else {
             ns.print(`[cracker] Found file /flags/SKIP_CRACKER.js`);
             await sleep(ns, 60 * 1000);
