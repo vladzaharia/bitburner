@@ -39,6 +39,7 @@ export class WorkerStore extends Store<WorkerPurchaseParams, WorkerSellParams> {
 
     /**
      * Creates a new Hacknet instance which allows for purchasing and upgrading nodes.
+     * @constructor
      *
      * @param {NS} ns - The Netscript object.
      */

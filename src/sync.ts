@@ -24,7 +24,7 @@ export async function main(ns: NS) {
     let serverUrl = BASE_URL;
 
     if (ns.args.length > 1) {
-        throw `Sync can only be called with a single base URL`;
+        throw new Error(`Sync can only be called with a single base URL`);
     } else if (ns.args.length === 1) {
         const argUrl = ns.args[0] as string;
         const urlRegex =
@@ -32,7 +32,9 @@ export async function main(ns: NS) {
 
         // Check URL is valid
         if (!argUrl.match(urlRegex) || argUrl.endsWith("/")) {
-            throw `Base URL must be of the form https?://example.com(:1234)?(/api)? with no trailing slash.`;
+            throw new Error(
+                `Base URL must be of the form https?://example.com(:1234)?(/api)? with no trailing slash.`
+            );
         }
 
         serverUrl = argUrl;
@@ -47,7 +49,7 @@ export async function main(ns: NS) {
         const downloaded = await getFile(ns, serverUrl, `/${file}`);
 
         if (downloaded === null) {
-            throw `Download failed!`;
+            throw new Error(`Download failed!`);
         }
     }
 

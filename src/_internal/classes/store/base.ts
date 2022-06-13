@@ -71,7 +71,7 @@ export abstract class Store<P, S> implements IPurchaseable<P>, ISellable<S> {
      */
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     public getPurchaseCost(params: P): number {
-        throw "Must be implemented in subclasses.";
+        throw new Error("Must be implemented in subclasses.");
     }
 
     /**
@@ -108,7 +108,7 @@ export abstract class Store<P, S> implements IPurchaseable<P>, ISellable<S> {
      */
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     protected async _purchase(params: P): Promise<boolean> {
-        throw "Must be implemented in subclasses.";
+        throw new Error("Must be implemented in subclasses.");
     }
 
     /**
@@ -135,7 +135,7 @@ export abstract class Store<P, S> implements IPurchaseable<P>, ISellable<S> {
      */
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     protected async _sell(params: S): Promise<boolean> {
-        throw "Must be implemented in subclasses.";
+        throw new Error("Must be implemented in subclasses.");
     }
 
     /**
@@ -149,7 +149,7 @@ export abstract class Store<P, S> implements IPurchaseable<P>, ISellable<S> {
             return true;
         }
 
-        throw "Parameters are invalid!";
+        throw new Error("Parameters are invalid!");
     }
 
     /**
