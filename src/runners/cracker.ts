@@ -11,7 +11,7 @@ import { sleep } from "/helpers/sleep.js";
  *
  * @example
  * ```shell
- * run /node/ps-control-cracker.js
+ * run /runner/cracker.js
  * ```
  *
  * @param {NS} ns - The Netscript object.

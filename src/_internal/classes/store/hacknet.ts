@@ -23,7 +23,7 @@ interface HacknetParams {
  * Layer on top of `NS` and `Hacknet` to simplify node management.
  * @class
  */
-export class HacknetPurchaser extends Store<HacknetParams, null> {
+export class HacknetStore extends Store<HacknetParams, null> {
     /** Hacknet object within NS. */
     private readonly _hacknet: Hacknet;
 

@@ -10,7 +10,7 @@ import { sleep } from "/helpers/sleep.js";
  *
  * @example
  * ```shell
- * run /node/ps-control-watcher.js
+ * run /runner/watcher.js
  * ```
  *
  * @param {NS} ns - The Netscript object.

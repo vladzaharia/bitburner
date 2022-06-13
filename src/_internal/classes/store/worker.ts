@@ -3,7 +3,7 @@ import { NS } from "Netscript";
 import { Store } from "/_internal/classes/store/base.js";
 
 /** Cost of server per GB of RAM. */
-const PRICE_PER_GB = 55000 * 25;
+const PRICE_PER_GB = 55000;
 
 /**
  * Parameters for purchasing workers.
@@ -181,7 +181,11 @@ export class WorkerStore extends Store<WorkerPurchaseParams, WorkerSellParams> {
         for (let i = 12; i > 3; i--) {
             const ram = Math.pow(2, i);
 
-            if (this.getPurchaseCost({ ram }) < this.getAvailableMoney()) {
+            if (
+                this.getPurchaseCost({ ram }) *
+                    this._ns.getPurchasedServerLimit() <
+                this.getAvailableMoney()
+            ) {
                 return ram;
             }
         }

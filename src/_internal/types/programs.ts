@@ -19,4 +19,5 @@ export type Programs =
     | "ServerProfiler.exe"
     | "AutoLink.exe"
     | "b1t_flum3.exe"
-    | "fl1ght.exe";
+    | "fl1ght.exe"
+    | "Formulas.exe";

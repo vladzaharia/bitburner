@@ -47,7 +47,7 @@ const MIN_SEC_LEVEL = 2;
  *
  * @example
  * ```shell
- * run /node/ps-control-scheduler.js
+ * run /runner/scheduler.js
  * ```
  *
  * @param {NS} ns - The Netscript object.
@@ -161,7 +161,7 @@ async function executeOnPool(ns: NS, hostnames: string[], args: string[]) {
 
         // Reserve space on home for node scripts
         if (hostname === "home") {
-            ramAvail = ramAvail - 16;
+            ramAvail = ramAvail - 24;
             finalScripts[HACK_SCRIPT] = 0;
         }
 

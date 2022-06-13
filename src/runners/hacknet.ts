@@ -1,6 +1,6 @@
 import { NS } from "Netscript";
 
-import { HacknetPurchaser as HacknetStore } from "/_internal/classes/store/hacknet.js";
+import { HacknetStore } from "/_internal/classes/store/hacknet.js";
 import { sleep } from "/helpers/sleep.js";
 
 /** Gain per level upgrade (manually added) */
@@ -25,7 +25,7 @@ const MONEY_PER_CORE = 39.38;
  *
  * @example
  * ```shell
- * run /node/ps-control-hacknet.js
+ * run /runner/hacknet.js
  * ```
  *
  * @param {NS} ns - The Netscript object.

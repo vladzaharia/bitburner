@@ -89,7 +89,7 @@ export abstract class Store<P, S> implements IStore<P, S> {
         const moneyAvail = this.getAvailableMoney();
         if (cost > moneyAvail) {
             this._ns.print(
-                `[store] Not enough money available! ${cost}/${moneyAvail}`
+                `[store] Not enough money available! ${moneyAvail}/${cost}`
             );
             await sleep(this._ns, 60 * 1000);
             return false;
@@ -161,6 +161,6 @@ export abstract class Store<P, S> implements IStore<P, S> {
      */
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     protected _checkParams(params: P | S): boolean {
-        throw "Must be implemented in subclasses.";
+        return true;
     }
 }
