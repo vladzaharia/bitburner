@@ -1,6 +1,6 @@
 import { NS } from "Netscript";
 
-import { Store } from "/_internal/classes/store/base.js";
+import { Store } from "/_internal/classes/store/_base.js";
 import { ALL_OPENERS } from "/_internal/constants/programs.js";
 import { Programs } from "/_internal/types/programs.js";
 

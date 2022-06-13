@@ -1,9 +1,8 @@
 import { NS } from "Netscript";
 
 import { IHost } from "/_internal/interfaces/host.js";
+import { ScanType } from "/_internal/types/scanner.js";
 import { getPortOpeners } from "/helpers/crack.js";
-
-import { ScanType } from "../types/scanner";
 
 /**
  * Discovers and documents

@@ -1,9 +1,8 @@
 import { NS } from "Netscript";
 
-import { PROGRAMS } from "/_internal/constants/programs";
-import { IProgram } from "/_internal/interfaces/program";
-
-import { BaseFocusable } from "./base";
+import { BaseFocusable } from "/_internal/classes/focus/_base.js";
+import { PROGRAMS } from "/_internal/constants/programs.js";
+import { IProgram } from "/_internal/interfaces/program.js";
 
 /**
  *

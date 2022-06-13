@@ -1,7 +1,7 @@
 import { NS } from "Netscript";
 
-import { FocusManager } from "/_internal/classes/focus/manager";
-import { ProgramFocusable } from "/_internal/classes/focus/programs";
+import { FocusManager } from "/_internal/classes/focus/_manager.js";
+import { ProgramFocusable } from "/_internal/classes/focus/programs.js";
 import { sleep } from "/helpers/sleep.js";
 
 /**

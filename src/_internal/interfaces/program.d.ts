@@ -1,4 +1,4 @@
-import { Programs } from "../types/programs";
+import { Programs } from "/_internal/types/programs.js";
 
 export interface IProgram {
     /** Name of the program. */

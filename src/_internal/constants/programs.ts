@@ -1,6 +1,5 @@
+import { IProgram } from "/_internal/interfaces/program.js";
 import { PortOpeners } from "/_internal/types/programs.js";
-
-import { IProgram } from "../interfaces/program";
 
 /**
  * All openers to use.
