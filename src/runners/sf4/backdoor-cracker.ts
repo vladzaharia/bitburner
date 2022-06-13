@@ -35,12 +35,12 @@ export async function main(ns: NS) {
 
             ns.print(`[cracker] Finished cracking nodes, backdooring`);
 
-            const rootedHosts = scanner
-                .getHostnames("rooted")
+            const hackableHosts = scanner
+                .getHostnames("hackable")
                 .filter((hn) => hn !== "home" && !hn.startsWith("ps-"));
 
             // Backdoor all rooted hosts
-            for (const hostname of rootedHosts) {
+            for (const hostname of hackableHosts) {
                 const host = scanner.getHost(hostname);
 
                 await backdoor(ns, host.route);

@@ -54,6 +54,13 @@ export async function backdoor(ns: NS, route: string[] | false) {
         ns.print(route.map((hn) => `${hn} [${ns.hasRootAccess(hn)}]`));
         // Connect to target via route
         for (const host of route) {
+            if (!ns.hasRootAccess(host)) {
+                ns.print(
+                    `[backdoor] Can't reach ${target} as ${host} isn't cracked yet!`
+                );
+                return;
+            }
+
             ns.singularity.connect(host);
         }
 
