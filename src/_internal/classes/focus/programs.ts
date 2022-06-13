@@ -9,20 +9,26 @@ import { IProgram } from "/_internal/interfaces/program.js";
  * @class
  */
 export class ProgramFocusable extends BaseFocusable {
-    /** Whether non-opener scripts should be created, defaults to `false`. */
-    private _includeNonOpeners: boolean;
-
     /**
      * Creates a focuser that manages program creation.
      * @constructor
      *
      * @param {NS} ns - The Netscript object.
-     * @param {boolean} includeNonOpeners - Whether non-opener scripts should be created, defaults to `false`.
      * @param {number} priority - Priority this focuser should run at, defaults to `1`.
      */
-    public constructor(ns: NS, includeNonOpeners = false, priority = 1) {
+    public constructor(ns: NS, priority = 1) {
         super(ns, priority, 30 * 60 * 1000);
-        this._includeNonOpeners = includeNonOpeners;
+    }
+
+    /**
+     * Returns default priority if openers can be created, `Infinity` otherwise.
+     *
+     * @returns {number} The priority of the action.
+     */
+    public override getPriority(): number {
+        return PROGRAMS.some((p) => this._canCreate(p) && !!p.isOpener)
+            ? super.getPriority()
+            : Infinity;
     }
 
     /**
@@ -53,7 +59,6 @@ export class ProgramFocusable extends BaseFocusable {
      * Check if a program can be created. Returns `true` if:
      *
      * - Program doesn't exist on disk
-     * - Program is a port opener
      * - Program's hacking level is below our current level
      * - Program can't currently be bought on the darkweb
      *
@@ -62,7 +67,6 @@ export class ProgramFocusable extends BaseFocusable {
     private _canCreate(program: IProgram): boolean {
         return (
             !this._ns.fileExists(program.name) &&
-            (program.isOpener || this._includeNonOpeners) &&
             program.hack < this._ns.getHackingLevel() &&
             program.cost > this._ns.getServerMoneyAvailable("home")
         );
