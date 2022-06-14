@@ -26,13 +26,6 @@ export class FocusManager implements IFocusable {
     }
 
     /**
-     * Not applicable to the FocusManager.
-     */
-    getPriority(): number {
-        throw new Error("Method not implemented.");
-    }
-
-    /**
      * Registers a new `IFocusable` with this manager.
      */
     public register(focusable: IFocusable) {
@@ -54,6 +47,7 @@ export class FocusManager implements IFocusable {
      * @returns {number} Whether the focus action was successful.
      */
     public focus(): number {
+        // Sort focusables by priority.
         const sorted = this._registered.sort(
             (a, b) => a.getPriority() - b.getPriority()
         );
@@ -72,5 +66,26 @@ export class FocusManager implements IFocusable {
         }
 
         return -1;
+    }
+
+    /**
+     * Not applicable to the FocusManager.
+     */
+    getPriority(): number {
+        throw new Error("Method not implemented.");
+    }
+
+    /**
+     * Not applicable to the FocusManager.
+     */
+    shouldRunInBackground(): boolean {
+        throw new Error("Method not implemented.");
+    }
+
+    /**
+     * Not applicable to the FocusManager.
+     */
+    getFocusTime(): number {
+        throw new Error("Method not implemented.");
     }
 }

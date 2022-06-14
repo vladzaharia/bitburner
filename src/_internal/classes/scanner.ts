@@ -94,6 +94,8 @@ export class Scanner {
      * @returns {string[]} All discovered hostnames.
      */
     private _updateHosts(): string[] {
+        this._hostnames = [];
+
         const _scanHost = (hostname: string, route: string[]) => {
             // Update global params
             this._hostnames.push(hostname);

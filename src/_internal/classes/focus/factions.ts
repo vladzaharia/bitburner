@@ -24,6 +24,9 @@ export class FactionFocusable extends BaseFocusable {
 
     /**
      * User can focus if there's a faction where they have some rep, and augmentations to purchase.
+     * @override
+     *
+     * @returns {boolean} Whether the user has factions with augmentations available.
      */
     public override canFocus(): boolean {
         const factions = this._getAcceptedFactions();
@@ -37,6 +40,11 @@ export class FactionFocusable extends BaseFocusable {
         return factions.some((f) => this._getNeededAugmentations(f).length > 0);
     }
 
+    /**
+     * Work for the faction with the most augmentations available.
+     *
+     * @returns {boolean} Whether the focus action was successful.
+     */
     protected override _focus(): boolean {
         const faction = this._getFactionToFocus();
         // TODO: Add other types of work
@@ -46,8 +54,13 @@ export class FactionFocusable extends BaseFocusable {
         return this._ns.singularity.workForFaction(faction, work);
     }
 
-    // TODO: Make this only achievable factions
+    /**
+     * Determine which is the best faction to focus on.
+     *
+     * @returns {string} Faction with the most augmentations available.
+     */
     private _getFactionToFocus(): Factions {
+        // TODO: Make this only achievable factions
         const sortedFactions = this._getAcceptedFactions().sort(
             (a, b) =>
                 this._getNeededAugmentations(b).length -
@@ -68,12 +81,23 @@ export class FactionFocusable extends BaseFocusable {
         return sortedFactions[0].name;
     }
 
+    /**
+     * Return factions which have some reputation available.
+     *
+     * @returns {IFaction[]} All Factions which have reputation.
+     */
     private _getAcceptedFactions(): IFaction[] {
         return FACTIONS.filter(
             (f) => this._ns.singularity.getFactionRep(f.name) > 0
         );
     }
 
+    /**
+     * Gets unpurchased augmentations for `faction`.
+     *
+     * @param {IFaction} faction - The faction to check.
+     * @returns {Augmentations[]} The augmentations which aren't purchased.
+     */
     private _getNeededAugmentations(faction: IFaction): Augmentations[] {
         return this._ns.singularity
             .getAugmentationsFromFaction(faction.name)

@@ -22,4 +22,18 @@ export interface IFocusable {
      * @returns {number} The time to sleep if successfully completed, `-1` otherwise.
      */
     focus(): number;
+
+    /**
+     * Determines whether this action should run in the background or be focused on.
+     *
+     * @returns {boolean} True if this can run in the background, False if it needs to be in the foreground.
+     */
+    shouldRunInBackground(): boolean;
+
+    /**
+     * Gets the focus time to wait after running the action.
+     *
+     * @returns {number} The time to sleep before running the manager again.
+     */
+    getFocusTime(): number;
 }

@@ -64,7 +64,7 @@ export abstract class Store<P, S> implements IPurchaseable<P>, ISellable<S> {
 
     /**
      * Get cost of purchase with parameters `params`.
-     * @virtual
+     * @virtual Must be overridden by implementing classes.
      *
      * @param {P} params - Parameters for this transaction.
      * @returns {number} Cost of the transaction.
@@ -76,7 +76,7 @@ export abstract class Store<P, S> implements IPurchaseable<P>, ISellable<S> {
 
     /**
      * Purchase an item with parameters `params` if there is money available.
-     * @virtual
+     * @virtual Must be overridden by implementing classes.
      * @async
      *
      * @param {P} params - Parameters for this transaction.
@@ -100,7 +100,7 @@ export abstract class Store<P, S> implements IPurchaseable<P>, ISellable<S> {
 
     /**
      * Purchase an item, must be overridden by implementing classes.
-     * @virtual
+     * @virtual Must be overridden by implementing classes.
      * @async
      *
      * @param {P} params - Parameters for this transaction.
@@ -127,7 +127,7 @@ export abstract class Store<P, S> implements IPurchaseable<P>, ISellable<S> {
 
     /**
      * Sell an item with params `params`, must be overridden by implementing classes if supported.
-     * @virtual
+     * @virtual Must be overridden by implementing classes.
      * @async
      *
      * @param {S} params - Parameters for this sale.
@@ -154,7 +154,7 @@ export abstract class Store<P, S> implements IPurchaseable<P>, ISellable<S> {
 
     /**
      * Verify the purchase parameters, must be overridden by implementing classes.
-     * @virtual
+     * @virtual Must be overridden by implementing classes.
      *
      * @param {P | S} params - Parameters for this transaction.
      * @returns {boolean} Whether the parameters are valid.

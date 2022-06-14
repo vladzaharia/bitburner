@@ -60,20 +60,37 @@ export abstract class BaseFocusable implements IFocusable {
         if (this._focus()) {
             // Don't focus if low priority
             // TODO: Figure out which augmentation nullifies this requirement
-            if (this.getPriority() > 50) {
-                this._ns.print(
-                    `[focus] Disabling focus as priority ${this.getPriority()} is > 50`
-                );
+            if (this.shouldRunInBackground()) {
+                this._ns.print(`[focus] Disabling focus for this task`);
                 this._ns.singularity.setFocus(false);
             }
-            return this._sleepTime;
+            return this.getFocusTime();
         } else {
             return -1;
         }
     }
 
     /**
-     * Execute focus using `ns.singularity`
+     * Checks if the action should run in the background, defaults to if priority is > 50.
+     *
+     * @returns {boolean} True if this can run in the background, False if it needs to be in the foreground.
+     */
+    public shouldRunInBackground(): boolean {
+        return this.getPriority() > 50;
+    }
+
+    /**
+     * Get time needed for task, defaults to `this._sleepTime`.
+     *
+     * @returns {number} The time to sleep before running the manager again.
+     */
+    public getFocusTime(): number {
+        return this._sleepTime;
+    }
+
+    /**
+     * Execute focus using `ns.singularity`, must be implemented by subclass.
+     * @virtual Must be overridden by implementing classes.
      *
      * @returns {boolean} Whether the focus action was successful.
      */
