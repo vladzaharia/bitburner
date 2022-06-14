@@ -55,7 +55,7 @@ export const AUGMENTATIONS: IAugmentation[] = [
                 speed: 1.03,
             },
         },
-        factions: ["BitRunners", "Fulcrum Technologies"],
+        factions: ["BitRunners", "Fulcrum Secret Technologies"],
         requirements: {
             money: 3000000000,
             reputation: 275000,
@@ -509,7 +509,7 @@ export const AUGMENTATIONS: IAugmentation[] = [
             "BitRunners",
             "Blade Industries",
             "ECorp",
-            "Fulcrum Technologies",
+            "Fulcrum Secret Technologies",
             "MegaCorp",
             "NiteSec",
             "NWO",
@@ -530,7 +530,7 @@ export const AUGMENTATIONS: IAugmentation[] = [
         factions: [
             "Daedalus",
             "ECorp",
-            "Fulcrum Technologies",
+            "Fulcrum Secret Technologies",
             "Illuminati",
             "MegaCorp",
             "NWO",
@@ -556,7 +556,7 @@ export const AUGMENTATIONS: IAugmentation[] = [
             "BitRunners",
             "Blade Industries",
             "ECorp",
-            "Fulcrum Technologies",
+            "Fulcrum Secret Technologies",
             "MegaCorp",
             "NWO",
             "The Black Hand",
@@ -581,7 +581,7 @@ export const AUGMENTATIONS: IAugmentation[] = [
             "BitRunners",
             "Blade Industries",
             "ECorp",
-            "Fulcrum Technologies",
+            "Fulcrum Secret Technologies",
             "KuaiGong International",
             "MegaCorp",
             "NWO",
@@ -606,7 +606,7 @@ export const AUGMENTATIONS: IAugmentation[] = [
         factions: [
             "Daedalus",
             "ECorp",
-            "Fulcrum Technologies",
+            "Fulcrum Secret Technologies",
             "Illuminati",
             "MegaCorp",
             "NWO",
@@ -628,7 +628,7 @@ export const AUGMENTATIONS: IAugmentation[] = [
         factions: [
             "Daedalus",
             "ECorp",
-            "Fulcrum Technologies",
+            "Fulcrum Secret Technologies",
             "Illuminati",
             "MegaCorp",
             "NWO",
@@ -648,7 +648,11 @@ export const AUGMENTATIONS: IAugmentation[] = [
                 speed: 1.03,
             },
         },
-        factions: ["BitRunners", "Fulcrum Technologies", "The Black Hand"],
+        factions: [
+            "BitRunners",
+            "Fulcrum Secret Technologies",
+            "The Black Hand",
+        ],
         requirements: {
             money: 1375000000,
             reputation: 100000,
@@ -734,7 +738,7 @@ export const AUGMENTATIONS: IAugmentation[] = [
                 skill: 2.5,
             },
         },
-        factions: ["ECorp", "Fulcrum Technologies", "MegaCorp"],
+        factions: ["ECorp", "Fulcrum Secret Technologies", "MegaCorp"],
         requirements: {
             money: 4500000000,
             reputation: 750000,
@@ -756,7 +760,7 @@ export const AUGMENTATIONS: IAugmentation[] = [
                 skill: 1.6,
             },
         },
-        factions: ["ECorp", "Fulcrum Technologies"],
+        factions: ["ECorp", "Fulcrum Secret Technologies"],
         requirements: {
             money: 6000000000,
             reputation: 1625000,
@@ -772,7 +776,7 @@ export const AUGMENTATIONS: IAugmentation[] = [
                 skill: 1.7,
             },
         },
-        factions: ["Fulcrum Technologies", "The Covenant"],
+        factions: ["Fulcrum Secret Technologies", "The Covenant"],
         requirements: {
             money: 4250000000,
             reputation: 1125000,
@@ -969,7 +973,7 @@ export const AUGMENTATIONS: IAugmentation[] = [
         },
         factions: [
             "Blade Industries",
-            "Fulcrum Technologies",
+            "Fulcrum Secret Technologies",
             "OmniTek Incorporated",
             "Speakers for the Dead",
             "The Dark Army",
@@ -990,7 +994,7 @@ export const AUGMENTATIONS: IAugmentation[] = [
         },
         factions: [
             "Daedalus",
-            "Fulcrum Technologies",
+            "Fulcrum Secret Technologies",
             "Illuminati",
             "The Covenant",
             "The Syndicate",
@@ -1300,7 +1304,7 @@ export const AUGMENTATIONS: IAugmentation[] = [
                 company: 2,
             },
         },
-        factions: ["Fulcrum Technologies"],
+        factions: ["Fulcrum Secret Technologies"],
         requirements: {
             money: 7500000000,
             reputation: 1500000,
@@ -1316,7 +1320,7 @@ export const AUGMENTATIONS: IAugmentation[] = [
                 company: 1.75,
             },
         },
-        factions: ["Blade Industries", "ECorp", "Fulcrum Technologies"],
+        factions: ["Blade Industries", "ECorp", "Fulcrum Secret Technologies"],
         requirements: {
             money: 4500000000,
             reputation: 500000,
@@ -1340,7 +1344,7 @@ export const AUGMENTATIONS: IAugmentation[] = [
                 money: 1.777,
             },
         },
-        factions: ["Blade Industries", "ECorp", "Fulcrum Technologies"],
+        factions: ["Blade Industries", "ECorp", "Fulcrum Secret Technologies"],
         requirements: {
             money: 4500000000,
             reputation: 500000,
@@ -1561,7 +1565,7 @@ export const AUGMENTATIONS: IAugmentation[] = [
         factions: [
             "Blade Industries",
             "Daedalus",
-            "Fulcrum Technologies",
+            "Fulcrum Secret Technologies",
             "Illuminati",
             "KuaiGong International",
             "NWO",
@@ -1585,7 +1589,7 @@ export const AUGMENTATIONS: IAugmentation[] = [
         },
         factions: [
             "Daedalus",
-            "Fulcrum Technologies",
+            "Fulcrum Secret Technologies",
             "Illuminati",
             "KuaiGong International",
             "NWO",

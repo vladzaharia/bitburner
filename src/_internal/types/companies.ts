@@ -11,7 +11,7 @@ export type MegaCorporations =
     | "OmniTek Incorporated"
     | "Bachman & Associates"
     | "Clarke Incorporated"
-    | "Fulcrum Technologies";
+    | "Fulcrum Secret Technologies";
 
 /**
  * All companies, including MegaCorporations.

@@ -96,7 +96,7 @@ export const MEGACORPS: IMegaCorporation[] = GetAugmentedList([
         location: "Aevum",
     },
     {
-        name: "Fulcrum Technologies",
+        name: "Fulcrum Secret Technologies",
         faction: {
             augmentations: [],
             requirements: {

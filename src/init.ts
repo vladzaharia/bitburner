@@ -11,6 +11,7 @@ const RUNNERS: string[] = [
     "scheduler.js",
     "hacknet.js",
     "sf4/home.js",
+    "sf4/focus.js",
     // "watcher.js",
 ];
 
