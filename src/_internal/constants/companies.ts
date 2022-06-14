@@ -1,14 +1,12 @@
-import { GetAugmentedList } from "/_internal/constants/augmentations.js";
 import { ICompany, IMegaCorporation } from "/_internal/interfaces/company.js";
 
 /**
  * All MegaCorporations (companies with factions) in the game.
  */
-export const MEGACORPS: IMegaCorporation[] = GetAugmentedList([
+export const MEGACORPS: IMegaCorporation[] = [
     {
         name: "ECorp",
         faction: {
-            augmentations: [],
             requirements: {
                 reputation: 200000,
             },
@@ -18,7 +16,6 @@ export const MEGACORPS: IMegaCorporation[] = GetAugmentedList([
     {
         name: "MegaCorp",
         faction: {
-            augmentations: [],
             requirements: {
                 reputation: 200000,
             },
@@ -28,7 +25,6 @@ export const MEGACORPS: IMegaCorporation[] = GetAugmentedList([
     {
         name: "KuaiGong International",
         faction: {
-            augmentations: [],
             requirements: {
                 reputation: 200000,
             },
@@ -38,7 +34,6 @@ export const MEGACORPS: IMegaCorporation[] = GetAugmentedList([
     {
         name: "Four Sigma",
         faction: {
-            augmentations: [],
             requirements: {
                 reputation: 200000,
             },
@@ -48,7 +43,6 @@ export const MEGACORPS: IMegaCorporation[] = GetAugmentedList([
     {
         name: "NWO",
         faction: {
-            augmentations: [],
             requirements: {
                 reputation: 200000,
             },
@@ -58,7 +52,6 @@ export const MEGACORPS: IMegaCorporation[] = GetAugmentedList([
     {
         name: "Blade Industries",
         faction: {
-            augmentations: [],
             requirements: {
                 reputation: 200000,
             },
@@ -68,7 +61,6 @@ export const MEGACORPS: IMegaCorporation[] = GetAugmentedList([
     {
         name: "OmniTek Incorporated",
         faction: {
-            augmentations: [],
             requirements: {
                 reputation: 200000,
             },
@@ -78,7 +70,6 @@ export const MEGACORPS: IMegaCorporation[] = GetAugmentedList([
     {
         name: "Bachman & Associates",
         faction: {
-            augmentations: [],
             requirements: {
                 reputation: 200000,
             },
@@ -88,7 +79,6 @@ export const MEGACORPS: IMegaCorporation[] = GetAugmentedList([
     {
         name: "Clarke Incorporated",
         faction: {
-            augmentations: [],
             requirements: {
                 reputation: 200000,
             },
@@ -98,7 +88,6 @@ export const MEGACORPS: IMegaCorporation[] = GetAugmentedList([
     {
         name: "Fulcrum Secret Technologies",
         faction: {
-            augmentations: [],
             requirements: {
                 backdoor: "fulcrumassets",
                 reputation: 250000,
@@ -106,7 +95,7 @@ export const MEGACORPS: IMegaCorporation[] = GetAugmentedList([
         },
         location: "Aevum",
     },
-]);
+];
 
 /**
  * All companies in the game.

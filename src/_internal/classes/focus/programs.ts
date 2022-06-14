@@ -17,7 +17,7 @@ export class ProgramFocusable extends BaseFocusable {
      * @param {number} priority - Priority this focuser should run at, defaults to `1`.
      */
     public constructor(ns: NS, priority = 1) {
-        super(ns, priority, 30 * 60 * 1000);
+        super("Program creation", ns, priority, 30 * 60 * 1000);
     }
 
     /**
@@ -46,8 +46,20 @@ export class ProgramFocusable extends BaseFocusable {
      * @returns {number} Time to sleep if a program was executed, false otherwise.
      */
     protected override _focus(): boolean {
+        this._ns.print(
+            `[programs] ${
+                PROGRAMS.filter((p) => this._canCreate(p) && !!p.isOpener)
+                    .length
+            } openers and ${
+                PROGRAMS.filter((p) => this._canCreate(p) && !p.isOpener).length
+            } other programs available to create: ${PROGRAMS.filter((p) =>
+                this._canCreate(p)
+            )}`
+        );
+
         for (const program of PROGRAMS) {
             if (this._canCreate(program)) {
+                this._ns.print(`[programs] Creating ${program.name}`);
                 return this._ns.singularity.createProgram(program.name);
             }
         }

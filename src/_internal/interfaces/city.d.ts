@@ -1,5 +1,4 @@
 import { IFactionRequirements } from "/_internal/interfaces/requirements.js";
-import { Augmentations } from "/_internal/types/augmentations.js";
 import { Cities } from "/_internal/types/cities.js";
 
 /**
@@ -17,8 +16,5 @@ export interface ICity {
     faction: {
         /** The requirements to gain an invitation to this faction. */
         requirements: IFactionRequirements;
-
-        /** Augmentations available for purchase. */
-        augmentations: Augmentations[];
     };
 }

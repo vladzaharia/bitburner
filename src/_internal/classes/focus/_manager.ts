@@ -1,19 +1,29 @@
-/**
- * FocusManager entry, including priority.
- * @interface
- */
-interface FocusableEntry {
-    focusable: IFocusable;
-    priority: number;
-}
+import { NS } from "Netscript";
+
+import { IFocusable } from "/_internal/interfaces/focus.js";
 
 /**
  * Manages `IFocusable` objects, executing based on priority.
  * @class
  */
 export class FocusManager implements IFocusable {
+    /** The name of the focusable. */
+    public name = "Manager";
+
+    /** The Netscript object. */
+    private _ns: NS;
+
     /** All registered focus actions. */
-    private _registered: FocusableEntry[] = [];
+    private _registered: IFocusable[] = [];
+
+    /**
+     * Creates a new manager capable of handling multiple `IFocusable`s.
+     *
+     * @param {NS} ns - The Netscript object
+     */
+    public constructor(ns: NS) {
+        this._ns = ns;
+    }
 
     /**
      * Not applicable to the FocusManager.
@@ -26,10 +36,7 @@ export class FocusManager implements IFocusable {
      * Registers a new `IFocusable` with this manager.
      */
     public register(focusable: IFocusable) {
-        this._registered.push({ focusable, priority: focusable.getPriority() });
-
-        // Re-sort all registered entries based on priority
-        this._registered.sort((a, b) => a.priority - b.priority);
+        this._registered.push(focusable);
     }
 
     /**
@@ -38,7 +45,7 @@ export class FocusManager implements IFocusable {
      * @returns {boolean} True if any registered actions are available, false otherwise.
      */
     public canFocus(): boolean {
-        return this._registered.some((f) => f.focusable.canFocus());
+        return this._registered.some((f) => f.canFocus());
     }
 
     /**
@@ -47,9 +54,20 @@ export class FocusManager implements IFocusable {
      * @returns {number} Whether the focus action was successful.
      */
     public focus(): number {
-        for (const focusEntry of this._registered) {
-            if (focusEntry.focusable.canFocus()) {
-                return focusEntry.focusable.focus();
+        const sorted = this._registered.sort(
+            (a, b) => a.getPriority() - b.getPriority()
+        );
+
+        this._ns.print(`[manager] ${sorted.length} total focusables`);
+        sorted.forEach((s) =>
+            this._ns.print(
+                `[manager] ${s.name}: ${s.getPriority()} / ${s.canFocus()}`
+            )
+        );
+
+        for (const focusable of sorted) {
+            if (focusable.canFocus()) {
+                return focusable.focus();
             }
         }
 

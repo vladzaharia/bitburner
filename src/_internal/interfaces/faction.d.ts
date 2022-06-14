@@ -1,5 +1,4 @@
 import { IFactionRequirements } from "/_internal/interfaces/requirements.js";
-import { Augmentations } from "/_internal/types/augmentations.js";
 import { Factions } from "/_internal/types/factions.js";
 
 /**
@@ -12,7 +11,4 @@ export interface IFaction {
 
     /** The requirements to gain an invitation to this faction. */
     requirements: IFactionRequirements;
-
-    /** Augmentations available for purchase. */
-    augmentations: Augmentations[];
 }

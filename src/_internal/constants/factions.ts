@@ -1,4 +1,3 @@
-import { GetAugmentedList } from "/_internal/constants/augmentations.js";
 import { CITIES } from "/_internal/constants/cities.js";
 import { MEGACORPS } from "/_internal/constants/companies.js";
 import { IFaction } from "/_internal/interfaces/faction.js";
@@ -7,17 +6,15 @@ import { MegaCorporations } from "/_internal/types/companies.js";
 /**
  * All factions, including cities and MegaCorporations.
  */
-export const FACTIONS: IFaction[] = GetAugmentedList([
+export const FACTIONS: IFaction[] = [
     {
         name: "CyberSec",
-        augmentations: [],
         requirements: {
             backdoor: "CSEC",
         },
     },
     {
         name: "Tian Di Hui",
-        augmentations: [],
         requirements: {
             level: 50,
             location: ["Chongqing", "Ishima", "New Tokyo"],
@@ -26,7 +23,6 @@ export const FACTIONS: IFaction[] = GetAugmentedList([
     },
     {
         name: "Netburners",
-        augmentations: [],
         requirements: {
             hacknet: true,
             level: 80,
@@ -34,28 +30,24 @@ export const FACTIONS: IFaction[] = GetAugmentedList([
     },
     {
         name: "NiteSec",
-        augmentations: [],
         requirements: {
             backdoor: "avmnite-02h",
         },
     },
     {
         name: "The Black Hand",
-        augmentations: [],
         requirements: {
             backdoor: "I.I.I.I",
         },
     },
     {
         name: "BitRunners",
-        augmentations: [],
         requirements: {
             backdoor: "run4theh111z",
         },
     },
     {
         name: "Slum Snakes",
-        augmentations: [],
         requirements: {
             combat: 30,
             karma: -9,
@@ -64,7 +56,6 @@ export const FACTIONS: IFaction[] = GetAugmentedList([
     },
     {
         name: "Tetrads",
-        augmentations: [],
         requirements: {
             combat: 75,
             karma: -18,
@@ -73,7 +64,6 @@ export const FACTIONS: IFaction[] = GetAugmentedList([
     },
     {
         name: "Silhouette",
-        augmentations: [],
         requirements: {
             clevel: true,
             karma: -22,
@@ -82,7 +72,6 @@ export const FACTIONS: IFaction[] = GetAugmentedList([
     },
     {
         name: "Speakers for the Dead",
-        augmentations: [],
         requirements: {
             combat: 300,
             karma: -45,
@@ -93,7 +82,6 @@ export const FACTIONS: IFaction[] = GetAugmentedList([
     },
     {
         name: "The Dark Army",
-        augmentations: [],
         requirements: {
             combat: 300,
             karma: -45,
@@ -105,7 +93,6 @@ export const FACTIONS: IFaction[] = GetAugmentedList([
     },
     {
         name: "The Syndicate",
-        augmentations: [],
         requirements: {
             combat: 200,
             karma: -90,
@@ -117,7 +104,6 @@ export const FACTIONS: IFaction[] = GetAugmentedList([
     },
     {
         name: "The Covenant",
-        augmentations: [],
         requirements: {
             augmentations: 20,
             combat: 850,
@@ -127,7 +113,6 @@ export const FACTIONS: IFaction[] = GetAugmentedList([
     },
     {
         name: "Daedalus",
-        augmentations: [],
         requirements: {
             augmentations: 30,
             combat: 1500,
@@ -137,7 +122,6 @@ export const FACTIONS: IFaction[] = GetAugmentedList([
     },
     {
         name: "Illuminati",
-        augmentations: [],
         requirements: {
             augmentations: 30,
             combat: 1200,
@@ -149,7 +133,6 @@ export const FACTIONS: IFaction[] = GetAugmentedList([
     ...CITIES.map((c) => {
         return {
             name: c.name,
-            augmentations: c.faction.augmentations,
             requirements: c.faction.requirements,
         };
     }),
@@ -157,16 +140,7 @@ export const FACTIONS: IFaction[] = GetAugmentedList([
     ...MEGACORPS.map((mc) => {
         return {
             name: mc.name as MegaCorporations,
-            augmentations: mc.faction.augmentations,
             requirements: mc.faction.requirements,
         };
     }),
-]);
-
-/**
- * All factions, as an object.
- */
-export const FACTIONS_OBJ: { [key: string]: IFaction } = FACTIONS.reduce(
-    (a, v) => ({ ...a, [v.name]: v }),
-    {}
-);
+];

@@ -30,10 +30,12 @@ import { sleep } from "/helpers/sleep.js";
 export async function main(ns: NS) {
     ns.disableLog("ALL");
 
-    const focusManager = new FocusManager();
+    const focusManager = new FocusManager(ns);
 
     // Register Program creation
     focusManager.register(new ProgramFocusable(ns));
+
+    // Register Faction work
     focusManager.register(new FactionFocusable(ns));
 
     while (true) {
@@ -44,7 +46,7 @@ export async function main(ns: NS) {
             if (focusManager.canFocus()) {
                 const sleepTime = focusManager.focus();
                 if (sleepTime > 0) {
-                    ns.print(`[focus] Focusing...`);
+                    // TODO: Make this a 'soft' sleep where we check if the operation is finished every so often
                     await sleep(ns, sleepTime);
                 } else {
                     ns.print(`[focus] Failed to focus! Trying again...`);

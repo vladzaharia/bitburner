@@ -1,4 +1,7 @@
-interface IFocusable {
+export interface IFocusable {
+    /** The name of the focusable. */
+    name: string;
+
     /**
      * Gets the current priority of the focusable action.
      *

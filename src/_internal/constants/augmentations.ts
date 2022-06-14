@@ -1,7 +1,4 @@
 import { IAugmentation } from "/_internal/interfaces/augmentation.js";
-import { ICity } from "/_internal/interfaces/city.js";
-import { IMegaCorporation } from "/_internal/interfaces/company.js";
-import { IFaction } from "/_internal/interfaces/faction.js";
 
 /**
  * All augmentations in the game.
@@ -1728,38 +1725,3 @@ export const AUGMENTATIONS: IAugmentation[] = [
  */
 export const AUGMENTATIONS_OBJ: { [key: string]: IAugmentation } =
     AUGMENTATIONS.reduce((a, v) => ({ ...a, [v.name]: v }), {});
-
-/**
- * Augment list of faction-based entities with list of available augmentations.
- *
- * @param originalList - Original list of Cities/MegaCorps/Factions.
- * @returns Augmented list.
- */
-export function GetAugmentedList<T extends ICity | IMegaCorporation | IFaction>(
-    originalList: T[]
-): T[] {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const _isFaction = (o: any): o is IFaction => {
-        return o.augmentations;
-    };
-
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const _isMCCity = (o: any): o is IMegaCorporation | ICity => {
-        return o.faction && o.faction.augmentations;
-    };
-
-    return originalList.map((o) => {
-        const r: T = Object.assign(o, {});
-        const augmentations = AUGMENTATIONS.filter(
-            (a) => a.name === o.name
-        ).map((a) => a.name);
-
-        if (_isFaction(r)) {
-            r.augmentations = augmentations;
-        } else if (_isMCCity(r)) {
-            r.faction.augmentations = augmentations;
-        }
-
-        return r;
-    });
-}

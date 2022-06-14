@@ -29,8 +29,8 @@ export class HomeStore extends Store<HomeParams, null> {
      * @param {NS} ns - The Netscript object.
      */
     public constructor(ns: NS) {
-        // Budget is 50% of money
-        super(ns, 0.5);
+        // Budget is 100% of money
+        super(ns, 1);
     }
 
     /**
