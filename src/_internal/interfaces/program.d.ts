@@ -4,11 +4,20 @@ export interface IProgram {
     /** Name of the program. */
     name: Programs;
 
-    /** Hacking level required to create the program. */
-    hack: number;
+    /** Acquirable through creating. */
+    create: {
+        /** Hacking level required to create the program. */
+        skill: number;
 
-    /** Cost to purchase the program. */
-    cost: number;
+        /** Time it takes to create this program. */
+        time: number;
+    };
+
+    /** Acquirable through the darkweb. */
+    darkweb: {
+        /** Cost to purchase the program. */
+        cost: number;
+    };
 
     /** Whether program is a port opener. */
     isOpener?: boolean;

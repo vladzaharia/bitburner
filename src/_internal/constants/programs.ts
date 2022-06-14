@@ -15,53 +15,103 @@ export const ALL_OPENERS: PortOpeners[] = [
 export const PROGRAMS: IProgram[] = [
     {
         name: "BruteSSH.exe",
-        cost: 500000,
-        hack: 50,
+        create: {
+            skill: 50,
+            time: 10 * 60 * 1000,
+        },
+        darkweb: {
+            cost: 500000,
+        },
     },
     {
         name: "FTPCrack.exe",
-        cost: 1500000,
-        hack: 100,
+        create: {
+            skill: 100,
+            time: 30 * 60 * 1000,
+        },
+        darkweb: {
+            cost: 1500000,
+        },
     },
     {
         name: "relaySMTP.exe",
-        cost: 5000000,
-        hack: 250,
+        create: {
+            skill: 250,
+            time: 2 * 60 * 60 * 1000,
+        },
+        darkweb: {
+            cost: 5000000,
+        },
     },
     {
         name: "HTTPWorm.exe",
-        cost: 30000000,
-        hack: 500,
+        create: {
+            skill: 500,
+            time: 4 * 60 * 60 * 1000,
+        },
+        darkweb: {
+            cost: 30000000,
+        },
     },
     {
         name: "SQLInject.exe",
-        cost: 250000000,
-        hack: 750,
+        create: {
+            skill: 750,
+            time: 8 * 60 * 60 * 1000,
+        },
+        darkweb: {
+            cost: 250000000,
+        },
     },
     {
         name: "DeepscanV1.exe",
-        cost: 50000,
-        hack: 75,
+        create: {
+            skill: 75,
+            time: 15 * 60 * 1000,
+        },
+        darkweb: {
+            cost: 50000,
+        },
     },
     {
         name: "DeepscanV2.exe",
-        cost: 25000000,
-        hack: 400,
+        create: {
+            skill: 400,
+            time: 2 * 60 * 60 * 1000,
+        },
+        darkweb: {
+            cost: 25000000,
+        },
     },
     {
         name: "ServerProfiler.exe",
-        cost: 500000,
-        hack: 75,
+        create: {
+            skill: 75,
+            time: 30 * 60 * 1000,
+        },
+        darkweb: {
+            cost: 500000,
+        },
     },
     {
         name: "AutoLink.exe",
-        cost: 1000000,
-        hack: 25,
+        create: {
+            skill: 25,
+            time: 15 * 60 * 1000,
+        },
+        darkweb: {
+            cost: 1000000,
+        },
     },
     {
         name: "Formulas.exe",
-        cost: 5000000000,
-        hack: 1000,
+        create: {
+            skill: 1000,
+            time: 4 * 60 * 60 * 1000,
+        },
+        darkweb: {
+            cost: 5000000000,
+        },
     },
 ];
 

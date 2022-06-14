@@ -1,6 +1,7 @@
 import { NS } from "Netscript";
 
 import { FocusManager } from "/_internal/classes/focus/_manager.js";
+import { FactionFocusable } from "/_internal/classes/focus/factions";
 import { ProgramFocusable } from "/_internal/classes/focus/programs.js";
 import { sleep } from "/helpers/sleep.js";
 
@@ -33,6 +34,7 @@ export async function main(ns: NS) {
 
     // Register Program creation
     focusManager.register(new ProgramFocusable(ns));
+    focusManager.register(new FactionFocusable(ns));
 
     while (true) {
         ns.clearLog();

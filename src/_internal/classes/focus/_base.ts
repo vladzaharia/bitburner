@@ -36,7 +36,7 @@ export abstract class BaseFocusable implements IFocusable {
      * @virtual Must be overridden by implementing classes.
      */
     public canFocus(): boolean {
-        throw new Error("Method not implemented.");
+        return false;
     }
 
     /**

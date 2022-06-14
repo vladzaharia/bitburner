@@ -5,7 +5,7 @@ import { PROGRAMS } from "/_internal/constants/programs.js";
 import { IProgram } from "/_internal/interfaces/program.js";
 
 /**
- *
+ * Focusable managing the creation of new programs.
  * @class
  */
 export class ProgramFocusable extends BaseFocusable {
@@ -60,15 +60,18 @@ export class ProgramFocusable extends BaseFocusable {
      *
      * - Program doesn't exist on disk
      * - Program's hacking level is below our current level
-     * - Program can't currently be bought on the darkweb
+     * - If port opener, can't currently be bought on the darkweb
      *
      * @returns {boolean} Whether the program exists on disk.
      */
     private _canCreate(program: IProgram): boolean {
         return (
             !this._ns.fileExists(program.name) &&
-            program.hack < this._ns.getHackingLevel() &&
-            program.cost > this._ns.getServerMoneyAvailable("home")
+            program.create.skill < this._ns.getHackingLevel() &&
+            !(
+                program.isOpener &&
+                program.darkweb.cost < this._ns.getServerMoneyAvailable("home")
+            )
         );
     }
 }
