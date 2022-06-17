@@ -1,11 +1,24 @@
 import { NS } from "Netscript";
 
 import { BaseFocusable } from "/_internal/classes/focus/_base.js";
-import { AUGMENTATIONS_OBJ } from "/_internal/constants/augmentations";
+import {
+    AUGMENTATIONS,
+    AUGMENTATIONS_OBJ,
+} from "/_internal/constants/augmentations.js";
 import { FACTIONS } from "/_internal/constants/factions.js";
-import { IFaction } from "/_internal/interfaces/faction";
-import { Augmentations } from "/_internal/types/augmentations";
-import { Factions } from "/_internal/types/factions";
+import { IAugmentation } from "/_internal/interfaces/augmentation.js";
+import { IFaction } from "/_internal/interfaces/faction.js";
+import { Augmentations } from "/_internal/types/augmentations.js";
+import { Factions } from "/_internal/types/factions.js";
+
+/** Augmentations which should be purchased first. */
+const PRIORITY_AUGMENTATIONS: IAugmentation[] = AUGMENTATIONS.filter(
+    (a) =>
+        a.benefits.programs ||
+        a.benefits.startingMoney ||
+        a.benefits.endgame ||
+        a.benefits.focus
+);
 
 /**
  * Focusable managing working for factions.
@@ -53,7 +66,6 @@ export class FactionFocusable extends BaseFocusable {
      * @returns {string} Faction with the most augmentations available.
      */
     private _getFactionToFocus(): Factions {
-        // TODO: Make this only achievable factions
         const sortedFactions = this._getFocusableFactions().sort(
             (a, b) =>
                 this._getNeededAugmentations(b).length *
@@ -63,6 +75,25 @@ export class FactionFocusable extends BaseFocusable {
                     (this._getMaxAugmentationRep(a) -
                         this._ns.singularity.getFactionRep(a.name))
         );
+
+        // Return any factions which have a priority augmentation.
+        const priorityFactions = sortedFactions.filter((f) =>
+            this._ns.singularity
+                .getAugmentationsFromFaction(f.name)
+                .some(
+                    (a) =>
+                        !this._ns.singularity
+                            .getOwnedAugmentations()
+                            .includes(a) &&
+                        PRIORITY_AUGMENTATIONS.some((a2) => a2.name === a)
+                )
+        );
+        if (priorityFactions.length > 0) {
+            this._ns.print(
+                `[factions] ${priorityFactions[0].name} has a priority augmentation`
+            );
+            return priorityFactions[0].name;
+        }
 
         sortedFactions.forEach((f) =>
             this._ns.print(

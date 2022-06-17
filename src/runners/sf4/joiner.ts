@@ -1,7 +1,7 @@
 import { NS } from "Netscript";
 
-import { Faction } from "/_internal/classes/faction.js";
-import { FACTIONS } from "/_internal/constants/factions";
+import { Faction } from "/_internal/classes/faction/_base.js";
+import { FactionManager } from "/_internal/classes/faction/_manager.js";
 import { sleep } from "/helpers/sleep.js";
 
 /**
@@ -21,6 +21,8 @@ import { sleep } from "/helpers/sleep.js";
  */
 export async function main(ns: NS) {
     ns.disableLog("ALL");
+
+    const factionManager = new FactionManager(ns);
 
     while (true) {
         ns.clearLog();
@@ -46,16 +48,13 @@ export async function main(ns: NS) {
             }
 
             // Check if we can join any factions by moving to a city
-            for (const faction of FACTIONS.filter(
-                (f) => !ns.getPlayer().factions.includes(f.name)
-            )) {
-                const factionInst = new Faction(ns, faction);
-                const location = factionInst.getLocation();
+            for (const faction of factionManager.getJoinableFactions()) {
+                const location = faction.getLocation();
 
                 // If we can join and have a location, go to it
-                if (factionInst.canJoin() && location) {
+                if (location) {
                     ns.print(
-                        `[joiner] Visiting ${location} to join ${faction.name}`
+                        `[joiner] Visiting ${location} to join ${faction.getName()}`
                     );
                     const moved = ns.singularity.travelToCity(location);
 
