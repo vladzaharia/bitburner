@@ -1,7 +1,7 @@
 import { NS } from "Netscript";
 
 import { FocusManager } from "/_internal/classes/focus/_manager.js";
-import { FactionFocusable } from "/_internal/classes/focus/factions";
+import { FactionFocusable } from "/_internal/classes/focus/factions.js";
 import { ProgramFocusable } from "/_internal/classes/focus/programs.js";
 import { sleep } from "/helpers/sleep.js";
 
@@ -14,6 +14,7 @@ import { sleep } from "/helpers/sleep.js";
  *
  * Currently enrolled focusables:
  *  - Program creation
+ *  - Faction work
  *
  * **Note:** Requires access to `singularity`, either on BN4 or SF4.
  *

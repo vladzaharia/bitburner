@@ -21,7 +21,8 @@ export abstract class BaseFocusable implements IFocusable {
     private _sleepTime: number = 15 * 60 * 1000;
 
     /**
-     * Constructs a new focusable action.
+     * Creates a new focusable action.
+     * @constructor
      *
      * @param {string} name - The name of this focusable.
      * @param {NS} ns - The Netscript object.

@@ -1100,6 +1100,17 @@ export const AUGMENTATIONS: IAugmentation[] = [
         },
     },
     {
+        name: "Neuroreceptor Management Implant",
+        benefits: {
+            focus: true,
+        },
+        factions: ["Tian Di Hui"],
+        requirements: {
+            money: 550000000,
+            reputation: 75000,
+        },
+    },
+    {
         name: "Neurotrainer I",
         benefits: {
             agi: {

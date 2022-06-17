@@ -7,11 +7,12 @@ import { NS } from "Netscript";
 const RUNNERS: string[] = [
     // "cracker.js",
     "sf4/backdoor-cracker.js",
+    "sf4/home.js",
+    "sf4/joiner.js",
+    "sf4/focus.js",
     "worker.js",
     "scheduler.js",
     "hacknet.js",
-    "sf4/home.js",
-    "sf4/focus.js",
     // "watcher.js",
 ];
 

@@ -161,7 +161,7 @@ async function executeOnPool(ns: NS, hostnames: string[], args: string[]) {
 
         // Reserve space on home for node scripts
         if (hostname === "home") {
-            ramAvail = ramAvail - 72;
+            ramAvail = ramAvail - 128;
             finalScripts[HACK_SCRIPT] = 0;
         }
 

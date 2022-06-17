@@ -70,6 +70,9 @@ export interface IAugmentationBenefits {
 
     /** Red pill gains access to endgame. */
     endgame?: boolean;
+
+    /** Removes penalty for not focusing. */
+    focus?: boolean;
 }
 
 /**

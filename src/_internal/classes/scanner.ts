@@ -5,7 +5,8 @@ import { ScanType } from "/_internal/types/scanner.js";
 import { getPortOpeners } from "/helpers/crack.js";
 
 /**
- * Discovers and documents
+ * Discovers and documents all hosts that can be reached from "home".
+ * @class
  */
 export class Scanner {
     /** The Netscript object. */
@@ -21,7 +22,10 @@ export class Scanner {
     private _hostMap: { [key: string]: IHost } = {};
 
     /**
+     * Creates a new host scanner, which keeps track of all known hosts.
+     * @constructor
      *
+     * @param {NS} ns - The Netscript object.
      */
     public constructor(ns: NS) {
         this._ns = ns;

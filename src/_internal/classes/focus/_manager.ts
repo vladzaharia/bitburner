@@ -18,6 +18,7 @@ export class FocusManager implements IFocusable {
 
     /**
      * Creates a new manager capable of handling multiple `IFocusable`s.
+     * @constructor
      *
      * @param {NS} ns - The Netscript object
      */

@@ -132,15 +132,24 @@ export const FACTIONS: IFaction[] = [
 
     ...CITIES.map((c) => {
         return {
-            name: c.name,
+            ...c,
             requirements: c.faction.requirements,
         };
     }),
 
     ...MEGACORPS.map((mc) => {
         return {
+            ...mc,
             name: mc.name as MegaCorporations,
             requirements: mc.faction.requirements,
         };
     }),
 ];
+
+/**
+ * All factions, as an object.
+ */
+export const FACTIONS_OBJ: { [key: string]: IFaction } = FACTIONS.reduce(
+    (a, v) => ({ ...a, [v.name]: v }),
+    {}
+);

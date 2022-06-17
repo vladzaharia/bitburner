@@ -6,7 +6,7 @@ import { ICity } from "/_internal/interfaces/city.js";
 export const CITIES: ICity[] = [
     {
         name: "Sector-12",
-        enemies: ["Chongqing", "Ishima", "New Tokyo", "Volhaven"],
+        rivals: ["Chongqing", "Ishima", "New Tokyo", "Volhaven"],
         faction: {
             requirements: {
                 location: ["Sector-12"],
@@ -16,7 +16,7 @@ export const CITIES: ICity[] = [
     },
     {
         name: "Chongqing",
-        enemies: ["Aevum", "Sector-12", "Volhaven"],
+        rivals: ["Aevum", "Sector-12", "Volhaven"],
         faction: {
             requirements: {
                 location: ["Chongqing"],
@@ -26,7 +26,7 @@ export const CITIES: ICity[] = [
     },
     {
         name: "New Tokyo",
-        enemies: ["Aevum", "Sector-12", "Volhaven"],
+        rivals: ["Aevum", "Sector-12", "Volhaven"],
         faction: {
             requirements: {
                 location: ["New Tokyo"],
@@ -36,7 +36,7 @@ export const CITIES: ICity[] = [
     },
     {
         name: "Ishima",
-        enemies: ["Aevum", "Sector-12", "Volhaven"],
+        rivals: ["Aevum", "Sector-12", "Volhaven"],
         faction: {
             requirements: {
                 location: ["Ishima"],
@@ -46,7 +46,7 @@ export const CITIES: ICity[] = [
     },
     {
         name: "Aevum",
-        enemies: ["Chongqing", "Ishima", "New Tokyo", "Volhaven"],
+        rivals: ["Chongqing", "Ishima", "New Tokyo", "Volhaven"],
         faction: {
             requirements: {
                 location: ["Aevum"],
@@ -56,7 +56,7 @@ export const CITIES: ICity[] = [
     },
     {
         name: "Volhaven",
-        enemies: ["Aevum", "Chongqing", "Ishima", "New Tokyo", "Sector-12"],
+        rivals: ["Aevum", "Chongqing", "Ishima", "New Tokyo", "Sector-12"],
         faction: {
             requirements: {
                 location: ["Volhaven"],

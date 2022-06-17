@@ -1,6 +1,7 @@
 import { NS } from "Netscript";
 
 import { BaseFocusable } from "/_internal/classes/focus/_base.js";
+import { AUGMENTATIONS_OBJ } from "/_internal/constants/augmentations";
 import { FACTIONS } from "/_internal/constants/factions.js";
 import { IFaction } from "/_internal/interfaces/faction";
 import { Augmentations } from "/_internal/types/augmentations";
@@ -23,21 +24,13 @@ export class FactionFocusable extends BaseFocusable {
     }
 
     /**
-     * User can focus if there's a faction where they have some rep, and augmentations to purchase.
+     * User can focus if there's a faction where rep is needed to purchase augmentations.
      * @override
      *
-     * @returns {boolean} Whether the user has factions with augmentations available.
+     * @returns {boolean} Whether the user has factions with augmentations available and rep needed.
      */
     public override canFocus(): boolean {
-        const factions = this._getAcceptedFactions();
-        this._ns.print(
-            `[factions] ${
-                factions.length
-            } factions available, ${factions.filter((f) =>
-                this._getNeededAugmentations(f)
-            )} with augmentations`
-        );
-        return factions.some((f) => this._getNeededAugmentations(f).length > 0);
+        return this._getFocusableFactions().length > 0;
     }
 
     /**
@@ -61,10 +54,14 @@ export class FactionFocusable extends BaseFocusable {
      */
     private _getFactionToFocus(): Factions {
         // TODO: Make this only achievable factions
-        const sortedFactions = this._getAcceptedFactions().sort(
+        const sortedFactions = this._getFocusableFactions().sort(
             (a, b) =>
-                this._getNeededAugmentations(b).length -
-                this._getNeededAugmentations(a).length
+                this._getNeededAugmentations(b).length *
+                    (this._getMaxAugmentationRep(b) -
+                        this._ns.singularity.getFactionRep(b.name)) -
+                this._getNeededAugmentations(a).length *
+                    (this._getMaxAugmentationRep(a) -
+                        this._ns.singularity.getFactionRep(a.name))
         );
 
         sortedFactions.forEach((f) =>
@@ -82,13 +79,17 @@ export class FactionFocusable extends BaseFocusable {
     }
 
     /**
-     * Return factions which have some reputation available.
+     * Return factions which are can be focused on.
      *
-     * @returns {IFaction[]} All Factions which have reputation.
+     * @returns {IFaction[]} All Factions which which are accepted and have rep needed to purchase augmentations.
      */
-    private _getAcceptedFactions(): IFaction[] {
+    private _getFocusableFactions(): IFaction[] {
         return FACTIONS.filter(
-            (f) => this._ns.singularity.getFactionRep(f.name) > 0
+            (f) =>
+                this._ns.getPlayer().factions.includes(f.name) &&
+                this._getNeededAugmentations(f).length > 0 &&
+                this._getMaxAugmentationRep(f) >
+                    this._ns.singularity.getFactionRep(f.name)
         );
     }
 
@@ -107,5 +108,19 @@ export class FactionFocusable extends BaseFocusable {
                         .getOwnedAugmentations(true)
                         .some((aug) => aug === a)
             ) as Augmentations[];
+    }
+
+    /**
+     * Get the largest rep requirement of the augmentations offered by `faction`.
+     *
+     * @param {IFaction} faction - Faction to check.
+     * @returns {number} Largest rep cost of the augmentations offered.
+     */
+    private _getMaxAugmentationRep(faction: IFaction): number {
+        return Math.max(
+            ...this._getNeededAugmentations(faction).map((a) => {
+                return AUGMENTATIONS_OBJ[a].requirements.reputation || 0;
+            })
+        );
     }
 }

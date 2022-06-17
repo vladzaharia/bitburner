@@ -58,6 +58,7 @@ export type Augmentations =
     | "Hacknet Node Kernel Direct-Neural Interface"
     | "Hacknet Node Core Direct-Neural Interface"
     | "NeuroFlux Governor"
+    | "Neuroreceptor Management Implant"
     | "Neurotrainer I"
     | "Neurotrainer II"
     | "Neurotrainer III"

@@ -10,7 +10,7 @@ export interface ICity {
     name: Cities;
 
     /** The enemies this city has. */
-    enemies: Cities[];
+    rivals: Cities[];
 
     /** Faction-specific information for this city. */
     faction: {

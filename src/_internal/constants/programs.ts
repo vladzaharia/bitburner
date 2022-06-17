@@ -115,6 +115,7 @@ export const PROGRAMS: IProgram[] = [
     },
 ];
 
+// Check if program is an opener
 PROGRAMS.forEach(
     (p) => (p.isOpener = ALL_OPENERS.includes(p.name as PortOpeners))
 );

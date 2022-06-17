@@ -218,7 +218,7 @@ export const COMPANIES: ICompany[] = [
 ];
 
 /**
- * All cities, as an object.
+ * All companies, as an object.
  */
 export const COMPANIES_OBJ: { [key: string]: ICompany } = COMPANIES.reduce(
     (a, v) => ({ ...a, [v.name]: v }),
