@@ -9,6 +9,9 @@ import { IProgram } from "/_internal/interfaces/program.js";
  * @class
  */
 export class ProgramFocusable extends BaseFocusable {
+    /** Internal focus store. */
+    private _focusTime: number | undefined;
+
     /**
      * Creates a focuser that manages program creation.
      * @constructor
@@ -60,11 +63,22 @@ export class ProgramFocusable extends BaseFocusable {
         for (const program of PROGRAMS) {
             if (this._canCreate(program)) {
                 this._ns.print(`[programs] Creating ${program.name}`);
+                this._focusTime = program.create.time;
+
                 return this._ns.singularity.createProgram(program.name);
             }
         }
 
         return false;
+    }
+
+    /**
+     * Get time to focus, if set by program.
+     *
+     * @returns {number} Time to focus, set by program or default.
+     */
+    public override getFocusTime(): number {
+        return this._focusTime || super.getFocusTime();
     }
 
     /**

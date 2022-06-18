@@ -59,16 +59,21 @@ export abstract class BaseFocusable implements IFocusable {
      */
     public focus(): number {
         if (this._focus()) {
-            // Don't focus if low priority
+            // Check if we should disable focus
             if (
-                this.shouldRunInBackground() ||
                 this._ns.singularity
                     .getOwnedAugmentations()
                     .includes("Neuroreceptor Management Implant")
             ) {
+                this._ns.print(
+                    `[focus] Disabling focus for this task as Neuroreceptor Management Implant is installed`
+                );
+                this._ns.singularity.setFocus(false);
+            } else if (this.shouldRunInBackground()) {
                 this._ns.print(`[focus] Disabling focus for this task`);
                 this._ns.singularity.setFocus(false);
             }
+
             return this.getFocusTime();
         } else {
             return -1;

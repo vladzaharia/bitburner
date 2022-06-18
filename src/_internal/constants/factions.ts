@@ -12,6 +12,7 @@ export const FACTIONS: IFaction[] = [
         requirements: {
             backdoor: "CSEC",
         },
+        workOffered: ["Hacking"],
     },
     {
         name: "Tian Di Hui",
@@ -20,6 +21,7 @@ export const FACTIONS: IFaction[] = [
             location: ["Chongqing", "Ishima", "New Tokyo"],
             money: 1000000,
         },
+        workOffered: ["Hacking", "Security"],
     },
     {
         name: "Netburners",
@@ -27,24 +29,28 @@ export const FACTIONS: IFaction[] = [
             hacknet: true,
             level: 80,
         },
+        workOffered: ["Hacking"],
     },
     {
         name: "NiteSec",
         requirements: {
             backdoor: "avmnite-02h",
         },
+        workOffered: ["Hacking"],
     },
     {
         name: "The Black Hand",
         requirements: {
             backdoor: "I.I.I.I",
         },
+        workOffered: ["Hacking"],
     },
     {
         name: "BitRunners",
         requirements: {
             backdoor: "run4theh111z",
         },
+        workOffered: ["Hacking"],
     },
     {
         name: "Slum Snakes",
@@ -53,6 +59,7 @@ export const FACTIONS: IFaction[] = [
             karma: -9,
             money: 1000000,
         },
+        workOffered: ["Field", "Security"],
     },
     {
         name: "Tetrads",
@@ -61,6 +68,7 @@ export const FACTIONS: IFaction[] = [
             karma: -18,
             location: ["Chongqing", "Ishima", "New Tokyo"],
         },
+        workOffered: ["Field", "Security"],
     },
     {
         name: "Silhouette",
@@ -69,6 +77,7 @@ export const FACTIONS: IFaction[] = [
             karma: -22,
             money: 15000000,
         },
+        workOffered: ["Hacking", "Field"],
     },
     {
         name: "Speakers for the Dead",
@@ -79,6 +88,7 @@ export const FACTIONS: IFaction[] = [
             level: 100,
             notGov: true,
         },
+        workOffered: ["Hacking", "Field", "Security"],
     },
     {
         name: "The Dark Army",
@@ -90,6 +100,7 @@ export const FACTIONS: IFaction[] = [
             location: ["Chongqing"],
             notGov: true,
         },
+        workOffered: ["Hacking", "Field"],
     },
     {
         name: "The Syndicate",
@@ -101,6 +112,7 @@ export const FACTIONS: IFaction[] = [
             money: 10000000,
             notGov: true,
         },
+        workOffered: ["Hacking", "Field", "Security"],
     },
     {
         name: "The Covenant",
@@ -110,6 +122,7 @@ export const FACTIONS: IFaction[] = [
             level: 850,
             money: 75000000000,
         },
+        workOffered: ["Hacking", "Field"],
     },
     {
         name: "Daedalus",
@@ -119,6 +132,7 @@ export const FACTIONS: IFaction[] = [
             level: 2500,
             money: 100000000000,
         },
+        workOffered: ["Hacking", "Field"],
     },
     {
         name: "Illuminati",
@@ -128,12 +142,14 @@ export const FACTIONS: IFaction[] = [
             level: 1500,
             money: 150000000000,
         },
+        workOffered: ["Hacking", "Field"],
     },
 
     ...CITIES.map((c) => {
         return {
             ...c,
             requirements: c.faction.requirements,
+            workOffered: c.faction.workOffered,
         };
     }),
 
@@ -142,6 +158,7 @@ export const FACTIONS: IFaction[] = [
             ...mc,
             name: mc.name as MegaCorporations,
             requirements: mc.faction.requirements,
+            workOffered: mc.faction.workOffered,
         };
     }),
 ];

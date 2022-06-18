@@ -1,5 +1,6 @@
 import { IFactionRequirements } from "/_internal/interfaces/requirements.js";
 import { Factions } from "/_internal/types/factions.js";
+import { WorkTypes } from "/_internal/types/work.js";
 
 /**
  * A faction and its requirements.
@@ -14,4 +15,7 @@ export interface IFaction {
 
     /** The requirements to gain an invitation to this faction. */
     requirements: IFactionRequirements;
+
+    /** Types of work offered by this faction. */
+    workOffered: WorkTypes[];
 }

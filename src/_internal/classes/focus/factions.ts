@@ -5,7 +5,7 @@ import {
     AUGMENTATIONS,
     AUGMENTATIONS_OBJ,
 } from "/_internal/constants/augmentations.js";
-import { FACTIONS } from "/_internal/constants/factions.js";
+import { FACTIONS, FACTIONS_OBJ } from "/_internal/constants/factions.js";
 import { IAugmentation } from "/_internal/interfaces/augmentation.js";
 import { IFaction } from "/_internal/interfaces/faction.js";
 import { Augmentations } from "/_internal/types/augmentations.js";
@@ -54,9 +54,9 @@ export class FactionFocusable extends BaseFocusable {
     protected override _focus(): boolean {
         const faction = this._getFactionToFocus();
         // TODO: Add other types of work
-        const work = "Hacking";
+        const work = FACTIONS_OBJ[faction].workOffered[0];
 
-        this._ns.print(`[factions] ${work} for ${faction}`);
+        this._ns.print(`[factions] Working ${work} for ${faction}`);
         return this._ns.singularity.workForFaction(faction, work);
     }
 

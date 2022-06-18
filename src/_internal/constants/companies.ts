@@ -10,6 +10,7 @@ export const MEGACORPS: IMegaCorporation[] = [
             requirements: {
                 reputation: 200000,
             },
+            workOffered: ["Hacking", "Field", "Security"],
         },
         location: "Aevum",
     },
@@ -19,6 +20,7 @@ export const MEGACORPS: IMegaCorporation[] = [
             requirements: {
                 reputation: 200000,
             },
+            workOffered: ["Hacking", "Field", "Security"],
         },
         location: "Sector-12",
     },
@@ -28,6 +30,7 @@ export const MEGACORPS: IMegaCorporation[] = [
             requirements: {
                 reputation: 200000,
             },
+            workOffered: ["Hacking", "Field", "Security"],
         },
         location: "Chongqing",
     },
@@ -37,6 +40,7 @@ export const MEGACORPS: IMegaCorporation[] = [
             requirements: {
                 reputation: 200000,
             },
+            workOffered: ["Hacking", "Field", "Security"],
         },
         location: "Sector-12",
     },
@@ -46,6 +50,7 @@ export const MEGACORPS: IMegaCorporation[] = [
             requirements: {
                 reputation: 200000,
             },
+            workOffered: ["Hacking", "Field", "Security"],
         },
         location: "Volhaven",
     },
@@ -55,6 +60,7 @@ export const MEGACORPS: IMegaCorporation[] = [
             requirements: {
                 reputation: 200000,
             },
+            workOffered: ["Hacking", "Field", "Security"],
         },
         location: "Sector-12",
     },
@@ -64,6 +70,7 @@ export const MEGACORPS: IMegaCorporation[] = [
             requirements: {
                 reputation: 200000,
             },
+            workOffered: ["Hacking", "Field", "Security"],
         },
         location: "Volhaven",
     },
@@ -73,6 +80,7 @@ export const MEGACORPS: IMegaCorporation[] = [
             requirements: {
                 reputation: 200000,
             },
+            workOffered: ["Hacking", "Field", "Security"],
         },
         location: "Aevum",
     },
@@ -82,6 +90,7 @@ export const MEGACORPS: IMegaCorporation[] = [
             requirements: {
                 reputation: 200000,
             },
+            workOffered: ["Hacking", "Field", "Security"],
         },
         location: "Aevum",
     },
@@ -92,6 +101,7 @@ export const MEGACORPS: IMegaCorporation[] = [
                 backdoor: "fulcrumassets",
                 reputation: 250000,
             },
+            workOffered: ["Hacking", "Field", "Security"],
         },
         location: "Aevum",
     },

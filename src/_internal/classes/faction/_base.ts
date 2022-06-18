@@ -109,12 +109,14 @@ export class Faction {
         // Check karma level
         // TODO
         if (reqs.karma) {
-            results.push(false);
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const karma = (this._ns as any).heart.break();
+            results.push(reqs.karma > karma);
         }
 
         // Check number of people killed
         if (reqs.killed) {
-            results.push(false);
+            results.push(reqs.killed < this._ns.getPlayer().numPeopleKilled);
         }
 
         // Check hacking level
@@ -159,8 +161,6 @@ export class Faction {
                 results.push(!this.isJoined(rival));
             }
         }
-
-        this._ns.print(`[faction] ${this._faction.name} results ${results}`);
 
         return results.every((r) => r);
     }

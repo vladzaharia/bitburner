@@ -12,6 +12,7 @@ export const CITIES: ICity[] = [
                 location: ["Sector-12"],
                 money: 15000000,
             },
+            workOffered: ["Hacking", "Field", "Security"],
         },
     },
     {
@@ -22,6 +23,7 @@ export const CITIES: ICity[] = [
                 location: ["Chongqing"],
                 money: 20000000,
             },
+            workOffered: ["Hacking", "Field", "Security"],
         },
     },
     {
@@ -32,6 +34,7 @@ export const CITIES: ICity[] = [
                 location: ["New Tokyo"],
                 money: 20000000,
             },
+            workOffered: ["Hacking", "Field", "Security"],
         },
     },
     {
@@ -42,6 +45,7 @@ export const CITIES: ICity[] = [
                 location: ["Ishima"],
                 money: 30000000,
             },
+            workOffered: ["Hacking", "Field", "Security"],
         },
     },
     {
@@ -52,6 +56,7 @@ export const CITIES: ICity[] = [
                 location: ["Aevum"],
                 money: 40000000,
             },
+            workOffered: ["Hacking", "Field", "Security"],
         },
     },
     {
@@ -62,6 +67,7 @@ export const CITIES: ICity[] = [
                 location: ["Volhaven"],
                 money: 50000000,
             },
+            workOffered: ["Hacking", "Field", "Security"],
         },
     },
 ];

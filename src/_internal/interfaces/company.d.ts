@@ -2,6 +2,8 @@ import { IFactionRequirements } from "/_internal/interfaces/requirements.js";
 import { Cities } from "/_internal/types/cities.js";
 import { Companies } from "/_internal/types/companies.js";
 
+import { WorkTypes } from "../types/work";
+
 /**
  * A company that can be worked at.
  * @interface
@@ -26,5 +28,8 @@ export interface IMegaCorporation extends ICompany {
     faction: {
         /** The requirements to gain an invitation to this faction. */
         requirements: IFactionRequirements;
+
+        /** Types of work offered by this faction. */
+        workOffered: WorkTypes[];
     };
 }
