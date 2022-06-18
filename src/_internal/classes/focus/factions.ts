@@ -68,12 +68,12 @@ export class FactionFocusable extends BaseFocusable {
     private _getFactionToFocus(): Factions {
         const sortedFactions = this._getFocusableFactions().sort(
             (a, b) =>
-                this._getNeededAugmentations(b).length *
-                    (this._getMaxAugmentationRep(b) -
-                        this._ns.singularity.getFactionRep(b.name)) -
                 this._getNeededAugmentations(a).length *
                     (this._getMaxAugmentationRep(a) -
-                        this._ns.singularity.getFactionRep(a.name))
+                        this._ns.singularity.getFactionRep(a.name)) -
+                this._getNeededAugmentations(b).length *
+                    (this._getMaxAugmentationRep(b) -
+                        this._ns.singularity.getFactionRep(b.name))
         );
 
         // Return any factions which have a priority augmentation.
@@ -115,13 +115,14 @@ export class FactionFocusable extends BaseFocusable {
      * @returns {IFaction[]} All Factions which which are accepted and have rep needed to purchase augmentations.
      */
     private _getFocusableFactions(): IFaction[] {
-        return FACTIONS.filter(
-            (f) =>
+        return FACTIONS.filter((f) => {
+            return (
                 this._ns.getPlayer().factions.includes(f.name) &&
                 this._getNeededAugmentations(f).length > 0 &&
                 this._getMaxAugmentationRep(f) >
                     this._ns.singularity.getFactionRep(f.name)
-        );
+            );
+        });
     }
 
     /**

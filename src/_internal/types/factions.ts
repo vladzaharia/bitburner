@@ -20,5 +20,6 @@ export type Factions =
     | "The Covenant"
     | "Daedalus"
     | "Illuminati"
+    | "Church of the Machine God"
     | Cities
     | MegaCorporations;

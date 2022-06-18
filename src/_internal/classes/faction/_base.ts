@@ -52,7 +52,8 @@ export class Faction {
      * @returns {boolean} True if faction has been joined, false otherwise.
      */
     public isJoined(name = this._faction.name): boolean {
-        return !this._ns.getPlayer().factions.includes(name);
+        const factions = this._ns.getPlayer().factions;
+        return factions.includes(name);
     }
 
     /**
@@ -64,7 +65,7 @@ export class Faction {
         const reqs = this._faction.requirements;
         const results: boolean[] = [];
 
-        // Don't need to join if we already have.
+        // Don't join if already joined.
         if (this.isJoined()) {
             return false;
         }
@@ -159,6 +160,8 @@ export class Faction {
             }
         }
 
+        this._ns.print(`[faction] ${this._faction.name} results ${results}`);
+
         return results.every((r) => r);
     }
 
@@ -168,11 +171,6 @@ export class Faction {
      * @returns {boolean} True if the faction has no enemies or more augmentations available than enemies.
      */
     public shouldJoin(): boolean {
-        // Don't need to join if we already have.
-        if (this.isJoined()) {
-            return false;
-        }
-
         if (!_isCity(this._faction)) {
             this._ns.print(
                 `[faction] ${this._faction.name} has no rivals, joining`

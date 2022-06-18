@@ -63,7 +63,7 @@ export class FactionManager {
      * @returns {Faction[]} All factions which can be joined.
      */
     public getJoinableFactions(): Faction[] {
-        return this._allFactions.filter((f) => f.canJoin());
+        return this._allFactions.filter((f) => f.canJoin() && f.shouldJoin());
     }
 
     /**
@@ -112,7 +112,8 @@ export class FactionManager {
             const purchaseableAugmentations = augmentationMap[faction].filter(
                 (a) =>
                     this._ns.getServerMoneyAvailable("home") >
-                        (a.requirements.money || 0) &&
+                        (this._ns.singularity.getAugmentationPrice(a.name) ||
+                            0) &&
                     this._ns.singularity.getFactionRep(faction) >
                         (a.requirements.reputation || 0)
             );

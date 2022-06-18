@@ -88,7 +88,7 @@ export type Augmentations =
     | "NutriGen Implant"
     | "INFRARET Enhancement"
     | "DermaForce Particle Barrier"
-    | "Graphene BranchiBlades Upgrade"
+    | "Graphene BrachiBlades Upgrade"
     | "Graphene Bionic Arms Upgrade"
     | "BrachiBlades"
     | "Bionic Arms"
@@ -110,4 +110,7 @@ export type Augmentations =
     | "BLADE-51b Tesla Armor: Unibeam Upgrade"
     | "BLADE-51b Tesla Armor: Omnibeam Upgrade"
     | "BLADE-51b Tesla Armor: IPU Upgrade"
-    | "The Blade's Simulacrum";
+    | "The Blade's Simulacrum"
+    | "Stanek's Gift - Genesis"
+    | "Stanek's Gift - Awakening"
+    | "Stanek's Gift - Serenity";

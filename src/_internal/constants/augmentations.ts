@@ -780,7 +780,7 @@ export const AUGMENTATIONS: IAugmentation[] = [
         },
     },
     {
-        name: "Graphene BranchiBlades Upgrade",
+        name: "Graphene BrachiBlades Upgrade",
         benefits: {
             crime: {
                 money: 1.3,
@@ -887,6 +887,19 @@ export const AUGMENTATIONS: IAugmentation[] = [
         requirements: {
             money: 45000000,
             reputation: 10000,
+        },
+    },
+    {
+        name: "Hydroflame Left Arm",
+        benefits: {
+            str: {
+                skill: 2.7,
+            },
+        },
+        factions: ["NWO"],
+        requirements: {
+            money: 2.5e12,
+            reputation: 1.25e6,
         },
     },
     {
@@ -1082,6 +1095,15 @@ export const AUGMENTATIONS: IAugmentation[] = [
         requirements: {
             money: 375000000,
             reputation: 37500,
+        },
+    },
+    {
+        name: "NeuroFlux Governor",
+        benefits: {},
+        factions: [],
+        requirements: {
+            money: 750e3,
+            reputation: 500,
         },
     },
     {
@@ -1354,8 +1376,8 @@ export const AUGMENTATIONS: IAugmentation[] = [
         },
         factions: ["Blade Industries", "ECorp", "Fulcrum Secret Technologies"],
         requirements: {
-            money: 4500000000,
-            reputation: 500000,
+            money: 2e9,
+            reputation: 100e3,
         },
     },
     {
@@ -1548,6 +1570,33 @@ export const AUGMENTATIONS: IAugmentation[] = [
         },
     },
     {
+        name: "Stanek's Gift - Genesis",
+        benefits: {},
+        factions: ["Church of the Machine God"],
+        requirements: {
+            money: 0,
+            reputation: 0,
+        },
+    },
+    {
+        name: "Stanek's Gift - Awakening",
+        benefits: {},
+        factions: ["Church of the Machine God"],
+        requirements: {
+            money: 0,
+            reputation: 1e6,
+        },
+    },
+    {
+        name: "Stanek's Gift - Serenity",
+        benefits: {},
+        factions: ["Church of the Machine God"],
+        requirements: {
+            money: 0,
+            reputation: 1e8,
+        },
+    },
+    {
         name: "Synaptic Enhancement Implant",
         benefits: {
             hack: {
@@ -1667,6 +1716,15 @@ export const AUGMENTATIONS: IAugmentation[] = [
         requirements: {
             money: 190000000,
             reputation: 25000,
+        },
+    },
+    {
+        name: "Unstable Circadian Modulator",
+        benefits: {},
+        factions: ["Speakers for the Dead"],
+        requirements: {
+            money: 5e9,
+            reputation: 3.625e5,
         },
     },
     {
