@@ -1,3 +1,6 @@
+/**
+ * All possible crimes.
+ */
 export type Crimes =
     | "shoplift"
     | "rob a store"

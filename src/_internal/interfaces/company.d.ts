@@ -1,8 +1,8 @@
 import { IFactionRequirements } from "/_internal/interfaces/requirements.js";
 import { Cities } from "/_internal/types/cities.js";
 import { Companies } from "/_internal/types/companies.js";
-
-import { WorkTypes } from "../types/work";
+import { Positions } from "/_internal/types/positions.js";
+import { WorkTypes } from "/_internal/types/work.js";
 
 /**
  * A company that can be worked at.
@@ -14,6 +14,8 @@ export interface ICompany {
 
     /** City the company is located in. */
     location: Cities;
+
+    positions: Positions[];
 
     /** Hostname of the server, if available. */
     hostname?: string;
