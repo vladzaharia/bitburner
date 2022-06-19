@@ -19,7 +19,7 @@ export interface IAugmentationRequirements {
  */
 export interface IFactionRequirements extends IAugmentationRequirements {
     /** Hacking level needed. */
-    level?: number;
+    hack?: number;
 
     /** Combat level (Str, Def, Agi, Dex) needed. */
     combat?: number;

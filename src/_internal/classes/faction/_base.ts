@@ -5,7 +5,9 @@ import { AUGMENTATIONS_OBJ } from "/_internal/constants/augmentations.js";
 import { FACTIONS_OBJ } from "/_internal/constants/factions.js";
 import { ICity } from "/_internal/interfaces/city.js";
 import { IFaction } from "/_internal/interfaces/faction.js";
+import { IFactionRequirements } from "/_internal/interfaces/requirements.js";
 import { Cities } from "/_internal/types/cities.js";
+import { Factions } from "/_internal/types/factions.js";
 
 /**
  * Helper class which handles factions in the game.
@@ -41,7 +43,7 @@ export class Faction {
      *
      * @returns {string} Faction's name.
      */
-    public getName(): string {
+    public getName(): Factions {
         return this._faction.name;
     }
 
@@ -120,10 +122,10 @@ export class Faction {
         }
 
         // Check hacking level
-        if (reqs.level) {
+        if (reqs.hack) {
             results.push(
                 (this._faction.name === "Daedalus" && results[3]) ||
-                    reqs.level < this._ns.getHackingLevel()
+                    reqs.hack < this._ns.getHackingLevel()
             );
         }
 
@@ -220,6 +222,26 @@ export class Faction {
      */
     public getAugmentations(name = this._faction.name): string[] {
         return this._ns.singularity.getAugmentationsFromFaction(name);
+    }
+
+    /**
+     * Returns requirements for the faction.
+     *
+     * @returns {string[]} All augmentations offered by this faction.
+     */
+    public getRequirements(): IFactionRequirements {
+        return this._faction.requirements;
+    }
+
+    /**
+     * Returns current reputation for the faction.
+     *
+     * @returns {number} Current reputation, as number.
+     */
+    public getReputation(): number {
+        return Math.floor(
+            this._ns.singularity.getFactionRep(this._faction.name)
+        );
     }
 
     /**

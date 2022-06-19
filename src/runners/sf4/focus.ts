@@ -4,6 +4,7 @@ import { FocusManager } from "/_internal/classes/focus/_manager.js";
 import { CrimeFocusable } from "/_internal/classes/focus/crime.js";
 import { FactionFocusable } from "/_internal/classes/focus/factions.js";
 import { ProgramFocusable } from "/_internal/classes/focus/programs.js";
+import { TrainingFocusable } from "/_internal/classes/focus/train.js";
 import { getHumanDuration, sleep } from "/helpers/sleep.js";
 
 /**
@@ -42,6 +43,9 @@ export async function main(ns: NS) {
 
     // Register Crime work
     focusManager.register(new CrimeFocusable(ns));
+
+    // Register Training
+    focusManager.register(new TrainingFocusable(ns));
 
     while (true) {
         if (focusManager.getFocusTime() > 0) {

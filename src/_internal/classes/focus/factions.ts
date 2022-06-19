@@ -31,9 +31,9 @@ export class FactionFocusable extends BaseFocusable {
      * @constructor
      *
      * @param {NS} ns - The Netscript object.
-     * @param {number} priority - Priority this focuser should run at, defaults to `5`.
+     * @param {number} priority - Priority this focuser should run at, defaults to `25`.
      */
-    public constructor(ns: NS, priority = 5) {
+    public constructor(ns: NS, priority = 25) {
         super("Faction work", ns, priority);
     }
 

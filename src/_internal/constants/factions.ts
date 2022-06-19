@@ -17,7 +17,7 @@ export const FACTIONS: IFaction[] = [
     {
         name: "Tian Di Hui",
         requirements: {
-            level: 50,
+            hack: 50,
             location: ["Chongqing", "Ishima", "New Tokyo"],
             money: 1000000,
         },
@@ -27,7 +27,7 @@ export const FACTIONS: IFaction[] = [
         name: "Netburners",
         requirements: {
             hacknet: true,
-            level: 80,
+            hack: 80,
         },
         workOffered: ["Hacking"],
     },
@@ -85,7 +85,7 @@ export const FACTIONS: IFaction[] = [
             combat: 300,
             karma: -45,
             killed: 30,
-            level: 100,
+            hack: 100,
             notGov: true,
         },
         workOffered: ["Hacking", "Field", "Security"],
@@ -96,7 +96,7 @@ export const FACTIONS: IFaction[] = [
             combat: 300,
             karma: -45,
             killed: 5,
-            level: 300,
+            hack: 300,
             location: ["Chongqing"],
             notGov: true,
         },
@@ -107,7 +107,7 @@ export const FACTIONS: IFaction[] = [
         requirements: {
             combat: 200,
             karma: -90,
-            level: 200,
+            hack: 200,
             location: ["Aevum", "Sector-12"],
             money: 10000000,
             notGov: true,
@@ -119,7 +119,7 @@ export const FACTIONS: IFaction[] = [
         requirements: {
             augmentations: 20,
             combat: 850,
-            level: 850,
+            hack: 850,
             money: 75000000000,
         },
         workOffered: ["Hacking", "Field"],
@@ -129,7 +129,7 @@ export const FACTIONS: IFaction[] = [
         requirements: {
             augmentations: 30,
             combat: 1500,
-            level: 2500,
+            hack: 2500,
             money: 100000000000,
         },
         workOffered: ["Hacking", "Field"],
@@ -139,7 +139,7 @@ export const FACTIONS: IFaction[] = [
         requirements: {
             augmentations: 30,
             combat: 1200,
-            level: 1500,
+            hack: 1500,
             money: 150000000000,
         },
         workOffered: ["Hacking", "Field"],

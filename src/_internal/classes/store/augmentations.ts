@@ -47,6 +47,7 @@ export class AugmentationStore extends Store<AugmentationPurchaseParams, null> {
 
     /**
      * Check if user has enough money and reputation to purchase this augmentation.
+     * @override
      *
      * @param {AugmentationPurchaseParams} params - Params for this transaction.
      * @returns {boolean} True if user can purchase, false otherwise.
@@ -99,11 +100,40 @@ export class AugmentationStore extends Store<AugmentationPurchaseParams, null> {
             );
 
         this._ns.print(
-            `[store] ${sortedAugmentations.length} augmentations available for purchase`
+            `[store] ${
+                sortedAugmentations.length
+            } augmentations available for purchase ${sortedAugmentations.map(
+                (a) => a.augmentation
+            )}`
         );
 
+        const neuroFluxPrice =
+            this._ns.singularity.getAugmentationPrice("NeuroFlux Governor");
+        const neuroFluxRep =
+            this._ns.singularity.getAugmentationRepReq("NeuroFlux Governor");
+
         // Check if any augmentations are purchaseable
-        if (sortedAugmentations.length === 0) {
+        if (
+            sortedAugmentations.length === 0 &&
+            this.getAvailableMoney() > neuroFluxPrice
+        ) {
+            // Purchase NeuroFlux Governor
+            const augmentation: Augmentations = "NeuroFlux Governor";
+            return {
+                augmentation: augmentation,
+                faction: this._factionManager
+                    .getJoinedFactions()
+                    .sort(
+                        (f1, f2) => f2.getReputation() - f1.getReputation()
+                    )[0]
+                    .getName(),
+                requirements: {
+                    money: neuroFluxPrice,
+                    reputation: neuroFluxRep,
+                },
+            };
+        } else if (sortedAugmentations.length === 0) {
+            // Nothing left to purchase
             return null;
         }
 
@@ -135,14 +165,15 @@ export class AugmentationStore extends Store<AugmentationPurchaseParams, null> {
 
     /**
      * Verifies that the augmentation is set
-     *
      * @override
      *
      * @param {WorkerPurchaseParams} params - Parameters for this transaction.
      * @returns {boolean} Whether the parameters are valid.
      */
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    protected _checkParams(params: AugmentationPurchaseParams): boolean {
+    protected override _checkParams(
+        params: AugmentationPurchaseParams
+    ): boolean {
         return !!params.augmentation;
     }
 
