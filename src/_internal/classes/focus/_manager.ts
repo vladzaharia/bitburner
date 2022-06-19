@@ -5,6 +5,7 @@ import { IFocusable } from "/_internal/interfaces/focus.js";
 /**
  * Manages `IFocusable` objects, executing based on priority.
  * @class
+ * @implements IFocusable
  */
 export class FocusManager implements IFocusable {
     /** The name of the focusable. */

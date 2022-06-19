@@ -42,7 +42,7 @@ export async function main(ns: NS) {
 
             // End script if no upgrades possible
             if (
-                workerStore.getCurrentRAM() === 2048 &&
+                workerStore.getCurrentRAM() >= 4096 &&
                 purchasedServers.length === max
             ) {
                 ns.print(`[worker] No further upgrades possible!`);

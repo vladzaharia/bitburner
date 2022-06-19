@@ -23,6 +23,7 @@ const PRIORITY_AUGMENTATIONS: IAugmentation[] = AUGMENTATIONS.filter(
 /**
  * Focusable managing working for factions.
  * @class
+ * @extends BaseFocusable
  */
 export class FactionFocusable extends BaseFocusable {
     /**

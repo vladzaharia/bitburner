@@ -6,6 +6,7 @@ import { IFocusable } from "/_internal/interfaces/focus.js";
  * Abstract class handling priority and sleep returns.
  * @abstract
  * @class
+ * @implements IFocusable
  */
 export abstract class BaseFocusable implements IFocusable {
     /** The name of the focusable. */

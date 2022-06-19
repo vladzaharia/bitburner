@@ -7,6 +7,7 @@ import { IProgram } from "/_internal/interfaces/program.js";
 /**
  * Focusable managing the creation of new programs.
  * @class
+ * @extends BaseFocusable
  */
 export class ProgramFocusable extends BaseFocusable {
     /** Internal focus store. */
