@@ -55,6 +55,9 @@ export async function main(ns: NS) {
             ns.clearLog();
 
             if (!ns.fileExists("/flags/SKIP_FOCUSER.js", "home")) {
+                // Clear any stray focus
+                focusManager.clearFocus();
+
                 // Check if anything if focusable
                 if (focusManager.canFocus()) {
                     const sleepTime = focusManager.focus();
@@ -62,7 +65,7 @@ export async function main(ns: NS) {
                         ns.print(
                             `[focus] Focusing for ${getHumanDuration(
                                 sleepTime
-                            )}, checking in 1min`
+                            )}, checking every 1min`
                         );
                         await sleep(ns, 60 * 1000, false);
                     } else {

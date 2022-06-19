@@ -118,7 +118,9 @@ export class Scanner {
 
         // Start scan from home
         _scanHost("home", []);
-        return this._hostnames;
+
+        // Exclude w0r1d_d43m0n as we can only kill it using `reset.js`
+        return this._hostnames.filter((h) => h !== "w0r1d_d43m0n");
     }
 
     /**

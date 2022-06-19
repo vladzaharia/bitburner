@@ -1,253 +1,161 @@
-// import { NS } from "Netscript";
-// import { FactionManager } from "../faction/_manager";
+import { NS } from "Netscript";
 
-// import { Store } from "/_internal/classes/store/_base.js";
-// import { Augmentations } from "/_internal/types/augmentations";
-// import { Factions } from "/_internal/types/factions";
+import { FactionManager } from "/_internal/classes/faction/_manager.js";
+import { Store } from "/_internal/classes/store/_base.js";
+import { AUGMENTATIONS_OBJ } from "/_internal/constants/augmentations.js";
+import { Augmentations } from "/_internal/types/augmentations.js";
+import { Factions } from "/_internal/types/factions.js";
 
-// /** Cost of server per GB of RAM. */
-// const PRICE_PER_GB = 55000;
+/**
+ * Parameters for purchasing workers.
+ * @interface
+ */
+interface AugmentationPurchaseParams {
+    /** Name of the faction to purchase from. */
+    faction?: Factions;
 
-// /**
-//  * Parameters for purchasing workers.
-//  * @interface
-//  */
-// interface AugmentationPurchaseParams {
-//     /** Name of the faction to purchase from. */
-//     faction: Factions;
+    /** Name of the augmentation to purchase. */
+    augmentation: Augmentations;
 
-//     /** Name of the augmentation to purchase. */
-//     augmentation: Augmentations;
-// }
+    requirements?: {
+        money?: number;
+        reputation?: number;
+    };
+}
 
-// /**
-//  * Layer on top of `NS` to simplify augmentation purchasing.
-//  * @class
-//  */
-// export class AugmentationStore extends Store<AugmentationPurchaseParams, null> {
-//     /** Faction manager to help determine what to buy. */
-//     private _factionManager: FactionManager;
+/**
+ * Layer on top of `NS` to simplify augmentation purchasing.
+ * @class
+ */
+export class AugmentationStore extends Store<AugmentationPurchaseParams, null> {
+    /** Faction manager to help determine what to buy. */
+    private _factionManager: FactionManager;
 
-//     /**
-//      * Creates a new Augmentation store instance which allows for purchasing and upgrading augmentations.
-//      * @constructor
-//      *
-//      * @param {NS} ns - The Netscript object.
-//      */
-//     public constructor(ns: NS) {
-//         // Budget is 100% of available money
-//         super(ns, 1);
+    /**
+     * Creates a new Augmentation store instance which allows for purchasing and upgrading augmentations.
+     * @constructor
+     *
+     * @param {NS} ns - The Netscript object.
+     */
+    public constructor(ns: NS) {
+        // Budget is 100% of available money
+        super(ns, 1);
 
-//         // Set the faction manager
-//         this._factionManager = new FactionManager(ns);
-//     }
+        // Set the faction manager
+        this._factionManager = new FactionManager(ns);
+    }
 
-//     /**
-//      * Get cost of purchasing a new worker with `params.ram`.
-//      * @override
-//      *
-//      * @param {WorkerPurchaseParams} params - Parameters for this transaction.
-//      * @returns {number} Cost of the transaction.
-//      */
-//     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-//     public override getPurchaseCost(params: WorkerPurchaseParams): number {
-//         return params.ram * PRICE_PER_GB;
-//     }
+    /**
+     * Check if user has enough money and reputation to purchase this augmentation.
+     *
+     * @param {AugmentationPurchaseParams} params - Params for this transaction.
+     * @returns {boolean} True if user can purchase, false otherwise.
+     */
+    public override canPurchase(params: AugmentationPurchaseParams): boolean {
+        return super.canPurchase(params) && this._hasEnoughRep(params);
+    }
 
-//     /**
-//      * Gets current RAM value.
-//      *
-//      * @returns {number} Current RAM value based on available money.
-//      */
-//     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-//     public getCurrentRAM(): number {
-//         return this._currentRAM;
-//     }
+    /**
+     * Get cost of purchasing `params.augmentation`.
+     * @override
+     *
+     * @param {AugmentationPurchaseParams} params - Parameters for this transaction.
+     * @returns {number} Cost of the transaction.
+     */
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    public override getPurchaseCost(
+        params: AugmentationPurchaseParams
+    ): number {
+        return this._ns.singularity.getAugmentationPrice(params.augmentation);
+    }
 
-//     /**
-//      * Gets current workers.
-//      *
-//      * @returns {string[]} All purchased workers.
-//      */
-//     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-//     public getWorkers(): string[] {
-//         return this._workers;
-//     }
+    /**
+     * Get the most expensive augmentation to purchase.
+     *
+     * @returns {AugmentationPurchaseParams} Augmentation to purchase, null if none are available.
+     */
+    public getAugmentationToPurchase(): AugmentationPurchaseParams | null {
+        // Get augmentations available
+        const augmentationsAvailable =
+            this._factionManager.getPurchaseableAugmentations();
+        const sortedAugmentations: AugmentationPurchaseParams[] = Object.keys(
+            augmentationsAvailable
+        )
+            .flatMap((f) =>
+                augmentationsAvailable[f].map(
+                    (a): AugmentationPurchaseParams => {
+                        return {
+                            faction: f as Factions,
+                            augmentation: a.name,
+                            requirements: a.requirements,
+                        };
+                    }
+                )
+            )
+            .sort(
+                (a1, a2) =>
+                    (a2.requirements?.money || 0) -
+                    (a1.requirements?.money || 0)
+            );
 
-//     /**
-//      * Purchase a new worker with `params.ram`.
-//      * @override
-//      * @async
-//      *
-//      * @param {WorkerPurchaseParams} params - Parameters for this transaction.
-//      * @returns {Promise<boolean>} Whether the transaction was successful.
-//      */
-//     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-//     protected override async _purchase(
-//         params: WorkerPurchaseParams
-//     ): Promise<boolean> {
-//         // Get worker name if not provided
-//         if (!params.hostname) {
-//             params.hostname = this._getWorkerName();
-//         }
+        this._ns.print(
+            `[store] ${sortedAugmentations.length} augmentations available for purchase`
+        );
 
-//         this._ns.print(
-//             `[store] Purchasing new server ${params.hostname} with RAM ${params.ram}.`
-//         );
+        // Check if any augmentations are purchaseable
+        if (sortedAugmentations.length === 0) {
+            return null;
+        }
 
-//         // Purchase server
-//         const result = this._ns.purchaseServer(params.hostname, params.ram);
+        // Return first augmentation
+        return sortedAugmentations[0];
+    }
 
-//         // Update worker list after operation
-//         this._updateWorkers();
+    /**
+     * Purchase a new augmentation `params.augmentation` from `params.faction`.
+     * @override
+     * @async
+     *
+     * @param {AugmentationPurchaseParams} params - Parameters for this transaction.
+     * @returns {Promise<boolean>} Whether the transaction was successful.
+     */
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    protected override async _purchase(
+        params: AugmentationPurchaseParams
+    ): Promise<boolean> {
+        this._ns.print(
+            `[store] Purchasing ${params.augmentation} from ${params.faction}.`
+        );
 
-//         return result !== "";
-//     }
+        return this._ns.singularity.purchaseAugmentation(
+            params.faction as string,
+            params.augmentation
+        );
+    }
 
-//     /**
-//      * Sell a worker with hostnmae `params.hostname`.
-//      * @override
-//      * @async
-//      *
-//      * @param {WorkerSellParams} params - Parameters for this sale.
-//      * @returns {Promise<boolean>} Whether the transaction was successful.
-//      */
-//     protected override async _sell(params: WorkerSellParams): Promise<boolean> {
-//         this._ns.print(`[store] Selling server ${params.hostname}.`);
+    /**
+     * Verifies that the augmentation is set
+     *
+     * @override
+     *
+     * @param {WorkerPurchaseParams} params - Parameters for this transaction.
+     * @returns {boolean} Whether the parameters are valid.
+     */
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    protected _checkParams(params: AugmentationPurchaseParams): boolean {
+        return !!params.augmentation;
+    }
 
-//         // Kill all scripts before selling
-//         this._ns.killall(params.hostname);
-
-//         // Sell server
-//         const result = this._ns.deleteServer(params.hostname);
-
-//         // Update worker list after operation
-//         this._updateWorkers();
-
-//         return result;
-//     }
-
-//     /**
-//      * Check RAM level based on available money, and sell servers if needed.
-//      * @async
-//      *
-//      * @returns {boolean} Whether servers were sold.
-//      */
-//     public async sellServersIfNeeded() {
-//         // Update current RAM and workers
-//         this._updateCurrentRAM();
-//         this._updateWorkers();
-
-//         const purchaseRAM = this._getBestRAMPurchase();
-//         let result = false;
-
-//         if (this._currentRAM < purchaseRAM) {
-//             this._currentRAM = purchaseRAM;
-
-//             this._ns.print(
-//                 `[store] Can upgrade to ${purchaseRAM}, selling servers and purchasing new ones.`
-//             );
-
-//             for (const hostname of this._workers) {
-//                 await this.sell({ hostname });
-//                 result = true;
-//             }
-//         } else {
-//             this._ns.print(
-//                 `[store] Current RAM ${this._currentRAM} is best available.`
-//             );
-//         }
-
-//         return result;
-//     }
-
-//     /**
-//      * Gets best available RAM purchase.
-//      *
-//      * @returns {number} The best available RAM purchase, based on available money.
-//      */
-//     private _getBestRAMPurchase(): number {
-//         for (let i = 12; i > 3; i--) {
-//             const ram = Math.pow(2, i);
-
-//             if (
-//                 this.getPurchaseCost({ ram }) *
-//                     this._ns.getPurchasedServerLimit() <
-//                 this.getAvailableMoney()
-//             ) {
-//                 return ram;
-//             }
-//         }
-
-//         return 8;
-//     }
-
-//     /**
-//      * Verifies that the RAM is divisible by 8.
-//      *
-//      * @override
-//      *
-//      * @param {WorkerPurchaseParams} params - Parameters for this transaction.
-//      * @returns {boolean} Whether the parameters are valid.
-//      */
-//     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-//     protected _checkParams(
-//         params: WorkerPurchaseParams | WorkerSellParams
-//     ): boolean {
-//         let ramCheck = true;
-//         let hostnameCheck = true;
-
-//         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-//         const _isPurchaseParams = (p: any): p is WorkerPurchaseParams => {
-//             return p.ram !== undefined;
-//         };
-
-//         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-//         const _isSellParams = (p: any): p is WorkerSellParams => {
-//             return p.ram === undefined;
-//         };
-
-//         if (_isPurchaseParams(params)) {
-//             ramCheck = params.ram % 8 === 0;
-//         }
-
-//         if (_isSellParams(params)) {
-//             hostnameCheck =
-//                 typeof params.hostname === "string" &&
-//                 params.hostname.length > 0;
-//         }
-
-//         return ramCheck && hostnameCheck;
-//     }
-
-//     private _getWorkerName(): string {
-//         return `ps-worker-${this._workers.length}`;
-//     }
-
-//     /**
-//      * Update the number of workers purchased.
-//      *
-//      * @returns {number} The number of workers purchased.
-//      */
-//     private _updateWorkers(): string[] {
-//         return (this._workers = this._ns.getPurchasedServers());
-//     }
-
-//     /**
-//      * Update the current RAM of purchased workers.
-//      *
-//      * @returns {number} The RAM of the first worker if available, `this._currentRAM` otherwise.
-//      */
-//     private _updateCurrentRAM(): number {
-//         let currentRAM = this._currentRAM;
-
-//         // Update current workers if needed
-//         this._updateWorkers();
-
-//         if (this._workers.length > 0) {
-//             currentRAM = this._ns.getServerMaxRam(this._workers[0]);
-//         }
-
-//         return (this._currentRAM = currentRAM);
-//     }
-// }
+    /**
+     * Check if user has enough rep for this augmentation.
+     *
+     * @param {AugmentationPurchaseParams} params - Params for this transaction.
+     * @returns {boolean} True if user has enough rep, false otherwise.
+     */
+    private _hasEnoughRep(params: AugmentationPurchaseParams) {
+        return (
+            (AUGMENTATIONS_OBJ[params.augmentation].requirements.reputation ||
+                0) < this._ns.singularity.getFactionRep(params.faction || "")
+        );
+    }
+}
