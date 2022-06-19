@@ -107,6 +107,8 @@ export class WorkerStore extends Store<WorkerPurchaseParams, WorkerSellParams> {
             `[store] Purchasing new server ${params.hostname} with RAM ${params.ram}.`
         );
 
+        this._ns.toast(`Purchasing ${params.ram}GB server...`);
+
         // Purchase server
         const result = this._ns.purchaseServer(params.hostname, params.ram);
 

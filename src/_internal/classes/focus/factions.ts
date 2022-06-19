@@ -16,7 +16,7 @@ const PRIORITY_AUGMENTATIONS: IAugmentation[] = AUGMENTATIONS.filter(
     (a) =>
         a.benefits.programs ||
         a.benefits.startingMoney ||
-        a.benefits.endgame ||
+        //a.benefits.endgame ||
         a.benefits.focus
 );
 
@@ -68,12 +68,10 @@ export class FactionFocusable extends BaseFocusable {
     private _getFactionToFocus(): Factions {
         const sortedFactions = this._getFocusableFactions().sort(
             (a, b) =>
-                this._getNeededAugmentations(a).length *
-                    (this._getMaxAugmentationRep(a) -
-                        this._ns.singularity.getFactionRep(a.name)) -
-                this._getNeededAugmentations(b).length *
-                    (this._getMaxAugmentationRep(b) -
-                        this._ns.singularity.getFactionRep(b.name))
+                this._getMaxAugmentationRep(a) -
+                this._ns.singularity.getFactionRep(a.name) -
+                (this._getMaxAugmentationRep(b) -
+                    this._ns.singularity.getFactionRep(b.name))
         );
 
         // Return any factions which have a priority augmentation.
@@ -102,7 +100,9 @@ export class FactionFocusable extends BaseFocusable {
                 }/${
                     this._ns.singularity.getAugmentationsFromFaction(f.name)
                         .length
-                }`
+                } ${Math.floor(
+                    this._ns.singularity.getFactionRep(f.name)
+                )}/${this._getMaxAugmentationRep(f)}`
             )
         );
 
@@ -123,6 +123,25 @@ export class FactionFocusable extends BaseFocusable {
                     this._ns.singularity.getFactionRep(f.name)
             );
         });
+    }
+
+    /**
+     * Gets unpurchased augmentations for `faction` that are within reach.
+     *
+     * @param {IFaction} faction - The faction to check.
+     * @returns {Augmentations[]} The augmentations which aren't purchased.
+     */
+    private _getReachableNeededAugmentations(
+        faction: IFaction
+    ): Augmentations[] {
+        return this._ns.singularity
+            .getAugmentationsFromFaction(faction.name)
+            .filter(
+                (a) =>
+                    !this._ns.singularity
+                        .getOwnedAugmentations(true)
+                        .some((aug) => aug === a)
+            ) as Augmentations[];
     }
 
     /**
