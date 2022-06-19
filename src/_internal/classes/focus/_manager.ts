@@ -16,6 +16,8 @@ export class FocusManager implements IFocusable {
     /** All registered focus actions. */
     private _registered: IFocusable[] = [];
 
+    private _sleepTime: number | undefined;
+
     /**
      * Creates a new manager capable of handling multiple `IFocusable`s.
      * @constructor
@@ -63,11 +65,29 @@ export class FocusManager implements IFocusable {
         for (const focusable of sorted) {
             if (focusable.canFocus()) {
                 this._ns.toast(`Focusing on ${focusable.name}...`);
-                return focusable.focus();
+                this._sleepTime = focusable.focus();
+                return this._sleepTime;
             }
         }
 
         return -1;
+    }
+
+    /**
+     * Check whether the player is focusing on something.
+     *
+     * @returns {boolean} Whether the player is focusing on something.
+     */
+    public isWorking(): boolean {
+        return this._ns.getPlayer().isWorking;
+    }
+
+    /**
+     * Clear current focus.
+     */
+    public clearFocus(): void {
+        this._ns.singularity.stopAction();
+        this._sleepTime = undefined;
     }
 
     /**
@@ -88,6 +108,6 @@ export class FocusManager implements IFocusable {
      * Not applicable to the FocusManager.
      */
     getFocusTime(): number {
-        throw new Error("Method not implemented.");
+        return this._sleepTime || 0;
     }
 }

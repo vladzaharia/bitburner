@@ -31,7 +31,7 @@ export async function sleep(
  *
  * @param {number} duration - Duration to convert, in ms.
  */
-function getHumanDuration(duration: number): string {
+export function getHumanDuration(duration: number): string {
     if (duration > 24 * 60 * 60 * 1000) {
         return `${duration / (24 * 60 * 60 * 1000)} day(s)`;
     } else if (duration > 60 * 60 * 1000) {
