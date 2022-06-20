@@ -1,7 +1,12 @@
 import { NS } from "Netscript";
 
 import { BaseFocusable } from "/_internal/classes/focus/_base.js";
-import { LOW_PRIORITY, TOP_PRIORITY } from "/_internal/constants/focus.js";
+import {
+    DEFAULT_CHECK_INTERVAL,
+    DEFAULT_SLEEP_TIME,
+    LOW_PRIORITY,
+    TOP_PRIORITY,
+} from "/_internal/constants/focus.js";
 import { PROGRAMS } from "/_internal/constants/programs.js";
 import { IProgram } from "/_internal/interfaces/program.js";
 import { Programs } from "/_internal/types/programs.js";
@@ -31,7 +36,8 @@ export class ProgramFocusable extends BaseFocusable {
             ns,
             priority,
             "_currentProgram",
-            30 * 60 * 1000
+            DEFAULT_SLEEP_TIME * 2, // 30 minutes
+            DEFAULT_CHECK_INTERVAL * 2 // 2 minutes
         );
     }
 

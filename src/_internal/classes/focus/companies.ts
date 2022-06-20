@@ -4,6 +4,7 @@ import { Faction } from "/_internal/classes/faction/_base.js";
 import { FactionManager } from "/_internal/classes/faction/_manager.js";
 import { BaseFocusable } from "/_internal/classes/focus/_base.js";
 import { MEGACORPS } from "/_internal/constants/companies.js";
+import { DEFAULT_CHECK_INTERVAL } from "/_internal/constants/focus";
 import { IMegaCorporation } from "/_internal/interfaces/company.js";
 import { Companies } from "/_internal/types/companies";
 
@@ -33,7 +34,8 @@ export class CompanyFocusable extends BaseFocusable {
             ns,
             priority,
             "_currentCompany",
-            8 * 60 * 60 * 1000
+            8 * 60 * 60 * 1000, // 8 hours
+            15 * DEFAULT_CHECK_INTERVAL // 15 minutes
         );
 
         // Set faction manager instance
@@ -57,7 +59,6 @@ export class CompanyFocusable extends BaseFocusable {
     protected override _focus(): boolean {
         this._currentCompany = undefined;
         const megaCorps = this._getUninvitedMegaCorps();
-        const player = this._ns.getPlayer();
 
         if (megaCorps.length > 0) {
             // Sort by needed augmentations, descending
@@ -85,19 +86,17 @@ export class CompanyFocusable extends BaseFocusable {
                 `[companies] ${sorted.length} MegaCorporations with unjoined factions`
             );
 
+            // Extract out information
             const company = sorted[0];
             const name = company.name;
+            this._currentCompany = name;
             const position = company.positions[0];
 
-            if (!Object.values(player.jobs).includes(name)) {
-                this._ns.print(
-                    `[companies] Applying for ${position} at ${name}`
-                );
-                this._ns.singularity.applyToCompany(name, position);
-            }
+            // Always try to apply for the next best position.
+            this._ns.print(`[companies] Applying for ${position} at ${name}`);
+            this._ns.singularity.applyToCompany(name, position);
 
-            this._currentCompany = name;
-
+            // Start working.
             this._ns.print(`[companies] Working ${position} at ${name}`);
             return this._ns.singularity.workForCompany(name);
         }

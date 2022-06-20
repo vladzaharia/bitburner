@@ -38,6 +38,13 @@ export interface IFocusable {
     getFocusTime(): number;
 
     /**
+     * Gets the check time while soft-sleeping.
+     *
+     * @returns {number} How often to check if the task is complete.
+     */
+    getCheckInterval(): number;
+
+    /**
      * Gets the detail text used for text output.
      *
      * @returns {string} Text to use for logs and toasts for this focusable.

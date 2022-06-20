@@ -17,6 +17,10 @@ export class FocusManager implements IFocusable {
     /** All registered focus actions. */
     private _registered: IFocusable[] = [];
 
+    /** Currently executing focusable. */
+    private _currentFocusable: IFocusable | undefined;
+
+    /** Sleep time left. */
     private _sleepTime: number | undefined;
 
     /**
@@ -71,6 +75,7 @@ export class FocusManager implements IFocusable {
                     } ${focusable.getDetailText()}`,
                     "info"
                 );
+                this._currentFocusable = focusable;
                 this._sleepTime = focusable.focus();
                 return this._sleepTime;
             }
@@ -94,6 +99,25 @@ export class FocusManager implements IFocusable {
     public clearFocus(): void {
         this._ns.singularity.stopAction();
         this._sleepTime = undefined;
+        this._currentFocusable = undefined;
+    }
+
+    /**
+     * Gets the focus time left, can be decremented using `decrementFocusTime`.
+     *
+     * @returns {number} Time left to focus.
+     */
+    public getFocusTime(): number {
+        return this._sleepTime || 0;
+    }
+
+    /**
+     * Gets the check interval from the focusable, defaults to `DEFAULT_CHECK_INTERVAL`
+     *
+     * @returns {number} Amount of time to wait in between soft-sleep checks.
+     */
+    public getCheckInterval(): number {
+        return this._currentFocusable?.getCheckInterval() || 60 * 1000;
     }
 
     /**
@@ -101,8 +125,8 @@ export class FocusManager implements IFocusable {
      *
      * @returns {number} New focus time after decrementing.
      */
-    public decrementFocusTime(): number {
-        this._sleepTime = this._sleepTime ? this._sleepTime - 60 * 1000 : 0;
+    public decrementFocusTime(decrement = this.getCheckInterval()): number {
+        this._sleepTime = this._sleepTime ? this._sleepTime - decrement : 0;
         return this._sleepTime;
     }
 
@@ -125,12 +149,5 @@ export class FocusManager implements IFocusable {
      */
     shouldRunInBackground(): boolean {
         throw new Error("Method not implemented.");
-    }
-
-    /**
-     * Not applicable to the FocusManager.
-     */
-    getFocusTime(): number {
-        return this._sleepTime || 0;
     }
 }

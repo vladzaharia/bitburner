@@ -1,6 +1,10 @@
 import { NS } from "Netscript";
 
-import { MEDIUM_PRIORITY } from "/_internal/constants/focus";
+import {
+    DEFAULT_CHECK_INTERVAL,
+    DEFAULT_SLEEP_TIME,
+    MEDIUM_PRIORITY,
+} from "/_internal/constants/focus";
 import { IFocusable } from "/_internal/interfaces/focus.js";
 
 /**
@@ -20,7 +24,10 @@ export abstract class BaseFocusable implements IFocusable {
     private _priority: number;
 
     /** Time to sleep after a successful focus event. */
-    private _sleepTime: number = 15 * 60 * 1000;
+    private _sleepTime: number;
+
+    /** Interval to check while sleeping. */
+    private _checkInterval: number;
 
     /** Field to pull detail from. */
     private _detailField: string | undefined;
@@ -39,13 +46,15 @@ export abstract class BaseFocusable implements IFocusable {
         ns: NS,
         priority: number,
         detailField?: string,
-        sleepTime = 15 * 60 * 1000
+        sleepTime = DEFAULT_SLEEP_TIME, // 15 minutes
+        checkInterval = DEFAULT_CHECK_INTERVAL // 1 minute
     ) {
         this.name = name;
         this._ns = ns;
         this._priority = priority;
         this._detailField = detailField;
         this._sleepTime = sleepTime;
+        this._checkInterval = checkInterval;
     }
 
     public getPriority(): number {
@@ -99,6 +108,15 @@ export abstract class BaseFocusable implements IFocusable {
      */
     public getFocusTime(): number {
         return this._sleepTime;
+    }
+
+    /**
+     * Gets how often to check for task completion, defaults to `this._checkInterval`.
+     *
+     * @returns {number} How often to check for task completion.
+     */
+    public getCheckInterval(): number {
+        return this._checkInterval;
     }
 
     /**

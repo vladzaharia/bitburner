@@ -57,7 +57,7 @@ export async function main(ns: NS) {
                 ns.print(`[focus] No longer working, clearing focus`);
                 focusManager.clearFocus();
             } else {
-                await sleep(ns, 60 * 1000, false);
+                await sleep(ns, focusManager.getCheckInterval(), false);
             }
         } else {
             ns.clearLog();
@@ -73,11 +73,16 @@ export async function main(ns: NS) {
                         ns.print(
                             `[focus] Focusing for ${getHumanDuration(
                                 sleepTime
-                            )}, checking every 1min`
+                            )}, checking every ${getHumanDuration(
+                                focusManager.getCheckInterval()
+                            )}`
                         );
                         await sleep(
                             ns,
-                            Math.min(sleepTime + 1000, 60 * 1000),
+                            Math.min(
+                                sleepTime + 1000,
+                                focusManager.getCheckInterval()
+                            ),
                             false
                         );
                     } else {
