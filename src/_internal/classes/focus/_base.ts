@@ -61,16 +61,7 @@ export abstract class BaseFocusable implements IFocusable {
     public focus(): number {
         if (this._focus()) {
             // Check if we should disable focus
-            if (
-                this._ns.singularity
-                    .getOwnedAugmentations()
-                    .includes("Neuroreceptor Management Implant")
-            ) {
-                this._ns.print(
-                    `[focus] Disabling focus for this task as Neuroreceptor Management Implant is installed`
-                );
-                this._ns.singularity.setFocus(false);
-            } else if (this.shouldRunInBackground()) {
+            if (this.shouldRunInBackground()) {
                 this._ns.print(`[focus] Disabling focus for this task`);
                 this._ns.singularity.setFocus(false);
             }
@@ -87,7 +78,12 @@ export abstract class BaseFocusable implements IFocusable {
      * @returns {boolean} True if this can run in the background, False if it needs to be in the foreground.
      */
     public shouldRunInBackground(): boolean {
-        return this.getPriority() > 50;
+        return (
+            this.getPriority() > 50 ||
+            this._ns.singularity
+                .getOwnedAugmentations()
+                .includes("Neuroreceptor Management Implant")
+        );
     }
 
     /**

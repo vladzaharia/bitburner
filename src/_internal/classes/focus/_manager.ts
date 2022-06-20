@@ -92,6 +92,16 @@ export class FocusManager implements IFocusable {
     }
 
     /**
+     * Decrement focus time and return the new value.
+     *
+     * @returns {number} New focus time after decrementing.
+     */
+    public decrementFocusTime(): number {
+        this._sleepTime = this._sleepTime ? this._sleepTime - 60 * 1000 : 0;
+        return this._sleepTime;
+    }
+
+    /**
      * Not applicable to the FocusManager.
      */
     getPriority(): number {

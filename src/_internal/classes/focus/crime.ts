@@ -95,7 +95,7 @@ export class CrimeFocusable extends BaseFocusable {
     private _shouldExecute(crime: Crimes): boolean {
         const chance = this._ns.singularity.getCrimeChance(crime);
         this._ns.print(`[crime] ${crime}, chance ${chance}`);
-        return chance > 80;
+        return chance > 0.8;
     }
 
     /**

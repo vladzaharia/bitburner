@@ -87,7 +87,7 @@ export class FactionManager {
             const neededAugmentations = augmentationMap[faction].filter(
                 (a) =>
                     !this._ns.singularity
-                        .getOwnedAugmentations()
+                        .getOwnedAugmentations(true)
                         .includes(a.name)
             );
             if (neededAugmentations.length > 0) {

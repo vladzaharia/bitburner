@@ -100,11 +100,7 @@ export class AugmentationStore extends Store<AugmentationPurchaseParams, null> {
             );
 
         this._ns.print(
-            `[store] ${
-                sortedAugmentations.length
-            } augmentations available for purchase ${sortedAugmentations.map(
-                (a) => a.augmentation
-            )}`
+            `[store] ${sortedAugmentations.length} augmentations available for purchase`
         );
 
         const neuroFluxPrice =

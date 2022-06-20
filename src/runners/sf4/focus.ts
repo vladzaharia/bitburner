@@ -48,7 +48,7 @@ export async function main(ns: NS) {
     focusManager.register(new TrainingFocusable(ns));
 
     while (true) {
-        if (focusManager.getFocusTime() > 0) {
+        if (focusManager.decrementFocusTime() > 0) {
             if (!focusManager.isWorking()) {
                 ns.print(`[focus] No longer working, clearing focus`);
                 focusManager.clearFocus();
@@ -71,7 +71,11 @@ export async function main(ns: NS) {
                                 sleepTime
                             )}, checking every 1min`
                         );
-                        await sleep(ns, 60 * 1000, false);
+                        await sleep(
+                            ns,
+                            Math.min(sleepTime + 1000, 60 * 1000),
+                            false
+                        );
                     } else {
                         ns.print(`[focus] Failed to focus! Trying again...`);
                         await sleep(ns, 5 * 1000, false);

@@ -46,10 +46,12 @@ export class TrainingFocusable extends BaseFocusable {
      * @returns {boolean} True if the focus was successful, false otherwise.
      */
     protected override _focus(): boolean {
-        const maxCombat =
-            this._getCombatFactions()[0].getRequirements().combat || 0;
-        const maxHack =
-            this._getHackingFactions()[0].getRequirements().hack || 0;
+        const maxCombat = this._getCombatFactions()[0]
+            ? this._getCombatFactions()[0].getRequirements().combat
+            : 0;
+        const maxHack = this._getHackingFactions()[0]
+            ? this._getHackingFactions()[0].getRequirements().hack
+            : 0;
         const player = this._ns.getPlayer();
 
         // Go to Sector-12 if needed
@@ -66,7 +68,7 @@ export class TrainingFocusable extends BaseFocusable {
             "dexterity",
         ];
         for (const workout of workouts) {
-            if (player[workout] < maxCombat) {
+            if (player[workout] < (maxCombat || 0)) {
                 this._ns.print(`[train] Training ${workout} at Powerhouse Gym`);
                 return this._ns.singularity.gymWorkout(
                     "Powerhouse Gym",
@@ -76,7 +78,7 @@ export class TrainingFocusable extends BaseFocusable {
         }
 
         // Train hacking if needed
-        if (maxHack < this._ns.getHackingLevel()) {
+        if (this._ns.getHackingLevel() < (maxHack || 0)) {
             const course: Courses = "Algorithms";
             this._ns.print(`[train] Taking ${course} at Rothman University`);
             return this._ns.singularity.universityCourse(
