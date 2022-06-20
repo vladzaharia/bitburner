@@ -1,24 +1,15 @@
 import { NS } from "Netscript";
 
 import { Scanner } from "/_internal/classes/scanner.js";
-import { exec } from "/helpers/exec.js";
-import { scp } from "/helpers/scp.js";
-import { sleep } from "/helpers/sleep.js";
-
-/** Path to hack script to execute on hosts. */
-const HACK_SCRIPT = "/helpers/hack.js";
-
-/** Path to weaken script to execute on hosts. */
-const WEAKEN_SCRIPT = "/helpers/weaken.js";
-
-/** Path to grow script to execute on hosts. */
-const GROW_SCRIPT = "/helpers/grow.js";
-
-/** Weights of individual scripts, used to determine thread count. */
-const SCRIPTS: { [key: string]: number } = {};
-SCRIPTS[HACK_SCRIPT] = 25;
-SCRIPTS[WEAKEN_SCRIPT] = 25;
-SCRIPTS[GROW_SCRIPT] = 50;
+import { Script } from "/_internal/classes/script/_base.js";
+import { sleep } from "/_internal/classes/sleep.js";
+import {
+    DEFAULT_WEIGHTS,
+    GROW_SCRIPT,
+    HACK_SCRIPT,
+    WEAKEN_SCRIPT,
+} from "/_internal/constants/scripts.js";
+import { Scripts } from "/_internal/types/scripts.js";
 
 /** Number of hosts per pool, for rooted servers. */
 const HOSTS_PER_POOL = 8;
@@ -140,7 +131,7 @@ async function executeOnPool(ns: NS, hostnames: string[], args: string[]) {
         (hn1, hn2) => ns.getServerMaxRam(hn2) - ns.getServerMaxRam(hn1)
     );
 
-    const scriptKeys = Object.keys(SCRIPTS);
+    const scriptKeys = Object.keys(DEFAULT_WEIGHTS);
     const scriptArgs: { [key: string]: string[] } = {};
 
     scriptKeys.forEach((f) => (scriptArgs[f] = getFilteredArgs(ns, f, args)));
@@ -155,7 +146,7 @@ async function executeOnPool(ns: NS, hostnames: string[], args: string[]) {
     for (let i = 0; i < hostnames.length; i++) {
         const hostname = hostnames[i];
 
-        const finalScripts = { ...SCRIPTS };
+        const finalScripts = { ...DEFAULT_WEIGHTS };
 
         let ramAvail = ns.getServerMaxRam(hostname);
 
@@ -198,17 +189,11 @@ async function executeOnPool(ns: NS, hostnames: string[], args: string[]) {
                 );
 
                 if (threads > 0) {
-                    ns.print(
-                        `[scheduler] Executing ${filename} on ${hostname} with ${
-                            scriptWeightPct * 100
-                        }% threads`
-                    );
+                    const script = new Script(ns, filename as Scripts);
 
-                    await scp(ns, hostname, [filename]);
-
-                    fnArgs.forEach((hn) =>
-                        exec(ns, hostname, filename, threads, [hn])
-                    );
+                    for (const hn of fnArgs) {
+                        await script.execute(hostname, threads, [hn]);
+                    }
                 }
                 await sleep(ns, 100, false);
             }

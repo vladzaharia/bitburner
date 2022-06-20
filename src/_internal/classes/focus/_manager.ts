@@ -131,6 +131,15 @@ export class FocusManager implements IFocusable {
     }
 
     /**
+     * Check if current focusable needs to continue running.
+     *
+     * @returns {boolean} True if it should continue, false otherwise.
+     */
+    public shouldContinueRunning(): boolean {
+        return this._currentFocusable?.shouldContinueRunning() || false;
+    }
+
+    /**
      * Not applicable to the FocusManager.
      */
     getDetailText(): string {

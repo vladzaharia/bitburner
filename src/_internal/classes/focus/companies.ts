@@ -3,7 +3,12 @@ import { NS } from "Netscript";
 import { Faction } from "/_internal/classes/faction/_base.js";
 import { FactionManager } from "/_internal/classes/faction/_manager.js";
 import { BaseFocusable } from "/_internal/classes/focus/_base.js";
-import { MEGACORPS } from "/_internal/constants/companies.js";
+import { canHack } from "/_internal/classes/scanner.js";
+import {
+    COMPANIES_OBJ,
+    MEGACORPS,
+    MEGACORPS_OBJS,
+} from "/_internal/constants/companies.js";
 import { DEFAULT_CHECK_INTERVAL } from "/_internal/constants/focus";
 import { IMegaCorporation } from "/_internal/interfaces/company.js";
 import { Companies } from "/_internal/types/companies";
@@ -35,7 +40,7 @@ export class CompanyFocusable extends BaseFocusable {
             priority,
             "_currentCompany",
             8 * 60 * 60 * 1000, // 8 hours
-            15 * DEFAULT_CHECK_INTERVAL // 15 minutes
+            5 * DEFAULT_CHECK_INTERVAL // 15 minutes
         );
 
         // Set faction manager instance
@@ -93,15 +98,63 @@ export class CompanyFocusable extends BaseFocusable {
             const position = company.positions[0];
 
             // Always try to apply for the next best position.
-            this._ns.print(`[companies] Applying for ${position} at ${name}`);
+            this._ns.print(
+                `[companies] Trying to apply for ${position} at ${name}`
+            );
             this._ns.singularity.applyToCompany(name, position);
 
             // Start working.
-            this._ns.print(`[companies] Working ${position} at ${name}`);
+            this._ns.print(
+                `[companies] Working ${position} at ${name} (${Math.floor(
+                    this._ns.singularity.getCompanyRep(name)
+                )}/${company.faction.requirements.reputation})`
+            );
             return this._ns.singularity.workForCompany(name);
         }
 
         return false;
+    }
+
+    /**
+     * Check if we have enough rep to stop working early.
+     *
+     * @returns {boolean} True if we should continue working, false if we have enough rep.
+     */
+    public override shouldContinueRunning(): boolean {
+        let result = false;
+        let multiplier = 0.5;
+
+        if (this._currentCompany) {
+            // Assume we backdoored if we cracked
+            if (
+                canHack(
+                    this._ns,
+                    COMPANIES_OBJ[this._currentCompany].hostname || ""
+                )
+            ) {
+                multiplier = 0.75;
+            }
+
+            const existingRep = Math.floor(
+                this._ns.singularity.getCompanyRep(this._currentCompany)
+            );
+            const newRep = Math.floor(
+                this._ns.getPlayer().workRepGained * multiplier
+            );
+            const required =
+                MEGACORPS_OBJS[this._currentCompany].faction.requirements
+                    .reputation || 0;
+
+            this._ns.print(
+                `[companies] ${this._currentCompany} (${
+                    existingRep + newRep
+                } / ${required})`
+            );
+
+            result = existingRep + newRep < required;
+        }
+
+        return result && super.shouldContinueRunning();
     }
 
     /**
@@ -113,11 +166,13 @@ export class CompanyFocusable extends BaseFocusable {
         return MEGACORPS.filter((c) =>
             this._factionManager
                 .getUnjoinedFactions()
-                .filter(
+                .some(
                     (f) =>
                         (f.getName() === "Fulcrum Secret Technologies"
                             ? "Fulcrum Technologies"
-                            : f.getName()) === c.name
+                            : f.getName()) === c.name &&
+                        (c.faction.requirements.reputation || 0) >
+                            this._ns.singularity.getCompanyRep(c.name)
                 )
         );
     }

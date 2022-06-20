@@ -120,6 +120,16 @@ export abstract class BaseFocusable implements IFocusable {
     }
 
     /**
+     * Checks if the player is still working.
+     * @virtual Can be overridden, but run `super.shouldContinueRunning` if you do.
+     *
+     * @returns {boolean} True if user is still working, false otherwise.
+     */
+    public shouldContinueRunning(): boolean {
+        return this._ns.getPlayer().isWorking;
+    }
+
+    /**
      * Returns value from preset field.
      *
      * @returns {string} Value of `this._detailField` if set, "" otherwise

@@ -1,7 +1,7 @@
 import { NS } from "Netscript";
 
+import { sleep } from "/_internal/classes/sleep.js";
 import { WorkerStore } from "/_internal/classes/store/worker.js";
-import { sleep } from "/helpers/sleep.js";
 
 /**
  * Automatically maintain personal servers.

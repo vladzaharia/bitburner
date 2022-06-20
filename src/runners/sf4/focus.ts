@@ -6,7 +6,8 @@ import { CrimeFocusable } from "/_internal/classes/focus/crime.js";
 import { FactionFocusable } from "/_internal/classes/focus/factions.js";
 import { ProgramFocusable } from "/_internal/classes/focus/programs.js";
 import { TrainingFocusable } from "/_internal/classes/focus/train.js";
-import { getHumanDuration, sleep } from "/helpers/sleep.js";
+
+import { getHumanDuration, sleep } from "../../_internal/classes/sleep.js";
 
 /**
  * Automatically manage user's focus.

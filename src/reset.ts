@@ -1,7 +1,8 @@
 import { NS } from "Netscript";
 
 import { AugmentationStore } from "/_internal/classes/store/augmentations.js";
-import { sleep } from "/helpers/sleep.js";
+
+import { sleep } from "./_internal/classes/sleep.js";
 
 /** Order to run bitnodes, will try to fill. */
 const BITNODE_ORDER = [1, 4];

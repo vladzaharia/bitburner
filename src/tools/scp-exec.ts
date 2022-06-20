@@ -1,8 +1,8 @@
 import { NS } from "Netscript";
 
 import { Scanner } from "/_internal/classes/scanner.js";
-import { exec } from "/helpers/exec.js";
-import { scp } from "/helpers/scp.js";
+import { Script } from "/_internal/classes/script/_base";
+import { RunnerScripts } from "/_internal/types/scripts";
 
 /**
  * Copy and execute a given file on a given host.
@@ -104,9 +104,8 @@ export async function main(ns: NS) {
             ns.kill(proc.filename, hostname, ...proc.args)
         );
 
-        // Copy and execute
-        await scp(ns, hostname, [filename]);
-        exec(ns, hostname, filename, threads, fnArgs);
+        const script = new Script(ns, filename as RunnerScripts);
+        await script.execute(hostname, threads, fnArgs);
 
         await ns.sleep(1000);
     }

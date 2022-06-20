@@ -1,7 +1,8 @@
 import { NS } from "Netscript";
 
 import { HomeStore } from "/_internal/classes/store/home.js";
-import { sleep } from "/helpers/sleep.js";
+
+import { sleep } from "../../_internal/classes/sleep.js";
 
 /**
  * Automatically upgrade "home" server.

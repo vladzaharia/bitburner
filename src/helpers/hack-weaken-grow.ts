@@ -1,8 +1,8 @@
 import { NS } from "Netscript";
 
-import { grow } from "/helpers/grow.js";
-import { hack } from "/helpers/hack.js";
-import { weaken } from "/helpers/weaken.js";
+import { grow } from "/_workers/grow.js";
+import { hack } from "/_workers/hack.js";
+import { weaken } from "/_workers/weaken.js";
 
 /** Threshold to stop weakening server. */
 const SEC_LEVEL_THRESHOLD = 7;

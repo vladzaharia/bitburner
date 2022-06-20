@@ -1,7 +1,7 @@
 import { NS } from "Netscript";
 
 import { Scanner } from "/_internal/classes/scanner.js";
-import { sleep } from "/helpers/sleep.js";
+import { sleep } from "/_internal/classes/sleep.js";
 
 /**
  * Automatically report on hackable and personal servers.

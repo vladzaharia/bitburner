@@ -382,3 +382,9 @@ export const COMPANIES_OBJ: { [key: string]: ICompany } = COMPANIES.reduce(
     (a, v) => ({ ...a, [v.name]: v }),
     {}
 );
+
+/**
+ * All MegaCorporations, as an object.
+ */
+export const MEGACORPS_OBJS: { [key: string]: IMegaCorporation } =
+    MEGACORPS.reduce((a, v) => ({ ...a, [v.name]: v }), {});

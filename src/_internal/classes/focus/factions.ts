@@ -12,6 +12,8 @@ import { IFaction } from "/_internal/interfaces/faction.js";
 import { Augmentations } from "/_internal/types/augmentations.js";
 import { Factions } from "/_internal/types/factions.js";
 
+import { Faction } from "../faction/_base";
+
 /** Augmentations which should be purchased first. */
 const PRIORITY_AUGMENTATIONS: IAugmentation[] = AUGMENTATIONS.filter(
     (a) =>
@@ -48,12 +50,14 @@ export class FactionFocusable extends BaseFocusable {
      * @returns {boolean} Whether the user has factions with augmentations available and rep needed.
      */
     public override getPriority(): number {
-        const factions = this._getFocusableFactions();
+        const augmentations = this._getFocusableFactions().flatMap((f) =>
+            new Faction(this._ns, f).getNeededAugmentations()
+        );
         const priority = this._getPriorityFactions();
 
         if (priority.length > 0) {
             return HIGH_PRIORITY;
-        } else if (factions.length > 4) {
+        } else if (augmentations.length > 4) {
             return MEDIUM_PRIORITY;
         }
 
@@ -68,6 +72,35 @@ export class FactionFocusable extends BaseFocusable {
      */
     public override canFocus(): boolean {
         return this._getFocusableFactions().length > 0;
+    }
+
+    /**
+     * Check if we have enough rep for the most expensive augmentation.
+     *
+     * @returns {boolean} True if we need to keep working, false otherwise..
+     */
+    public override shouldContinueRunning(): boolean {
+        let result = false;
+
+        if (this._currentFaction) {
+            const existingRep = Math.floor(
+                this._ns.singularity.getFactionRep(this._currentFaction)
+            );
+            const newRep = Math.floor(this._ns.getPlayer().workRepGained);
+            const required = this._getMaxAugmentationRep(
+                FACTIONS_OBJ[this._currentFaction]
+            );
+
+            this._ns.print(
+                `[companies] ${this._currentFaction} (${
+                    existingRep + newRep
+                } / ${required})`
+            );
+
+            result = existingRep + newRep < required;
+        }
+
+        return result && super.shouldContinueRunning();
     }
 
     /**

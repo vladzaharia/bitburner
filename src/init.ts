@@ -1,23 +1,6 @@
 import { NS } from "Netscript";
 
-/**
- * All runners to execute.
- * @type {string[]}
- */
-const RUNNERS: string[] = [
-    "cracker.js",
-    "worker.js",
-    "scheduler.js",
-    "hacknet.js",
-    // "watcher.js",
-];
-
-const ADVANCED_RUNNERS: string[] = [
-    "sf4/backdoor-cracker.js",
-    "sf4/home.js",
-    "sf4/joiner.js",
-    "sf4/focus.js",
-];
+import { ADVANCED_RUNNERS, RUNNERS } from "/_internal/constants/scripts.js";
 
 /**
  * Execute set of automated scripts, based on `RUNNERS`.

@@ -16,6 +16,9 @@ export class TrainingFocusable extends BaseFocusable {
     /** Manager of factions */
     private _factionManager: FactionManager;
 
+    /** Current training or course being done. */
+    private _currentTraining: Workouts | Courses | undefined;
+
     /**
      * Creates a focuser that manages training stats.
      * @constructor
@@ -24,7 +27,7 @@ export class TrainingFocusable extends BaseFocusable {
      * @param {number} priority - Priority this focuser should run at, defaults to `100`.
      */
     public constructor(ns: NS, priority = 100) {
-        super("Training", ns, priority);
+        super("Training", ns, priority, "_currentTraining", 5 * 60 * 1000);
 
         this._factionManager = new FactionManager(ns);
     }
@@ -86,27 +89,44 @@ export class TrainingFocusable extends BaseFocusable {
         ];
         for (const workout of workouts) {
             if (player[workout] < (maxCombat || 0)) {
-                this._ns.print(`[train] Training ${workout} at Powerhouse Gym`);
-                return this._ns.singularity.gymWorkout(
-                    "Powerhouse Gym",
-                    workout
-                );
+                return this._train(workout);
             }
         }
 
         // Train hacking if needed
         if (this._ns.getHackingLevel() < (maxHack || 0)) {
-            const course: Courses = "Algorithms";
-            this._ns.print(`[train] Taking ${course} at Rothman University`);
-            return this._ns.singularity.universityCourse(
-                "Rothman University",
-                course
-            );
+            return this._learn("Algorithms");
         }
 
         // Train charisma otherwise
-        const course: Courses = "Leadership";
-        this._ns.print(`[train] Taking ${course} at Rothman University`);
+        return this._learn("Leadership");
+    }
+
+    /**
+     * Train a combat stat at a gym.
+     *
+     * @param {Workouts} workout - The stat to train.
+     * @param {string} gym - Gym to train at.
+     * @returns {boolean} True if was successful training.
+     */
+    private _train(workout: Workouts, gym = "Powerhouse Gym") {
+        this._ns.print(`[train] Training ${workout} at ${gym}`);
+        this._currentTraining = workout;
+
+        return this._ns.singularity.gymWorkout(gym, workout);
+    }
+
+    /**
+     * Take a course at a university.
+     *
+     * @param {Courses} course - The course to take.
+     * @param {string} university - University to take course at.
+     * @returns {boolean} True if was successful taking course.
+     */
+    private _learn(course: Courses, university = "Rothman University") {
+        this._ns.print(`[train] Taking ${course} at ${university}`);
+        this._currentTraining = course;
+
         return this._ns.singularity.universityCourse(
             "Rothman University",
             course

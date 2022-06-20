@@ -1,8 +1,8 @@
 import { NS } from "Netscript";
 
 import { Scanner } from "/_internal/classes/scanner.js";
+import { sleep } from "/_internal/classes/sleep.js";
 import { crack } from "/helpers/crack.js";
-import { sleep } from "/helpers/sleep.js";
 
 /**
  * Automatically crack all available hosts.

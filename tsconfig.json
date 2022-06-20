@@ -8,6 +8,7 @@
         "baseUrl": "src/",
         "paths": {
             "/_internal/*": ["_internal/*"],
+            "/_workers/*": ["_workers/*"],
             "/helpers/*": ["helpers/*"],
             "/lib/*": ["lib/*"],
             "/runners/*": ["runners/*"],

@@ -31,6 +31,13 @@ export interface IFocusable {
     shouldRunInBackground(): boolean;
 
     /**
+     * Checks whether the task should keep on running.
+     *
+     * @returns {boolean} True if this should continue running, false otherwise.
+     */
+    shouldContinueRunning(): boolean;
+
+    /**
      * Gets the focus time to wait after running the action.
      *
      * @returns {number} The time to sleep before running the manager again.

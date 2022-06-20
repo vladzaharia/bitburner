@@ -2,7 +2,8 @@ import { Hacknet, NS, NodeStats } from "Netscript";
 
 import { Store } from "/_internal/classes/store/_base.js";
 import { HacknetUpgrade } from "/_internal/types/hacknet.js";
-import { sleep } from "/helpers/sleep";
+
+import { sleep } from "../sleep";
 
 /**
  * Parameters for Hacknet upgrades.

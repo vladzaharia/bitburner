@@ -1,7 +1,7 @@
 import { NS } from "Netscript";
 
+import { sleep } from "/_internal/classes/sleep.js";
 import { HacknetStore } from "/_internal/classes/store/hacknet.js";
-import { sleep } from "/helpers/sleep.js";
 
 /** Gain per level upgrade (manually added) */
 const MONEY_PER_LEVEL = 6.751;

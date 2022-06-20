@@ -2,7 +2,8 @@ import { NS } from "Netscript";
 
 import { Faction } from "/_internal/classes/faction/_base.js";
 import { FactionManager } from "/_internal/classes/faction/_manager.js";
-import { sleep } from "/helpers/sleep.js";
+
+import { sleep } from "../../_internal/classes/sleep.js";
 
 /**
  * Automatically accept faction invitations.
