@@ -22,6 +22,9 @@ export abstract class BaseFocusable implements IFocusable {
     /** Time to sleep after a successful focus event. */
     private _sleepTime: number = 15 * 60 * 1000;
 
+    /** Field to pull detail from. */
+    private _detailField: string | undefined;
+
     /**
      * Creates a new focusable action.
      * @constructor
@@ -35,11 +38,13 @@ export abstract class BaseFocusable implements IFocusable {
         name: string,
         ns: NS,
         priority: number,
+        detailField?: string,
         sleepTime = 15 * 60 * 1000
     ) {
         this.name = name;
         this._ns = ns;
         this._priority = priority;
+        this._detailField = detailField;
         this._sleepTime = sleepTime;
     }
 
@@ -94,6 +99,19 @@ export abstract class BaseFocusable implements IFocusable {
      */
     public getFocusTime(): number {
         return this._sleepTime;
+    }
+
+    /**
+     * Returns value from preset field.
+     *
+     * @returns {string} Value of `this._detailField` if set, "" otherwise
+     */
+    public getDetailText(): string {
+        if (this._detailField) {
+            return this[this._detailField];
+        } else {
+            return "";
+        }
     }
 
     /**

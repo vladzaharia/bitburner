@@ -24,6 +24,9 @@ export class CrimeFocusable extends BaseFocusable {
     /** Time to sleep, set when executing a task. */
     private _crimeTime: number | undefined;
 
+    /** Current crime being worked. */
+    private _currentCrime: Crimes | undefined;
+
     /**
      * Creates a focuser that manages crime work.
      * @constructor
@@ -32,7 +35,7 @@ export class CrimeFocusable extends BaseFocusable {
      * @param {number} priority - Priority this focuser should run at, defaults to `50`.
      */
     public constructor(ns: NS, priority = 150) {
-        super("Crime", ns, priority);
+        super("Crime", ns, priority, "_currentCrime");
     }
 
     /**
@@ -50,6 +53,7 @@ export class CrimeFocusable extends BaseFocusable {
      * @returns {boolean} True if crime was successful, false otherwise.
      */
     protected override _focus(): boolean {
+        this._currentCrime = undefined;
         let crimes = CRIMES.reverse();
 
         // Prioritize kill operations
@@ -61,6 +65,7 @@ export class CrimeFocusable extends BaseFocusable {
         for (const crime of crimes) {
             if (this._shouldExecute(crime)) {
                 this._crimeTime = this._ns.singularity.commitCrime(crime);
+                this._currentCrime = crime;
                 return true;
             }
         }

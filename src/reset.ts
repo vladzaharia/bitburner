@@ -16,13 +16,21 @@ const BITNODE_ORDER = [1, 4];
  * run /reset.js
  * ```
  *
+ * @example Skip Red Pill check
+ * ```shell
+ * run /reset.js true
+ * ```
+ *
  * @param {NS} ns - The Netscript object.
  */
 export async function main(ns: NS) {
     ns.disableLog("ALL");
     ns.clearLog();
 
-    if (ns.singularity.getOwnedAugmentations().includes("The Red Pill")) {
+    if (
+        ns.singularity.getOwnedAugmentations().includes("The Red Pill") &&
+        !(ns.args[0] as boolean)
+    ) {
         ns.print(
             `[reset] Red Pill owned, checking if we can destroy w0r1d_d43m0n`
         );

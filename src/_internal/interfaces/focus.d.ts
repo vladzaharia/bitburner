@@ -36,4 +36,11 @@ export interface IFocusable {
      * @returns {number} The time to sleep before running the manager again.
      */
     getFocusTime(): number;
+
+    /**
+     * Gets the detail text used for text output.
+     *
+     * @returns {string} Text to use for logs and toasts for this focusable.
+     */
+    getDetailText(): string;
 }

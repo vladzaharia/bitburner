@@ -4,6 +4,7 @@ import { BaseFocusable } from "/_internal/classes/focus/_base.js";
 import { LOW_PRIORITY, TOP_PRIORITY } from "/_internal/constants/focus.js";
 import { PROGRAMS } from "/_internal/constants/programs.js";
 import { IProgram } from "/_internal/interfaces/program.js";
+import { Programs } from "/_internal/types/programs.js";
 
 /**
  * Focusable managing the creation of new programs.
@@ -14,6 +15,9 @@ export class ProgramFocusable extends BaseFocusable {
     /** Internal focus store. */
     private _focusTime: number | undefined;
 
+    /** Current program being worked on. */
+    private _currentProgram: Programs | undefined;
+
     /**
      * Creates a focuser that manages program creation.
      * @constructor
@@ -22,7 +26,13 @@ export class ProgramFocusable extends BaseFocusable {
      * @param {number} priority - Priority this focuser should run at, defaults to `1`.
      */
     public constructor(ns: NS, priority = LOW_PRIORITY) {
-        super("Program creation", ns, priority, 30 * 60 * 1000);
+        super(
+            "Program creation",
+            ns,
+            priority,
+            "_currentProgram",
+            30 * 60 * 1000
+        );
     }
 
     /**
@@ -51,6 +61,7 @@ export class ProgramFocusable extends BaseFocusable {
      * @returns {number} Time to sleep if a program was executed, false otherwise.
      */
     protected override _focus(): boolean {
+        this._currentProgram = undefined;
         this._ns.print(
             `[programs] ${
                 PROGRAMS.filter((p) => this._canCreate(p) && !!p.isOpener)
@@ -66,6 +77,7 @@ export class ProgramFocusable extends BaseFocusable {
             if (this._canCreate(program)) {
                 this._ns.print(`[programs] Creating ${program.name}`);
                 this._focusTime = program.create.time;
+                this._currentProgram = program.name;
 
                 return this._ns.singularity.createProgram(program.name);
             }

@@ -5,6 +5,7 @@ import { FactionManager } from "/_internal/classes/faction/_manager.js";
 import { BaseFocusable } from "/_internal/classes/focus/_base.js";
 import { MEGACORPS } from "/_internal/constants/companies.js";
 import { IMegaCorporation } from "/_internal/interfaces/company.js";
+import { Companies } from "/_internal/types/companies";
 
 /**
  * Focusable managing working for companies.
@@ -15,6 +16,9 @@ export class CompanyFocusable extends BaseFocusable {
     /** Faction manager. */
     private _factionManager: FactionManager;
 
+    /** Current company being worked for. */
+    private _currentCompany: Companies | undefined;
+
     /**
      * Creates a focuser that manages working for companies.
      * @constructor
@@ -22,9 +26,15 @@ export class CompanyFocusable extends BaseFocusable {
      * @param {NS} ns - The Netscript object.
      * @param {number} priority - Priority this focuser should run at, defaults to `<>`.
      */
-    public constructor(ns: NS, priority = 250) {
+    public constructor(ns: NS, priority = 150) {
         // Default sleep time is 8 hours
-        super("Company work", ns, priority, 8 * 60 * 60 * 1000);
+        super(
+            "Company work",
+            ns,
+            priority,
+            "_currentCompany",
+            8 * 60 * 60 * 1000
+        );
 
         // Set faction manager instance
         this._factionManager = new FactionManager(ns);
@@ -32,13 +42,20 @@ export class CompanyFocusable extends BaseFocusable {
 
     /**
      * Check if there are any megacorps with unjoined factions.
-     * @returns
+     *
+     * @returns {boolean} True if there are megacorps available to focus on.
      */
     public override canFocus(): boolean {
         return this._getUninvitedMegaCorps().length > 0;
     }
 
+    /**
+     * Work for a company, applying if necessary.
+     *
+     * @returns {boolean} Whether the focus was successful.
+     */
     protected override _focus(): boolean {
+        this._currentCompany = undefined;
         const megaCorps = this._getUninvitedMegaCorps();
         const player = this._ns.getPlayer();
 
@@ -79,12 +96,15 @@ export class CompanyFocusable extends BaseFocusable {
                 this._ns.singularity.applyToCompany(name, position);
             }
 
+            this._currentCompany = name;
+
             this._ns.print(`[companies] Working ${position} at ${name}`);
             return this._ns.singularity.workForCompany(name);
         }
 
         return false;
     }
+
     /**
      * Get megacorps which do not yet have a faction invite.
      *

@@ -65,7 +65,12 @@ export class FocusManager implements IFocusable {
 
         for (const focusable of sorted) {
             if (focusable.canFocus()) {
-                this._ns.toast(`Focusing on ${focusable.name}...`, "info");
+                this._ns.toast(
+                    `Focusing on ${
+                        focusable.name
+                    } ${focusable.getDetailText()}`,
+                    "info"
+                );
                 this._sleepTime = focusable.focus();
                 return this._sleepTime;
             }
@@ -99,6 +104,13 @@ export class FocusManager implements IFocusable {
     public decrementFocusTime(): number {
         this._sleepTime = this._sleepTime ? this._sleepTime - 60 * 1000 : 0;
         return this._sleepTime;
+    }
+
+    /**
+     * Not applicable to the FocusManager.
+     */
+    getDetailText(): string {
+        throw new Error("Method not implemented.");
     }
 
     /**

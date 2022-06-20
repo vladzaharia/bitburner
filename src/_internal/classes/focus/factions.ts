@@ -6,7 +6,7 @@ import {
     AUGMENTATIONS_OBJ,
 } from "/_internal/constants/augmentations.js";
 import { FACTIONS, FACTIONS_OBJ } from "/_internal/constants/factions.js";
-import { HIGH_PRIORITY } from "/_internal/constants/focus";
+import { HIGH_PRIORITY, MEDIUM_PRIORITY } from "/_internal/constants/focus";
 import { IAugmentation } from "/_internal/interfaces/augmentation.js";
 import { IFaction } from "/_internal/interfaces/faction.js";
 import { Augmentations } from "/_internal/types/augmentations.js";
@@ -17,7 +17,7 @@ const PRIORITY_AUGMENTATIONS: IAugmentation[] = AUGMENTATIONS.filter(
     (a) =>
         a.benefits.programs ||
         a.benefits.startingMoney ||
-        a.benefits.endgame ||
+        // a.benefits.endgame ||
         a.benefits.focus
 );
 
@@ -27,6 +27,9 @@ const PRIORITY_AUGMENTATIONS: IAugmentation[] = AUGMENTATIONS.filter(
  * @extends BaseFocusable
  */
 export class FactionFocusable extends BaseFocusable {
+    /** Current faction being worked for. */
+    private _currentFaction: Factions | undefined;
+
     /**
      * Creates a focuser that manages faction focus.
      * @constructor
@@ -35,19 +38,26 @@ export class FactionFocusable extends BaseFocusable {
      * @param {number} priority - Priority this focuser should run at, defaults to `25`.
      */
     public constructor(ns: NS, priority = 200) {
-        super("Faction work", ns, priority);
+        super("Faction work", ns, priority, "_currentFaction");
     }
 
     /**
-     * Returns high priority if priority factions are available, default otherwise.
+     * Returns high priority if priority factions are available, medium if there's a lot of factions to focus on, default otherwise.
      * @override
      *
      * @returns {boolean} Whether the user has factions with augmentations available and rep needed.
      */
     public override getPriority(): number {
-        return this._getPriorityFactions().length > 0
-            ? HIGH_PRIORITY
-            : super.getPriority();
+        const factions = this._getFocusableFactions();
+        const priority = this._getPriorityFactions();
+
+        if (priority.length > 0) {
+            return HIGH_PRIORITY;
+        } else if (factions.length > 4) {
+            return MEDIUM_PRIORITY;
+        }
+
+        return super.getPriority();
     }
 
     /**
@@ -69,6 +79,8 @@ export class FactionFocusable extends BaseFocusable {
         const faction = this._getFactionToFocus();
         // TODO: Add other types of work
         const work = FACTIONS_OBJ[faction].workOffered[0];
+
+        this._currentFaction = faction;
 
         this._ns.print(`[factions] Working ${work} for ${faction}`);
         return this._ns.singularity.workForFaction(faction, work);
