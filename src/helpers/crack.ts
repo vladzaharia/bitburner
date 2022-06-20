@@ -45,7 +45,7 @@ export function crack(ns: NS, hostname: string) {
             useAllOpeners(ns, hostname);
         }
 
-        ns.toast(`Cracking ${hostname}...`);
+        ns.toast(`Cracking ${hostname}...`, "warning");
         ns.print(`[crack] Nuking ${hostname}`);
         ns.nuke(hostname);
     } else {

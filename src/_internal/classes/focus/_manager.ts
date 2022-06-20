@@ -65,7 +65,7 @@ export class FocusManager implements IFocusable {
 
         for (const focusable of sorted) {
             if (focusable.canFocus()) {
-                this._ns.toast(`Focusing on ${focusable.name}...`);
+                this._ns.toast(`Focusing on ${focusable.name}...`, "info");
                 this._sleepTime = focusable.focus();
                 return this._sleepTime;
             }

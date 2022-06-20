@@ -3,6 +3,7 @@ import { NS } from "Netscript";
 import { Faction } from "/_internal/classes/faction/_base.js";
 import { FactionManager } from "/_internal/classes/faction/_manager.js";
 import { BaseFocusable } from "/_internal/classes/focus/_base.js";
+import { HIGH_PRIORITY } from "/_internal/constants/focus.js";
 import { Cities } from "/_internal/types/cities.js";
 import { Courses, Workouts } from "/_internal/types/train.js";
 
@@ -26,6 +27,22 @@ export class TrainingFocusable extends BaseFocusable {
         super("Training", ns, priority);
 
         this._factionManager = new FactionManager(ns);
+    }
+
+    /**
+     * Returns priority 5 if multipliers make working within reach, default otherwise.
+     *
+     * @returns {number} Priority for task.
+     */
+    public override getPriority(): number {
+        const player = this._ns.getPlayer();
+
+        return player.strength_mult > 8 &&
+            player.defense_mult > 8 &&
+            player.agility_mult > 8 &&
+            player.dexterity_mult > 8
+            ? HIGH_PRIORITY
+            : super.getPriority();
     }
 
     /**

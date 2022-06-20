@@ -31,7 +31,7 @@ export class CrimeFocusable extends BaseFocusable {
      * @param {NS} ns - The Netscript object.
      * @param {number} priority - Priority this focuser should run at, defaults to `50`.
      */
-    public constructor(ns: NS, priority = 50) {
+    public constructor(ns: NS, priority = 150) {
         super("Crime", ns, priority);
     }
 

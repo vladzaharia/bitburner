@@ -39,7 +39,7 @@ export async function main(ns: NS) {
 
                 if (faction.shouldJoin()) {
                     ns.print(`[joiner] Joining ${invite}`);
-                    ns.toast(`Joining ${invite}...`);
+                    ns.toast(`Joining ${invite}...`, "info");
                     ns.singularity.joinFaction(invite);
                 } else {
                     ns.print(

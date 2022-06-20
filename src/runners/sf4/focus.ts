@@ -1,6 +1,7 @@
 import { NS } from "Netscript";
 
 import { FocusManager } from "/_internal/classes/focus/_manager.js";
+import { CompanyFocusable } from "/_internal/classes/focus/companies.js";
 import { CrimeFocusable } from "/_internal/classes/focus/crime.js";
 import { FactionFocusable } from "/_internal/classes/focus/factions.js";
 import { ProgramFocusable } from "/_internal/classes/focus/programs.js";
@@ -40,6 +41,9 @@ export async function main(ns: NS) {
 
     // Register Faction work
     focusManager.register(new FactionFocusable(ns));
+
+    // Register Company work
+    focusManager.register(new CompanyFocusable(ns));
 
     // Register Crime work
     focusManager.register(new CrimeFocusable(ns));

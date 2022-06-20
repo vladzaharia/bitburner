@@ -122,7 +122,7 @@ export class AugmentationStore extends Store<AugmentationPurchaseParams, null> {
                     .sort(
                         (f1, f2) => f2.getReputation() - f1.getReputation()
                     )[0]
-                    .getName(),
+                    .getName() as Factions,
                 requirements: {
                     money: neuroFluxPrice,
                     reputation: neuroFluxRep,
@@ -151,6 +151,10 @@ export class AugmentationStore extends Store<AugmentationPurchaseParams, null> {
     ): Promise<boolean> {
         this._ns.print(
             `[store] Purchasing ${params.augmentation} from ${params.faction}.`
+        );
+        this._ns.toast(
+            `Purchasing augmentation ${params.augmentation}`,
+            "success"
         );
 
         return this._ns.singularity.purchaseAugmentation(

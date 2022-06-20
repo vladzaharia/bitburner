@@ -1,5 +1,6 @@
 import { NS } from "Netscript";
 
+import { MEDIUM_PRIORITY } from "/_internal/constants/focus";
 import { IFocusable } from "/_internal/interfaces/focus.js";
 
 /**
@@ -79,7 +80,7 @@ export abstract class BaseFocusable implements IFocusable {
      */
     public shouldRunInBackground(): boolean {
         return (
-            this.getPriority() > 50 ||
+            this.getPriority() > MEDIUM_PRIORITY ||
             this._ns.singularity
                 .getOwnedAugmentations()
                 .includes("Neuroreceptor Management Implant")

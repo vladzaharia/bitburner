@@ -114,8 +114,9 @@ export class HacknetStore extends Store<HacknetParams, null> {
         const { upgrade, index, num } = params;
         const indexAsNumber = index as number;
         const numAsNumber = num as number;
-
         let result = false;
+
+        this._ns.toast(`Purchasing Hacknet ${params.upgrade}`, "success");
 
         switch (upgrade) {
             case "level":

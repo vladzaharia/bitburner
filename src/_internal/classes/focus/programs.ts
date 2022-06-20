@@ -1,6 +1,7 @@
 import { NS } from "Netscript";
 
 import { BaseFocusable } from "/_internal/classes/focus/_base.js";
+import { LOW_PRIORITY, TOP_PRIORITY } from "/_internal/constants/focus.js";
 import { PROGRAMS } from "/_internal/constants/programs.js";
 import { IProgram } from "/_internal/interfaces/program.js";
 
@@ -20,7 +21,7 @@ export class ProgramFocusable extends BaseFocusable {
      * @param {NS} ns - The Netscript object.
      * @param {number} priority - Priority this focuser should run at, defaults to `1`.
      */
-    public constructor(ns: NS, priority = 1) {
+    public constructor(ns: NS, priority = LOW_PRIORITY) {
         super("Program creation", ns, priority, 30 * 60 * 1000);
     }
 
@@ -31,8 +32,8 @@ export class ProgramFocusable extends BaseFocusable {
      */
     public override getPriority(): number {
         return PROGRAMS.some((p) => this._canCreate(p) && !!p.isOpener)
-            ? super.getPriority()
-            : Infinity;
+            ? TOP_PRIORITY
+            : super.getPriority();
     }
 
     /**

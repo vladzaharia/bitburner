@@ -146,7 +146,7 @@ export class HomeStore extends Store<HomeParams, null> {
      * @returns {Promise<boolean>} Whether the purchase was successful.
      */
     protected override async _purchase(params: HomeParams): Promise<boolean> {
-        this._ns.toast(`Purchasing ${params.upgrade}...`);
+        this._ns.toast(`Purchasing ${params.upgrade} on home`, "success");
 
         switch (params.upgrade) {
             case "ram":

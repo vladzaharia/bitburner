@@ -7,7 +7,6 @@ import { ICity } from "/_internal/interfaces/city.js";
 import { IFaction } from "/_internal/interfaces/faction.js";
 import { IFactionRequirements } from "/_internal/interfaces/requirements.js";
 import { Cities } from "/_internal/types/cities.js";
-import { Factions } from "/_internal/types/factions.js";
 
 /**
  * Helper class which handles factions in the game.
@@ -43,7 +42,7 @@ export class Faction {
      *
      * @returns {string} Faction's name.
      */
-    public getName(): Factions {
+    public getName(): string {
         return this._faction.name;
     }
 

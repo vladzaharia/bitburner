@@ -6,6 +6,7 @@ import {
     AUGMENTATIONS_OBJ,
 } from "/_internal/constants/augmentations.js";
 import { FACTIONS, FACTIONS_OBJ } from "/_internal/constants/factions.js";
+import { HIGH_PRIORITY } from "/_internal/constants/focus";
 import { IAugmentation } from "/_internal/interfaces/augmentation.js";
 import { IFaction } from "/_internal/interfaces/faction.js";
 import { Augmentations } from "/_internal/types/augmentations.js";
@@ -16,7 +17,7 @@ const PRIORITY_AUGMENTATIONS: IAugmentation[] = AUGMENTATIONS.filter(
     (a) =>
         a.benefits.programs ||
         a.benefits.startingMoney ||
-        //a.benefits.endgame ||
+        a.benefits.endgame ||
         a.benefits.focus
 );
 
@@ -33,8 +34,20 @@ export class FactionFocusable extends BaseFocusable {
      * @param {NS} ns - The Netscript object.
      * @param {number} priority - Priority this focuser should run at, defaults to `25`.
      */
-    public constructor(ns: NS, priority = 25) {
+    public constructor(ns: NS, priority = 200) {
         super("Faction work", ns, priority);
+    }
+
+    /**
+     * Returns high priority if priority factions are available, default otherwise.
+     * @override
+     *
+     * @returns {boolean} Whether the user has factions with augmentations available and rep needed.
+     */
+    public override getPriority(): number {
+        return this._getPriorityFactions().length > 0
+            ? HIGH_PRIORITY
+            : super.getPriority();
     }
 
     /**
@@ -67,26 +80,10 @@ export class FactionFocusable extends BaseFocusable {
      * @returns {string} Faction with the most augmentations available.
      */
     private _getFactionToFocus(): Factions {
-        const sortedFactions = this._getFocusableFactions().sort(
-            (a, b) =>
-                this._getMaxAugmentationRep(a) -
-                this._ns.singularity.getFactionRep(a.name) -
-                (this._getMaxAugmentationRep(b) -
-                    this._ns.singularity.getFactionRep(b.name))
-        );
+        const sortedFactions = this._getFocusableFactions();
 
         // Return any factions which have a priority augmentation.
-        const priorityFactions = sortedFactions.filter((f) =>
-            this._ns.singularity
-                .getAugmentationsFromFaction(f.name)
-                .some(
-                    (a) =>
-                        !this._ns.singularity
-                            .getOwnedAugmentations()
-                            .includes(a) &&
-                        PRIORITY_AUGMENTATIONS.some((a2) => a2.name === a)
-                )
-        );
+        const priorityFactions = this._getPriorityFactions();
         if (priorityFactions.length > 0) {
             this._ns.print(
                 `[factions] ${priorityFactions[0].name} has a priority augmentation`
@@ -123,7 +120,32 @@ export class FactionFocusable extends BaseFocusable {
                 this._getMaxAugmentationRep(f) >
                     this._ns.singularity.getFactionRep(f.name)
             );
-        });
+        }).sort(
+            (a, b) =>
+                this._getMaxAugmentationRep(a) -
+                this._ns.singularity.getFactionRep(a.name) -
+                (this._getMaxAugmentationRep(b) -
+                    this._ns.singularity.getFactionRep(b.name))
+        );
+    }
+
+    /**
+     * Return factions with priority augmentations.
+     *
+     * @returns {IFaction[]} All Factions which which are accepted and have priority augmentations available.
+     */
+    private _getPriorityFactions(): IFaction[] {
+        return this._getFocusableFactions().filter((f) =>
+            this._ns.singularity
+                .getAugmentationsFromFaction(f.name)
+                .some(
+                    (a) =>
+                        !this._ns.singularity
+                            .getOwnedAugmentations()
+                            .includes(a) &&
+                        PRIORITY_AUGMENTATIONS.some((a2) => a2.name === a)
+                )
+        );
     }
 
     /**

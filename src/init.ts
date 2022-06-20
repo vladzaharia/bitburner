@@ -28,7 +28,7 @@ const ADVANCED_RUNNERS: string[] = [
  */
 export async function main(ns: NS) {
     ns.disableLog("ALL");
-    ns.toast("Initializing...");
+    ns.toast("Initializing...", "info");
 
     // Kill all scripts on home
     ns.killall("home");
@@ -42,7 +42,7 @@ export async function main(ns: NS) {
 
     // Execute all necessary scripts
     for (const filename of runners.map((f) => `/runners/${f}`)) {
-        ns.toast(`Running ${filename}...`);
+        ns.toast(`Running ${filename}...`, "info");
         ns.exec(filename, "home");
         await ns.sleep(5 * 1000);
     }
