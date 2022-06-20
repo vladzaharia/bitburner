@@ -1,10 +1,9 @@
 import { NS } from "Netscript";
 
 import { Scanner } from "/_internal/classes/scanner.js";
+import { sleep } from "/_internal/classes/sleep.js";
 import { crack } from "/helpers/crack";
 import { backdoor } from "/helpers/sf4/backdoor.js";
-
-import { sleep } from "../../_internal/classes/sleep.js";
 
 /**
  * Automatically backdoor all available hosts.

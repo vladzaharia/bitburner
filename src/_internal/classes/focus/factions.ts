@@ -1,5 +1,6 @@
 import { NS } from "Netscript";
 
+import { Faction } from "/_internal/classes/faction/_base.js";
 import { BaseFocusable } from "/_internal/classes/focus/_base.js";
 import {
     AUGMENTATIONS,
@@ -11,8 +12,6 @@ import { IAugmentation } from "/_internal/interfaces/augmentation.js";
 import { IFaction } from "/_internal/interfaces/faction.js";
 import { Augmentations } from "/_internal/types/augmentations.js";
 import { Factions } from "/_internal/types/factions.js";
-
-import { Faction } from "../faction/_base";
 
 /** Augmentations which should be purchased first. */
 const PRIORITY_AUGMENTATIONS: IAugmentation[] = AUGMENTATIONS.filter(

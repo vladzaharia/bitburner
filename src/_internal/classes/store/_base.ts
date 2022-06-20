@@ -1,8 +1,7 @@
 import { NS } from "Netscript";
 
+import { sleep } from "/_internal/classes/sleep.js";
 import { IPurchaseable, ISellable } from "/_internal/interfaces/store.js";
-
-import { sleep } from "../sleep.js";
 
 /**
  * Abstract class representing an entity capable of purchasing and selling.

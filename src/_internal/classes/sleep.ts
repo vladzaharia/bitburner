@@ -1,7 +1,7 @@
 import { NS } from "Netscript";
 
-import { ILightSleep, ISleep } from "../interfaces/sleep";
-import { SleepType } from "../types/sleep";
+import { ILightSleep, ISleep } from "/_internal/interfaces/sleep.js";
+import { SleepType } from "/_internal/types/sleep.js";
 
 export class Sleep {
     /** The Netscript object. */
